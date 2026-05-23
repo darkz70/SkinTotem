@@ -10,8 +10,6 @@ public class SkinTotemClient implements ClientModInitializer {
     public void onInitializeClient() {
 
         BuiltinItemRendererRegistry.INSTANCE.register(
-                Items.TOTEM_OF_UNDYING,
-                new TotemRenderer()
-        );
-    }
-}
+        Items.TOTEM_OF_UNDYING,
+        new SkinTotemItemRenderer() // ✅ ВОТ ЭТО ВАЖНО
+);
