@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "spichka.skintotem.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ItemRendererMixin",
+    "ItemRendererAccessor",
+    "AnvilScreenHandlerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
