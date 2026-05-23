@@ -5,7 +5,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
+import net.minecraft.item.ModelTransformationMode; // ИСПРАВЛЕНО
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
@@ -24,7 +24,7 @@ import spichka.skintotem.SkinLoader;
 public class ItemRendererMixin {
 
     @Inject(
-            method = {"render", "method_23177"},
+            method = "render",
             at = @At("HEAD"),
             cancellable = true
     )
@@ -46,9 +46,7 @@ public class ItemRendererMixin {
         if (customData == null) return;
 
         NbtCompound nbt = customData.copyNbt();
-        String username = null;
-        if (nbt.contains("username")) username = nbt.getString("username");
-        else if (nbt.contains("Owner")) username = nbt.getString("Owner");
+        String username = nbt.getString("username");
 
         if (username == null || username.isEmpty()) return;
 
