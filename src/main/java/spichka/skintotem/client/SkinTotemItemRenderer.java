@@ -14,12 +14,14 @@ public class SkinTotemItemRenderer implements BuiltinItemRenderer {
                        MatrixStack matrices, VertexConsumerProvider providers,
                        int light, int overlay) {
 
-        String username = "Notch"; // 🔥 потом можешь брать из NBT
+        String username = "Notch"; // потом заменим на NBT
 
-        SkinFetcher.loadSkinAsync(username);
-        Identifier skin = SkinFetcher.getSkin(username);
+SkinFetcher.loadSkinAsync(username);
+Identifier skin = SkinFetcher.getSkin(username);
 
-        if (skin == null) return; // ещё грузится
+// fallback если не загрузилось
+if (skin == null) {
+    skin = net.minecraft.client.util.SkinTextures.STEVE.getTexture();
 
         VertexConsumer consumer = providers.getBuffer(
                 RenderLayer.getEntityCutout(skin)
