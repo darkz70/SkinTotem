@@ -70,7 +70,7 @@ public class SkinTotemItemRenderer implements BuiltinItemRenderer {
         c.vertex(m, x1, y2, 0).color(255,255,255,255).texture(U1,V1)
                 .overlay(OverlayTexture.DEFAULT_UV).light(light).normal(n,0,0,1).next();
     }
-}        var n = e.getNormalMatrix();
+         var n = e.getNormalMatrix();
 
         c.vertex(m, x1, y1, 0).color(255,255,255,255).texture(U1,V2)
                 .overlay(OverlayTexture.DEFAULT_UV).light(light).normal(n,0,0,1).next();
