@@ -1,59 +1,65 @@
 package spichka.skintotem.mixin;
 
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.item.ModelTransformationMode; // ИСПРАВЛЕНО
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
+
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
+
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.Identifier;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import spichka.skintotem.SimpleTextureLoader;
-import spichka.skintotem.SkinLoader;
+
+import java.util.UUID;
+
+import spichka.skintotem.skin.SkinManager;
 
 @Mixin(ItemRenderer.class)
 public class ItemRendererMixin {
 
     @Inject(
             method = "render",
-            at = @At("HEAD"),
-            cancellable = true
+            at = @At("TAIL")
     )
-    private void skintotem$render(
+    private void skintotem$cacheSkin(
             ItemStack stack,
-            ModelTransformationMode renderMode,
+            ModelTransformationMode mode,
             boolean leftHanded,
             MatrixStack matrices,
             VertexConsumerProvider vertexConsumers,
             int light,
             int overlay,
-            BakedModel model,
             CallbackInfo ci
     ) {
-        if (stack == null || stack.isEmpty()) return;
-        if (stack.getItem() != Items.TOTEM_OF_UNDYING) return;
 
-        NbtComponent customData = stack.get(DataComponentTypes.CUSTOM_DATA);
-        if (customData == null) return;
+        if (stack == null || stack.isEmpty()) {
+            return;
+        }
 
-        NbtCompound nbt = customData.copyNbt();
-        String username = nbt.getString("username");
+        NbtComponent data =
+                stack.get(DataComponentTypes.CUSTOM_DATA);
 
-        if (username == null || username.isEmpty()) return;
+        if (data == null) {
+            return;
+        }
 
-        Identifier texId = SimpleTextureLoader.getTexture(username);
+        NbtCompound nbt = data.copyNbt();
 
-        if (texId == null) {
-            SkinLoader.loadSkin(username);
+        if (!nbt.containsUuid("Owner")) {
+            return;
+        }
+
+        UUID owner = nbt.getUuid("Owner");
+
+        SkinManager.getSkin(owner);
+    }
+}
             return;
         }
 
