@@ -1,20 +1,19 @@
 package spichka.skintotem.client;
 
 import net.minecraft.client.render.*;
-import net.minecraft.client.render.item.BuiltinItemRenderer;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.DynamicItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
-public class SkinTotemItemRenderer implements BuiltinItemRenderer {
-
+public class SkinTotemItemRenderer implements DynamicItemRenderer {;
+                                                                   
     @Override
-    public void render(ItemStack stack, ModelTransformationMode mode,
-                       MatrixStack matrices, VertexConsumerProvider providers,
-                       int light, int overlay) {
-
+public void render(ItemStack stack, ModelTransformationMode mode,
+                   MatrixStack matrices, VertexConsumerProvider providers,
+                   int light, int overlay) {
         String username = "Notch";
 
         SkinFetcher.loadSkinAsync(username);
