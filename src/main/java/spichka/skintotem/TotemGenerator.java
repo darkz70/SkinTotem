@@ -1,68 +1,47 @@
 package spichka.skintotem;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
+import net.minecraft.client.texture.NativeImage;
 
 public class TotemGenerator {
+    public static NativeImage generateTotemFromSkin(NativeImage skin) {
+        NativeImage totem = new NativeImage(16, 16, true);
+        boolean old = skin.getHeight() == 32;
 
-    public static BufferedImage generateTotemFromSkin(BufferedImage skin) {
-        BufferedImage totem = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = totem.createGraphics();
-
-        int skinWidth = skin.getWidth();
-        int skinHeight = skin.getHeight();
-        boolean isOldSkin = skinHeight == 32;
-
-        // Helper method to draw a skin region to totem, with optional flip
-        // sx, sy, sw, sh: source x, y, width, height on skin
-        // dx, dy, dw, dh: destination x, y, width, height on totem
-        // flipX: true to flip horizontally
-        drawSkinRegion(g2d, skin, skinWidth, skinHeight, 8, 8, 8, 8, 4, 0, 8, 8, false);
-        drawSkinRegion(g2d, skin, skinWidth, skinHeight, 40, 8, 8, 8, 4, 0, 8, 8, false);
-
-        drawSkinRegion(g2d, skin, skinWidth, skinHeight, 20, 20, 8, 12, 4, 8, 8, 5, false);
-        drawSkinRegion(g2d, skin, skinWidth, skinHeight, 20, 36, 8, 12, 4, 8, 8, 5, false);
-
-        drawSkinRegion(g2d, skin, skinWidth, skinHeight, 44, 20, 4, 12, 0, 8, 4, 5, false);
-        drawSkinRegion(g2d, skin, skinWidth, skinHeight, 44, 36, 4, 12, 0, 8, 4, 5, false);
-
-        if (isOldSkin) {
-            drawSkinRegion(g2d, skin, skinWidth, skinHeight, 44, 20, 4, 12, 12, 8, 4, 5, true);
-        } else {
-            drawSkinRegion(g2d, skin, skinWidth, skinHeight, 36, 52, 4, 12, 12, 8, 4, 5, false);
+        // Head
+        copy(skin, 8, 8, 4, 0, 8, 8, totem, false);
+        copy(skin, 40, 8, 4, 0, 8, 8, totem, false);
+        // Body
+        copy(skin, 20, 20, 4, 8, 8, 5, totem, false);
+        copy(skin, 20, 36, 4, 8, 8, 5, totem, false);
+        // L Arm
+        copy(skin, 44, 20, 0, 8, 4, 5, totem, false);
+        copy(skin, 44, 36, 0, 8, 4, 5, totem, false);
+        // R Arm
+        if (old) copy(skin, 44, 20, 12, 8, 4, 5, totem, true);
+        else {
+            copy(skin, 36, 52, 12, 8, 4, 5, totem, false);
+            copy(skin, 52, 52, 12, 8, 4, 5, totem, false);
         }
-        if (!isOldSkin) {
-            drawSkinRegion(g2d, skin, skinWidth, skinHeight, 52, 52, 4, 12, 12, 8, 4, 5, false);
+        // L Leg
+        copy(skin, 4, 20, 4, 13, 4, 3, totem, false);
+        copy(skin, 4, 36, 4, 13, 4, 3, totem, false);
+        // R Leg
+        if (old) copy(skin, 4, 20, 8, 13, 4, 3, totem, true);
+        else {
+            copy(skin, 19, 52, 8, 13, 4, 3, totem, false);
+            copy(skin, 4, 52, 8, 13, 4, 3, totem, false);
         }
-
-        drawSkinRegion(g2d, skin, skinWidth, skinHeight, 4, 20, 4, 12, 4, 13, 4, 3, false);
-        drawSkinRegion(g2d, skin, skinWidth, skinHeight, 4, 36, 4, 12, 4, 13, 4, 3, false);
-
-        if (isOldSkin) {
-            drawSkinRegion(g2d, skin, skinWidth, skinHeight, 4, 20, 4, 12, 8, 13, 4, 3, true);
-        } else {
-            drawSkinRegion(g2d, skin, skinWidth, skinHeight, 19, 52, 4, 12, 8, 13, 4, 3, false);
-        }
-        if (!isOldSkin) {
-            drawSkinRegion(g2d, skin, skinWidth, skinHeight, 4, 52, 4, 12, 8, 13, 4, 3, false);
-        }
-
-        g2d.dispose();
         return totem;
     }
 
-    private static void drawSkinRegion(Graphics2D g2d, BufferedImage skin, int skinWidth, int skinHeight,
-                                       int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh, boolean flipX) {
-        // Bounds check
-        if (sx < 0 || sy < 0 || sx + sw > skinWidth || sy + sh > skinHeight) {
-            SkinTotem.LOGGER.warn("Skipping out-of-bounds skin region: sx={}, sy={}, sw={}, sh={}, skinWidth={}, skinHeight={}", sx, sy, sw, sh, skinWidth, skinHeight);
-            return;
-        }
-
-        if (flipX) {
-            g2d.drawImage(skin, dx + dw, dy, dx, dy + dh, sx, sy, sx + sw, sy + sh, null);
-        } else {
-            g2d.drawImage(skin, dx, dy, dx + dw, dy + dh, sx, sy, sx + sw, sy + sh, null);
+    private static void copy(NativeImage s, int sx, int sy, int dx, int dy, int w, int h, NativeImage t, boolean flip) {
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                int color = s.getColor(sx + x, sy + y);
+                if ((color >> 24 & 255) > 0) { // Alpha check
+                    t.setColor(flip ? dx + w - 1 - x : dx + x, dy + y, color);
+                }
+            }
         }
     }
 }

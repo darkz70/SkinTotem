@@ -3,11 +3,10 @@ package spichka.skintotem;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+import net.minecraft.client.texture.NativeImage;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,103 +14,61 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class MojangApi {
+    private static final int TIMEOUT = 5000;
 
-    private static final int CONNECT_TIMEOUT = 5000;
-    private static final int READ_TIMEOUT = 10000;
-
-    public static CompletableFuture<BufferedImage> getTotemOrSkinFromAnySource(String nickname) {
+    public static CompletableFuture<NativeImage> fetchSkin(String nickname) {
         return CompletableFuture.supplyAsync(() -> {
-            BufferedImage image = null;
             try {
-                image = fetchImageFromUrl("https://skinmc.net/api/v1/totem/" + nickname);
-                if (image != null) return image;
-            } catch (IOException ignored) {}
+                NativeImage img = fetchImage("https://skinmc.net/api/v1/totem/" + nickname);
+                if (img != null) return img;
 
-            try {
-                UUID uuid = getUuidFromMojang(nickname);
+                UUID uuid = getUuid(nickname);
                 if (uuid != null) {
-                    String skinUrl = getSkinUrlFromMojang(uuid);
-                    if (skinUrl != null) {
-                        image = fetchImageFromUrl(skinUrl);
-                        if (image != null) return image;
-                    }
+                    String url = getSkinUrl(uuid);
+                    if (url != null) return fetchImage(url);
                 }
-            } catch (IOException ignored) {}
 
-            try {
-                image = fetchImageFromUrl("http://skinsystem.ely.by/textures/" + nickname);
-                if (image != null) return image;
-            } catch (IOException ignored) {}
+                img = fetchImage("http://skinsystem.ely.by/textures/" + nickname);
+                if (img != null) return img;
 
-            try {
-                image = fetchImageFromUrl("http://auth.tlauncher.org/skin/profile/texture/login/" + nickname);
-                if (image != null) return image;
-            } catch (IOException ignored) {}
-
-            return null;
+                return fetchImage("http://auth.tlauncher.org/skin/profile/texture/login/" + nickname);
+            } catch (Exception e) {
+                return null;
+            }
         });
     }
 
-    private static BufferedImage fetchImageFromUrl(String urlString) throws IOException {
-        URL url = new URL(urlString);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        connection.setConnectTimeout(CONNECT_TIMEOUT);
-        connection.setReadTimeout(READ_TIMEOUT);
-
-        if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            return ImageIO.read(connection.getInputStream());
+    private static NativeImage fetchImage(String urlString) throws IOException {
+        HttpURLConnection c = (HttpURLConnection) new URL(urlString).openConnection();
+        c.setConnectTimeout(TIMEOUT);
+        c.setReadTimeout(TIMEOUT);
+        if (c.getResponseCode() == 200) {
+            try (InputStream is = c.getInputStream()) {
+                return NativeImage.read(is);
+            }
         }
         return null;
     }
 
-    private static UUID getUuidFromMojang(String nickname) throws IOException {
-        String urlString = "https://api.mojang.com/users/profiles/minecraft/" + nickname;
-        URL url = new URL(urlString);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        connection.setConnectTimeout(CONNECT_TIMEOUT);
-        connection.setReadTimeout(READ_TIMEOUT);
-
-        if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder content = new StringBuilder();
-            String line;
-            while ((line = in.readLine()) != null) content.append(line);
-            in.close();
-
-            JsonObject jsonObject = JsonParser.parseString(content.toString()).getAsJsonObject();
-            String uuidString = jsonObject.get("id").getAsString();
-            return UUID.fromString(uuidString.replaceFirst("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5"));
+    private static UUID getUuid(String nickname) throws IOException {
+        HttpURLConnection c = (HttpURLConnection) new URL("https://api.mojang.com/users/profiles/minecraft/" + nickname).openConnection();
+        if (c.getResponseCode() != 200) return null;
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()))) {
+            JsonObject json = JsonParser.parseReader(in).getAsJsonObject();
+            String id = json.get("id").getAsString();
+            return UUID.fromString(id.replaceFirst("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5"));
         }
-        return null;
     }
 
-    private static String getSkinUrlFromMojang(UUID uuid) throws IOException {
-        String urlString = "https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.toString();
-        URL url = new URL(urlString);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        connection.setConnectTimeout(CONNECT_TIMEOUT);
-        connection.setReadTimeout(READ_TIMEOUT);
-
-        if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder content = new StringBuilder();
-            String line;
-            while ((line = in.readLine()) != null) content.append(line);
-            in.close();
-
-            JsonObject jsonObject = JsonParser.parseString(content.toString()).getAsJsonObject();
-            for (JsonElement property : jsonObject.getAsJsonArray("properties")) {
-                JsonObject propObj = property.getAsJsonObject();
-                if (propObj.get("name").getAsString().equals("textures")) {
-                    String value = propObj.get("value").getAsString();
-                    String decoded = SkinDecoder.decodeBase64(value);
-                    JsonObject texturesObj = JsonParser.parseString(decoded).getAsJsonObject();
-                    if (texturesObj.has("textures") && texturesObj.getAsJsonObject("textures").has("SKIN")) {
-                        return texturesObj.getAsJsonObject("textures").getAsJsonObject("SKIN").get("url").getAsString();
-                    }
+    private static String getSkinUrl(UUID uuid) throws IOException {
+        HttpURLConnection c = (HttpURLConnection) new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid).openConnection();
+        if (c.getResponseCode() != 200) return null;
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()))) {
+            JsonObject json = JsonParser.parseReader(in).getAsJsonObject();
+            for (JsonElement p : json.getAsJsonArray("properties")) {
+                if (p.getAsJsonObject().get("name").getAsString().equals("textures")) {
+                    String decoded = SkinDecoder.decodeBase64(p.getAsJsonObject().get("value").getAsString());
+                    return JsonParser.parseString(decoded).getAsJsonObject().getAsJsonObject("textures").getAsJsonObject("SKIN").get("url").getAsString();
                 }
             }
         }
