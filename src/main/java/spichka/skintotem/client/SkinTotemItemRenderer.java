@@ -11,7 +11,7 @@ import org.joml.Matrix4f;
 public class SkinTotemItemRenderer implements DynamicItemRenderer {
 
     private static final Identifier TEXTURE =
-            new Identifier("minecraft", "textures/entity/steve.png");
+            Identifier.of("minecraft", "textures/entity/steve.png");
 
     @Override
     public void render(ItemStack stack,
