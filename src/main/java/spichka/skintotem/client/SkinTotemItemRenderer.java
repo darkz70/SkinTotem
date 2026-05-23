@@ -55,8 +55,8 @@ if (skin == null) {
     }
 
     private void drawPart(VertexConsumer c, MatrixStack.Entry e, int light,
-                          float x1, float y1, float x2, float y2,
-                          int u1, int v1, int u2, int v2) {
+                      float x1, float y1, float x2, float y2,
+                      float u1, float v1, float u2, float v2) {
 
         float U1 = u1 / 64f;
         float V1 = v1 / 64f;
