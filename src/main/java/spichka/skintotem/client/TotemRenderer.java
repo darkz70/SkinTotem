@@ -17,7 +17,7 @@ import java.util.UUID;
 
 import spichka.skintotem.skin.SkinCache;
 
-public class TotemRender implements BuiltinItemRendererRegistry.DynamicItemRenderer {
+public class TotemRenderer implements BuiltinItemRendererRegistry.DynamicItemRenderer {
 
     @Override
     public void render(
