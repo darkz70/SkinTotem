@@ -13,17 +13,20 @@
   "license": "MIT",
   "icon": "assets/skintotem/icon.png",
   "environment": "*",
-"entrypoints": {
-  "client": [
-    "spichka.skintotem.client.SkinTotemClient"
-  ]
+
+  "entrypoints": {
+    "client": [
+      "spichka.skintotem.client.SkinTotemClient"
+    ],
     "main": [
       "spichka.skintotem.SkinTotem"
     ]
   },
+
   "mixins": [
     "skintotem.mixins.json"
   ],
+
   "depends": {
     "fabricloader": ">=0.16.5",
     "minecraft": "~1.21.1",
