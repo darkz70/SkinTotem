@@ -25,7 +25,8 @@ public class ItemRendererMixin {
 
     @Inject(
             method = "render",
-            at = @At("TAIL")
+            at = @At("TAIL"),
+            require = 0
     )
     private void skintotem$cacheSkin(
             ItemStack stack,
@@ -57,16 +58,7 @@ public class ItemRendererMixin {
 
         UUID owner = nbt.getUuid("Owner");
 
+        // SAFE CACHE ONLY
         SkinManager.getSkin(owner);
-    }
-}
-            return;
-        }
-
-        matrices.push();
-        VertexConsumer consumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(texId));
-        ((ItemRendererAccessor)(Object)this).invokeRenderBakedItemModel(model, stack, light, overlay, matrices, consumer);
-        matrices.pop();
-        ci.cancel();
     }
 }
