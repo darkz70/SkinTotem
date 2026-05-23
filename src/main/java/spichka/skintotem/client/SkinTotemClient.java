@@ -8,8 +8,8 @@ public class SkinTotemClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         BuiltinItemRendererRegistry.INSTANCE.register(
-                YourModItems.TOTEM_ITEM,
-                new SkinTotemItemRenderer()
+            YOUR_ITEM,
+        new SkinTotemItemRenderer()
         );
     }
 }
