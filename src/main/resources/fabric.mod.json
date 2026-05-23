@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "skintotem",
-  "version": "${version}",
+  "version": "1.0.0",
   "name": "Skin Totem",
   "description": "Replaces the Totem of Undying texture with a mini-player figure based on the player's nickname.",
   "authors": [
@@ -13,20 +13,17 @@
   "license": "MIT",
   "icon": "assets/skintotem/icon.png",
   "environment": "*",
-
   "entrypoints": {
-  "client": [
-    "spichka.skintotem.client.SkinTotemClient"
-  ],
-  "main": [
-    "spichka.skintotem.SkinTotem"
-  ]
-  }
-
+    "client": [
+      "spichka.skintotem.client.SkinTotemClient"
+    ],
+    "main": [
+      "spichka.skintotem.SkinTotem"
+    ]
+  },
   "mixins": [
     "skintotem.mixins.json"
   ],
-
   "depends": {
     "fabricloader": ">=0.16.5",
     "minecraft": "~1.21.1",
