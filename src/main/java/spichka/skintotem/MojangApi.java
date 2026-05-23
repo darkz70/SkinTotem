@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Base64;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -67,7 +68,8 @@ public class MojangApi {
             JsonObject json = JsonParser.parseReader(in).getAsJsonObject();
             for (JsonElement p : json.getAsJsonArray("properties")) {
                 if (p.getAsJsonObject().get("name").getAsString().equals("textures")) {
-                    String decoded = SkinDecoder.decodeBase64(p.getAsJsonObject().get("value").getAsString());
+                    String base64Value = p.getAsJsonObject().get("value").getAsString();
+                    String decoded = new String(Base64.getDecoder().decode(base64Value));
                     return JsonParser.parseString(decoded).getAsJsonObject().getAsJsonObject("textures").getAsJsonObject("SKIN").get("url").getAsString();
                 }
             }
