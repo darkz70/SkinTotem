@@ -23,98 +23,17 @@ public class SkinFetcher {
 
         new Thread(() -> {
             try {
-                // UUID
                 String uuidJson = read("https://api.mojang.com/users/profiles/minecraft/" + username);
                 JsonObject uuidObj = JsonParser.parseString(uuidJson).getAsJsonObject();
                 String uuid = uuidObj.get("id").getAsString();
 
-                // profile
                 String profileJson = read("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid);
-                JsonObject profileObj = JsonParser.parseString(profileJson).getAsJsonObject();
+                JsonObject profile = JsonParser.parseString(profileJson).getAsJsonObject();
 
-                String value = profileObj.getAsJsonArray("properties")
+                String value = profile
+                        .getAsJsonArray("properties")
                         .get(0).getAsJsonObject()
                         .get("value").getAsString();
-
-                String decoded = new String(Base64.getDecoder().decode(value));
-                JsonObject textureObj = JsonParser.parseString(decoded)
-                        .getAsJsonObject()
-                        .getAsJsonObject("textures")
-                        .getAsJsonObject("SKIN");
-
-                String skinUrl = textureObj.get("url").getAsString();
-
-                // download
-                InputStream in = new URL(skinUrl).openStream();
-                NativeImage image = NativeImage.read(in);
-
-                Identifier id = Identifier.of("skintotem", "skin_" + username.toLowerCase());
-
-                MinecraftClient.getInstance().execute(() -> {
-                    MinecraftClient.getInstance().getTextureManager()
-                            .registerTexture(id, new NativeImageBackedTexture(image));
-                });
-
-                CACHE.put(username, id);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
-
-    public static Identifier getSkin(String username) {
-        return CACHE.get(username);
-    }
-
-    private static String read(String urlStr) throws Exception {
-        HttpURLConnection conn = (HttpURLConnection) new URL(urlStr).openConnection();
-        conn.setRequestProperty("User-Agent", "Mozilla/5.0");
-
-        InputStream in = conn.getInputStream();
-        return new String(in.readAllBytes());
-    }
-}                        .get("value").getAsString();
-
-                String decoded = new String(Base64.getDecoder().decode(value));
-                JsonObject textureObj = JsonParser.parseString(decoded)
-                        .getAsJsonObject()
-                        .getAsJsonObject("textures")
-                        .getAsJsonObject("SKIN");
-
-                String skinUrl = textureObj.get("url").getAsString();
-
-                // 3. download skin
-                InputStream in = new URL(skinUrl).openStream();
-                NativeImage image = NativeImage.read(in);
-
-                Identifier id = new Identifier("skintotem", "skin_" + username.toLowerCase());
-
-                MinecraftClient.getInstance().execute(() -> {
-                    MinecraftClient.getInstance().getTextureManager()
-                            .registerTexture(id, new NativeImageBackedTexture(image));
-                });
-
-                CACHE.put(username, id);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
-
-    public static Identifier getSkin(String username) {
-        return CACHE.get(username);
-    }
-
-    private static String read(String urlStr) throws Exception {
-        HttpURLConnection conn = (HttpURLConnection) new URL(urlStr).openConnection();
-        conn.setRequestProperty("User-Agent", "Mozilla/5.0");
-
-        InputStream in = conn.getInputStream();
-        return new String(in.readAllBytes());
-    }
-                         .get("value").getAsString();
 
                 String decoded = new String(Base64.getDecoder().decode(value));
                 JsonObject textureJson = JsonParser.parseString(decoded).getAsJsonObject();
@@ -124,14 +43,13 @@ public class SkinFetcher {
                         .getAsJsonObject("SKIN")
                         .get("url").getAsString();
 
-                // 3. скачать текстуру
-                NativeImage image = NativeImage.read(new URL(skinUrl).openStream());
+                InputStream stream = new URL(skinUrl).openStream();
+                NativeImage image = NativeImage.read(stream);
 
                 MinecraftClient.getInstance().execute(() -> {
-                    NativeImageBackedTexture tex = new NativeImageBackedTexture(image);
-                    Identifier id = MinecraftClient.getInstance()
-                            .getTextureManager()
-                            .registerDynamicTexture("skin_" + username, tex);
+                    Identifier id = new Identifier("skintotem", username);
+                    MinecraftClient.getInstance().getTextureManager()
+                            .registerTexture(id, new NativeImageBackedTexture(image));
 
                     CACHE.put(username, id);
                 });
@@ -144,5 +62,14 @@ public class SkinFetcher {
 
     public static Identifier getSkin(String username) {
         return CACHE.get(username);
+    }
+
+    private static String read(String urlStr) throws Exception {
+        URL url = new URL(urlStr);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+
+        InputStream in = conn.getInputStream();
+        return new String(in.readAllBytes());
     }
 }
