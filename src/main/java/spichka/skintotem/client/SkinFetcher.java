@@ -74,7 +74,7 @@ public class SkinFetcher {
         InputStream in = conn.getInputStream();
         return new String(in.readAllBytes());
     }
-}                        .get("value").getAsString();
+                         .get("value").getAsString();
 
                 String decoded = new String(Base64.getDecoder().decode(value));
                 JsonObject textureJson = JsonParser.parseString(decoded).getAsJsonObject();
