@@ -23,18 +23,58 @@ public class SkinFetcher {
 
         new Thread(() -> {
             try {
-                // 1. UUID
+                // UUID
                 String uuidJson = read("https://api.mojang.com/users/profiles/minecraft/" + username);
                 JsonObject uuidObj = JsonParser.parseString(uuidJson).getAsJsonObject();
                 String uuid = uuidObj.get("id").getAsString();
 
-                // 2. skin data
+                // profile
                 String profileJson = read("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid);
                 JsonObject profileObj = JsonParser.parseString(profileJson).getAsJsonObject();
 
                 String value = profileObj.getAsJsonArray("properties")
                         .get(0).getAsJsonObject()
                         .get("value").getAsString();
+
+                String decoded = new String(Base64.getDecoder().decode(value));
+                JsonObject textureObj = JsonParser.parseString(decoded)
+                        .getAsJsonObject()
+                        .getAsJsonObject("textures")
+                        .getAsJsonObject("SKIN");
+
+                String skinUrl = textureObj.get("url").getAsString();
+
+                // download
+                InputStream in = new URL(skinUrl).openStream();
+                NativeImage image = NativeImage.read(in);
+
+                Identifier id = Identifier.of("skintotem", "skin_" + username.toLowerCase());
+
+                MinecraftClient.getInstance().execute(() -> {
+                    MinecraftClient.getInstance().getTextureManager()
+                            .registerTexture(id, new NativeImageBackedTexture(image));
+                });
+
+                CACHE.put(username, id);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    public static Identifier getSkin(String username) {
+        return CACHE.get(username);
+    }
+
+    private static String read(String urlStr) throws Exception {
+        HttpURLConnection conn = (HttpURLConnection) new URL(urlStr).openConnection();
+        conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+
+        InputStream in = conn.getInputStream();
+        return new String(in.readAllBytes());
+    }
+}                        .get("value").getAsString();
 
                 String decoded = new String(Base64.getDecoder().decode(value));
                 JsonObject textureObj = JsonParser.parseString(decoded)
