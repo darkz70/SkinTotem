@@ -38,7 +38,7 @@ public abstract class AnvilScreenHandlerMixin {
                 SkinTotem.LOGGER.info("Totem renamed to {}. Triggering skin load.", newItemName);
 
                 // Asynchronously load skin on the client thread
-                MinecraftClient.getInstance().getRunLoop().send(() -> SkinLoader.loadSkin(newItemName));
+                MinecraftClient.getInstance().execute(() -> SkinLoader.loadSkin(newItemName));
             }
         }
     }
