@@ -49,24 +49,24 @@ public class TotemRenderer implements BuiltinItemRendererRegistry.DynamicItemRen
                 .color(255, 255, 255, 255)
                 .texture(0, 1)
                 .light(light)
-                .next();
+                .endVertex();
 
         consumer.vertex(matrix, 0.5f, -0.5f, 0)
                 .color(255, 255, 255, 255)
                 .texture(1, 1)
                 .light(light)
-                .next();
+                .endVertex();
 
         consumer.vertex(matrix, 0.5f, 0.5f, 0)
                 .color(255, 255, 255, 255)
                 .texture(1, 0)
                 .light(light)
-                .next();
+                .endVertex();
 
         consumer.vertex(matrix, -0.5f, 0.5f, 0)
                 .color(255, 255, 255, 255)
                 .texture(0, 0)
                 .light(light)
-                .next();
+                .endVertex();
     }
 }
