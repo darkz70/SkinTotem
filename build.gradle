@@ -1,17 +1,17 @@
 plugins {
-    id 'fabric-loom' version '1.6-SNAPSHOT'
+    id 'fabric-loom' version '1.6.12'
     id 'maven-publish'
 }
 
-version = project.mod_version
 group = project.maven_group
+version = project.mod_version
 
 base {
     archivesName.set("SkinTotem")
 }
 
 repositories {
-    // Add repositories if necessary
+    mavenCentral()
 }
 
 dependencies {
@@ -45,6 +45,14 @@ java {
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesName.get()}" }
+        rename { "${it}_SkinTotem" }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
     }
 }
