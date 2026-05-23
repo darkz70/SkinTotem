@@ -1,40 +1,84 @@
 package spichka.skintotem.client;
 
-import net.minecraft.client.render.*;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
 import net.minecraft.client.util.math.MatrixStack.Entry;
+
 import org.joml.Matrix4f;
+
+import java.util.UUID;
+
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.NbtComponent;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+
+import spichka.skintotem.skin.SkinCache;
 
 public class TotemRenderer {
 
     public static void render(
+            ItemStack stack,
             MatrixStack matrices,
-            VertexConsumerProvider providers,
-            int light,
-            Identifier skin
+            VertexConsumerProvider vertexConsumers,
+            int light
     ) {
+
+        NbtComponent data = stack.get(DataComponentTypes.CUSTOM_DATA);
+        if (data == null) return;
+
+        NbtCompound nbt = data.copyNbt();
+        if (!nbt.contains("Owner")) return;
+
+        UUID owner = nbt.getUuid("Owner");
+
+        Identifier skin = SkinCache.get(owner);
         if (skin == null) return;
 
         VertexConsumer consumer =
-                providers.getBuffer(RenderLayer.getEntityCutout(skin));
+                vertexConsumers.getBuffer(RenderLayer.getEntityCutout(skin));
+
+        matrices.push();
+
+        matrices.scale(0.5f, 0.5f, 0.5f);
 
         Matrix4f matrix = matrices.peek().getPositionMatrix();
 
-        // КВАД (лицо)
-        consumer.vertex(matrix, -0.5f, -0.5f, 0f)
-                .color(255, 255, 255, 255)
-                .texture(0f, 1f)
+        drawQuad(consumer, matrix, light);
+
+        matrices.pop();
+    }
+
+    private static void drawQuad(VertexConsumer c, Matrix4f m, int light) {
+
+        // левый низ
+        c.vertex(m, -0.5f, -0.5f, 0)
+                .color(255,255,255,255)
+                .texture(0,1)
                 .light(light);
 
-        consumer.vertex(matrix, 0.5f, -0.5f, 0f)
-                .color(255, 255, 255, 255)
-                .texture(1f, 1f)
+        // правый низ
+        c.vertex(m, 0.5f, -0.5f, 0)
+                .color(255,255,255,255)
+                .texture(1,1)
                 .light(light);
 
+        // правый верх
+        c.vertex(m, 0.5f, 0.5f, 0)
+                .color(255,255,255,255)
+                .texture(1,0)
+                .light(light);
+
+        // левый верх
+        c.vertex(m, -0.5f, 0.5f, 0)
+                .color(255,255,255,255)
+                .texture(0,0)
+                .light(light);
+    }
+}
         consumer.vertex(matrix, 0.5f, 0.5f, 0f)
                 .color(255, 255, 255, 255)
                 .texture(1f, 0f)
