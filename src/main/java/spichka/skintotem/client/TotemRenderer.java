@@ -41,32 +41,32 @@ public class TotemRenderer implements BuiltinItemRendererRegistry.DynamicItemRen
         if (skin == null) return;
 
         VertexConsumer consumer =
-                vertexConsumers.getBuffer(RenderLayer.getEntityCutout(skin));
+        vertexConsumers.getBuffer(RenderLayer.getEntityCutout(skin));
 
-        Matrix4f matrix = matrices.peek().getPositionMatrix();
+Matrix4f matrix = matrices.peek().getPositionMatrix();
 
-        consumer.vertex(matrix, -0.5f, -0.5f, 0)
-                .color(255, 255, 255, 255)
-                .texture(0, 1)
-                .light(light)
-                .endVertex();
+// 1
+consumer.vertex(matrix, -0.5f, -0.5f, 0);
+consumer.color(255, 255, 255, 255);
+consumer.texture(0, 1);
+consumer.light(light);
 
-        consumer.vertex(matrix, 0.5f, -0.5f, 0)
-                .color(255, 255, 255, 255)
-                .texture(1, 1)
-                .light(light)
-                .endVertex();
+// 2
+consumer.vertex(matrix, 0.5f, -0.5f, 0);
+consumer.color(255, 255, 255, 255);
+consumer.texture(1, 1);
+consumer.light(light);
 
-        consumer.vertex(matrix, 0.5f, 0.5f, 0)
-                .color(255, 255, 255, 255)
-                .texture(1, 0)
-                .light(light)
-                .endVertex();
+// 3
+consumer.vertex(matrix, 0.5f, 0.5f, 0);
+consumer.color(255, 255, 255, 255);
+consumer.texture(1, 0);
+consumer.light(light);
 
-        consumer.vertex(matrix, -0.5f, 0.5f, 0)
-                .color(255, 255, 255, 255)
-                .texture(0, 0)
-                .light(light)
-                .endVertex();
-    }
+// 4
+consumer.vertex(matrix, -0.5f, 0.5f, 0);
+consumer.color(255, 255, 255, 255);
+consumer.texture(0, 0);
+consumer.light(light);
+        }
 }
