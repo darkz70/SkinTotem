@@ -47,7 +47,7 @@ public class SkinFetcher {
                 NativeImage image = NativeImage.read(stream);
 
                 MinecraftClient.getInstance().execute(() -> {
-                    Identifier id = new Identifier("skintotem", username);
+                    Identifier id = Identifier.of("skintotem", username);
                     MinecraftClient.getInstance().getTextureManager()
                             .registerTexture(id, new NativeImageBackedTexture(image));
 
