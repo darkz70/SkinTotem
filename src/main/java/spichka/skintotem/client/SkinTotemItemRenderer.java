@@ -45,15 +45,15 @@ public void render(ItemStack stack, ModelTransformationMode mode,
         var n = e.getNormalMatrix();
 
         c.vertex(m, x1, y1, 0).color(255,255,255,255).texture(U1,V2)
-                .overlay(OverlayTexture.DEFAULT_UV).light(light).normal(n,0,0,1).next();
+                .overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0,0,1).next();
 
         c.vertex(m, x2, y1, 0).color(255,255,255,255).texture(U2,V2)
-                .overlay(OverlayTexture.DEFAULT_UV).light(light).normal(n,0,0,1).next();
+                .overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0,0,1).next();
 
         c.vertex(m, x2, y2, 0).color(255,255,255,255).texture(U2,V1)
-                .overlay(OverlayTexture.DEFAULT_UV).light(light).normal(n,0,0,1).next();
+                .overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0,0,1).next();
 
         c.vertex(m, x1, y2, 0).color(255,255,255,255).texture(U1,V1)
-                .overlay(OverlayTexture.DEFAULT_UV).light(light).normal(n,0,0,1).next();
+                .overlay(OverlayTexture.DEFAULT_UV).light(light).normal(0,0,1).next();
     }
 }
