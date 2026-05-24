@@ -8,7 +8,7 @@ public class SkinTotemClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         BuiltinItemRendererRegistry.INSTANCE.register(
-            YOUR_ITEM,
+            Items.TOTEM_OF_UNDYING,
         new SkinTotemItemRenderer()
         );
     }
