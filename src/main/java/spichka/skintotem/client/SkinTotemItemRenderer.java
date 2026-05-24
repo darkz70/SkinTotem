@@ -21,7 +21,7 @@ public void render(ItemStack stack, ModelTransformationMode mode,
 
         if (skin == null) return;
 
-        VertexConsumer c = providers.getBuffer(RenderLayer.getEntityCutout(skin);
+        VertexConsumer c = providers.getBuffer(RenderLayer.getEntityCutoutNoCull(skin);
 
         matrices.push();
         MatrixStack.Entry e = matrices.peek();
