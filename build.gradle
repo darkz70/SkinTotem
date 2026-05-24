@@ -1,17 +1,32 @@
 plugins {
-    id 'fabric-loom' version '1.6.12'
+    id 'fabric-loom' version '1.7-SNAPSHOT'
     id 'maven-publish'
 }
 
-group = project.maven_group
 version = project.mod_version
+group = project.maven_group
 
 base {
-    archivesName.set("SkinTotem")
+    archivesName = project.archives_base_name
 }
 
 repositories {
-    mavenCentral()
+    // Add repos here if needed
+}
+
+loom {
+    splitEnvironmentSourceSets()
+
+    mods {
+        "skintotem" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+fabricApi {
+    configureDataGeneration()
 }
 
 dependencies {
@@ -19,17 +34,14 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 processResources {
     inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minecraft_version
-    inputs.property "loader_version", project.loader_version
 
     filesMatching("fabric.mod.json") {
-        expand "version": project.version,
-                "minecraft_version": project.minecraft_version,
-                "loader_version": project.loader_version
+        expand "version": project.version
     }
 }
 
@@ -44,15 +56,9 @@ java {
 }
 
 jar {
-    from("LICENSE") {
-        rename { "${it}_SkinTotem" }
-    }
-}
+    inputs.property "archivesName", project.base.archivesName
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
+    from("LICENSE") {
+        rename { "${it}_${project.base.archivesName}" }
     }
 }

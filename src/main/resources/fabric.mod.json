@@ -1,33 +1,31 @@
 {
   "schemaVersion": 1,
   "id": "skintotem",
-  "version": "1.0.0",
-  "name": "Skin Totem",
-  "description": "Replaces the Totem of Undying texture with a mini-player figure based on the player's nickname.",
-  "authors": [
-    "Darkz"
-  ],
+  "version": "2.0.0",
+  "name": "SkinTotem",
+  "description": "Replace Totem of Undying texture with a player skin. Use /totem <nick|url> or rename the totem on an anvil.",
+  "authors": ["Darkz"],
   "contact": {
-    "repo": "https://github.com/darkz70/SkinTotem"
+    "sources": "https://github.com/darkz70/SkinTotem"
   },
   "license": "MIT",
   "icon": "assets/skintotem/icon.png",
   "environment": "*",
   "entrypoints": {
-    "client": [
-      "spichka.skintotem.client.SkinTotemClient"
-    ],
-    "main": [
-      "spichka.skintotem.SkinTotem"
-    ]
+    "main": ["com.darkz.skintotem.SkinTotemMod"],
+    "client": ["com.darkz.skintotem.SkinTotemClient"]
   },
   "mixins": [
-    "skintotem.mixins.json"
+    "skintotem.mixins.json",
+    {
+      "config": "skintotem.client.mixins.json",
+      "environment": "client"
+    }
   ],
   "depends": {
-    "fabricloader": ">=0.16.5",
+    "fabricloader": ">=0.15.0",
+    "fabric-api": "*",
     "minecraft": "~1.21.1",
-    "java": ">=21",
-    "fabric-api": "*"
+    "java": ">=21"
   }
 }
