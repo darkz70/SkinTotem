@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "skintotem",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "name": "SkinTotem",
   "description": "Totem of Undying shows a real player skin. Use /totem <nick|url> or rename in anvil.",
   "authors": ["Darkz"],

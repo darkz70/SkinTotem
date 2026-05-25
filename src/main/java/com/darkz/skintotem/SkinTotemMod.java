@@ -19,7 +19,6 @@ public class SkinTotemMod implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("[SkinTotem] Initialized");
 
-        // /totem <nick or url>
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
             dispatcher.register(
                 CommandManager.literal("totem")

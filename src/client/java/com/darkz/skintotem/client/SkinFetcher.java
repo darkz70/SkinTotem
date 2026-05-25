@@ -2,8 +2,6 @@ package com.darkz.skintotem.client;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.google.gson.JsonParser;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -14,18 +12,15 @@ import java.net.URL;
 import java.util.Base64;
 import java.util.concurrent.CompletableFuture;
 
-@Environment(EnvType.CLIENT)
 public class SkinFetcher {
 
     public static CompletableFuture<BufferedImage> fetch(String input) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                if (isUrl(input)) {
-                    return fromUrl(input);
-                }
+                if (isUrl(input)) return fromUrl(input);
                 return byUsername(input);
             } catch (Exception e) {
-                SkinTotemMod.LOGGER.warn("[SkinTotem] Failed to fetch '{}': {}", input, e.getMessage());
+                SkinTotemMod.LOGGER.warn("[SkinTotem] fetch failed for '{}': {}", input, e.getMessage());
                 return null;
             }
         });
@@ -36,74 +31,69 @@ public class SkinFetcher {
     }
 
     public static BufferedImage fromUrl(String urlStr) throws IOException {
-        HttpURLConnection conn = openConnection(urlStr);
+        HttpURLConnection conn = open(urlStr);
         try (InputStream is = conn.getInputStream()) {
             return ImageIO.read(is);
         }
     }
 
-    private static BufferedImage byUsername(String username) throws IOException {
+    private static BufferedImage byUsername(String username) {
         // 1. Mojang
         try {
-            String profileJson = getString("https://api.mojang.com/users/profiles/minecraft/" + username);
+            String profileJson = get("https://api.mojang.com/users/profiles/minecraft/" + username);
             if (profileJson != null && !profileJson.isEmpty()) {
-                var obj = JsonParser.parseString(profileJson).getAsJsonObject();
-                String uuid = obj.get("id").getAsString();
-                String sessionJson = getString("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid);
+                String uuid = JsonParser.parseString(profileJson).getAsJsonObject().get("id").getAsString();
+                String sessionJson = get("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid);
                 if (sessionJson != null) {
-                    var sess = JsonParser.parseString(sessionJson).getAsJsonObject();
-                    for (var prop : sess.getAsJsonArray("properties")) {
+                    for (var prop : JsonParser.parseString(sessionJson).getAsJsonObject().getAsJsonArray("properties")) {
                         var p = prop.getAsJsonObject();
                         if ("textures".equals(p.get("name").getAsString())) {
                             String decoded = new String(Base64.getDecoder().decode(p.get("value").getAsString()));
-                            var tex = JsonParser.parseString(decoded).getAsJsonObject();
-                            String skinUrl = tex.getAsJsonObject("textures")
-                                    .getAsJsonObject("SKIN")
-                                    .get("url").getAsString();
+                            String skinUrl = JsonParser.parseString(decoded).getAsJsonObject()
+                                    .getAsJsonObject("textures").getAsJsonObject("SKIN").get("url").getAsString();
                             return fromUrl(skinUrl);
                         }
                     }
                 }
             }
         } catch (Exception e) {
-            SkinTotemMod.LOGGER.debug("[SkinTotem] Mojang failed for {}: {}", username, e.getMessage());
+            SkinTotemMod.LOGGER.debug("[SkinTotem] Mojang miss for {}: {}", username, e.getMessage());
         }
 
         // 2. Ely.by
         try {
             return fromUrl("https://skinsystem.ely.by/skins/" + username + ".png");
         } catch (Exception e) {
-            SkinTotemMod.LOGGER.debug("[SkinTotem] Ely.by failed for {}: {}", username, e.getMessage());
+            SkinTotemMod.LOGGER.debug("[SkinTotem] Ely.by miss for {}: {}", username, e.getMessage());
         }
 
         // 3. TLauncher
         try {
-            String json = getString("https://auth.tlauncher.org/skin/profile/texture/login/" + username);
+            String json = get("https://auth.tlauncher.org/skin/profile/texture/login/" + username);
             if (json != null) {
                 var obj = JsonParser.parseString(json).getAsJsonObject();
                 if (obj.has("SKIN")) {
-                    String skinUrl = obj.getAsJsonObject("SKIN").get("url").getAsString();
-                    return fromUrl(skinUrl);
+                    return fromUrl(obj.getAsJsonObject("SKIN").get("url").getAsString());
                 }
             }
         } catch (Exception e) {
-            SkinTotemMod.LOGGER.debug("[SkinTotem] TLauncher failed for {}: {}", username, e.getMessage());
+            SkinTotemMod.LOGGER.debug("[SkinTotem] TLauncher miss for {}: {}", username, e.getMessage());
         }
 
         return null;
     }
 
-    private static String getString(String urlStr) throws IOException {
-        HttpURLConnection conn = openConnection(urlStr);
+    private static String get(String urlStr) throws IOException {
+        HttpURLConnection conn = open(urlStr);
         if (conn.getResponseCode() != 200) return null;
         try (InputStream is = conn.getInputStream()) {
             return new String(is.readAllBytes());
         }
     }
 
-    private static HttpURLConnection openConnection(String urlStr) throws IOException {
+    private static HttpURLConnection open(String urlStr) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) new URL(urlStr).openConnection();
-        conn.setRequestProperty("User-Agent", "SkinTotem/2.0");
+        conn.setRequestProperty("User-Agent", "SkinTotem/2.1");
         conn.setConnectTimeout(6000);
         conn.setReadTimeout(8000);
         return conn;
