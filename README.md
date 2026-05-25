@@ -1,27 +1,27 @@
-# SkinTotem v2.1 — Fixed
+# SkinTotem v2.2 — Fixed
 
-Fabric мод для Minecraft **1.21.1**.  
-Заменяет текстуру Тотема Бессмертия на фигурку из скина игрока — как на [skinmc.net/totem](https://skinmc.net/totem).
-
----
-
-## Что исправлено в v2.1
-
-| Проблема | Решение |
-|----------|---------|
-| Краш при загрузке (mixin failed) | Убраны `@ModifyVariable` на `renderItem` — заменены безопасными `@Inject` и `@ModifyArg` |
-| `skintotem.mixins.json` (пустой серверный конфиг) | Убран, остался только `skintotem.client.mixins.json` с `environment: client` |
-| Дублирующийся запрос скина | Thread-local + Set loading предотвращают повторные запросы |
+Fabric mod for Minecraft **1.21.1**.  
+Replaces the Totem of Undying texture with a figure based on the player's skin — similar to [skinmc.net/totem](https://skinmc.net/totem).
 
 ---
 
-## Как использовать
+## What's New in v2.2
 
-### Наковальня
-Переименуй тотем → напиши ник или ссылку на скин.
+| Improvement | Description |
+|-------------|-------------|
+| Refactored Structure | Source code split into `main` and `client` source sets for better organization |
+| Improved Rendering | Better integration with Minecraft's rendering system via `SkinTotemBakedModel` |
+| Stability | Fixed potential crashes and mixin conflicts from previous versions |
 
-### Команда
-Держи тотем в руке, пиши:
+---
+
+## How to Use
+
+### Anvil
+Rename the totem → enter a player's nickname or a direct link to a skin.
+
+### Command
+Hold the totem in your hand and type:
 ```
 /totem Notch
 /totem https://example.com/skin.png
@@ -29,28 +29,28 @@ Fabric мод для Minecraft **1.21.1**.
 
 ---
 
-## Источники скинов (автоматически)
-1. **Mojang** (лицензионные аккаунты)
-2. **Ely.by** (пиратские / альтернативные)
+## Skin Sources (Automatic)
+1. **Mojang** (Premium accounts)
+2. **Ely.by** (Alternative/Pirate skins)
 3. **TLauncher**
-4. Прямая **URL-ссылка** на PNG
+4. Direct **URL link** to a PNG file
 
 ---
 
-## Сборка
+## Building
 
 ```bash
 ./gradlew build
 ```
 
-JAR появится в `build/libs/`.
+The JAR file will be generated in `build/libs/`.
 
 ---
 
-## Технические детали
+## Technical Details
 
-- Миксины только клиентские (`environment: client`) — нет краша при запуске на сервере
-- `SkinTotemTextureManager` регистрирует `NativeImageBackedTexture` через Minecraft texture manager
-- `TotemRenderLayerMixin` меняет `RenderLayer` через `@ModifyArg` — не трогает сигнатуру метода
-- `TotemModelMixin` оборачивает `BakedModel` в `SkinTotemBakedModel` с нужным texture ID
-- Скин грузится асинхронно — первый рендер стандартный, потом автоматически обновляется
+- Client-side only mixins (`environment: client`) — prevents server-side crashes.
+- `SkinTotemTextureManager` registers `NativeImageBackedTexture` via Minecraft's texture manager.
+- `TotemRenderMixin` modifies the rendering layer to apply the custom skin texture.
+- `TotemModelMixin` wraps the `BakedModel` in `SkinTotemBakedModel` with the appropriate texture ID.
+- Skins are loaded asynchronously — the default texture is rendered first, then automatically updated once the skin is fetched.
