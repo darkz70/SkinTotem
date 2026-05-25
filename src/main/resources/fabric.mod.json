@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "skintotem",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "name": "SkinTotem",
-  "description": "Replace Totem of Undying texture with a player skin. Use /totem <nick|url> or rename the totem on an anvil.",
+  "description": "Totem of Undying shows a real player skin. Use /totem <nick|url> or rename in anvil.",
   "authors": ["Darkz"],
   "contact": {
     "sources": "https://github.com/darkz70/SkinTotem"
@@ -12,11 +12,14 @@
   "icon": "assets/skintotem/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": ["com.darkz.skintotem.SkinTotemMod"],
-    "client": ["com.darkz.skintotem.SkinTotemClient"]
+    "main": [
+      "com.darkz.skintotem.SkinTotemMod"
+    ],
+    "client": [
+      "com.darkz.skintotem.client.SkinTotemClient"
+    ]
   },
   "mixins": [
-    "skintotem.mixins.json",
     {
       "config": "skintotem.client.mixins.json",
       "environment": "client"
