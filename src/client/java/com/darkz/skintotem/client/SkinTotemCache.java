@@ -14,33 +14,40 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.imageio.ImageIO;
 
-public class SkinTotemTextureManager {
+public class SkinTotemCache {
 
-    private static final Map<String, Identifier> ready   = new ConcurrentHashMap<>();
-    private static final Set<String>             loading = ConcurrentHashMap.newKeySet();
+    // key → ready Identifier
+    private static final Map<String, Identifier> READY   = new ConcurrentHashMap<>();
+    // keys currently loading
+    private static final Set<String>             LOADING = ConcurrentHashMap.newKeySet();
 
-    /** Returns the registered texture ID, or null if still loading (fetch kicked off). */
+    /**
+     * Returns the texture Identifier if already loaded, otherwise kicks off async fetch.
+     * Returns null while loading (caller should use default texture).
+     */
     public static Identifier getOrLoad(String input) {
+        if (input == null || input.isBlank()) return null;
         String key = normalize(input);
-        Identifier id = ready.get(key);
+
+        Identifier id = READY.get(key);
         if (id != null) return id;
 
-        if (loading.add(key)) {
+        if (LOADING.add(key)) {
             SkinFetcher.fetch(input)
                 .thenApply(TotemTextureGenerator::generate)
-                .thenAccept(img -> register(key, img));
+                .thenAccept(img -> registerOnMainThread(key, img));
         }
         return null;
     }
 
-    private static void register(String key, BufferedImage img) {
+    private static void registerOnMainThread(String key, BufferedImage img) {
         if (img == null) {
-            SkinTotemMod.LOGGER.warn("[SkinTotem] null image for key: {}", key);
-            loading.remove(key);
+            SkinTotemMod.LOGGER.warn("[SkinTotem] null image for '{}'", key);
+            LOADING.remove(key);
             return;
         }
         MinecraftClient mc = MinecraftClient.getInstance();
-        if (mc == null) { loading.remove(key); return; }
+        if (mc == null) { LOADING.remove(key); return; }
 
         mc.execute(() -> {
             try {
@@ -51,17 +58,17 @@ public class SkinTotemTextureManager {
                 String safe = key.replaceAll("[^a-z0-9._\\-]", "_");
                 Identifier id = Identifier.of(SkinTotemMod.MOD_ID, "skin/" + safe);
                 mc.getTextureManager().registerTexture(id, tex);
-                ready.put(key, id);
-                SkinTotemMod.LOGGER.info("[SkinTotem] Registered texture: {}", id);
+                READY.put(key, id);
+                SkinTotemMod.LOGGER.info("[SkinTotem] Texture ready: {}", id);
             } catch (Exception e) {
-                SkinTotemMod.LOGGER.error("[SkinTotem] register failed for {}: {}", key, e.getMessage());
+                SkinTotemMod.LOGGER.error("[SkinTotem] register failed '{}': {}", key, e.getMessage());
             } finally {
-                loading.remove(key);
+                LOADING.remove(key);
             }
         });
     }
 
     public static String normalize(String s) {
-        return s == null ? "" : s.trim().toLowerCase();
+        return s.trim().toLowerCase();
     }
 }

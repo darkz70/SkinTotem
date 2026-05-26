@@ -19,6 +19,7 @@ public class SkinTotemMod implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("[SkinTotem] Initialized");
 
+        // /totem <nick or url>  — stores value as custom name on the held totem
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
             dispatcher.register(
                 CommandManager.literal("totem")
@@ -31,7 +32,8 @@ public class SkinTotemMod implements ModInitializer {
                             }
                             var stack = player.getMainHandStack();
                             if (stack.isEmpty() || !stack.isOf(Items.TOTEM_OF_UNDYING)) {
-                                ctx.getSource().sendError(Text.literal("§cHold a Totem of Undying in your main hand!"));
+                                ctx.getSource().sendError(
+                                    Text.literal("§cHold a Totem of Undying in your main hand!"));
                                 return 0;
                             }
                             String input = StringArgumentType.getString(ctx, "input").trim();

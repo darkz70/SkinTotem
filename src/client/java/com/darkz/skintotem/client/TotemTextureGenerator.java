@@ -4,45 +4,39 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * Builds a 16x16 flat totem figure from a 64x64 Minecraft skin.
- *
- * Output layout (matches skinmc.net/totem):
- *   Head  4x4 @ (6,0)
- *   Body  4x6 @ (6,4)
- *   R.Arm 2x6 @ (4,4)
- *   L.Arm 2x6 @ (10,4)
- *   R.Leg 2x6 @ (6,10)
- *   L.Leg 2x6 @ (8,10)
+ * Generates a 16x16 flat totem texture from a 64x64 Minecraft skin.
+ * Layout matches skinmc.net/totem (flat 2D figure, no 3D).
  */
 public class TotemTextureGenerator {
 
     public static BufferedImage generate(BufferedImage skin) {
         if (skin == null) return null;
+        boolean newFmt = skin.getHeight() >= 64;
 
-        boolean newFmt = skin.getHeight() >= 64 && skin.getWidth() >= 64;
         BufferedImage out = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = out.createGraphics();
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                 RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 
-        // Head base + overlay
+        // Head base (8x8 → 4x4 at x=6,y=0)
         blit(g, skin, 8, 8, 8, 8, 6, 0, 4, 4);
+        // Head overlay / hat (alpha blend)
         blitAlpha(skin, out, 40, 8, 8, 8, 6, 0, 4, 4);
 
-        // Body
+        // Body (8x12 → 4x6 at x=6,y=4)
         blit(g, skin, 20, 20, 8, 12, 6, 4, 4, 6);
 
-        // Right arm
+        // Right arm (4x12 → 2x6 at x=4,y=4)
         blit(g, skin, 44, 20, 4, 12, 4, 4, 2, 6);
 
-        // Left arm
+        // Left arm (4x12 → 2x6 at x=10,y=4)
         if (newFmt) blit(g, skin, 36, 52, 4, 12, 10, 4, 2, 6);
         else        blitMirror(g, skin, 44, 20, 4, 12, 10, 4, 2, 6);
 
-        // Right leg
+        // Right leg (4x12 → 2x6 at x=6,y=10)
         blit(g, skin, 4, 20, 4, 12, 6, 10, 2, 6);
 
-        // Left leg
+        // Left leg (4x12 → 2x6 at x=8,y=10)
         if (newFmt) blit(g, skin, 20, 52, 4, 12, 8, 10, 2, 6);
         else        blitMirror(g, skin, 4, 20, 4, 12, 8, 10, 2, 6);
 
@@ -65,26 +59,26 @@ public class TotemTextureGenerator {
     private static void blitAlpha(BufferedImage src, BufferedImage dst,
                                   int sx, int sy, int sw, int sh,
                                   int dx, int dy, int dw, int dh) {
-        float sx2 = (float) sw / dw, sy2 = (float) sh / dh;
+        float rx = (float) sw / dw, ry = (float) sh / dh;
         for (int py = 0; py < dh; py++) {
             for (int px = 0; px < dw; px++) {
-                int qx = sx + (int)(px * sx2), qy = sy + (int)(py * sy2);
+                int qx = sx + (int)(px * rx), qy = sy + (int)(py * ry);
                 if (qx < src.getWidth() && qy < src.getHeight()) {
-                    int argb = src.getRGB(qx, qy);
-                    if (((argb >> 24) & 0xFF) > 0)
-                        dst.setRGB(dx+px, dy+py, blend(dst.getRGB(dx+px, dy+py), argb));
+                    int fg = src.getRGB(qx, qy);
+                    if (((fg >> 24) & 0xFF) > 0)
+                        dst.setRGB(dx+px, dy+py, alphaBlend(dst.getRGB(dx+px, dy+py), fg));
                 }
             }
         }
     }
 
-    private static int blend(int bg, int fg) {
+    private static int alphaBlend(int bg, int fg) {
         int fa = (fg >> 24) & 0xFF;
         if (fa == 255) return fg;
         float a = fa / 255f;
-        int r = (int)((fg >> 16 & 0xFF) * a + (bg >> 16 & 0xFF) * (1-a));
-        int g = (int)((fg >> 8  & 0xFF) * a + (bg >> 8  & 0xFF) * (1-a));
-        int b = (int)((fg       & 0xFF) * a + (bg       & 0xFF) * (1-a));
-        return (Math.max(fa, (bg >> 24) & 0xFF) << 24) | (r << 16) | (g << 8) | b;
+        int r = (int)((fg>>16&0xFF)*a + (bg>>16&0xFF)*(1-a));
+        int g = (int)((fg>> 8&0xFF)*a + (bg>> 8&0xFF)*(1-a));
+        int b = (int)((fg    &0xFF)*a + (bg    &0xFF)*(1-a));
+        return (Math.max(fa, (bg>>24)&0xFF) << 24) | (r<<16) | (g<<8) | b;
     }
 }

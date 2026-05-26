@@ -3,7 +3,6 @@
   "package": "com.darkz.skintotem.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "TotemRenderMixin",
     "TotemAnimationMixin"
   ],
   "injectors": {

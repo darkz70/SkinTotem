@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "skintotem",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "name": "SkinTotem",
   "description": "Totem of Undying shows a real player skin. Use /totem <nick|url> or rename in anvil.",
   "authors": ["Darkz"],
@@ -12,12 +12,8 @@
   "icon": "assets/skintotem/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "com.darkz.skintotem.SkinTotemMod"
-    ],
-    "client": [
-      "com.darkz.skintotem.client.SkinTotemClient"
-    ]
+    "main":   ["com.darkz.skintotem.SkinTotemMod"],
+    "client": ["com.darkz.skintotem.client.SkinTotemClient"]
   },
   "mixins": [
     {
@@ -27,8 +23,8 @@
   ],
   "depends": {
     "fabricloader": ">=0.15.0",
-    "fabric-api": "*",
-    "minecraft": "~1.21.1",
-    "java": ">=21"
+    "fabric-api":   "*",
+    "minecraft":    "~1.21.1",
+    "java":         ">=21"
   }
 }
