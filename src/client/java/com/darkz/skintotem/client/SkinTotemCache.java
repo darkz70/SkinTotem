@@ -16,15 +16,9 @@ import javax.imageio.ImageIO;
 
 public class SkinTotemCache {
 
-    // key → ready Identifier
     private static final Map<String, Identifier> READY   = new ConcurrentHashMap<>();
-    // keys currently loading
     private static final Set<String>             LOADING = ConcurrentHashMap.newKeySet();
 
-    /**
-     * Returns the texture Identifier if already loaded, otherwise kicks off async fetch.
-     * Returns null while loading (caller should use default texture).
-     */
     public static Identifier getOrLoad(String input) {
         if (input == null || input.isBlank()) return null;
         String key = normalize(input);

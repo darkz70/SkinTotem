@@ -99,7 +99,7 @@ public class SkinFetcher {
 
     private static HttpURLConnection open(String urlStr) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) new URL(urlStr).openConnection();
-        conn.setRequestProperty("User-Agent", "SkinTotem/2.3");
+        conn.setRequestProperty("User-Agent", "SkinTotem/2.4");
         conn.setConnectTimeout(6000);
         conn.setReadTimeout(8000);
         return conn;

@@ -11,9 +11,8 @@ public class SkinTotemClient implements ClientModInitializer {
     public void onInitializeClient() {
         SkinTotemMod.LOGGER.info("[SkinTotem] Client initialized");
 
-        // Register our custom renderer for Totem of Undying.
-        // This replaces the default item model renderer with our own —
-        // no mixins required, fully compatible with fabric-renderer-indigo.
+        // No mixins — BIIR is the official Fabric API for custom item rendering.
+        // Compatible with fabric-renderer-indigo and all other renderers.
         BuiltinItemRendererRegistry.INSTANCE.register(
             Items.TOTEM_OF_UNDYING,
             new TotemItemRenderer()

@@ -3,10 +3,6 @@ package com.darkz.skintotem.client;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-/**
- * Generates a 16x16 flat totem texture from a 64x64 Minecraft skin.
- * Layout matches skinmc.net/totem (flat 2D figure, no 3D).
- */
 public class TotemTextureGenerator {
 
     public static BufferedImage generate(BufferedImage skin) {
@@ -18,27 +14,15 @@ public class TotemTextureGenerator {
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                 RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 
-        // Head base (8x8 → 4x4 at x=6,y=0)
-        blit(g, skin, 8, 8, 8, 8, 6, 0, 4, 4);
-        // Head overlay / hat (alpha blend)
-        blitAlpha(skin, out, 40, 8, 8, 8, 6, 0, 4, 4);
-
-        // Body (8x12 → 4x6 at x=6,y=4)
-        blit(g, skin, 20, 20, 8, 12, 6, 4, 4, 6);
-
-        // Right arm (4x12 → 2x6 at x=4,y=4)
-        blit(g, skin, 44, 20, 4, 12, 4, 4, 2, 6);
-
-        // Left arm (4x12 → 2x6 at x=10,y=4)
+        blit(g, skin, 8, 8, 8, 8, 6, 0, 4, 4);           // head base
+        blitAlpha(skin, out, 40, 8, 8, 8, 6, 0, 4, 4);   // hat overlay
+        blit(g, skin, 20, 20, 8, 12, 6, 4, 4, 6);         // body
+        blit(g, skin, 44, 20, 4, 12, 4, 4, 2, 6);         // right arm
         if (newFmt) blit(g, skin, 36, 52, 4, 12, 10, 4, 2, 6);
-        else        blitMirror(g, skin, 44, 20, 4, 12, 10, 4, 2, 6);
-
-        // Right leg (4x12 → 2x6 at x=6,y=10)
-        blit(g, skin, 4, 20, 4, 12, 6, 10, 2, 6);
-
-        // Left leg (4x12 → 2x6 at x=8,y=10)
+        else        blitMirror(g, skin, 44, 20, 4, 12, 10, 4, 2, 6); // left arm
+        blit(g, skin, 4, 20, 4, 12, 6, 10, 2, 6);         // right leg
         if (newFmt) blit(g, skin, 20, 52, 4, 12, 8, 10, 2, 6);
-        else        blitMirror(g, skin, 4, 20, 4, 12, 8, 10, 2, 6);
+        else        blitMirror(g, skin, 4, 20, 4, 12, 8, 10, 2, 6);  // left leg
 
         g.dispose();
         return out;

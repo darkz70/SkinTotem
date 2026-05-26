@@ -1,4 +1,4 @@
-# SkinTotem v2.3 — Indigo Fix
+# SkinTotem v2.4 — No Mixin
 
 [🇷🇺 Русский](#русский) | [🇺🇸 English](#english)
 
@@ -10,10 +10,10 @@
 Fabric мод для Minecraft **1.21.1**.  
 Заменяет текстуру Тотема Бессмертия на фигурку из скина игрока — как на [skinmc.net/totem](https://skinmc.net/totem).
 
-### Что нового в v2.3 (Indigo Fix)
-*   **Исправлен Indigo**: Исправлена совместимость с рендерером Indigo (используется в Sodium).
-*   **Новый рендеринг**: Переход на `BuiltinItemRendererRegistry` для более стабильного отображения.
-*   **Оптимизация**: Улучшено кеширование скинов и работа с ресурсами.
+### Что нового в v2.4 (No Mixin)
+*   **Отказ от Mixin**: Полностью удалены Mixin-трансформации для повышения стабильности и совместимости.
+*   **Чистый рендеринг**: Использование стандартных API Fabric для рендеринга предметов.
+*   **Максимальная совместимость**: Теперь мод не конфликтует с другими модификациями, изменяющими рендеринг (Sodium, Iris и др.).
 
 ### Как использовать
 *   **Наковальня**: Переименуй тотем → напиши ник или ссылку на скин.
@@ -37,10 +37,10 @@ Fabric мод для Minecraft **1.21.1**.
 Fabric mod for Minecraft **1.21.1**.  
 Replaces the Totem of Undying texture with a figure based on the player's skin — similar to [skinmc.net/totem](https://skinmc.net/totem).
 
-### What's New in v2.3 (Indigo Fix)
-*   **Indigo Fix**: Fixed compatibility with the Indigo renderer (used by Sodium).
-*   **New Rendering**: Switched to `BuiltinItemRendererRegistry` for more stable display.
-*   **Optimization**: Improved skin caching and resource handling.
+### What's New in v2.4 (No Mixin)
+*   **No Mixin**: Completely removed Mixin transformations for better stability and compatibility.
+*   **Clean Rendering**: Uses standard Fabric APIs for item rendering.
+*   **Maximum Compatibility**: No more conflicts with other rendering mods (Sodium, Iris, etc.).
 
 ### How to Use
 *   **Anvil**: Rename the totem → enter a player's nickname or a direct skin link.
