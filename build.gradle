@@ -1,54 +1,56 @@
 plugins {
-    id 'fabric-loom' version '1.7.4'
-    id 'maven-publish'
+	id "net.lopymine.mossy-plugin-core" version "$mossy_plugin_version"
 }
 
-version = project.mod_version
-group = project.maven_group
+mossyDependencies {
+	minecraft = stonecutter.current.version.toString()
+	mappings = prop("build.yarn")
+	lombok = prop("base.lombok_version")
+	fabricApi = prop("build.fabric_api")
+	fabricLoader = prop("build.fabric_loader")
 
-base {
-    archivesName = project.archives_base_name
+	additional {
+		// - By default, every additional project dependency ("dep.modId" from gradle.properties) will use
+		// - Modrinth Maven and "modImplementation" configuration name
+		// - If you want to override mod configuration name, you can do this:
+
+		//override("modCompileOnly", "just_mod_id")
+
+		// - It will do this:
+		// - modImplementation("maven.modrinth:modId:version") -> modCompileOnly("maven.modrinth:modId:version")
+
+		// - Or if you want to disable it and handle by yourself, just disable it auto handling:
+
+		//disable("just_mod_id")
+
+		disable("cit-resewn")
+	}
 }
 
-repositories {}
+mossyResources {
+	//expandFiles = ["custom", "file", "patterns", "here"]
+}
 
-loom {
-    splitEnvironmentSourceSets()
-
-    mods {
-        "skintotem" {
-            sourceSet sourceSets.main
-            sourceSet sourceSets.client
-        }
-    }
+repositories {
+	// Mixin^2
+	maven {
+		name = "Mixin Squared"
+		url = "https://maven.bawnorton.com/releases"
+	}
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	// Mixin^2
+	include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:${prop("build.mixin_squared")}")))
+
+	// CIT Resewn
+	def cit = prop("dep.cit-resewn")
+	if (cit != "unknown") {
+		modImplementation "maven.modrinth:cit-resewn:${cit}"
+		modImplementation "maven.modrinth:cit-resewn-defaults:${cit}"
+	}
 }
 
-processResources {
-    inputs.property "version", project.version
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    it.options.release = 17
-}
-
-java {
-    withSourcesJar()
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
-
-jar {
-    from("LICENSE") {
-        rename { "${it}_${project.base.archivesName}" }
-    }
+String prop(String key) {
+	return findProperty(key).toString()
 }
