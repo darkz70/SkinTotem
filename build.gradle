@@ -40,6 +40,10 @@ repositories {
 }
 
 dependencies {
+	// Lombok
+	compileOnly "org.projectlombok:lombok:${prop("base.lombok_version")}"
+	annotationProcessor "org.projectlombok:lombok:${prop("base.lombok_version")}"
+
 	// Mixin^2
 	include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:${prop("build.mixin_squared")}")))
 

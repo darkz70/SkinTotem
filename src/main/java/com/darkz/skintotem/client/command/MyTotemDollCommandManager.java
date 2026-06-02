@@ -5,7 +5,9 @@ import com.darkz.skintotem.client.command.refresh.RefreshCommand;
 import com.darkz.skintotem.api.MojangAPI;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.minecraft.text.Text;
+//? if >=1.21 {
 import net.minecraft.component.DataComponentTypes;
+//?}
 import net.minecraft.item.Items;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
@@ -70,7 +72,11 @@ public class SkinTotemModCommandManager {
             return 0;
         }
         
+        //? if >=1.21 {
         stack.set(DataComponentTypes.CUSTOM_NAME, Text.literal(name));
+        //?} else {
+        /*stack.setCustomName(Text.literal(name));
+        *///?}
         ctx.getSource().sendFeedback(Text.literal("§6[SkinTotem] §aSkin totem set to: §f" + name));
         return 1;
     }

@@ -35,6 +35,7 @@ public class TotemDollData {
 	private TotemDollRenderProperties renderProperties = new TotemDollRenderProperties();
 
 	public TotemDollData(@Nullable String nickname, @NotNull TotemDollSprites sprites) {
+		this.renderProperties = new TotemDollRenderProperties();
 		this.renderProperties.refresh(sprites);
 		this.renderProperties.setNickname(nickname);
 	}
@@ -57,7 +58,9 @@ public class TotemDollData {
 	}
 
 	public void setStandardMModel(@NotNull Identifier modelId) {
+		//? if >=1.21 {
 		BlockBenchModelManager.consumeModelById(modelId, this::setStandardMModel);
+		//?}
 	}
 
 	public void setStandardMModel(@Nullable MModel model) {
@@ -69,7 +72,9 @@ public class TotemDollData {
 	}
 
 	public void setFrameMModel(@NotNull Identifier id) {
+		//? if >=1.21 {
 		this.renderProperties.consumeFrameMModel(id, this::setFrameMModel);
+		//?}
 	}
 
 	public void setFrameMModel(@Nullable MModel frameMModel) {
@@ -78,12 +83,14 @@ public class TotemDollData {
 
 	@Nullable
 	private TotemDollModel getFrameModelBasedOnFrameMModel() {
+		//? if >=1.21 {
 		if (this.renderProperties.getFrameMModel() != null) {
 			if (this.frameModel == null || !this.frameModel.getMain().equals(this.renderProperties.getFrameMModel())) {
 				return this.frameModel = this.renderProperties.createFrameModel();
 			}
 			return this.frameModel;
 		}
+		//?}
 		return null;
 	}
 
@@ -114,7 +121,9 @@ public class TotemDollData {
 			return this.standardModel;
 		}
 
+		//? if >=1.21 {
 		this.setStandardMModel(TotemDollModel.createDollModel());
+		//?}
 
 		if (this.shouldRecreateStandardModel) {
 			this.shouldRecreateStandardModel = false;
@@ -161,7 +170,9 @@ public class TotemDollData {
 		boolean slim = playerEntity.getModel().equalsIgnoreCase("slim");
 		*///?}
 
+		//? if >=1.21 {
 		this.renderProperties.setFrameSprites(skinTexture, capeTexture, elytraTexture, slim, true);
+		//?}
 	}
 
 	@NotNull

@@ -24,10 +24,53 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.darkz.skintotem.utils.CodecUtils.option;
 
-@Getter
-@Setter
-@AllArgsConstructor
 public class SkinTotemModConfig {
+
+	public boolean isModEnabled() { return modEnabled; }
+	public void setModEnabled(boolean modEnabled) { this.modEnabled = modEnabled; }
+	public boolean isDebugLogEnabled() { return debugLogEnabled; }
+	public void setDebugLogEnabled(boolean debugLogEnabled) { this.debugLogEnabled = debugLogEnabled; }
+	public RenderingConfig getRenderingConfig() { return renderingConfig; }
+	public void setRenderingConfig(RenderingConfig renderingConfig) { this.renderingConfig = renderingConfig; }
+	public String getStandardTotemDollSkinValue() { return standardTotemDollSkinValue; }
+	public void setStandardTotemDollSkinValue(String standardTotemDollSkinValue) { this.standardTotemDollSkinValue = standardTotemDollSkinValue; }
+	public TotemDollSkinType getStandardTotemDollSkinType() { return standardTotemDollSkinType; }
+	public void setStandardTotemDollSkinType(TotemDollSkinType standardTotemDollSkinType) { this.standardTotemDollSkinType = standardTotemDollSkinType; }
+	public Identifier getStandardTotemDollModelValue() { return standardTotemDollModelValue; }
+	public void setStandardTotemDollModelValue(Identifier standardTotemDollModelValue) { this.standardTotemDollModelValue = standardTotemDollModelValue; }
+	public TotemDollArmsType getStandardTotemDollArmsType() { return standardTotemDollArmsType; }
+	public void setStandardTotemDollArmsType(TotemDollArmsType standardTotemDollArmsType) { this.standardTotemDollArmsType = standardTotemDollArmsType; }
+	public Vec2i getTagButtonPos() { return tagButtonPos; }
+	public void setTagButtonPos(Vec2i tagButtonPos) { this.tagButtonPos = tagButtonPos; }
+	public boolean isUseVanillaTotemModel() { return useVanillaTotemModel; }
+	public void setUseVanillaTotemModel(boolean useVanillaTotemModel) { this.useVanillaTotemModel = useVanillaTotemModel; }
+	public int getBetterTagMenuTooltipSize() { return betterTagMenuTooltipSize; }
+	public void setBetterTagMenuTooltipSize(int betterTagMenuTooltipSize) { this.betterTagMenuTooltipSize = betterTagMenuTooltipSize; }
+	public float getTagMenuTooltipModelScale() { return tagMenuTooltipModelScale; }
+	public void setTagMenuTooltipModelScale(float tagMenuTooltipModelScale) { this.tagMenuTooltipModelScale = tagMenuTooltipModelScale; }
+	public int getParallelTasksCount() { return parallelTasksCount; }
+	public void setParallelTasksCount(int parallelTasksCount) { this.parallelTasksCount = parallelTasksCount; }
+	public boolean isFirstRun() { return firstRun; }
+	public void setFirstRun(boolean firstRun) { this.firstRun = firstRun; }
+	public boolean isSupportOtherModsTotems() { return supportOtherModsTotems; }
+	public void setSupportOtherModsTotems(boolean supportOtherModsTotems) { this.supportOtherModsTotems = supportOtherModsTotems; }
+
+	public SkinTotemModConfig(boolean modEnabled, boolean debugLogEnabled, RenderingConfig renderingConfig, String standardTotemDollSkinValue, TotemDollSkinType standardTotemDollSkinType, Identifier standardTotemDollModelValue, TotemDollArmsType standardTotemDollArmsType, Vec2i tagButtonPos, boolean useVanillaTotemModel, int betterTagMenuTooltipSize, float tagMenuTooltipModelScale, int parallelTasksCount, boolean firstRun, boolean supportOtherModsTotems) {
+		this.modEnabled = modEnabled;
+		this.debugLogEnabled = debugLogEnabled;
+		this.renderingConfig = renderingConfig;
+		this.standardTotemDollSkinValue = standardTotemDollSkinValue;
+		this.standardTotemDollSkinType = standardTotemDollSkinType;
+		this.standardTotemDollModelValue = standardTotemDollModelValue;
+		this.standardTotemDollArmsType = standardTotemDollArmsType;
+		this.tagButtonPos = tagButtonPos;
+		this.useVanillaTotemModel = useVanillaTotemModel;
+		this.betterTagMenuTooltipSize = betterTagMenuTooltipSize;
+		this.tagMenuTooltipModelScale = tagMenuTooltipModelScale;
+		this.parallelTasksCount = parallelTasksCount;
+		this.firstRun = firstRun;
+		this.supportOtherModsTotems = supportOtherModsTotems;
+	}
 
 	public static final Codec<SkinTotemModConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			option("mod_enabled", true, Codec.BOOL, SkinTotemModConfig::isModEnabled),
@@ -68,7 +111,7 @@ public class SkinTotemModConfig {
 	private boolean supportOtherModsTotems;
 
 	private SkinTotemModConfig() {
-		throw new IllegalArgumentException();
+		// throw new IllegalArgumentException();
 	}
 
 	public static SkinTotemModConfig getInstance() {

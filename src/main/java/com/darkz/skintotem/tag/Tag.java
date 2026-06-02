@@ -10,10 +10,14 @@ import org.jetbrains.annotations.Nullable;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Tag {
 
-	@Getter
 	private final char tag;
+	public char getTag() { return tag; }
 	@Nullable
 	private TagAction action;
+
+	protected Tag() {
+		this.tag = ' ';
+	}
 
 	private Tag(char tag) {
 		this.tag = tag;

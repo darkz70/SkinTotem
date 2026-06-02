@@ -11,9 +11,26 @@ import com.darkz.skintotem.model.bb.manager.BlockBenchModelManager;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.*;
 
-@Getter
-@Setter
 public class TotemDollRenderProperties {
+
+	public boolean isSlim() { return slim; }
+	public void setSlim(boolean slim) { this.slim = slim; }
+	public String getNickname() { return nickname; }
+	public void setNickname(String nickname) { this.nickname = nickname; }
+	public DollRenderContext getRenderContext() { return renderContext; }
+	public void setRenderContext(DollRenderContext renderContext) { this.renderContext = renderContext; }
+	public String[] getDisabledParts() { return disabledParts; }
+	public void setDisabledParts(String[] disabledParts) { this.disabledParts = disabledParts; }
+	public String[] getEnabledParts() { return enabledParts; }
+	public void setEnabledParts(String[] enabledParts) { this.enabledParts = enabledParts; }
+	public MModel getStandardMModel() { return standardMModel; }
+	public void setStandardMModel(MModel standardMModel) { this.standardMModel = standardMModel; }
+	public MModel getFrameMModel() { return frameMModel; }
+	public void setFrameMModel(MModel frameMModel) { this.frameMModel = frameMModel; }
+	public TotemDollSprites getStandardSprites() { return standardSprites; }
+	public void setStandardSprites(TotemDollSprites standardSprites) { this.standardSprites = standardSprites; }
+	public TotemDollSprites getFrameSprites() { return frameSprites; }
+	public void setFrameSprites(TotemDollSprites frameSprites) { this.frameSprites = frameSprites; }
 
 	private boolean slim;
 	@Nullable
@@ -71,6 +88,7 @@ public class TotemDollRenderProperties {
 		set.accept(model);
 	}
 
+	//? if >=1.21 {
 	public void setFrameSprites(Identifier skinTexture, Identifier capeTexture, Identifier elytraTexture, boolean slim, boolean remapCape) {
 		int hash = Objects.hash(skinTexture, capeTexture, elytraTexture, slim);
 		TotemDollSprites cachedSprites = this.cachedFrameTextures.get(hash);
@@ -81,6 +99,7 @@ public class TotemDollRenderProperties {
 		}
 		this.setFrameSprites(cachedSprites);
 	}
+	//?}
 
 	public void disable(MModelCollection collection) {
 		if (!collection.setVisible(false)) {

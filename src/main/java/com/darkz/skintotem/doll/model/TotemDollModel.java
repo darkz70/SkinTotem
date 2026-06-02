@@ -24,6 +24,7 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 	public static final Identifier THREE_D_MODEL_id = SkinTotemMod.id("dolls/3d_doll.bbmodel");
 
 	private final MModel main;
+	public MModel getMain() { return main; }
 
 	private final MModelCollection
 			head,
@@ -97,7 +98,9 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 		if (collection.isEmpty()) {
 			return;
 		}
+		//? if >=1.21 {
 		this.collections.put(collection.getId(), collection);
+		//?}
 	}
 
 	public static MModel createDollModel() {
@@ -200,14 +203,16 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 
 			RenderLayer renderLayer = SkinTotemModAtlasManager.getRenderLayer();
 
-			boolean wasLocked = atlasTexture.isLocked();
-			if (!wasLocked) {
-				atlasTexture.setLocked(true);
-			}
-			this.model.getMain().draw(matrices, provider, atlasTexture.getAtlas(), renderLayer, mainTexture, this.sprites, light, overlay, /*? if >=1.21 {*/color/*?} else {*/ /*red, green, blue, alpha*//*?}*/);
-			if (!wasLocked) {
-				atlasTexture.setLocked(false);
-			}
+				//? if >=1.21 {
+				boolean wasLocked = atlasTexture.isLocked();
+				if (!wasLocked) {
+					atlasTexture.setLocked(true);
+				}
+				this.model.getMain().draw(matrices, provider, atlasTexture.getAtlas(), renderLayer, mainTexture, this.sprites, light, overlay, color);
+				if (!wasLocked) {
+					atlasTexture.setLocked(false);
+				}
+				//?}
 
 			disableIfPresent(leftArm);
 			disableIfPresent(rightArm);
