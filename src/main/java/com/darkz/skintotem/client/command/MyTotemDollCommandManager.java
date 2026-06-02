@@ -39,6 +39,20 @@ public class SkinTotemModCommandManager {
                         ctx.getSource().sendFeedback(Text.literal("§6[SkinTotem] §aMojang refresh enabled (using fallback API)"));
                         return 1;
                     }))
+                .then(literal("model")
+                    .then(argument("model_id", StringArgumentType.word())
+                        .suggests((ctx, builder) -> {
+                            String[] models = {"2d_doll", "3d_doll", "3d_funko", "gnom", "mini_3d", "parrot", "player_bucket", "pots", "rat", "stairs", "wheelchair"};
+                            for (String model : models) builder.suggest(model);
+                            return builder.buildFuture();
+                        })
+                        .executes(ctx -> {
+                            String modelId = StringArgumentType.getString(ctx, "model_id");
+                            com.darkz.skintotem.config.SkinTotemModConfig.getInstance().setStandardTotemDollModelValue(com.darkz.skintotem.SkinTotemMod.id("dolls/" + modelId + ".bbmodel"));
+                            com.darkz.skintotem.config.SkinTotemModConfig.getInstance().save();
+                            ctx.getSource().sendFeedback(Text.literal("§6[SkinTotem] §aDefault model set to: §f" + modelId));
+                            return 1;
+                        })))
                 .then(argument("nickname", StringArgumentType.word())
                     .executes(ctx -> setTotemName(ctx, StringArgumentType.getString(ctx, "nickname"))))
             );
