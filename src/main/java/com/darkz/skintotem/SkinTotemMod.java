@@ -10,14 +10,23 @@ import net.minecraft.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ru.kteam.skintotem.config.SkinTotemConfig;
+import ru.kteam.skintotem.command.SkinTotemCommand;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+
 public class SkinTotemMod implements ModInitializer {
 
     public static final String MOD_ID = "skintotem";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final SkinTotemConfig CONFIG = new SkinTotemConfig();
 
     @Override
     public void onInitialize() {
         LOGGER.info("[SkinTotem] Initialized");
+
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+            SkinTotemCommand.register(dispatcher);
+        });
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
             dispatcher.register(
