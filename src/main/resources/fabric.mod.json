@@ -1,0 +1,42 @@
+{
+    "schemaVersion": 1,
+    "id": "skintotem",
+    "version": "1.0.0",
+    "name": "SkinTotem",
+    "description": "Client-Side Fabric Mod which replaces all totems with player dolls. Rename your totem to player's nickname to use it's skin.",
+    "authors": [
+        "Darkz",
+        "K-TEAM"
+    ],
+    "contact": {
+        "homepage": "https://github.com/darkz70/SkinTotem",
+        "issues": "https://github.com/darkz70/SkinTotem/issues"
+    },
+    "license": "MIT",
+    "icon": "icon/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "com.darkz.skintotem.SkinTotemMod"
+        ],
+        "client": [
+            "com.darkz.skintotem.client.SkinTotemModClient"
+        ],
+        "modmenu": [
+            "com.darkz.skintotem.modmenu.ModMenuIntegration"
+        ]
+    },
+    "depends": {
+        "fabricloader": ">=0.15.0",
+        "minecraft": "~1.21.1",
+        "java": ">=21",
+        "fabric-api": "*"
+    },
+    "mixins": [
+        "skintotem.mixins.json",
+        "skintotem-yacl.mixins.json",
+        "skintotem-modmenu.mixins.json",
+        "skintotem-sodium.mixins.json",
+        "skintotem-cit-resewn.mixins.json"
+    ]
+}
