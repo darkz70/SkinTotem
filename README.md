@@ -1,6 +1,7 @@
 <img src="src/main/resources/icon/icon.png" align="right" width="130px" alt="mod logo"/>
 
 </div align="center">
+
 A Fabric Mod for Minecraft 1.20.1
 
 Replaces the Totem of Undying with a 3D doll using your Minecraft skin
