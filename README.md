@@ -1,53 +1,101 @@
 <img src="src/main/resources/icon/icon.png" align="right" width="130px" alt="mod logo"/>
 
-[![Discord link to the "LopyMine's Project" discord server](https://cdn.modrinth.com/data/cached_images/6d9796c521a3261b9a7e4c3eb6b1c3d2dfe4c112.png)](https://discord.gg/NZzxdkrV4s) [![CurseForge Link-Banner](https://cdn.modrinth.com/data/cached_images/e867d37a2f6ad224258b75aacf6477e777427717.png)](https://www.curseforge.com/minecraft/mc-mods/my-totem-doll) [![Github Link-Banner](https://cdn.modrinth.com/data/cached_images/ae65154a7b076cd508f14975a27d1e75e3449a1d.png)](https://github.com/LopyMine/my-totem-doll) [![Modrinth Link-Banner](https://cdn.modrinth.com/data/cached_images/b9c43eaea7fc523285ae0981829b84e206672b48.png)](https://modrinth.com/mod/my_totem_doll)
 
-## Description
+A Fabric Mod for Minecraft 1.20.1
 
-My Totem Doll — Client-Side Fabric Mod which replaces all totems with player dolls. **Rename your totem to player's nickname to use it's skin.** Also supports capes!
+Replaces the Totem of Undying with a 3D doll using your Minecraft skin
 
-![Showcase](https://cdn.modrinth.com/data/cached_images/0ad77a56463f23bd9f744358dbc8cc63b97fa1ec.png)
+""Minecraft" (https://img.shields.io/badge/Minecraft-1.20.1-green?style=for-the-badge)" (https://minecraft.net)
+""Fabric" (https://img.shields.io/badge/Loader-Fabric-blue?style=for-the-badge)" (https://fabricmc.net)
+""Version" (https://img.shields.io/badge/Version-1.0.0-orange?style=for-the-badge)" (https://github.com/darkz70/SkinTotem)
 
-## Welcome Screen
+</div>---
 
-When you launch game with mod for the first time, you will be greeted with a Welcome Screen. Here you will select your default totem:
+✨ Features
 
-![Showcase](https://cdn.modrinth.com/data/cached_images/10ca8cf7b9b08a157ba2cafeb50e8dc95aeff4d6_0.webp)
+Feature| Description
+🎭 Automatic Skin Loading| Fetches player skins directly from the official Mojang API
+💾 Caching| Skins are cached for 10 minutes to reduce API requests
+🎨 Slim / Classic Support| Supports both Alex and Steve player models
+🌐 Multiplayer Compatible| Works on any server without requiring a server-side mod
+⚙️ Configurable| Fully configurable through ModMenu + Cloth Config
+🔧 NBT Customization| Customize individual totems via an anvil
+🎬 Activation Animation| Smooth and immersive Totem activation animation
 
-## Configuration
-### Rendering
-You can configure the rendering of totems in the first person. Open My Totem Doll configuration screen from Mod Menu and go to the `Rendering` tab, there you will find options for configuring the left and right hand:
+---
 
-![Showcase](https://cdn.modrinth.com/data/cached_images/fa1d5f9338a22035f81940f1438fb8c0ee2f4da5.png)
+📦 Installation
 
-### Standard Doll
-You can also customize the hands, model, skin textures for your standard totem!
+1. Install Fabric Loader for Minecraft 1.20.1
+2. Install Fabric API
+3. Download "skintotem-1.0.0.jar" and place it in your "mods/" folder
+4. Optional: Install ModMenu and Cloth Config for an in-game configuration GUI
 
-![Showcase](https://cdn.modrinth.com/data/cached_images/68ba7af2e73cbc7aa4bb562fd2744e30c1d75958_0.webp)
+---
 
-## Refresh Player Skins
+🎮 Usage
 
-My Totem Doll also has some commands for refreshing the totem skins:
+Automatic Mode
 
-`/my-totem-doll refresh all` - To refresh skins for all loaded players.
+Simply hold a Totem of Undying in your hand, and it will automatically display your skin.
 
-`/my-totem-doll refresh player [<NICKNAME>]` - To refresh skin for specific player.
+Custom Player Skin (Using an Anvil)
 
-![Showcase](https://cdn.modrinth.com/data/cached_images/32f60b7bd4955aedd491390c2ca955e3a9e71e62.webp)
+1. Place a Totem of Undying into an anvil
+2. Rename it to any Minecraft username
+3. The totem will display that player's skin
 
-## Totem Customization
+Commands
 
-You can customize individual totems in the anvil! **Put your totem in the anvil to the first slot to see the Tags menu button. Click on it to open the Tags menu.**
+/skintotem                    - Show help
+/skintotem info               - Display version and cache information
+/skintotem refresh            - Refresh the current player's skin
+/skintotem refresh <player>   - Refresh a specific player's skin
+/skintotem refresh all        - Clear the entire skin cache
+/skintotem credits            - Show credits
 
-![Showcase](https://cdn.modrinth.com/data/cached_images/4bcc37c741f5722c7c196795cd996b10f1034ff8.png)
+---
 
-## Multiplayer Support
+⚙️ Configuration (ModMenu)
 
-You can also see other players' totems! **Without mod on the server.**
+Setting| Default| Description
+Use Current Player Skin| ✅| Automatically use your own skin
+Default Username| —| Used when automatic skin loading is disabled
+Render in First Person| ✅| Display the totem in first-person view
+Show Cape| ✅| Render the player's cape
+Scale| 1.0| Doll size (0.5–2.0)
+Y Rotation| 0°| Rotation angle of the doll
+Activation Animation| ✅| Play animation when the totem is activated
 
-![Showcase](https://cdn.modrinth.com/data/cached_images/42afb7b8df54a3d445a5c9fb2259516e9f5bb671.png)
+---
 
-## FAQ
-*Does the mod just download the skin from NameMC?*
+📋 Dependencies
 
-- Nope, mod downloads last skin using Mojang API, not from NameMC.
+Mod| Required| Description
+Fabric API| ✅| Core Fabric API dependency
+ModMenu| ❌| Adds a settings button to the mod list
+Cloth Config| ❌| Configuration GUI library
+
+---
+
+👥 Credits
+
+<div align="center">Role| Contributor
+👨‍💻 Mod Author| Darkz KlashRaick
+🏆 Team| K-TEAM
+💛 Special Thanks| KlashRaick
+
+Inspired by the SkinTotem and My-Totem-Doll projects.
+
+</div>---
+
+📄 License
+
+Released under the MIT License — free to use, modify, and distribute with proper attribution.
+
+---
+
+<div align="center">Made with ❤️ by Darkz | K-TEAM
+
+</div>
+
