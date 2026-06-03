@@ -1,6 +1,6 @@
 {
     "required": true,
-    "package": "net.lopymine.mtd.mixin.yacl",
+    "package": "com.darkz.skintotem.mixin.yacl",
     "refmap": "${mod_id}.refmap.json",
     "compatibilityLevel": "JAVA_${java}",
 	"plugin": "net.lopymine.mtd.compat.yacl.YACLCompatPlugin",
