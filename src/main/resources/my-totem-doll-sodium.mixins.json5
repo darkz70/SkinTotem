@@ -3,7 +3,7 @@
     "package": "com.darkz.skintotem.mixin.sodium",
     "refmap": "${mod_id}.refmap.json",
     "compatibilityLevel": "JAVA_${java}",
-	"plugin": "net.lopymine.mtd.compat.sodium.SodiumCompatPlugin",
+	"plugin": "com.darkz.skintotem.compat.sodium.SodiumCompatPlugin",
     "mixins": [],
     "client": [
 	    //? if >=1.21 {
