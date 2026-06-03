@@ -89,6 +89,43 @@ public class SkinTotemCommand {
                     return 1;
                 })
         );
+                        // /skintotem tl
+.then(ClientCommandManager.literal("tl").executes(ctx -> {
+    SkinTotemMod.CONFIG.skinUrl =
+            "https://auth.tlauncher.org/skin/profile/texture/login/%player%";
+    SkinTotemMod.CONFIG.save();
+
+    ctx.getSource().sendFeedback(
+            Text.literal(P + "§aSkin source switched to §eTLauncher"));
+    return 1;
+}))
+
+// /skintotem ely
+.then(ClientCommandManager.literal("ely").executes(ctx -> {
+    SkinTotemMod.CONFIG.skinUrl =
+            "https://skinsystem.ely.by/skins/%player%.png";
+    SkinTotemMod.CONFIG.save();
+
+    ctx.getSource().sendFeedback(
+            Text.literal(P + "§aSkin source switched to §bEly.by"));
+    return 1;
+}))
+
+// /skintotem url <url>
+.then(ClientCommandManager.literal("url")
+    .then(ClientCommandManager.argument("url", StringArgumentType.greedyString())
+        .executes(ctx -> {
+
+            String url = StringArgumentType.getString(ctx, "url");
+
+            SkinTotemMod.CONFIG.skinUrl = url;
+            SkinTotemMod.CONFIG.save();
+
+            ctx.getSource().sendFeedback(
+                    Text.literal(P + "§aCustom skin URL set to:\n§f" + url));
+
+            return 1;
+        })))
 
         SkinTotemMod.LOGGER.info("[SkinTotem] Команды зарегистрированы");
     }
