@@ -47,6 +47,9 @@ public class BlockBenchModelManager {
 	private static final Set<String> SUPPORTED_MODEL_FORMATS = Set.of("java_block", "free_rotation");
 
 	@Nullable
+	private static ResourceManager currentResourceManager = null;
+
+	@Nullable
 	public static MModel getModel(Identifier id) {
 		return createMModel(getMModelFactoryAsResponse(id)).value();
 	}
@@ -301,7 +304,9 @@ public class BlockBenchModelManager {
 	}
 
 	private static JsonObject readAsJsonObject(Identifier id) throws IOException {
-		ResourceManager resourceManager = MinecraftClient.getInstance().getResourceManager();
+		ResourceManager resourceManager = currentResourceManager != null
+				? currentResourceManager
+				: MinecraftClient.getInstance().getResourceManager();
 		InputStream open = resourceManager.open(id);
 		return new Gson().fromJson(new JsonReader(new InputStreamReader(open)), JsonObject.class);
 	}
@@ -386,7 +391,8 @@ public class BlockBenchModelManager {
 				.withTransform(cube.getTransformation());
 	}
 
-	public static void reload() {
+	public static void reload(ResourceManager resourceManager) {
+		currentResourceManager = resourceManager;
 		LOADED_MODELS.clear();
 		for (TotemDollData data : TotemDollManager.getAllLoadedDolls()) {
 			data.clearAllFrameModelsCompletely();

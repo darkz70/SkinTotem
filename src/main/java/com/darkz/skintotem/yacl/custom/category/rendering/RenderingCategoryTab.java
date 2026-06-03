@@ -99,7 +99,7 @@ public class RenderingCategoryTab implements TabExt {
 		//?} else {
 		/*this.optionList = new ListHolderWidget<>(
 				() -> new ScreenRect(tabArea.position(), tabArea.width() / 3 * 2 - 2, tabArea.height()),
-				new OptionListWidget(screen, category, screen.client, 0, 0, screen.width / 3 * 2 + 1, screen.height, desc -> {})
+				new OptionListWidget(screen, category, MinecraftClient.getInstance(), 0, 0, screen.width / 3 * 2 + 1, screen.height, desc -> {})
 		);
 		*///?}
 

@@ -44,8 +44,7 @@ public class SkinTotemModClient implements ClientModInitializer {
 		return stack != null && SkinTotemModConfig.getInstance().isModEnabled() && isProbablyTotem(stack);
 	}
 
-	@SuppressWarnings("deprecation")
 	private static boolean isProbablyTotem(ItemStack stack) {
-		return stack.item == Items.TOTEM_OF_UNDYING || (SkinTotemModConfig.getInstance().isSupportOtherModsTotems() && Registries.ITEM.getId(stack.getItem()).getPath().contains("totem"));
+		return stack.getItem() == Items.TOTEM_OF_UNDYING || (SkinTotemModConfig.getInstance().isSupportOtherModsTotems() && Registries.ITEM.getId(stack.getItem()).getPath().contains("totem"));
 	}
 }
