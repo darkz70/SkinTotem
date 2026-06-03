@@ -33,10 +33,10 @@
         "${fabric_api_id}": "*"
     },
     "mixins": [
-        "skintotem.mixins.json",
-        "skintotem-yacl.mixins.json",
-        "skintotem-modmenu.mixins.json",
-        "skintotem-sodium.mixins.json",
-        "skintotem-cit-resewn.mixins.json"
+        "${mod_id}.mixins.json",
+	    "${mod_id}-yacl.mixins.json",
+	    "${mod_id}-modmenu.mixins.json",
+	    "${mod_id}-sodium.mixins.json",
+	    "${mod_id}-cit-resewn.mixins.json"
     ]
 }
