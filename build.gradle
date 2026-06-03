@@ -32,6 +32,7 @@ mossyResources {
 }
 
 repositories {
+	mavenCentral()
 	// Mixin^2
 	maven {
 		name = "Mixin Squared"
