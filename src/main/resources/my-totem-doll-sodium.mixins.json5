@@ -1,6 +1,6 @@
 {
     "required": true,
-    "package": "net.lopymine.mtd.mixin.sodium",
+    "package": "com.darkz.skintotem.mixin.sodium",
     "refmap": "${mod_id}.refmap.json",
     "compatibilityLevel": "JAVA_${java}",
 	"plugin": "net.lopymine.mtd.compat.sodium.SodiumCompatPlugin",
