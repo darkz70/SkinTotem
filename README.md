@@ -82,7 +82,7 @@ Cloth Config| ❌| Configuration GUI library
 👥 Credits
 
 <div align="center">Role| Contributor
-👨‍💻 Mod Author| Darkz KlashRaick
+👨‍💻 Mod Author| Darkz KlashRaick LopyMine
 🏆 Team| K-TEAM
 💛 Special Thanks| KlashRaick
 
@@ -96,7 +96,7 @@ Released under the MIT License — free to use, modify, and distribute with prop
 
 ---
 
-<div align="center">Made with ❤️ by Darkz | K-TEAM
+<div align="center">Made with ❤️ by Darkz | K-TEAM | KlashRaick | LopyMine
 
 </div>
 
