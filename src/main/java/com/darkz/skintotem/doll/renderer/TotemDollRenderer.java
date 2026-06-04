@@ -182,6 +182,7 @@ public class TotemDollRenderer {
 		AtlasSprite capeSprite = textures.getCapeSprite();
 		AtlasSprite elytraSprite = textures.getElytraSprite();
 		TotemDollModel model = totemDollData.getModelToRender();
+		if (model == null) return;
 
 		String nickname = totemDollData.getNickname();
 
