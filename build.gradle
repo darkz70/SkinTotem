@@ -31,15 +31,6 @@ mossyResources {
 	//expandFiles = ["custom", "file", "patterns", "here"]
 }
 
-processResources {
-	def awFile = file("src/main/resources/aws/${stonecutter.current.version}.accesswidener")
-	if (awFile.exists()) {
-		from(awFile) {
-			rename { "skintotem.accesswidener" }
-		}
-	}
-}
-
 repositories {
 	mavenCentral()
 	// Mixin^2

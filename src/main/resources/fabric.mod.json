@@ -26,10 +26,7 @@
         ],
         "modmenu": [
             "com.darkz.skintotem.modmenu.ModMenuIntegration"
-        ],
-		"accessWidener": [
-			"skintotem.accesswidener"
-		]
+        ]
     },
     "depends": {
         "fabricloader": ">=${fabric_loader}",
@@ -37,6 +34,7 @@
         "java": ">=${java}",
         "${fabric_api_id}": "*"
     },
+    "accessWidener": "aws/${minecraft}.accesswidener",
     "mixins": [
         "${mod_id}.mixins.json",
 	    "${mod_id}-yacl.mixins.json",
