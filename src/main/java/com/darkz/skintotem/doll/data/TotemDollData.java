@@ -110,7 +110,7 @@ public class TotemDollData {
 		this.renderProperties.setFrameSprites(null);
 	}
 
-	@NotNull
+	@Nullable
 	public TotemDollModel getModelToRender() {
 		TotemDollModel tempModel = this.getFrameModelBasedOnFrameMModel();
 		if (tempModel != null) {
@@ -190,14 +190,20 @@ public class TotemDollData {
 		// Make sure it's cleared
 		this.clearFrameModel();
 		this.clearFrameSprites();
-		this.getModelToRender().resetPartsVisibility();
+		TotemDollModel model = this.getModelToRender();
+		if (model != null) {
+			model.resetPartsVisibility();
+		}
 		this.renderProperties.refresh();
 		return this;
 	}
 
 	@NotNull
 	public TotemDollData applyRenderProperties() {
-		this.renderProperties.applyToModel(this.getModelToRender());
+		TotemDollModel model = this.getModelToRender();
+		if (model != null) {
+			this.renderProperties.applyToModel(model);
+		}
 		return this;
 	}
 
