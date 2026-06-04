@@ -188,7 +188,7 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 		public void draw(MatrixStack matrices, VertexConsumerProvider provider, AtlasSprite mainTexture, int light, int overlay, /*? if >=1.21 {*/int color/*?} else {*//*float red, float green, float blue, float alpha *//*?}*/) {
 			LockableAtlasTexture atlasTexture = MyTotemDollAtlasManager.getNullableAtlasTexture();
 			if (atlasTexture == null) {
-				MyTotemDollClient.LOGGER.error("Game tried to render doll model, but atlas not initialized yet!");
+				SkinTotemClient.LOGGER.error("Game tried to render doll model, but atlas not initialized yet!");
 				return;
 			}
 
