@@ -173,7 +173,7 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 
 	@Nullable
 	public MModelCollection getCollectionOfPart(String part) {
-		return this.collections.getName(part);
+		return this.collections.get(part);
 	}
 
 	public static class Drawer {
