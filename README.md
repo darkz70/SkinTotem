@@ -90,10 +90,6 @@ Inspired by the SkinTotem and My-Totem-Doll projects.
 
 </div>---
 
-📄 License
-
-Released under the MIT License — free to use, modify, and distribute with proper attribution.
-
 ---
 
 <div align="center">Made with ❤️ by Darkz | K-TEAM | KlashRaick | LopyMine
