@@ -71,6 +71,10 @@ public class TotemDollRenderRequestsCollector {
 		data.getRenderProperties().copyFrom(request.renderProperties());
 		data.clearFrameModel();
 		TotemDollModel modelToRender = data.getModelToRender();
+		if (modelToRender == null) {
+			this.matrices.pop();
+			return;
+		}
 		modelToRender.resetPartsVisibility();
 		data.getRenderProperties().applyToModel(modelToRender);
 
