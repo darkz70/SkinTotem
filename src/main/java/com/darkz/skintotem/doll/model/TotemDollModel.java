@@ -1,20 +1,20 @@
 package com.darkz.skintotem.doll.model;
 
 import lombok.*;
-import net.lopymine.mtd.atlas.*;
-import net.lopymine.mtd.atlas.manager.MyTotemDollAtlasManager;
-import net.lopymine.mtd.config.MyTotemDollConfig;
+import com.darkz.skintotem.atlas.*;
+import com.darkz.skintotem.atlas.manager.SkinTotemModAtlasManager;
+import com.darkz.skintotem.config.SkinTotemModConfig;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.lopymine.mtd.MyTotemDoll;
-import net.lopymine.mtd.client.MyTotemDollClient;
-import net.lopymine.mtd.doll.data.TotemDollSprites;
-import net.lopymine.mtd.model.base.*;
-import net.lopymine.mtd.model.bb.manager.BlockBenchModelManager;
+import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.doll.data.TotemDollSprites;
+import com.darkz.skintotem.model.base.*;
+import com.darkz.skintotem.model.bb.manager.BlockBenchModelManager;
 import java.util.*;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;;
 
 @Getter
 @Setter
