@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;;
 public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else {*/ /*Model *//*?}*/ {
 
 	public static final Identifier TWO_D_MODEL_ID = SkinTotem.id("dolls/2d_doll.bbmodel");
-	public static final Identifier THREE_D_MODEL_id = SkinTotem.id("dolls/3d_doll.bbmodel");
+	public static final Identifier THREE_D_MODEL_ID = SkinTotem.id("dolls/3d_doll.bbmodel");
 
 	private final MModel main;
 
