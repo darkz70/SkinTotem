@@ -6,8 +6,10 @@
     "mixins": [],
     "client": [
 	    //? if <=1.21.3 {
+			
 	    /*"ItemRendererMixin",
 	    "HeldItemRendererMixin",
+			
 	    *///?}
 
 	    //? if >=1.21.4 {
