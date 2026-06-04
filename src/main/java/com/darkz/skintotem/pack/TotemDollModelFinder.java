@@ -26,7 +26,7 @@ public class TotemDollModelFinder {
 		FOUNDED_TOTEM_MODELS.clear();
 		for (ResourcePack pack : list) {
 			String packId = pack./*? if >=1.21 {*/getId()/*?} else {*//*getName()*//*?}*/.replace("file/", "");
-			if (packId.equals(SkinTotemMod.MOD_ID) /*? if =1.20.1 {*/ || pack instanceof net.fabricmc.fabric.impl.resource.loader.FabricModResourcePack /*?}*/) {
+		if (packId.equals(SkinTotemMod.MOD_ID) /*? if =1.20.1 {*/ /*|| pack instanceof net.fabricmc.fabric.impl.resource.loader.FabricModResourcePack *//*?}*/) {
 				continue;
 			}
 			pack.findResources(ResourceType.CLIENT_RESOURCES, SkinTotemMod.MOD_ID, "dolls", (id, input) -> {
