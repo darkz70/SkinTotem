@@ -73,7 +73,7 @@ public class WelcomeScreen extends Screen {
 		this.firstDollArea = previewArea.copy();
 		this.secondDollArea = previewArea.copy().x(previewX + size + offset);
 
-		this.firstDollPreviewWidget = this.addSelectableChild(createWelcomeModelPreviewWidget(this.firstDollArea, TotemDollModel.THREE_D_MODEL_ID));
+		this.firstDollPreviewWidget = this.addSelectableChild(createWelcomeModelPreviewWidget(this.firstDollArea, TotemDollModel.THREE_D_MODEL_id));
 		this.secondDollPreviewWidget = this.addSelectableChild(createWelcomeModelPreviewWidget(this.secondDollArea, TotemDollModel.TWO_D_MODEL_ID));
 
 		if (this.firstDollArea.getX() < this.textArea.getX()) {
