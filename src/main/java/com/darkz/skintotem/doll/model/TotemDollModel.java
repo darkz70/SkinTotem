@@ -14,14 +14,14 @@ import com.darkz.skintotem.doll.data.TotemDollSprites;
 import com.darkz.skintotem.model.base.*;
 import com.darkz.skintotem.model.bb.manager.BlockBenchModelManager;
 import java.util.*;
-import org.jetbrains.annotations.Nullable;;
+import org.jetbrains.annotations.Nullable;
 
 @Getter
 @Setter
 public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else {*/ /*Model *//*?}*/ {
 
-	public static final Identifier TWO_D_MODEL_ID = SkinTotem.id("dolls/2d_doll.bbmodel");
-	public static final Identifier THREE_D_MODEL_ID = SkinTotem.id("dolls/3d_doll.bbmodel");
+	public static final Identifier TWO_D_MODEL_ID = SkinTotemMod.id("dolls/2d_doll.bbmodel");
+	public static final Identifier THREE_D_MODEL_ID = SkinTotemMod.id("dolls/3d_doll.bbmodel");
 
 	private final MModel main;
 
@@ -98,11 +98,10 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 			return;
 		}
 		this.collections.put(collection.getId(), collection);
-	}
 
 	public static MModel createDollModel() {
-		MModel model = BlockBenchModelManager.getModel(MyTotemDollConfig.getInstance().getStandardTotemDollModelValue());
-		MModel mmodel = model == null ? BlockBenchModelManager.getModel(THREE_D_MODEL_id) : model;
+		MModel model = BlockBenchModelManager.getModel(SkinTotemModConfig.getInstance().getStandardTotemDollModelValue());
+		MModel mmodel = model == null ? BlockBenchModelManager.getModel(THREE_D_MODEL_ID) : model;
 		if (mmodel == null) {
 			throw new IllegalArgumentException("Failed to find standard doll model! [TotemDollModel.class]");
 		}
@@ -186,9 +185,9 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 		}
 
 		public void draw(MatrixStack matrices, VertexConsumerProvider provider, AtlasSprite mainTexture, int light, int overlay, /*? if >=1.21 {*/int color/*?} else {*//*float red, float green, float blue, float alpha *//*?}*/) {
-			LockableAtlasTexture atlasTexture = SkinTotemAtlasManager.getNullableAtlasTexture();
+			LockableAtlasTexture atlasTexture = SkinTotemModAtlasManager.getNullableAtlasTexture();
 			if (atlasTexture == null) {
-				SkinTotemClient.LOGGER.error("Game tried to render doll model, but atlas not initialized yet!");
+				SkinTotemModClient.LOGGER.error("Game tried to render doll model, but atlas not initialized yet!");
 				return;
 			}
 
@@ -198,7 +197,7 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 			enableIfPresent(leftArm);
 			enableIfPresent(rightArm);
 
-			RenderLayer renderLayer = SkinTotemAtlasManager.getRenderLayer();
+			RenderLayer renderLayer = SkinTotemModAtlasManager.getRenderLayer();
 
 			boolean wasLocked = atlasTexture.isLocked();
 			if (!wasLocked) {
