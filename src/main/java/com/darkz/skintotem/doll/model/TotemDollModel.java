@@ -20,8 +20,8 @@ import org.jetbrains.annotations.Nullable;;
 @Setter
 public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else {*/ /*Model *//*?}*/ {
 
-	public static final Identifier TWO_D_MODEL_ID = MyTotemDoll.id("dolls/2d_doll.bbmodel");
-	public static final Identifier THREE_D_MODEL_id = MyTotemDoll.id("dolls/3d_doll.bbmodel");
+	public static final Identifier TWO_D_MODEL_ID = SkinTotem.id("dolls/2d_doll.bbmodel");
+	public static final Identifier THREE_D_MODEL_id = SkinTotem.id("dolls/3d_doll.bbmodel");
 
 	private final MModel main;
 
@@ -186,7 +186,7 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 		}
 
 		public void draw(MatrixStack matrices, VertexConsumerProvider provider, AtlasSprite mainTexture, int light, int overlay, /*? if >=1.21 {*/int color/*?} else {*//*float red, float green, float blue, float alpha *//*?}*/) {
-			LockableAtlasTexture atlasTexture = MyTotemDollAtlasManager.getNullableAtlasTexture();
+			LockableAtlasTexture atlasTexture = SkinTotemAtlasManager.getNullableAtlasTexture();
 			if (atlasTexture == null) {
 				SkinTotemClient.LOGGER.error("Game tried to render doll model, but atlas not initialized yet!");
 				return;
@@ -198,7 +198,7 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 			enableIfPresent(leftArm);
 			enableIfPresent(rightArm);
 
-			RenderLayer renderLayer = MyTotemDollAtlasManager.getRenderLayer();
+			RenderLayer renderLayer = SkinTotemAtlasManager.getRenderLayer();
 
 			boolean wasLocked = atlasTexture.isLocked();
 			if (!wasLocked) {
