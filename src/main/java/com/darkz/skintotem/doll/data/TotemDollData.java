@@ -60,7 +60,9 @@ public class TotemDollData {
 	public void setStandardMModel(@NotNull Identifier modelId) {
 		//? if >=1.21 {
 		BlockBenchModelManager.consumeModelById(modelId, this::setStandardMModel);
-		//?}
+		//?} else {
+		/*this.setStandardMModel(BlockBenchModelManager.getModel(modelId));
+		*///?}
 	}
 
 	public void setStandardMModel(@Nullable MModel model) {
@@ -110,7 +112,7 @@ public class TotemDollData {
 		this.renderProperties.setFrameSprites(null);
 	}
 
-	@Nullable
+	@NotNull
 	public TotemDollModel getModelToRender() {
 		TotemDollModel tempModel = this.getFrameModelBasedOnFrameMModel();
 		if (tempModel != null) {
@@ -123,7 +125,9 @@ public class TotemDollData {
 
 		//? if >=1.21 {
 		this.setStandardMModel(TotemDollModel.createDollModel());
-		//?}
+		//?} else {
+		/*this.setStandardMModel(TotemDollModel.createDollModel());
+		*///?}
 
 		if (this.shouldRecreateStandardModel) {
 			this.shouldRecreateStandardModel = false;
@@ -200,9 +204,9 @@ public class TotemDollData {
 
 	@NotNull
 	public TotemDollData applyRenderProperties() {
-		TotemDollModel model = this.getModelToRender();
-		if (model != null) {
-			this.renderProperties.applyToModel(model);
+		TotemDollModel modelToApply = this.getModelToRender();
+		if (modelToApply != null) {
+			this.renderProperties.applyToModel(modelToApply);
 		}
 		return this;
 	}
@@ -213,4 +217,4 @@ public class TotemDollData {
 		return com.darkz.skintotem.doll.renderer.special.TotemDollGuiElementRenderer.getRenderer(this.renderProperties, immediate);
 	}
 	//?}
-}
+	}
