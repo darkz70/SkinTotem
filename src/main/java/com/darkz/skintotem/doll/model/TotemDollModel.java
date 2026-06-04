@@ -100,7 +100,9 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 		}
 		//? if >=1.21 {
 		this.collections.put(collection.getId(), collection);
-		//?}
+		//?} else {
+		/*this.collections.put(collection.getName(), collection);
+		*///?}
 	}
 
 	public static MModel createDollModel() {
@@ -212,7 +214,16 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 				if (!wasLocked) {
 					atlasTexture.setLocked(false);
 				}
-				//?}
+				//?} else {
+				/*boolean wasLocked = atlasTexture.isLocked();
+				if (!wasLocked) {
+					atlasTexture.setLocked(true);
+				}
+				this.model.getMain().draw(matrices, provider, atlasTexture.getAtlas(), renderLayer, mainTexture, this.sprites, light, overlay, red, green, blue, alpha);
+				if (!wasLocked) {
+					atlasTexture.setLocked(false);
+				}
+				*///?}
 
 			disableIfPresent(leftArm);
 			disableIfPresent(rightArm);
