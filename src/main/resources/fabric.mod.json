@@ -26,7 +26,10 @@
         ],
         "modmenu": [
             "com.darkz.skintotem.modmenu.ModMenuIntegration"
-        ]
+        ],
+		"accessWidener": [
+			"skintotem.accesswidener"
+		]
     },
     "depends": {
         "fabricloader": ">=${fabric_loader}",
