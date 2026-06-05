@@ -111,5 +111,9 @@
   "skintotem.provider.tlauncher.name": "TLauncher",
   "skintotem.provider.tlauncher.description": "Загружает скин с сервера TLauncher. Используйте #ник в тотеме.",
   "skintotem.tag.format.elyby": "@ник — загрузить скин с Ely.by",
-  "skintotem.tag.format.tlauncher": "#ник — загрузить скин с TLauncher"
+  "skintotem.tag.format.tlauncher": "#ник — загрузить скин с TLauncher",
+  "modmenu.option.standard_doll_skin_type.tlauncher": "TLauncher",
+  "modmenu.option.standard_doll_skin_type.tlauncher.suggestion": "Введите ник TLauncher",
+  "modmenu.option.standard_doll_skin_type.ely_by": "Ely.by",
+  "modmenu.option.standard_doll_skin_type.ely_by.suggestion": "Введите ник Ely.by"
 }
