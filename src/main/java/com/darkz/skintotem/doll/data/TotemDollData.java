@@ -58,11 +58,7 @@ public class TotemDollData {
 	}
 
 	public void setStandardMModel(@NotNull Identifier modelId) {
-		//? if >=1.21 {
 		BlockBenchModelManager.consumeModelById(modelId, this::setStandardMModel);
-		//?} else {
-		/*this.setStandardMModel(BlockBenchModelManager.getModel(modelId));
-		*///?}
 	}
 
 	public void setStandardMModel(@Nullable MModel model) {
@@ -74,11 +70,7 @@ public class TotemDollData {
 	}
 
 	public void setFrameMModel(@NotNull Identifier id) {
-		//? if >=1.21 {
 		this.renderProperties.consumeFrameMModel(id, this::setFrameMModel);
-		//?} else {
-		/*this.setFrameMModel(BlockBenchModelManager.getModel(id));
-		*///?}
 	}
 
 	public void setFrameMModel(@Nullable MModel frameMModel) {
@@ -219,5 +211,4 @@ public class TotemDollData {
 		return com.darkz.skintotem.doll.renderer.special.TotemDollGuiElementRenderer.getRenderer(this.renderProperties, immediate);
 	}
 	//?}
-	}
-		
+}
