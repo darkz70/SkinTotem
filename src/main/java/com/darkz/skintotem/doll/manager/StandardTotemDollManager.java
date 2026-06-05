@@ -17,7 +17,9 @@ import com.darkz.skintotem.utils.texture.*;
 
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.security.MessageDigest;
 import java.util.concurrent.CompletableFuture;
 import org.jetbrains.annotations.*;
 
@@ -68,7 +70,7 @@ public class StandardTotemDollManager {
 			case FILE_SKIN -> loadFileSkin(data);
 			case TLAUNCHER -> TLauncherSkinProvider.getInstance().getOrLoadDoll(TLauncherSkinProvider.PREFIX + data);
 			case ELY_BY -> ElyBySkinProvider.getInstance().getOrLoadDoll(ElyBySkinProvider.PREFIX + data);
-			default -> getSteveDoll();
+			case STEVE, HOLDING_PLAYER -> getSteveDoll();
 		};
 	}
 
@@ -84,7 +86,7 @@ public class StandardTotemDollManager {
 		textures.setState(LoadingState.DOWNLOADING);
 
 		CompletableFuture.runAsync(() -> {
-			Identifier id = SkinTotemMod.getDollTextureId("file/%s".formatted(Math.abs(data.hashCode())));
+			Identifier id = SkinTotemMod.getDollTextureId("file/%s".formatted(sha1(data)));
 
 			try (InputStream inputStream = Files.newInputStream(Path.of(data))) {
 				NativeImage nativeImage = NativeImage.read(inputStream);
@@ -111,7 +113,7 @@ public class StandardTotemDollManager {
 		textures.setState(LoadingState.DOWNLOADING);
 
 		CompletableFuture.runAsync(() -> {
-			Identifier id = SkinTotemMod.getDollTextureId("url/%s".formatted(Math.abs(data.hashCode())));
+			Identifier id = SkinTotemMod.getDollTextureId("url/%s".formatted(sha1(data)));
 
 			FailedAction onFailed = (throwable) -> {
 				textures.setState(LoadingState.CRITICAL_ERROR);
@@ -136,5 +138,19 @@ public class StandardTotemDollManager {
 			return totemDollData;
 		}
 		return getSteveDoll();
+	}
+
+	/** Возвращает первые 16 символов SHA-1 хэша строки для использования в Identifier. */
+	private static String sha1(@NotNull String input) {
+		try {
+			MessageDigest digest = MessageDigest.getInstance("SHA-1");
+			byte[] bytes = digest.digest(input.getBytes(StandardCharsets.UTF_8));
+			StringBuilder sb = new StringBuilder();
+			for (byte b : bytes) sb.append(String.format("%02x", b));
+			return sb.substring(0, 16);
+		} catch (Exception e) {
+			// SHA-1 всегда доступен в JVM, но на крайний случай — fallback
+			return String.valueOf(Math.abs(input.hashCode()));
+		}
 	}
 }
