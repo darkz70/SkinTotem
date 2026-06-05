@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * Используется когда ник содержит символ "@" перед ником:
  *   "@nickname" — загружает скин с skinsystem.ely.by
  *
- * Автор: Darkz | K-TEAM
+ * Автор: Darkz | K-TEAM | KlashRaick 
  */
 public class ElyBySkinProvider extends StandardSkinProvider {
 
@@ -70,15 +70,17 @@ public class ElyBySkinProvider extends StandardSkinProvider {
     }
 
     /**
-     * Принимает ники с префиксом "@" или без.
-     * Пример: "@Notch" или "Notch" — оба работают.
+     * Принимает только ники с явным префиксом "@".
+     * Пример: "@Notch" — работает, "Notch" — не принимается.
+     * Ely.by допускает ники от 2 до 25 символов: буквы, цифры, '_', '-', '.'.
      */
     @Override
     public boolean canProcess(String value) {
         if (value == null) return false;
+        if (!value.startsWith(PREFIX)) return false;
         String nick = stripPrefix(value);
         int len = nick.length();
-        if (len < 2 || len > 25) return false; // Ely.by допускает длиннее ники
+        if (len < 2 || len > 25) return false;
         for (int i = 0; i < len; i++) {
             char c = nick.charAt(i);
             if (c == '_' || c == '-' || c == '.'
@@ -87,8 +89,7 @@ public class ElyBySkinProvider extends StandardSkinProvider {
                     || (c >= 'a' && c <= 'z')) continue;
             return false;
         }
-        // canProcess только если явно указан префикс "@"
-        return value.startsWith(PREFIX);
+        return true;
     }
 
     private static String stripPrefix(String value) {
