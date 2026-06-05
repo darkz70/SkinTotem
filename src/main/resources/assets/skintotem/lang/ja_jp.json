@@ -1,13 +1,13 @@
 {
   "modmenu.descriptionTranslation.skintotem": "全てのトーテムをプレイヤー人形に置き換えるシンプルなFabricModです。金床でトーテムの名前をプレイヤーのニックネームに変更すると、そのスキンが反映されます！",
-		"skintotem.modmenu.title": "&lMy Totem Doll",
-		"skintotem.modmenu.no_config_library_screen.message": "MyTotemDollの設定画面を開くには&6&lYetAnotherConfigLib[YACL]&fをインストールする必要があります。\n\n&a&lYACL &6&lModrinthページを開きますか？",
-		"skintotem.modmenu.old_config_library_screen.message": "お使いの&6&lYetAnotherConfigLib[YACL]&fバージョン%sはMyTotemDollの設定には古すぎます。&6&lYACL&fをバージョン%s以上に更新してください。\n\n&a&lYACL &6&lModrinthページを開きますか？",
+		"skintotem.modmenu.title": "&lSkinTotem",
+		"skintotem.modmenu.no_config_library_screen.message": "SkinTotemの設定画面を開くには&6&lYetAnotherConfigLib[YACL]&fをインストールする必要があります。\n\n&a&lYACL &6&lModrinthページを開きますか？",
+		"skintotem.modmenu.old_config_library_screen.message": "お使いの&6&lYetAnotherConfigLib[YACL]&fバージョン%sはSkinTotemの設定には古すぎます。&6&lYACL&fをバージョン%s以上に更新してください。\n\n&a&lYACL &6&lModrinthページを開きますか？",
 	
   		"skintotem.modmenu.category.general.name": "&l一般",
 
 		"skintotem.modmenu.group.main.name": "&lメイン",
-		"skintotem.modmenu.group.main.description": "MyTotemDollModのメイン設定",
+		"skintotem.modmenu.group.main.description": "SkinTotemModのメイン設定",
 		"skintotem.modmenu.option.mod_enabled.name": "Modを有効化",
 		"skintotem.modmenu.option.mod_enabled.description": "有効時に全てのトーテムがプレイヤー人形に置き換わります。無効時には変更されません",
 		"skintotem.modmenu.option.support_other_mods_totems.name": "他Modのトーテム対応",
@@ -92,7 +92,7 @@
 		"skintotem.tags.2.applied": "&9マント無効",
 		"skintotem.tags.3.applied": "&9エリトラ有効",
 
-		"skintotem.command.id": "[&lMy Totem Doll&r]",
+		"skintotem.command.id": "[&lSkinTotem&r]",
 
 		"skintotem.command.refresh.all.start": "&6全てのスキンテクスチャの更新を開始しました",
 		"skintotem.command.refresh.all.end": "&a全てのスキンテクスチャを&f%s&a秒で更新しました",
@@ -101,7 +101,7 @@
 		"skintotem.command.refresh.player.end": "&aプレイヤー&f%s&aのスキンテクスチャを&f%s&a秒で更新しました",
 
 		"skintotem.welcome_screen.title": "はじめに",
-		"skintotem.welcome_screen.text": "&lようこそ。&r初めて&lMy Totem Doll mod&rを導入してゲームを起動しました。トーテムに使用する標準モデルを選択して下さい",
+		"skintotem.welcome_screen.text": "&lようこそ。&r初めて&lSkinTotem mod&rを導入してゲームを起動しました。トーテムに使用する標準モデルを選択して下さい",
 		"skintotem.welcome_screen.option.3d": "&l3D人形",
 		"skintotem.welcome_screen.option.2d": "&l2Dトーテム",
 
