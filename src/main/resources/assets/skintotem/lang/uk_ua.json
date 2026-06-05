@@ -1,13 +1,13 @@
 {
   "modmenu.descriptionTranslation.skintotem": "Простенький мод для Fabric, що замінює тотеми на ляльки, які якщо перейменувати на ім'я гравця зміняться на нього!",
-	"skintotem.modmenu.title": "&lMy Totem Doll",
+	"skintotem.modmenu.title": "&lSkinTotem",
 	"skintotem.modmenu.no_config_library_screen.message": "Ви маєте установити &6&lYet Another Config Lib [YACL]&f, щоб відкрити меню налаштувань мода.\n\n&a&lВідкрити Modrinth-сторінку &6&lYACL&a&l?",
-	"skintotem.modmenu.old_config_library_screen.message": "Версія %s &6&lYet Another Config Lib [YACL]&f застаріла для My Totem Doll. Будь ласка оновіть&6\n&lYACL&f до версії %s або вище.\n\n&a&lВідкрити Modrinth-сторінку &6&lYACL&a&l?",
+	"skintotem.modmenu.old_config_library_screen.message": "Версія %s &6&lYet Another Config Lib [YACL]&f застаріла для SkinTotem. Будь ласка оновіть&6\n&lYACL&f до версії %s або вище.\n\n&a&lВідкрити Modrinth-сторінку &6&lYACL&a&l?",
 
 	"skintotem.modmenu.category.general.name": "&lЗагальні",
 
 	"skintotem.modmenu.group.main.name": "&lГоловна",
-	"skintotem.modmenu.group.main.description": "Головні налаштування мода My Totem Doll.",
+	"skintotem.modmenu.group.main.description": "Головні налаштування мода SkinTotem.",
 	"skintotem.modmenu.option.mod_enabled.name": "Стан моду",
 	"skintotem.modmenu.option.mod_enabled.description": "Якщо ввімкнено, усі тотеми зміняться на ляльки гравців.",
 	"skintotem.modmenu.option.support_other_mods_totems.name": "Підтримка тотемів інших модів",
@@ -92,7 +92,7 @@
 	"skintotem.tags.2.applied": "&9Видалено плащ",
 	"skintotem.tags.3.applied": "&9Увімкнено елітри",
 
-	"skintotem.command.id": "[&lMy Totem Doll&r]",
+	"skintotem.command.id": "[&lSkinTotem&r]",
 
 	"skintotem.command.refresh.all.start": "&6Почалось перезавантаження усіх текстур скінів",
 	"skintotem.command.refresh.all.end": "&aПерезавантажено усі текстури скінів за &f%s&a секунд",
@@ -101,7 +101,7 @@
 	"skintotem.command.refresh.player.end": "&aПерезавантажено текстури скінів для &f%s&a, за &f%s&a секунд",
 
 	"skintotem.welcome_screen.title": "Екран привітання",
-	"skintotem.welcome_screen.text": "&lЕкран привітання&r\n\nЗдається, ви вперше запускаєте гру з модом &lMy Totem Doll&r.\nЯку стандартну модель ви хотіли б використати для своїх тотемів?",
+	"skintotem.welcome_screen.text": "&lЕкран привітання&r\n\nЗдається, ви вперше запускаєте гру з модом &lSkinTotem&r.\nЯку стандартну модель ви хотіли б використати для своїх тотемів?",
 	"skintotem.welcome_screen.option.3d": "&l3D лялька",
 	"skintotem.welcome_screen.option.2d": "&l2D тотем",
 
