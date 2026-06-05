@@ -16,7 +16,9 @@ public enum TotemDollSkinType implements StringIdentifiable, EnumWithText {
 	PLAYER(true),
 	HOLDING_PLAYER(false),
 	URL_SKIN(true),
-	FILE_SKIN(true);
+	FILE_SKIN(true),
+	TLAUNCHER(true),
+	ELY_BY(true);
 
 	public static final Codec<TotemDollSkinType> CODEC = StringIdentifiable.createCodec(TotemDollSkinType::values);
 
