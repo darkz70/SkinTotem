@@ -24,7 +24,7 @@ public class SkinTotemModCommandManager {
             dispatcher.register(literal("my-totem-doll")
                     .then(RefreshCommand.getInstance()));
 
-            // /totem <tl|url|ely|refresh> [input]
+            // /totem <tl|url|ely|mojang> [input]
             dispatcher.register(literal("totem")
                 .then(literal("tl")
                     .then(argument("nickname", StringArgumentType.word())
@@ -35,7 +35,7 @@ public class SkinTotemModCommandManager {
                 .then(literal("ely")
                     .then(argument("nickname", StringArgumentType.word())
                         .executes(ctx -> setTotemName(ctx, "ely:" + StringArgumentType.getString(ctx, "nickname")))))
-                .then(literal("refresh")
+                .then(literal("mojang")
                     .executes(ctx -> {
                         MojangAPI.useFallbackAPI = true;
                         ctx.getSource().sendFeedback(Text.literal("§6[SkinTotem] §aMojang refresh enabled (using fallback API)"));
