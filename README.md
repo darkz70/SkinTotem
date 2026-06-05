@@ -1,14 +1,10 @@
 <img src="src/main/resources/icon/icon.png" align="right" width="130px" alt="mod logo"/>
 
-</div align="center">
-
 A Fabric Mod for Minecraft 1.20.1
 
 Replaces the Totem of Undying with a 3D doll using your Minecraft skin
 
-""Minecraft" (https://img.shields.io/badge/Minecraft-1.20.1-green?style=for-the-badge)" (https://minecraft.net)
-""Fabric" (https://img.shields.io/badge/Loader-Fabric-blue?style=for-the-badge)" (https://fabricmc.net)
-""Version" (https://img.shields.io/badge/Version-1.0.0-orange?style=for-the-badge)" (https://github.com/darkz70/SkinTotem)
+""Minecraft" (https://img.shields.io/badge/Minecraft-1.20.1-green?style=for-the-badge)" (https://minecraft.net)""Fabric" (https://img.shields.io/badge/Loader-Fabric-blue?style=for-the-badge)" (https://fabricmc.net) ""Version"(https://img.shields.io/badge/Version-1.0.0-orange?style=for-the-badge)" (https://github.com/darkz70/SkinTotem)
 
 </div>---
 
