@@ -1,8 +1,8 @@
 {
 	"modmenu.descriptionTranslation.my_totem_doll": "Барлык тотемнар уенчы курчаклары белән алыштырыла торган гади Fabric моды.",
-	"skintotem.modmenu.title": "§lMy Totem Doll",
-	"skintotem.modmenu.no_config_library_screen.message": "My Totem Doll көйләүләре экранын ачу өчен Сезгә §6§lYet Another Config Lib [YACL]§f утыртырга кирәк\n\n§6§lYACL §a§lModrinth битен ачаргамы?",
-	"skintotem.modmenu.old_config_library_screen.message": "My Totem Doll көйләнү өчен Сезнең %s версиясендәге §6§lYet Another Config Lib [YACL]§f искергән. §6§lYACL§f %s версиясенә яки югарырак яңартыгызчы.\n\n§6§lYACL §a§lModrinth битен ачаргамы?",
+	"skintotem.modmenu.title": "§lSkinTotem",
+	"skintotem.modmenu.no_config_library_screen.message": "SkinTotem көйләүләре экранын ачу өчен Сезгә §6§lYet Another Config Lib [YACL]§f утыртырга кирәк\n\n§6§lYACL §a§lModrinth битен ачаргамы?",
+	"skintotem.modmenu.old_config_library_screen.message": "SkinTotem көйләнү өчен Сезнең %s версиясендәге §6§lYet Another Config Lib [YACL]§f искергән. §6§lYACL§f %s версиясенә яки югарырак яңартыгызчы.\n\n§6§lYACL §a§lModrinth битен ачаргамы?",
 
 	"skintotem.modmenu.category.general.name": "§lТөп",
 	"skintotem.modmenu.option.mod_enabled.name": "Модны кушу",
@@ -23,7 +23,7 @@
 	"skintotem.modmenu.option.copy_right_hand_settings.name": "§eУң кул көйләүләрен күчереп алу",
 	"skintotem.modmenu.option.copy_left_hand_settings.name": "§eСул кул көйләүләрен күчереп алу",
 
-	"skintotem.command.id": "[§lMy Totem Doll§r]",
+	"skintotem.command.id": "[§lSkinTotem§r]",
 
 	"skintotem.command.refresh.all.start": "§6Барлык кыяфәт текстуралары яңартып башланды",
 	"skintotem.command.refresh.all.end": "§aБарлык кыяфәт текстуралары §f%s§a секундтан соң яңартылды",
