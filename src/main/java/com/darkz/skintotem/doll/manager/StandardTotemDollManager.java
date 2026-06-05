@@ -11,6 +11,8 @@ import com.darkz.skintotem.config.SkinTotemModConfig;
 import com.darkz.skintotem.config.totem.*;
 import com.darkz.skintotem.doll.data.*;
 import com.darkz.skintotem.skin.provider.extended.MojangSkinProvider;
+import com.darkz.skintotem.skin.provider.extended.TLauncherSkinProvider;
+import com.darkz.skintotem.skin.provider.extended.ElyBySkinProvider;
 import com.darkz.skintotem.utils.texture.*;
 
 
@@ -64,6 +66,8 @@ public class StandardTotemDollManager {
 			case PLAYER -> loadPlayerSkin(data);
 			case URL_SKIN -> loadUrlSkin(data);
 			case FILE_SKIN -> loadFileSkin(data);
+			case TLAUNCHER -> TLauncherSkinProvider.getInstance().getOrLoadDoll(TLauncherSkinProvider.PREFIX + data);
+			case ELY_BY -> ElyBySkinProvider.getInstance().getOrLoadDoll(ElyBySkinProvider.PREFIX + data);
 			default -> getSteveDoll();
 		};
 	}
