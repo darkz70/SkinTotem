@@ -103,7 +103,7 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 
 	public static MModel createDollModel() {
 		MModel model = BlockBenchModelManager.getModel(SkinTotemModConfig.getInstance().getStandardTotemDollModelValue());
-		MModel mmodel = model == null ? BlockBenchModelManager.getModel(THREE_D_MODEL_ID) : model;
+		MModel mmodel = model == null ? BlockBenchModelManager.getModel(THREE_D_MODEL_id) : model;
 		if (mmodel == null) {
 			throw new IllegalArgumentException("Failed to find standard doll model! [TotemDollModel.class]");
 		}
