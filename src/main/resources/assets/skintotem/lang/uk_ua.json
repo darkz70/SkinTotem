@@ -40,6 +40,8 @@
   "skintotem.modmenu.option.standard_doll_skin_type.holding_player": "Того, хто тримає",
   "skintotem.modmenu.option.standard_doll_skin_type.url_skin": "URL",
   "skintotem.modmenu.option.standard_doll_skin_type.file_skin": "Файл",
+  "skintotem.modmenu.option.standard_doll_skin_type.ely_by": "Ely.by",
+  "skintotem.modmenu.option.standard_doll_skin_type.tlauncher": "TLauncher",
   "skintotem.modmenu.option.standard_doll_skin_type.player.suggestion": "Уведіть ім'я гравця в поле «Скін гравця», щоб застосувати його скін до ляльки.",
   "skintotem.modmenu.option.standard_doll_skin_type.holding_player.suggestion": "Кожна лялька матиме скін гравця, який її тримає. Якщо ніхто не тримає ляльку, буде Стів.",
   "skintotem.modmenu.option.standard_doll_skin_type.url_skin.suggestion": "Уведіть посилання на скін у полі «Скін гравця» щоб застосувати свій скін до ляльки.",
