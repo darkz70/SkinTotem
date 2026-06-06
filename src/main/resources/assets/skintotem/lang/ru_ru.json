@@ -40,6 +40,8 @@
   "skintotem.modmenu.option.standard_doll_skin_type.holding_player": "Держащий игрок",
   "skintotem.modmenu.option.standard_doll_skin_type.url_skin": "URL скин",
   "skintotem.modmenu.option.standard_doll_skin_type.file_skin": "Файл скина",
+  "skintotem.modmenu.option.standard_doll_skin_type.ely_by": "Ely.by",
+  "skintotem.modmenu.option.standard_doll_skin_type.tlauncher": "TLauncher",
   "skintotem.modmenu.option.standard_doll_skin_type.player.suggestion": "Введите имя игрока в поле \"Значение\", чтобы применить его скин на стандартную куклу.",
   "skintotem.modmenu.option.standard_doll_skin_type.holding_player.suggestion": "Каждая стандартная кукла будет иметь скин того игрока, который в данный момент держит её. Если же никто не держит куклу, будет использован Стив.",
   "skintotem.modmenu.option.standard_doll_skin_type.url_skin.suggestion": "Введите ссылку на ваш скин в поле \"Значение\", чтобы применить его скин на стандартную куклу.",
