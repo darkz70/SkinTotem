@@ -26,4 +26,3 @@
 - [Mojang API](https://wiki.vg/Mojang_API) — загрузка скинов
 - [Cloth Config](https://github.com/shedaniel/cloth-config) — GUI конфига
 - [ModMenu](https://github.com/TerraformersMC/ModMenu) — интеграция меню модов
-- и других для этих с других сайтов  загрузка скинов
