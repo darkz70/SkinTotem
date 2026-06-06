@@ -107,6 +107,7 @@ Place a Totem of Undying into an anvil and rename it using one of the formats be
 | Fabric API | ✅ | Core Fabric API dependency |
 | ModMenu | ❌ | Adds a settings button to the mod list |
 | Cloth Config | ❌ | Configuration GUI library |
+| YetAnotherConfigLib (YACL) | ❌ | Alternative configuration GUI library |
 
 ---
 
