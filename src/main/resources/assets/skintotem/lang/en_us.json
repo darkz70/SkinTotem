@@ -40,6 +40,8 @@
   "skintotem.modmenu.option.standard_doll_skin_type.holding_player": "Holding Player",
   "skintotem.modmenu.option.standard_doll_skin_type.url_skin": "URL Skin",
   "skintotem.modmenu.option.standard_doll_skin_type.file_skin": "File Skin",
+  "skintotem.modmenu.option.standard_doll_skin_type.ely_by": "Ely.by",
+  "skintotem.modmenu.option.standard_doll_skin_type.tlauncher": "TLauncher",
   "skintotem.modmenu.option.standard_doll_skin_type.player.suggestion": "Enter the player's name in field \"Skin Value\" to apply his skin to doll.",
   "skintotem.modmenu.option.standard_doll_skin_type.holding_player.suggestion": "Each doll will have the skin of the player holding it. If no one is holding the doll, will be used Steve.",
   "skintotem.modmenu.option.standard_doll_skin_type.url_skin.suggestion": "Enter the link to the skin in field \"Skin Value\" to apply your skin to doll.",
