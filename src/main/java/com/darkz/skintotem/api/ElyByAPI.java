@@ -15,23 +15,29 @@ import java.net.http.HttpResponse.BodyHandlers;
  * Endpoint: https://skinsystem.ely.by/textures/{nickname}
  * Возвращает JSON с полями SKIN, CAPE и моделью (slim/default)
  *
- * Автор: Darkz | K-TEAM
+ * Автор: Darkz | K-TEAM |KlashRaick | LopyMine
  */
 public class ElyByAPI {
 
     private static final Gson GSON = new GsonBuilder().setLenient().create();
-    private static final String BASE_URL = "https://skinsystem.ely.by/textures/";
+    private static final String TEXTURES_URL = "https://skinsystem.ely.by/textures/";
+    private static final String SKINS_URL    = "https://skinsystem.ely.by/skins/";
 
     /**
-     * Загрузить данные скина по нику с Ely.by
+     * Загрузить данные скина по нику с Ely.by.
+     *
+     * Сначала пробуем /textures/{nick} — возвращает JSON с URL и метаданными.
+     * Если пришёл пустой ответ (204) или данных нет — fallback на /skins/{nick}.png напрямую.
      */
     public static Response<ParsedSkinData> getSkinData(String nickname) {
         int statusCode = -1;
         String responseBody = "Not reached";
         try {
             HttpClient client = HttpClient.newHttpClient();
+
+            // Шаг 1: /textures/{nickname}
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(BASE_URL + nickname))
+                    .uri(URI.create(TEXTURES_URL + nickname))
                     .header("User-Agent", "SkinTotem/1.0 (Darkz/K-TEAM)")
                     .build();
 
@@ -39,22 +45,38 @@ public class ElyByAPI {
             statusCode = response.statusCode();
             responseBody = response.body();
 
-            if (statusCode == 404) {
-                return Response.empty(statusCode); // игрок не найден
-            }
             if (statusCode == 429) {
-                return Response.empty(statusCode); // слишком много запросов
+                return Response.empty(statusCode);
             }
-            if (statusCode != 200) {
+            if (statusCode == 404) {
                 return Response.empty(statusCode);
             }
 
-            ParsedSkinData data = parseResponse(responseBody);
-            if (data == null || data.getSkinUrl() == null) {
-                return Response.empty(statusCode);
+            // Пробуем распарсить JSON если статус 200 и тело не пустое
+            if (statusCode == 200 && responseBody != null && !responseBody.isBlank()) {
+                ParsedSkinData data = parseResponse(responseBody);
+                if (data != null && data.getSkinUrl() != null) {
+                    return new Response<>(statusCode, data);
+                }
             }
 
-            return new Response<>(statusCode, data);
+            // Шаг 2: Fallback — /skins/{nickname}.png напрямую
+            SkinTotemModClient.LOGGER.warn("[ElyByAPI] /textures/ не дал данных для {}, пробуем /skins/ fallback", nickname);
+            String skinUrl = SKINS_URL + nickname + ".png";
+
+            // Проверяем что URL существует
+            HttpRequest headRequest = HttpRequest.newBuilder()
+                    .uri(URI.create(skinUrl))
+                    .method("HEAD", HttpRequest.BodyPublishers.noBody())
+                    .header("User-Agent", "SkinTotem/1.0 (Darkz/K-TEAM)")
+                    .build();
+            HttpResponse<Void> headResponse = client.send(headRequest, HttpResponse.BodyHandlers.discarding());
+
+            if (headResponse.statusCode() == 200) {
+                return new Response<>(200, new ParsedSkinData(skinUrl, null, null, false));
+            }
+
+            return Response.empty(statusCode);
         } catch (InterruptedException ignored) {
         } catch (Exception e) {
             SkinTotemModClient.LOGGER.error("[ElyByAPI] Ошибка загрузки скина {}: ", nickname, e);
