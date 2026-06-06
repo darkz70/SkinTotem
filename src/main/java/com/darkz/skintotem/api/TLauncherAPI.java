@@ -123,6 +123,26 @@ public class TLauncherAPI {
                 return new ParsedSkinData(skinUrl, null, null, false);
             }
 
+            // Формат 4: { "SKIN": { "url": "..." }, "CAPE": { "url": "..." } }
+            // Именно этот формат возвращает auth.tlauncher.org
+            if (root.has("SKIN")) {
+                JsonObject skinObj = root.getAsJsonObject("SKIN");
+                skinUrl = skinObj.has("url") ? skinObj.get("url").getAsString() : null;
+                if (skinObj.has("metadata")) {
+                    JsonObject meta = skinObj.getAsJsonObject("metadata");
+                    if (meta.has("model")) {
+                        slim = "slim".equals(meta.get("model").getAsString());
+                    }
+                }
+            }
+            if (root.has("CAPE")) {
+                JsonObject capeObj = root.getAsJsonObject("CAPE");
+                capeUrl = capeObj.has("url") ? capeObj.get("url").getAsString() : null;
+            }
+            if (skinUrl != null) {
+                return new ParsedSkinData(skinUrl, capeUrl, null, slim);
+            }
+
             return null;
         } catch (Exception e) {
             SkinTotemModClient.LOGGER.error("[TLauncherAPI] Ошибка парсинга ответа для {}: ", nickname, e);
