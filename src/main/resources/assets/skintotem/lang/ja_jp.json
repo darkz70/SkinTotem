@@ -40,6 +40,8 @@
   "skintotem.modmenu.option.standard_doll_skin_type.holding_player": "所持しているプレイヤー",
   "skintotem.modmenu.option.standard_doll_skin_type.url_skin": "URLスキン",
   "skintotem.modmenu.option.standard_doll_skin_type.file_skin": "ファイルスキン",
+  "skintotem.modmenu.option.standard_doll_skin_type.ely_by": "Ely.by",
+  "skintotem.modmenu.option.standard_doll_skin_type.tlauncher": "TLauncher",
   "skintotem.modmenu.option.standard_doll_skin_type.player.suggestion": "『スキン情報』にプレイヤー名を入力すると、人形にそのスキンが適用されます",
   "skintotem.modmenu.option.standard_doll_skin_type.holding_player.suggestion": "各人形は、それを手に持っているプレイヤーのスキンになります。誰も手に持っていない場合はスティーブのスキンが適用されます",
   "skintotem.modmenu.option.standard_doll_skin_type.url_skin.suggestion": "『スキン情報』にスキンのリンクを入力すると、人形に適用されます",
