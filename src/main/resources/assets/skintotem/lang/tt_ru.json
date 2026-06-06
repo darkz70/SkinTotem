@@ -30,5 +30,7 @@
   "modmenu.option.standard_doll_skin_type.tlauncher": "TLauncher",
   "modmenu.option.standard_doll_skin_type.tlauncher.suggestion": "TLauncher никнамын кертегез",
   "modmenu.option.standard_doll_skin_type.ely_by": "Ely.by",
-  "modmenu.option.standard_doll_skin_type.ely_by.suggestion": "Ely.by никнамын кертегез"
+  "modmenu.option.standard_doll_skin_type.ely_by.suggestion": "Ely.by никнамын кертегез",
+  "skintotem.modmenu.option.standard_doll_skin_type.ely_by": "Ely.by",
+  "skintotem.modmenu.option.standard_doll_skin_type.tlauncher": "TLauncher"
 }
