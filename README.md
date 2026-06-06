@@ -70,11 +70,9 @@ Place a Totem of Undying into an anvil and rename it using one of the formats be
 
 ```
 /skintotem                     — Show help
-/skintotem info                — Display version and cache info
 /skintotem refresh             — Refresh the current player's skin
 /skintotem refresh <player>    — Refresh a specific player's skin
 /skintotem refresh all         — Clear the entire skin cache
-/skintotem credits             — Show credits
 
 /totem <nickname>              — Set totem skin (Mojang)
 /totem tl <nickname>           — Set totem skin (TLauncher)
