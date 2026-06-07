@@ -5,16 +5,20 @@ import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.atlas.RemappedAtlasSprite;
 import com.darkz.skintotem.atlas.manager.*;
 import com.darkz.skintotem.doll.data.*;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.*;
 import net.minecraft.client.texture.NativeImage;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Identifier;
 
 import com.darkz.skintotem.client.SkinTotemModClient;
 
 import java.io.*;
 import java.nio.file.*;
+//? if >=1.21.2 {
 import net.minecraft.util.math.ColorHelper;
+//?} else {
+/*import net.minecraft.util.color.ColorHelper;*/
+//?}
 import org.jetbrains.annotations.*;
 
 import com.darkz.skintotem.atlas.manager.*;
@@ -24,7 +28,7 @@ import com.darkz.skintotem.thread.SkinTotemModTaskExecutor;
 
 public class PlayerSkinUtils {
 
-	public static void downloadSkin(@NotNull String textureUrl, @NotNull ResourceLocation textureId, @Nullable SuccessAction onSuccessRegistration, @Nullable FailedAction onFailedRegistration, boolean skin) {
+	public static void downloadSkin(@NotNull String textureUrl, @NotNull Identifier textureId, @Nullable SuccessAction onSuccessRegistration, @Nullable FailedAction onFailedRegistration, boolean skin) {
 		try {
 			NativeImage nativeImage = download(textureUrl);
 			NativeImage image = skin ? remapSkinTexture(nativeImage) : remapTextureToStandardSize(nativeImage, true);
@@ -48,7 +52,7 @@ public class PlayerSkinUtils {
 
 		NativeImage image;
 		try {
-			connection = (HttpURLConnection) currentUri.toURL().openConnection(Minecraft.getInstance().getNetworkProxy());
+			connection = (HttpURLConnection) currentUri.toURL().openConnection(MinecraftClient.getInstance().getNetworkProxy());
 			connection.setDoInput(true);
 			connection.setDoOutput(false);
 			connection.connect();
@@ -173,7 +177,7 @@ public class PlayerSkinUtils {
 
 	public static void setupClientTextures(TotemDollData data) {
 		//? if >=1.21 {
-		Minecraft.getInstance().getSkinProvider().fetchSkinTextures(Minecraft.getInstance().getGameProfile()).thenAccept((/*? if >=1.21.4 {*/ optional /*?} else {*/ /*skinTextures *//*?}*/) -> {
+		MinecraftClient.getInstance().getSkinProvider().fetchSkinTextures(MinecraftClient.getInstance().getGameProfile()).thenAccept((/*? if >=1.21.4 {*/ optional /*?} else {*/ /*skinTextures *//*?}*/) -> {
 			//? if >=1.21.4 {
 			if (optional.isEmpty()) {
 				return;
@@ -188,9 +192,9 @@ public class PlayerSkinUtils {
 			data.setSprites(TotemDollSprites.of(skinTextures));
 		});
 		//?} else {
-		/*Minecraft.getInstance().getSkinProvider().loadSkin(Minecraft.getInstance().getSession().getProfile(), (type, id, texture) -> {
+		/*MinecraftClient.getInstance().getSkinProvider().loadSkin(MinecraftClient.getInstance().getSession().getProfile(), (type, id, texture) -> {
 			SkinTotemModTaskExecutor.execute(() -> {
-				Minecraft.getInstance().execute(() -> {
+				MinecraftClient.getInstance().execute(() -> {
 					TotemDollSprites textures = data.getStandardSprites();
 
 					switch (type) {
