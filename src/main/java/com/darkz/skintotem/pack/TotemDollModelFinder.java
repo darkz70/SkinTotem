@@ -1,47 +1,41 @@
 package com.darkz.skintotem.pack;
 
-import net.minecraft.resources.*;
-import com.darkz.skintotem.SkinTotemMod;
 import java.util.*;
+import net.minecraft.resource.ResourceManager;
+import net.minecraft.util.Identifier;
 
 public class TotemDollModelFinder {
 
-	private static final Set<ResourceLocation> BUILTIN_TOTEM_MODELS = new LinkedHashSet<>();
-	private static final Map<String, Set<ResourceLocation>> FOUNDED_TOTEM_MODELS = new LinkedHashMap<>();
+	private static final Set<Identifier> BUILTIN_TOTEM_MODELS = new LinkedHashSet<>();
+	private static final Map<String, Set<Identifier>> FOUNDED_TOTEM_MODELS = new LinkedHashMap<>();
 
-	public static Map<String, Set<ResourceLocation>> getFoundedTotemModels() {
+	public static Map<String, Set<Identifier>> getFoundedTotemModels() {
 		return FOUNDED_TOTEM_MODELS;
 	}
 
-	public static Set<ResourceLocation> getBuiltinTotemModels() {
+	public static Set<Identifier> getBuiltinTotemModels() {
 		return BUILTIN_TOTEM_MODELS;
 	}
 
 	public static void reload(ResourceManager resourceManager) {
-		List<ResourcePack> list = resourceManager.streamResourcePacks().filter(resourcePack -> resourcePack.getNamespaces(ResourceType.CLIENT_RESOURCES).contains(SkinTotemMod.MOD_ID)).toList();
-
 		FOUNDED_TOTEM_MODELS.clear();
-		for (ResourcePack pack : list) {
-			String packId = pack./*? if >=1.21 {*/getId()/*?} else {*//*getName()*//*?}*/.replace("file/", "");
-			if (packId.equals(SkinTotemMod.MOD_ID) /*? if =1.20.1 {*/ /*|| pack instanceof net.fabricmc.fabric.impl.resource.loader.FabricModResourcePack *//*?}*/) {
-				continue;
+		BUILTIN_TOTEM_MODELS.clear();
+
+		for (Identifier id : resourceManager.findResources("models/totem", path -> path.getPath().endsWith(".json")).keySet()) {
+			if (isModelPath(id)) {
+				FOUNDED_TOTEM_MODELS.computeIfAbsent(id.getNamespace(), k -> new LinkedHashSet<>()).add(id);
 			}
-			pack.findResources(ResourceType.CLIENT_RESOURCES, SkinTotemMod.MOD_ID, "dolls", (id, input) -> {
-				if (!isModelPath(id)) {
-					return;
-				}
+		}
 
-				Set<ResourceLocation> set = FOUNDED_TOTEM_MODELS.getOrDefault(packId, new LinkedHashSet<>());
-				set.add(id);
-
-				if (!FOUNDED_TOTEM_MODELS.containsKey(packId)) {
-					FOUNDED_TOTEM_MODELS.put(packId, set);
-				}
-			});
+		for (Identifier id : resourceManager.findResources("models/item/totem", path -> path.getPath().endsWith(".json")).keySet()) {
+			if (isModelPath(id)) {
+				BUILTIN_TOTEM_MODELS.add(id);
+			}
 		}
 	}
 
-	private static boolean isModelPath(ResourceLocation id) {
-		return id.getPath().endsWith(".bbmodel");
+	private static boolean isModelPath(Identifier id) {
+		String path = id.getPath();
+		return path.startsWith("models/") && path.endsWith(".json");
 	}
 }
