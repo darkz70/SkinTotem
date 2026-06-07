@@ -14,7 +14,7 @@ import net.minecraft.client.render.item.HeldItemRenderer;
 
 import net.minecraft.client.render.item.HeldItemRenderer.HandRenderType;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.world.item.*;;
+import net.minecraft.world.item.*;
 import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.*;
 import com.darkz.skintotem.yacl.YACLConfigurationScreen;

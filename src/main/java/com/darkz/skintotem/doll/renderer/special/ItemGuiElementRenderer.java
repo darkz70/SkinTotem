@@ -10,7 +10,7 @@ import net.minecraft.client.render.VertexConsumerProvider.Immediate;
 import net.minecraft.client.render.item.ItemRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.world.item.*;;
+import net.minecraft.world.item.*;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 

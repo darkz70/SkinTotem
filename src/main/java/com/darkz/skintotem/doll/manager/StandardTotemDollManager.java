@@ -2,7 +2,7 @@ package com.darkz.skintotem.doll.manager;
 
 import com.darkz.skintotem.atlas.manager.SkinTotemModAtlasSpriteManager;
 import net.minecraft.client.texture.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Identifier;
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.client.SkinTotemModClient;
 

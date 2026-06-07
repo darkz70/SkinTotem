@@ -12,7 +12,7 @@ import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.*;
 import net.minecraft.screen.ScreenTexts;
-import net.minecraft.network.chat.*;;
+import net.minecraft.network.chat.*;
 
 import com.darkz.skintotem.utils.*;
 import com.darkz.skintotem.yacl.custom.TransparencySprites;

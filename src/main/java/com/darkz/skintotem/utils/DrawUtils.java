@@ -3,7 +3,7 @@ package com.darkz.skintotem.utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screens.inventory.tooltip.*;;
+import net.minecraft.client.gui.screens.inventory.tooltip.*;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

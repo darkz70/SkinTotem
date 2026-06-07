@@ -10,7 +10,7 @@ import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screen.ingame.*;
 import net.minecraft.client.gui.widget.*;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.world.item.*;;
+import net.minecraft.world.item.*;
 import net.minecraft.screen.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

@@ -1,17 +1,21 @@
 package com.darkz.skintotem.client;
 
 import com.darkz.skintotem.cache.KnownPlayerUUIDsConfigManager;
-import net.minecraft.world.item.*;;
+//? if >=26.1 {
+import net.minecraft.world.item.*;
 import net.minecraft.core.registries.BuiltInRegistries;
+//?} else {
+/*import net.minecraft.item.*;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Util;
 import net.minecraft.util.Util.OperatingSystem;
+*///?}
 import org.slf4j.*;
 import net.fabricmc.api.ClientModInitializer;
 
 import com.darkz.skintotem.*;
 import com.darkz.skintotem.client.command.SkinTotemModCommandManager;
 import com.darkz.skintotem.client.event.SkinTotemModEvents;
-
 
 import com.darkz.skintotem.config.SkinTotemModConfig;
 import com.darkz.skintotem.pack.*;
@@ -44,7 +48,13 @@ public class SkinTotemModClient implements ClientModInitializer {
 		return stack != null && SkinTotemModConfig.getInstance().isModEnabled() && isProbablyTotem(stack);
 	}
 
+	@SuppressWarnings("deprecation")
 	private static boolean isProbablyTotem(ItemStack stack) {
-		return stack.getItem() == Items.TOTEM_OF_UNDYING || (SkinTotemModConfig.getInstance().isSupportOtherModsTotems() && BuiltInRegistries.ITEM.getId(stack.getItem()).getPath().contains("totem"));
+		//? if >=26.1 {
+		boolean bl = stack.item != null && stack.item.value() == Items.TOTEM_OF_UNDYING;
+		return bl || (SkinTotemModConfig.getInstance().isSupportOtherModsTotems() && BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath().contains("totem"));
+		//?} else {
+		/*return stack.getItem() == Items.TOTEM_OF_UNDYING || (SkinTotemModConfig.getInstance().isSupportOtherModsTotems() && Registries.ITEM.getId(stack.getItem()).getPath().contains("totem"));
+		*///?}
 	}
 }

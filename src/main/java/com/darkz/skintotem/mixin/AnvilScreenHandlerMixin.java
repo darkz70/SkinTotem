@@ -2,7 +2,7 @@ package com.darkz.skintotem.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import lombok.experimental.ExtensionMethod;
-import net.minecraft.world.item.*;;
+import net.minecraft.world.item.*;
 import net.minecraft.screen.AnvilScreenHandler;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,11 +1,13 @@
 package com.darkz.skintotem.client.event;
 
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import com.darkz.skintotem.atlas.manager.*;
+import net.minecraft.client.gui.screens.inventory.tooltip.*;
+
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.ClientTooltipComponentCallback;
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.fabricmc.fabric.api.client.rendering.v1.ClientClientTooltipComponentCallback;
 
 import com.darkz.skintotem.SkinTotemMod;
-import com.darkz.skintotem.atlas.manager.*;
 import com.darkz.skintotem.gui.tooltip.combined.*;
 import com.darkz.skintotem.gui.tooltip.info.*;
 import com.darkz.skintotem.gui.tooltip.preview.*;
@@ -22,7 +24,7 @@ public class SkinTotemModEvents {
 	}
 
 	private static void registerTooltipCallbacks() {
-		ClientTooltipComponentCallback.EVENT.register((data) -> {
+		ClientTooltipComponentCallback.EVENT.register((data -> {
 			if (data instanceof TagsTooltipData tooltipData) {
 				return new TagsTooltipComponent(tooltipData.tags());
 			}
@@ -42,7 +44,7 @@ public class SkinTotemModEvents {
 				return new WrappedTextTooltipComponent(tooltipData.text());
 			}
 			return null;
-		});
+		}));
 	}
 
 	private static void registerLifecycleEvents() {

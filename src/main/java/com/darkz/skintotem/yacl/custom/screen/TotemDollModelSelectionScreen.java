@@ -11,7 +11,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.*;
 import net.minecraft.client.gui.widget.ButtonWidget.PressAction;
-import net.minecraft.network.chat.*;;
+import net.minecraft.network.chat.*;
 import net.minecraft.util.*;
 
 import com.darkz.skintotem.SkinTotemMod;

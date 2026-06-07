@@ -10,7 +10,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 
 import net.minecraft.client.render.item.*;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.world.item.*;;
+import net.minecraft.world.item.*;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;

@@ -12,7 +12,7 @@ import net.minecraft.client.network.*;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.VertexConsumerProvider.Immediate;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.world.item.*;;
+import net.minecraft.world.item.*;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.client.SkinTotemModClient;

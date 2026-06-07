@@ -4,7 +4,7 @@ import lombok.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.*;
-import net.minecraft.client.gui.screens.inventory.tooltip.*;;
+import net.minecraft.client.gui.screens.inventory.tooltip.*;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.resources.ResourceLocation;
 

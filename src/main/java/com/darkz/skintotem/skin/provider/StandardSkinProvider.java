@@ -1,7 +1,7 @@
 package com.darkz.skintotem.skin.provider;
 
 import lombok.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Identifier;
 
 
 import com.darkz.skintotem.api.Response;
@@ -76,15 +76,21 @@ public abstract class StandardSkinProvider implements SkinProvider {
 
 				Response<ParsedSkinData> response = this.loadDollFromAPI(value);
 				if (response.value() == null) {
-					LoadingState state = switch (response.statusCode()) {
-						case 404 -> LoadingState.NOT_FOUND; // Not Found
-						case 429 -> LoadingState.ERROR; // Too many requests
+					// -1 = сетевая ошибка/таймаут, 429 = rate limit — оба повторяем
+					int code = response.statusCode();
+					LoadingState state = switch (code) {
+						case 404 -> LoadingState.NOT_FOUND;
+						case 429, -1 -> LoadingState.ERROR;
 						default -> LoadingState.CRITICAL_ERROR;
 					};
 
-					if (state == LoadingState.ERROR) { // Too many requests, we can retry
+					if (state == LoadingState.ERROR) {
 						try {
 							waitTime += 1000;
+							if (waitTime > 10000) { // не ждём больше 10 секунд
+								textures.setState(LoadingState.CRITICAL_ERROR);
+								return;
+							}
 							Thread.sleep(waitTime);
 							continue;
 						} catch (Exception e) {

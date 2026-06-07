@@ -1,6 +1,6 @@
 package com.darkz.skintotem;
 
-import net.minecraft.network.chat.*;;
+import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.*;
 

@@ -35,7 +35,7 @@ public class MinecraftClientMixin {
 		}
 	}
 	//?} else {
-	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;onInitFinished(Lnet/minecraft/client/realms/RealmsClient;Lnet/minecraft/resource/ResourceReload;Lnet/minecraft/client/RunArgs$QuickPlay;)V"), method = "<init>")
+	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;onInitFinished(Lnet/minecraft/client/realms/RealmsClient;Lnet/minecraft/resource/ResourceReload;Lnet/minecraft/client/RunArgs$QuickPlay;)V"), method = "<init>")
 	private void addMTDHelloScreen(Minecraft client, RealmsClient realmsClient, ResourceReload resourceReload, QuickPlay quickPlay, Operation<Void> original) {
 		Runnable runnable = () -> original.call(client, realmsClient, resourceReload, quickPlay);
 

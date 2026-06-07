@@ -1,6 +1,6 @@
 package com.darkz.skintotem.client.command.builder;
 
-import net.minecraft.network.chat.*;;
+import net.minecraft.network.chat.*;
 
 import com.darkz.skintotem.SkinTotemMod;
 

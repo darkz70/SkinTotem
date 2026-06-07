@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.network.chat.*;;
+import net.minecraft.network.chat.*;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.yacl.custom.screen.TotemDollModelSelectionScreen;

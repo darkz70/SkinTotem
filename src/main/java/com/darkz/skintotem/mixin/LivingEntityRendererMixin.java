@@ -9,7 +9,7 @@ import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.world.item.*;;
+import net.minecraft.world.item.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 

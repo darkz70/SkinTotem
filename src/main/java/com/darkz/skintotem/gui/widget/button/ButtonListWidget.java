@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.*;
-import net.minecraft.network.chat.*;;
+import net.minecraft.network.chat.*;
 
 import com.darkz.skintotem.SkinTotemMod;
 

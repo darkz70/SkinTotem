@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screens.inventory.tooltip.*;;
+import net.minecraft.client.gui.screens.inventory.tooltip.*;
 //? if >=1.21 {
 import net.minecraft.item.tooltip.TooltipData;
  //?} else {

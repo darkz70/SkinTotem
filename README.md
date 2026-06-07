@@ -6,7 +6,7 @@
 
 Replaces the Totem of Undying with a 3D doll using your Minecraft skin
 
-![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1--1.21.11-green?style=for-the-badge)
+![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1--26.1.2-green?style=for-the-badge)
 [![Fabric](https://img.shields.io/badge/Loader-Fabric-blue?style=for-the-badge)](https://fabricmc.net)
 ![Version](https://img.shields.io/badge/Version-1.0.0-orange?style=for-the-badge)
 
@@ -117,7 +117,7 @@ Place a Totem of Undying into an anvil and rename it using one of the formats be
 | 🏆 Team | K-TEAM |
 | 💛 Special Thanks | KlashRaick |
 
-Inspired by the [SkinTotem](https://github.com) and [My-Totem-Doll](https://github.com) projects.
+Inspired by the [SkinTotem](https://github.com/darkz70/SkinTotem) and [My-Totem-Doll](https://github.com/LopyMine/my-totem-doll) projects.
 
 ---
 

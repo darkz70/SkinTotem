@@ -6,7 +6,7 @@ import net.minecraft.client.font.*;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.screen.ScreenTexts;
-import net.minecraft.network.chat.*;;
+import net.minecraft.network.chat.*;
 import net.minecraft.util.*;
 
 import com.darkz.skintotem.tag.manager.TagsManager;

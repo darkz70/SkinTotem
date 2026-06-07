@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.AnvilScreen;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.world.item.*;;
+import net.minecraft.world.item.*;
 //? if >=1.21 {
 import net.minecraft.item.tooltip.TooltipData;
  //?} else {
