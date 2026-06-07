@@ -2,16 +2,17 @@ package com.darkz.skintotem.pack;
 
 import java.util.concurrent.*;
 import com.darkz.skintotem.atlas.manager.*;
-import net.minecraft.resources.*;
+import net.minecraft.resource.*;
 import net.minecraft.util.*;
 import net.fabricmc.fabric.api.resource.*;
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.model.bb.manager.BlockBenchModelManager;
 import com.darkz.skintotem.tag.manager.TagsManager;
-import net.minecraft.util.profiler.Profilers;
+import net.minecraft.util.profiler.*;
 
 //? if >=1.21.9 {
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
+import net.fabricmc.fabric.api.resource.v1.Synchronizer;
 //?}
 
 public class SkinTotemModReloadListener implements /*? if >=1.21.9 {*/ ResourceReloader /*?} else {*/ /*IdentifiableResourceReloadListener *//*?}*/ {
@@ -25,7 +26,7 @@ public class SkinTotemModReloadListener implements /*? if >=1.21.9 {*/ ResourceR
 	}
 
 	/*? if <=1.21.8 {*//*@Override*//*?}*/
-	public /*? if >=1.21.9 {*/ static /*?}*/ ResourceLocation getFabricId() {
+	public /*? if >=1.21.9 {*/ static /*?}*/ Identifier getFabricId() {
 		return SkinTotemMod.id("%s-reload-listener".formatted(SkinTotemMod.MOD_ID));
 	}
 
