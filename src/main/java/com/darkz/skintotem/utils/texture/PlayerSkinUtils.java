@@ -7,6 +7,7 @@ import com.darkz.skintotem.atlas.manager.*;
 import com.darkz.skintotem.doll.data.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.texture.*;
+import net.minecraft.client.texture.NativeImage;
 import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.client.SkinTotemModClient;
