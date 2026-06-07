@@ -23,7 +23,7 @@ import com.darkz.skintotem.thread.SkinTotemModTaskExecutor;
 
 public class PlayerSkinUtils {
 
-	public static void downloadSkin(@NotNull String textureUrl, @NotNull Identifier textureId, @Nullable SuccessAction onSuccessRegistration, @Nullable FailedAction onFailedRegistration, boolean skin) {
+	public static void downloadSkin(@NotNull String textureUrl, @NotNull ResourceLocation textureId, @Nullable SuccessAction onSuccessRegistration, @Nullable FailedAction onFailedRegistration, boolean skin) {
 		try {
 			NativeImage nativeImage = download(textureUrl);
 			NativeImage image = skin ? remapSkinTexture(nativeImage) : remapTextureToStandardSize(nativeImage, true);
