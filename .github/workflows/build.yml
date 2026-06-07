@@ -19,7 +19,9 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
       - name: Build with Gradle
-        run: ./gradlew buildAndCollect+All || ./gradlew buildAndCollect || ./gradlew build
+        run: ./gradlew buildAndCollect+All || ./gradlew buildAndCollect || ./gradlew build 
+      - name: Build with Gradle
+        run: ./gradlew build --warning-mode all
       - name: List all files (Debug)
         run: |
           echo "Listing all .jar files in the project:"
