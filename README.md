@@ -117,7 +117,7 @@ Place a Totem of Undying into an anvil and rename it using one of the formats be
 | 🏆 Team | K-TEAM |
 | 💛 Special Thanks | KlashRaick |
 
-Inspired by the [SkinTotem](https://github.com) and [My-Totem-Doll](https://github.com) projects.
+Inspired by the [SkinTotem](https://github.com/darkz70/SkinTotem) and [My-Totem-Doll](https://github.com/LopyMine/my-totem-doll) projects.
 
 ---
 
