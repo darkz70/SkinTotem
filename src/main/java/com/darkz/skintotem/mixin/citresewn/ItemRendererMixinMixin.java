@@ -4,7 +4,7 @@ package com.darkz.skintotem.mixin.citresewn;
 /*import com.bawnorton.mixinsquared.TargetHandler;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.*;

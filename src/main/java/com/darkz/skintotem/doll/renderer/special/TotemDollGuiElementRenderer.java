@@ -12,7 +12,7 @@ import com.darkz.skintotem.doll.data.TotemDollRenderProperties;
 import com.darkz.skintotem.doll.renderer.*;
 import com.darkz.skintotem.extension.ItemStackExtension;
 import com.darkz.skintotem.utils.LightningUtils;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.gui.render.SpecialGuiElementRenderer;
 import net.minecraft.client.render.OverlayTexture;

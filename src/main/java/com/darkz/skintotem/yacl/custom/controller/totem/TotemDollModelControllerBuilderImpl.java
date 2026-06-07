@@ -1,7 +1,7 @@
 package com.darkz.skintotem.yacl.custom.controller.totem;
 
 import dev.isxander.yacl3.api.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class TotemDollModelControllerBuilderImpl implements TotemDollModelControllerBuilder {
 

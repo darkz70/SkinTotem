@@ -13,7 +13,7 @@ import java.util.Optional;
 /*import net.minecraft.client.util.SkinTextures;
 import net.minecraft.client.util.SkinTextures.*;
 *///?}
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.doll.model.TotemDollModel;
 import com.darkz.skintotem.model.base.MModel;

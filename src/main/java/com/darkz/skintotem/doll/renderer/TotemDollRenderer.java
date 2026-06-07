@@ -6,13 +6,13 @@ import com.darkz.skintotem.extension.*;
 import com.darkz.skintotem.optimization.TotemDollRenderRequestsCollector;
 import com.darkz.skintotem.thing.ThingMarks;
 import com.darkz.skintotem.utils.*;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.*;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.VertexConsumerProvider.Immediate;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.*;
+import net.minecraft.world.item.*;;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.client.SkinTotemModClient;
@@ -25,7 +25,7 @@ import com.darkz.skintotem.doll.model.TotemDollModel;
 import com.darkz.skintotem.doll.model.TotemDollModel.Drawer;
 import com.darkz.skintotem.utils.plugin.TotemDollPlugin;
 
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.math.*;
 import net.minecraft.util.profiler.Profiler;
 import net.minecraft.util.*;
@@ -33,7 +33,7 @@ import org.jetbrains.annotations.*;
 
 //? if >=1.21 {
 
-import net.minecraft.component.DataComponentTypes;
+import net.minecraft.core.component.DataComponents;
 
 //?}
 
@@ -221,7 +221,7 @@ public class TotemDollRenderer {
 		profiler.swap(SkinTotemMod.MOD_ID);
 
 		if (context == DollRenderContext.D_GUI && SkinTotemModConfig.getInstance().getStandardTotemDollSkinType() == TotemDollSkinType.HOLDING_PLAYER) {
-			playerEntity = MinecraftClient.getInstance().player;
+			playerEntity = Minecraft.getInstance().player;
 		}
 
 		if (StandardTotemDollManager.getStandardDoll().equals(totemDollData)) {
@@ -231,7 +231,7 @@ public class TotemDollRenderer {
 
 	private static void prepareStandardDollForRendering(AbstractClientPlayerEntity playerEntity, TotemDollData totemDollData) {
 		if (playerEntity != null && SkinTotemModConfig.getInstance().getStandardTotemDollSkinType() == TotemDollSkinType.HOLDING_PLAYER) {
-			if (!playerEntity.equals(MinecraftClient.getInstance().player) && playerEntity.isInvisibleTo(MinecraftClient.getInstance().player)) {
+			if (!playerEntity.equals(Minecraft.getInstance().player) && playerEntity.isInvisibleTo(Minecraft.getInstance().player)) {
 				return;
 			}
 			totemDollData.setFrameSprites(playerEntity);

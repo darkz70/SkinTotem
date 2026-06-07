@@ -7,7 +7,7 @@ import com.darkz.skintotem.config.SkinTotemModConfig;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.doll.data.TotemDollSprites;

@@ -1,8 +1,8 @@
 package com.darkz.skintotem.extension;
 
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
 import com.darkz.skintotem.doll.data.*;
 import com.darkz.skintotem.doll.manager.*;
 import com.darkz.skintotem.tag.manager.TagsManager;
@@ -18,7 +18,7 @@ public class ItemStackExtension {
 		if (itemStack.components == null) {
 			return null;
 		}
-		return itemStack.components.get(net.minecraft.component.DataComponentTypes.CUSTOM_NAME);
+		return itemStack.components.get(net.minecraft.component.DataComponents.CUSTOM_NAME);
 		//?} else {
 		/*net.minecraft.nbt.NbtCompound nbtCompound = itemStack.getSubNbt("display");
 		if (nbtCompound != null && nbtCompound.contains("Name", 8)) {

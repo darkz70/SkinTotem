@@ -1,10 +1,10 @@
 package com.darkz.skintotem.gui.tooltip.wrapped;
 
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.text.*;
+import net.minecraft.network.chat.*;;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class WrappedTextTooltipComponent implements TooltipComponent {
 	private final List<OrderedText> texts;
 
 	public WrappedTextTooltipComponent(Text text) {
-		this.texts = MinecraftClient.getInstance().textRenderer.wrapLines(text, 100000);
+		this.texts = Minecraft.getInstance().textRenderer.wrapLines(text, 100000);
 	}
 
 	public int getWidth(TextRenderer textRenderer) {

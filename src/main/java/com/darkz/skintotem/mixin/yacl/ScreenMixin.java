@@ -2,10 +2,10 @@ package com.darkz.skintotem.mixin.yacl;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -42,7 +42,7 @@ public abstract class ScreenMixin {
 
 	
 	/*@Shadow @Nullable
-	public MinecraftClient client;
+	public Minecraft client;
 
 	@Inject(at = @At("HEAD"), method = "renderBackgroundTexture", cancellable = true)
 	private void disableBackgroundTextureRendering(DrawContext context, CallbackInfo ci) {

@@ -3,7 +3,7 @@ package com.darkz.skintotem.gui;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.extension.DrawContextExtension;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.utils.*;
 import com.darkz.skintotem.yacl.custom.TransparencySprites;

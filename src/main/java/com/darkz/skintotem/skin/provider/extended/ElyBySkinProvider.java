@@ -1,6 +1,6 @@
 package com.darkz.skintotem.skin.provider.extended;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.api.ElyByAPI;
 import com.darkz.skintotem.api.Response;

@@ -4,18 +4,18 @@ import java.util.*;
 import lombok.*;
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.utils.DrawUtils;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget.Entry;
-import net.minecraft.text.MutableText;
+import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.*;
 
 @Getter
 @Setter
 public abstract class AbstractSearchListWidget<E extends Entry<E>> extends AbstractVersionedEntryListWidget<E> {
 
-	public static final MutableText NOTHING_FOUND_TEXT = SkinTotemMod.text("text.nothing_found");
+	public static final MutableComponent NOTHING_FOUND_TEXT = SkinTotemMod.text("text.nothing_found");
 
 	private final List<E> savedWidgets = new ArrayList<>();
 	private boolean searching = false;

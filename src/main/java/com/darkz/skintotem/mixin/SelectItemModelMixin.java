@@ -7,7 +7,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.extension.ItemStackExtension;
 import net.minecraft.client.render.item.model.*;
-import net.minecraft.item.*;
+import net.minecraft.world.item.*;;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;

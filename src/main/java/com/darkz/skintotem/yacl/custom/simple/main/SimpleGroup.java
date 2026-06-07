@@ -1,7 +1,7 @@
 package com.darkz.skintotem.yacl.custom.simple.main;
 
 import dev.isxander.yacl3.api.*;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 import com.darkz.skintotem.utils.ModMenuUtils;
 import com.darkz.skintotem.yacl.custom.renderer.TotemDollPreviewRenderer;

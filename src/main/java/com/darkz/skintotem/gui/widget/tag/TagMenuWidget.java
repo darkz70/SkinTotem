@@ -3,14 +3,14 @@ package com.darkz.skintotem.gui.widget.tag;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.doll.data.TotemDollData;
 import com.darkz.skintotem.gui.widget.list.AbstractVersionedEntryListWidget;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.TextRenderer;
 
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.tooltip.*;
+import net.minecraft.client.gui.screens.inventory.tooltip.*;;
 import net.minecraft.client.gui.widget.*;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.*;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.*;;
 import net.minecraft.util.*;
 
 import com.darkz.skintotem.SkinTotemMod;
@@ -288,7 +288,7 @@ public class TagMenuWidget extends AbstractVersionedEntryListWidget<TagRow> {
 		*///?}
 
 		private void render(DrawContext context, int y, int x, int entryHeight, boolean hovered) {
-			MinecraftClient client = MinecraftClient.getInstance();
+			Minecraft client = Minecraft.getInstance();
 			TextRenderer textRenderer = client.textRenderer;
 
 			RenderUtils.enableBlend();

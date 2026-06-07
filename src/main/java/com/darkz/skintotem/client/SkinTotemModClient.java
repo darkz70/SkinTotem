@@ -1,8 +1,8 @@
 package com.darkz.skintotem.client;
 
 import com.darkz.skintotem.cache.KnownPlayerUUIDsConfigManager;
-import net.minecraft.item.*;
-import net.minecraft.registry.Registries;
+import net.minecraft.world.item.*;;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Util;
 import net.minecraft.util.Util.OperatingSystem;
 import org.slf4j.*;
@@ -45,6 +45,6 @@ public class SkinTotemModClient implements ClientModInitializer {
 	}
 
 	private static boolean isProbablyTotem(ItemStack stack) {
-		return stack.getItem() == Items.TOTEM_OF_UNDYING || (SkinTotemModConfig.getInstance().isSupportOtherModsTotems() && Registries.ITEM.getId(stack.getItem()).getPath().contains("totem"));
+		return stack.getItem() == Items.TOTEM_OF_UNDYING || (SkinTotemModConfig.getInstance().isSupportOtherModsTotems() && BuiltInRegistries.ITEM.getId(stack.getItem()).getPath().contains("totem"));
 	}
 }

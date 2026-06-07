@@ -1,7 +1,7 @@
 package com.darkz.skintotem.gui.widget.list;
 
 import lombok.Getter;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.gui.widget.ElementListWidget.Entry;
@@ -14,7 +14,7 @@ public abstract class AbstractVersionedEntryListWidget<E extends Entry<E>> exten
 	*///?}
 
 	public AbstractVersionedEntryListWidget(int x, int y, int width, int height, int itemHeight) {
-		super(MinecraftClient.getInstance(), width, height, y /*? if <1.21 {*//*, y + height *//*?}*/, itemHeight);
+		super(Minecraft.getInstance(), width, height, y /*? if <1.21 {*//*, y + height *//*?}*/, itemHeight);
 		this.setX(x);
 		//? if <1.21 {
 		/*this.setRenderBackground(false);

@@ -19,7 +19,7 @@ import com.darkz.skintotem.gui.screen.WelcomeScreen;
 import java.util.List;
 import java.util.function.Function;
 
-@Mixin(MinecraftClient.class)
+@Mixin(Minecraft.class)
 public class MinecraftClientMixin {
 
 	//? if >=1.21 {
@@ -36,7 +36,7 @@ public class MinecraftClientMixin {
 	}
 	//?} else {
 	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;onInitFinished(Lnet/minecraft/client/realms/RealmsClient;Lnet/minecraft/resource/ResourceReload;Lnet/minecraft/client/RunArgs$QuickPlay;)V"), method = "<init>")
-	private void addMTDHelloScreen(MinecraftClient client, RealmsClient realmsClient, ResourceReload resourceReload, QuickPlay quickPlay, Operation<Void> original) {
+	private void addMTDHelloScreen(Minecraft client, RealmsClient realmsClient, ResourceReload resourceReload, QuickPlay quickPlay, Operation<Void> original) {
 		Runnable runnable = () -> original.call(client, realmsClient, resourceReload, quickPlay);
 
 		SkinTotemModConfig config = SkinTotemModConfig.getInstance();

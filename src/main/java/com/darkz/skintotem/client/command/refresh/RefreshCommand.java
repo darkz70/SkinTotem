@@ -3,9 +3,9 @@ package com.darkz.skintotem.client.command.refresh;
 import java.util.Map;
 import java.util.concurrent.*;
 import com.darkz.skintotem.client.SkinTotemModClient;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.command.CommandSource;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.commands.CommandSource;
+import net.minecraft.network.chat.Component;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -48,7 +48,7 @@ public class RefreshCommand {
 
 		RELOADING_ALL_FUTURE = TotemDollManager.reloadData((seconds) -> {
 			Text endFeedback = CommandTextBuilder.startBuilder("command.refresh.all.end", seconds).build();
-			MinecraftClient.getInstance().execute(() -> context.getSource().sendFeedback(endFeedback));
+			Minecraft.getInstance().execute(() -> context.getSource().sendFeedback(endFeedback));
 		}).whenComplete((r, e) -> {
 			RELOADING_ALL_FUTURE = null;
 			if (e != null) {
@@ -74,7 +74,7 @@ public class RefreshCommand {
 
 		CompletableFuture<Float> f = TotemDollManager.reloadData(nickname, (seconds) -> {
 			Text endFeedback = CommandTextBuilder.startBuilder("command.refresh.player.end", nickname, seconds).build();
-			MinecraftClient.getInstance().execute(() -> context.getSource().sendFeedback(endFeedback));
+			Minecraft.getInstance().execute(() -> context.getSource().sendFeedback(endFeedback));
 		});
 
 		if (f != null) {

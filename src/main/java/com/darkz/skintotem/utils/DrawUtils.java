@@ -1,12 +1,12 @@
 package com.darkz.skintotem.utils;
 
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.tooltip.*;
+import net.minecraft.client.gui.screens.inventory.tooltip.*;;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class DrawUtils {
 
 	public static void drawTooltip(DrawContext context, List<TooltipComponent> list, int x, int y) {
 		context./*? if >=1.21.6 {*/ drawTooltipImmediately /*?} else {*/ /*drawTooltip *//*?}*/(
-				MinecraftClient.getInstance().textRenderer,
+				Minecraft.getInstance().textRenderer,
 				list,
 				x,
 				y,
@@ -45,7 +45,7 @@ public class DrawUtils {
 	}
 
 	public static void drawCenteredText(DrawContext context, Text text, int x, int y, int width, int height) {
-		TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
 		int textWidth = textRenderer.getWidth(text);
 
 		int centerX = x + (width / 2);
@@ -60,7 +60,7 @@ public class DrawUtils {
 	}
 
 	public static void drawText(DrawContext context, Text text, int x, int y, int width, int height) {
-		TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
 		int textWidth = textRenderer.getWidth(text);
 		if (x + textWidth > x + width) {
 			drawScrollableText(context, x, y, width, height, text);
@@ -73,7 +73,7 @@ public class DrawUtils {
 		//? if >=1.21.11 {
 		context.getTextConsumer().text(text, x, x + width, y, y + height);
 		//?} else {
-		/*TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+		/*TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
 		ClickableWidget.drawScrollableText(context, textRenderer, text, x, y, x + width, y + height, -1);
 		*///?}
 	}

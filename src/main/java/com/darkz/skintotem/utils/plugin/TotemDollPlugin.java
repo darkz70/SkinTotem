@@ -2,10 +2,10 @@ package com.darkz.skintotem.utils.plugin;
 
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.config.SkinTotemModConfig;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import net.fabricmc.fabric.api.resource.*;
 import net.fabricmc.loader.api.FabricLoader;

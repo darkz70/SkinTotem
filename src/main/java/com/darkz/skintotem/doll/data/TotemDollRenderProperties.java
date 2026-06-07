@@ -8,7 +8,7 @@ import com.darkz.skintotem.doll.model.TotemDollModel;
 import com.darkz.skintotem.doll.renderer.DollRenderContext;
 import com.darkz.skintotem.model.base.*;
 import com.darkz.skintotem.model.bb.manager.BlockBenchModelManager;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.*;
 
 public class TotemDollRenderProperties {

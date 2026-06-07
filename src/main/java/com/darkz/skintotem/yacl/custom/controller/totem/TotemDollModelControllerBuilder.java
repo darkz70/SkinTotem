@@ -4,7 +4,7 @@ import dev.isxander.yacl3.api.Option;
 
 
 import dev.isxander.yacl3.api.controller.ControllerBuilder;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public interface TotemDollModelControllerBuilder extends ControllerBuilder<Identifier> {
 

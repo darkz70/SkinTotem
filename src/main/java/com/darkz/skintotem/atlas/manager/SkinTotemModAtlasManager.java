@@ -8,12 +8,12 @@ import com.darkz.skintotem.atlas.*;
 import com.darkz.skintotem.atlas.stitch.*;
 import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.thread.SkinTotemModTaskExecutor;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.*;
 import net.minecraft.client.texture.*;
 import net.minecraft.client.texture.SpriteLoader.StitchResult;
 import net.minecraft.resource.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.*;
 
 public class SkinTotemModAtlasManager {
@@ -55,7 +55,7 @@ public class SkinTotemModAtlasManager {
 	private static LockableAtlasTexture set(@NotNull LockableAtlasTexture texture) {
 		SpriteAtlasTexture atlas = texture.getAtlas();
 		ATLAS_TEXTURE = texture;
-		MinecraftClient.getInstance().getTextureManager().registerTexture(atlas.getId(), atlas);
+		Minecraft.getInstance().getTextureManager().registerTexture(atlas.getId(), atlas);
 		return ATLAS_TEXTURE;
 	}
 
@@ -64,7 +64,7 @@ public class SkinTotemModAtlasManager {
 	}
 
 	public static void stitchAndUpdate(Set<AtlasSprite> sprites, Executor executor, @Nullable OnAtlasStitched onAtlasStitched) {
-		stitchAndUpdate(sprites, null, executor, MinecraftClient.getInstance(), onAtlasStitched);
+		stitchAndUpdate(sprites, null, executor, Minecraft.getInstance(), onAtlasStitched);
 	}
 
 	public static void stitchAndUpdate(Set<AtlasSprite> sprites, @Nullable ResourceReloader.Synchronizer synchronizer, Executor prepareExecutor, Executor applyExecutor, @Nullable OnAtlasStitched onAtlasStitched) {

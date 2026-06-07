@@ -1,6 +1,6 @@
 package com.darkz.skintotem.gui.widget.info;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.gui.tooltip.info.InfoTooltipData;

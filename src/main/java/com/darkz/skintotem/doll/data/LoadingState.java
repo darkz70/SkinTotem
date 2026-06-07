@@ -1,7 +1,7 @@
 package com.darkz.skintotem.doll.data;
 
 import lombok.Getter;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 import com.darkz.skintotem.SkinTotemMod;
 

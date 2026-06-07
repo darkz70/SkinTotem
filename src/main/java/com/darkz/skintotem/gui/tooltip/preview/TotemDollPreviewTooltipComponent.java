@@ -7,8 +7,8 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.text.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.*;;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.config.SkinTotemModConfig;

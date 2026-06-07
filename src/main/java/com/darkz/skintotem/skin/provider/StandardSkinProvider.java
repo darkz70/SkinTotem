@@ -1,7 +1,7 @@
 package com.darkz.skintotem.skin.provider;
 
 import lombok.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 
 import com.darkz.skintotem.api.Response;

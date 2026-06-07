@@ -1,6 +1,6 @@
 package com.darkz.skintotem.extension;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class IdentifierExtension {
 

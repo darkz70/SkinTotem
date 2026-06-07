@@ -3,7 +3,7 @@ package com.darkz.skintotem.model.bb;
 import lombok.*;
 import lombok.experimental.ExtensionMethod;
 import net.minecraft.client.render.model.json.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

@@ -5,7 +5,7 @@ import com.google.gson.stream.JsonReader;
 import net.fabricmc.loader.api.*;
 import com.darkz.skintotem.atlas.manager.*;
 import com.darkz.skintotem.model.bb.BBOutliner;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelTransform;
 import net.minecraft.client.render.model.json.*;
 import net.minecraft.resource.ResourceManager;
@@ -306,7 +306,7 @@ public class BlockBenchModelManager {
 	private static JsonObject readAsJsonObject(Identifier id) throws IOException {
 		ResourceManager resourceManager = currentResourceManager != null
 				? currentResourceManager
-				: MinecraftClient.getInstance().getResourceManager();
+				: Minecraft.getInstance().getResourceManager();
 		InputStream open = resourceManager.open(id);
 		return new Gson().fromJson(new JsonReader(new InputStreamReader(open)), JsonObject.class);
 	}

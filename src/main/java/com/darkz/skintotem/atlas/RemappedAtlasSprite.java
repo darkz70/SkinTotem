@@ -4,7 +4,7 @@ import java.util.Objects;
 import lombok.*;
 import com.darkz.skintotem.SkinTotemMod;
 import net.minecraft.client.texture.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.*;
 

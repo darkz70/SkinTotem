@@ -6,11 +6,11 @@ import dev.isxander.yacl3.gui.YACLScreen.CategoryTab;
 import dev.isxander.yacl3.gui.utils.GuiUtils;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.extension.DrawContextExtension;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.math.RotationAxis;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -58,8 +58,8 @@ public class BetterCategoryTab extends CategoryTab {
 	public void updateButtons() {
 		this.undoButton.active = false;
 		this.saveFinishedButton.setMessage(ScreenTexts.DONE);
-		this.saveFinishedButton.setTooltip(Tooltip.of(Text.translatable("yacl.gui.finished.tooltip")));
-		this.cancelResetButton.setMessage(Text.translatable("controls.reset"));
-		this.cancelResetButton.setTooltip(Tooltip.of(Text.translatable("yacl.gui.reset.tooltip")));
+		this.saveFinishedButton.setTooltip(Tooltip.of(Component.translatable("yacl.gui.finished.tooltip")));
+		this.cancelResetButton.setMessage(Component.translatable("controls.reset"));
+		this.cancelResetButton.setTooltip(Tooltip.of(Component.translatable("yacl.gui.reset.tooltip")));
 	}
 }

@@ -1,7 +1,7 @@
 package com.darkz.skintotem.tag.manager;
 
 import it.unimi.dsi.fastutil.chars.*;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.*;
 
 import com.darkz.skintotem.SkinTotemMod;

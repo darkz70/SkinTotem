@@ -5,7 +5,7 @@ import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.gui.YACLScreen;
 
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 

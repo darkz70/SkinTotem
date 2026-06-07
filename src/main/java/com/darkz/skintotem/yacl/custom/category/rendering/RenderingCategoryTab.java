@@ -7,12 +7,12 @@ import dev.isxander.yacl3.gui.*;
 import dev.isxander.yacl3.gui.tab.*;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.extension.DrawContextExtension;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.*;
 import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.*;
+import net.minecraft.network.chat.*;;
 
 import com.darkz.skintotem.utils.*;
 import com.darkz.skintotem.yacl.custom.TransparencySprites;
@@ -64,20 +64,20 @@ public class RenderingCategoryTab implements TabExt {
 				.build();
 
 		actionDim.move(actionDim.width() + 4, 0);
-		this.undoButton = ButtonWidget.builder(Text.translatable("yacl.gui.undo"), btn -> yaclScreen.undo())
+		this.undoButton = ButtonWidget.builder(Component.translatable("yacl.gui.undo"), btn -> yaclScreen.undo())
 				.position(actionDim.x() - actionDim.width() / 2, actionDim.y())
 				.size(actionDim.width(), actionDim.height())
-				.tooltip(Tooltip.of(Text.translatable("yacl.gui.undo.tooltip")))
+				.tooltip(Tooltip.of(Component.translatable("yacl.gui.undo.tooltip")))
 				.build();
 
 		this.searchField = new SearchFieldWidget(
 				screen,
-				MinecraftClient.getInstance().textRenderer,
+				Minecraft.getInstance().textRenderer,
 				screen.width / 3 * 2 + screen.width / 6 - paddedWidth / 2 + 1,
 				this.undoButton.getY() - 22,
 				paddedWidth - 2, 18,
-				Text.translatable("gui.recipebook.search_hint"),
-				Text.translatable("gui.recipebook.search_hint"),
+				Component.translatable("gui.recipebook.search_hint"),
+				Component.translatable("gui.recipebook.search_hint"),
 				//? if !1.20.1 {
 				(searchQuery) -> this.optionList.getType().updateSearchQuery(searchQuery)
 				//?} else {
@@ -89,7 +89,7 @@ public class RenderingCategoryTab implements TabExt {
 		this.optionList = YACLSelectionList.asWidget(new OptionListWidget(
 				screen,
 				category,
-				MinecraftClient.getInstance(),
+				Minecraft.getInstance(),
 				0,
 				0,
 				screen.width / 3 * 2 + 1,
@@ -99,7 +99,7 @@ public class RenderingCategoryTab implements TabExt {
 		//?} else {
 		/*this.optionList = new ListHolderWidget<>(
 				() -> new ScreenRect(tabArea.position(), tabArea.width() / 3 * 2 - 2, tabArea.height()),
-				new OptionListWidget(screen, category, MinecraftClient.getInstance(), 0, 0, screen.width / 3 * 2 + 1, screen.height, desc -> {})
+				new OptionListWidget(screen, category, Minecraft.getInstance(), 0, 0, screen.width / 3 * 2 + 1, screen.height, desc -> {})
 		);
 		*///?}
 
@@ -173,8 +173,8 @@ public class RenderingCategoryTab implements TabExt {
 	public void updateButtons() {
 		this.undoButton.active = false;
 		this.saveFinishedButton.setMessage(ScreenTexts.DONE);
-		this.saveFinishedButton.setTooltip(Tooltip.of(Text.translatable("yacl.gui.finished.tooltip")));
-		this.cancelResetButton.setMessage(Text.translatable("controls.reset"));
-		this.cancelResetButton.setTooltip(Tooltip.of(Text.translatable("yacl.gui.reset.tooltip")));
+		this.saveFinishedButton.setTooltip(Tooltip.of(Component.translatable("yacl.gui.finished.tooltip")));
+		this.cancelResetButton.setMessage(Component.translatable("controls.reset"));
+		this.cancelResetButton.setTooltip(Tooltip.of(Component.translatable("yacl.gui.reset.tooltip")));
 	}
 }

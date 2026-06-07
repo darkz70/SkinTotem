@@ -8,7 +8,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.DrawContext.ScissorStack;
 import net.minecraft.client.gui.render.state.GuiRenderState;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.World;
 import org.joml.*;
 import org.spongepowered.asm.mixin.*;

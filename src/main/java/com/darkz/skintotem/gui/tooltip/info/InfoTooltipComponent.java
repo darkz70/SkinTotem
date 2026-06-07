@@ -1,12 +1,12 @@
 package com.darkz.skintotem.gui.tooltip.info;
 
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.*;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 
-import net.minecraft.text.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.*;;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.utils.*;
@@ -25,13 +25,13 @@ public class InfoTooltipComponent implements TooltipComponent {
 
 	public static final Identifier SEPARATOR = SkinTotemMod.id("textures/gui/info/separator.png");
 
-	private final MutableText title;
+	private final MutableComponent title;
 	private final MultilineText text;
 
 	public InfoTooltipComponent(String key, int color) {
 		this.title = SkinTotemMod.text("%s.title".formatted(key));
 		this.title.setStyle(this.title.getStyle().withColor(color));
-		this.text  = MultilineText.create(MinecraftClient.getInstance().textRenderer, SkinTotemMod.text("%s.text".formatted(key)), 140);
+		this.text  = MultilineText.create(Minecraft.getInstance().textRenderer, SkinTotemMod.text("%s.text".formatted(key)), 140);
 	}
 
 	@Override

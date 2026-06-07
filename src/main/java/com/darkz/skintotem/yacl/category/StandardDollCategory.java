@@ -2,7 +2,7 @@ package com.darkz.skintotem.yacl.category;
 
 import dev.isxander.yacl3.api.*;
 import lombok.experimental.ExtensionMethod;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.config.SkinTotemModConfig;
 import com.darkz.skintotem.config.totem.*;

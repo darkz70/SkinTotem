@@ -4,10 +4,10 @@ import java.io.*;
 import java.util.*;
 import lombok.*;
 import com.darkz.skintotem.atlas.stitch.OnSpriteUploaded;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resource.metadata.*;
 import net.minecraft.client.texture.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.*;
 
 //? if >=1.21 {
@@ -85,9 +85,9 @@ public class AtlasSprite {
 	public static /*? if >=1.21 {*/ResourceMetadata /*?} else {*/ /*AnimationResourceMetadata *//*?}*/ getAnimationMetadataForSprite(AtlasSprite sprite) {
 		try {
 			Identifier id = sprite.getSpriteId();
-			InputStream stream = MinecraftClient.getInstance()
+			InputStream stream = Minecraft.getInstance()
 					.getResourceManager()
-					.getResourceOrThrow(Identifier.of(id.getNamespace(), id.getPath() + ".mcmeta"))
+					.getResourceOrThrow(ResourceLocation.fromNamespaceAndPath(id.getNamespace(), id.getPath() + ".mcmeta"))
 					.getInputStream();
 			//? if >=1.21 {
 			return ResourceMetadata.create(stream);

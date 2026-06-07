@@ -5,13 +5,13 @@ import dev.isxander.yacl3.api.utils.*;
 import com.darkz.skintotem.config.SkinTotemModConfig;
 import com.darkz.skintotem.doll.model.TotemDollModel;
 import com.darkz.skintotem.utils.DrawUtils;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.*;
 import net.minecraft.client.gui.widget.ButtonWidget.PressAction;
-import net.minecraft.text.*;
+import net.minecraft.network.chat.*;;
 import net.minecraft.util.*;
 
 import com.darkz.skintotem.SkinTotemMod;
@@ -66,7 +66,7 @@ public class TotemDollModelSelectionScreen extends Screen {
 
 		this.listWidget = this.addDrawableChild(new ButtonListWidget(this.listPanelDimension.x(), this.listPanelDimension.y() + 2, this.listPanelDimension.width(), this.listPanelDimension.height(), 20));
 
-		TextFieldWidget textFieldWidget = this.addDrawableChild(new TextFieldWidget(MinecraftClient.getInstance().textRenderer, textFieldDimension.x(), textFieldDimension.y(), textFieldDimension.width(), textFieldDimension.height(), Text.of("")));
+		TextFieldWidget textFieldWidget = this.addDrawableChild(new TextFieldWidget(Minecraft.getInstance().textRenderer, textFieldDimension.x(), textFieldDimension.y(), textFieldDimension.width(), textFieldDimension.height(), Text.of("")));
 		textFieldWidget.setChangedListener(this.listWidget::search);
 		textFieldWidget.setPlaceholder(SkinTotemMod.text("placeholder.search"));
 
@@ -159,7 +159,7 @@ public class TotemDollModelSelectionScreen extends Screen {
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
-		TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
 
 		// Title
 		DrawUtils.drawCenteredText(context, this.getTitle(), this.titleDimension.x() + 2, this.titleDimension.y(), this.titleDimension.width() - 2, this.titleDimension.height());
@@ -168,7 +168,7 @@ public class TotemDollModelSelectionScreen extends Screen {
 		DrawUtils.drawCenteredText(context, SkinTotemMod.text("text.found_models", this.listWidget.getEntryCount()), this.listTitleDimension.x() + 2, this.listTitleDimension.y(), this.listTitleDimension.width() - 2, this.listTitleDimension.height());
 
 		// "Full Model Path" text
-		MutableText fullModelPathText = SkinTotemMod.text("text.full_model_path");
+		MutableComponent fullModelPathText = SkinTotemMod.text("text.full_model_path");
 		int a = textRenderer.getWidth(fullModelPathText);
 		int offset = 10;
 
@@ -181,7 +181,7 @@ public class TotemDollModelSelectionScreen extends Screen {
 		// Model Path Text
 		context.enableScissor(this.modelPathDimension.x(), this.modelPathDimension.y(), this.modelPathDimension.xLimit() - offset, this.modelPathDimension.yLimit());
 
-		Text text = this.selectedModel == null ? Text.literal("...").formatted(Formatting.GRAY) : this.selectedModel;
+		Text text = this.selectedModel == null ? Component.literal("...").formatted(Formatting.GRAY) : this.selectedModel;
 		int width = textRenderer.getWidth(text);
 		if (this.modelPathDimension.x() + width + offset > this.modelPathDimension.xLimit() - offset) {
 			DrawUtils.drawText(context, text, this.modelPathDimension.x() + offset, this.modelPathDimension.yLimit() - textRenderer.fontHeight - offset, this.modelPathDimension.width() - offset, textRenderer.fontHeight);
@@ -247,6 +247,6 @@ public class TotemDollModelSelectionScreen extends Screen {
 
 	@Override
 	public void close() {
-		MinecraftClient.getInstance().setScreen(this.parent);
+		Minecraft.getInstance().setScreen(this.parent);
 	}
 }

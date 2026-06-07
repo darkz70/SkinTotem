@@ -7,7 +7,7 @@ import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.gui.YACLScreen;
 import dev.isxander.yacl3.gui.tab.TabExt;
 import net.minecraft.client.gui.ScreenRect;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 public record BetterConfigCategoryImpl(Text name, ImmutableList<OptionGroup> groups,
                                        Text tooltip) implements BetterConfigCategory, CustomTabProvider {

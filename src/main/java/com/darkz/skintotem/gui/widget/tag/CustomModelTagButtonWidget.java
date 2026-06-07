@@ -4,13 +4,13 @@ import lombok.*;
 import com.darkz.skintotem.doll.data.*;
 import com.darkz.skintotem.model.base.MModel;
 import com.darkz.skintotem.utils.ScreenUtils;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
 import com.darkz.skintotem.client.SkinTotemModClient;
@@ -70,14 +70,14 @@ public class CustomModelTagButtonWidget extends TagButtonWidget {
 	@Override
 	public @Nullable TooltipComponent getTooltipComponent() {
 		if (this.model == null) {
-			return TooltipComponent.of(net.minecraft.text.Text.of("Unknown Model").asOrderedText());
+			return ClientTooltipComponent.create(net.minecraft.text.Text.of("Unknown Model").getVisualOrderText());
 		}
 		if (this.tooltipData == null) {
 			this.tooltipData = this.data.copy();
 			this.tooltipData.setStandardMModel(this.data.getRenderProperties().getStandardMModel());
 		}
 		this.tooltipDataActive = true;
-		return TooltipComponent.of(new TotemDollPreviewTooltipData(this.tooltipData, this.model));
+		return ClientTooltipComponent.create(new TotemDollPreviewTooltipData(this.tooltipData, this.model));
 	}
 
 	@Override

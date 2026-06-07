@@ -8,7 +8,7 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.render.model.json.*;
 import net.minecraft.client.texture.*;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.math.*;
 
 import com.darkz.skintotem.extension.*;

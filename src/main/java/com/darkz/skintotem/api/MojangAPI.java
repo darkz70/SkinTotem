@@ -5,7 +5,7 @@ import com.darkz.skintotem.cache.KnownPlayerUUIDsConfigManager;
 import com.darkz.skintotem.config.SkinTotemModConfig;
 import com.darkz.skintotem.config.cache.KnownPlayerUUIDsConfig;
 import com.darkz.skintotem.exception.HttpResponseException;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.skin.data.ParsedSkinData;
 import java.net.URI;

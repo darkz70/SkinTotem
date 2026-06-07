@@ -1,20 +1,20 @@
 package com.darkz.skintotem.client.command.builder;
 
-import net.minecraft.text.*;
+import net.minecraft.network.chat.*;;
 
 import com.darkz.skintotem.SkinTotemMod;
 
 public class CommandTextBuilder {
 
-	private static final MutableText MOD_ID_TEXT = SkinTotemMod.text("command.id");
+	private static final MutableComponent MOD_ID_TEXT = SkinTotemMod.text("command.id");
 
-	private final MutableText text;
+	private final MutableComponent text;
 
 	private CommandTextBuilder(String key, Object... args) {
 		this.text = CommandTextBuilder.translatable(key, args);
 	}
 
-	private static MutableText translatable(String key, Object... args) {
+	private static MutableComponent translatable(String key, Object... args) {
 		for (int i = 0; i < args.length; ++i) {
 			Object object = args[i];
 			if (!isPrimitive(object) && !(object instanceof Text)) {

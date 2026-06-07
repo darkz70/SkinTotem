@@ -1,7 +1,7 @@
 package com.darkz.skintotem.utils;
 
 import com.darkz.skintotem.client.SkinTotemModClient;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Util;
 import net.minecraft.util.Util.OperatingSystem;
@@ -12,11 +12,11 @@ public class ScreenUtils {
 
 	//? if >=1.21.9 {
 	public static boolean hasShiftDown() {
-		return InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow(), 340) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow(), 344);
+		return InputUtil.isKeyPressed(Minecraft.getInstance().getWindow(), 340) || InputUtil.isKeyPressed(Minecraft.getInstance().getWindow(), 344);
 	}
 	//?} else {
 	/*public static boolean hasShiftDown() {
-		return InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), 340) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), 344);
+		return InputUtil.isKeyPressed(Minecraft.getInstance().getWindow().getHandle(), 340) || InputUtil.isKeyPressed(Minecraft.getInstance().getWindow().getHandle(), 344);
 	}
 	*///?}
 
@@ -26,9 +26,9 @@ public class ScreenUtils {
 			IS_MAC = Util.getOperatingSystem() == OperatingSystem.OSX;
 		}
 		if (IS_MAC) {
-			return InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow(), 343) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow(), 347);
+			return InputUtil.isKeyPressed(Minecraft.getInstance().getWindow(), 343) || InputUtil.isKeyPressed(Minecraft.getInstance().getWindow(), 347);
 		} else {
-			return InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow(), 341) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow(), 345);
+			return InputUtil.isKeyPressed(Minecraft.getInstance().getWindow(), 341) || InputUtil.isKeyPressed(Minecraft.getInstance().getWindow(), 345);
 		}
 	}
 	//?} else {
@@ -37,9 +37,9 @@ public class ScreenUtils {
 			IS_MAC = Util.getOperatingSystem() == OperatingSystem.OSX;
 		}
 		if (IS_MAC) {
-			return InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), 343) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), 347);
+			return InputUtil.isKeyPressed(Minecraft.getInstance().getWindow().getHandle(), 343) || InputUtil.isKeyPressed(Minecraft.getInstance().getWindow().getHandle(), 347);
 		} else {
-			return InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), 341) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), 345);
+			return InputUtil.isKeyPressed(Minecraft.getInstance().getWindow().getHandle(), 341) || InputUtil.isKeyPressed(Minecraft.getInstance().getWindow().getHandle(), 345);
 		}
 	}
 	*///?}

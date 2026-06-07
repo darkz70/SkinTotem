@@ -1,7 +1,7 @@
 package com.darkz.skintotem.mixin;
 
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.*;
 
 import com.darkz.skintotem.utils.mixin.ItemStackWithPlayerEntity;

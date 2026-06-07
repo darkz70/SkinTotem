@@ -1,7 +1,7 @@
 package com.darkz.skintotem.pack;
 
 import net.minecraft.resource.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotemMod;
 

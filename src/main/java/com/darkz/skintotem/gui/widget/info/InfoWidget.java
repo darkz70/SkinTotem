@@ -1,17 +1,17 @@
 package com.darkz.skintotem.gui.widget.info;
 
 import lombok.*;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.tooltip.*;
+import net.minecraft.client.gui.screens.inventory.tooltip.*;;
 //? if >=1.21 {
 import net.minecraft.item.tooltip.TooltipData;
  //?} else {
 /*import net.minecraft.client.item.TooltipData;
 *///?}
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.utils.DrawUtils;
 import com.darkz.skintotem.utils.tooltip.IRequestableTooltipScreen;
@@ -59,7 +59,7 @@ public class InfoWidget implements Drawable {
 	}
 
 	public void requestTooltip() {
-		MinecraftClient client = MinecraftClient.getInstance();
+		Minecraft client = Minecraft.getInstance();
 		Screen screen = client.currentScreen;
 		TextRenderer textRenderer = client.textRenderer;
 
@@ -75,7 +75,7 @@ public class InfoWidget implements Drawable {
 			return;
 		}
 
-		TooltipComponent component = TooltipComponent.of(this.tooltipData);
+		TooltipComponent component = ClientTooltipComponent.create(this.tooltipData);
 		tooltipScreen.myTotemDoll$requestTooltip(((c, x, y, d) -> {
 			DrawUtils.drawTooltip(c, List.of(component), x, y);
 		}));

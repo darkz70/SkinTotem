@@ -6,7 +6,7 @@ import net.minecraft.client.font.*;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.*;
+import net.minecraft.network.chat.*;;
 import net.minecraft.util.*;
 
 import com.darkz.skintotem.tag.manager.TagsManager;
@@ -39,7 +39,7 @@ public class TagsTooltipComponent implements TooltipComponent {
 			}
 		});
 		if (this.modelTag != null) {
-			this.modelTagName = Text.literal(" > " + this.modelTag.getModelName() + " <").formatted(Formatting.BLUE);
+			this.modelTagName = Component.literal(" > " + this.modelTag.getModelName() + " <").formatted(Formatting.BLUE);
 		}
 	}
 

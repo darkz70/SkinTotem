@@ -1,7 +1,7 @@
 package com.darkz.skintotem.yacl.custom;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotemMod;
 
@@ -28,15 +28,15 @@ public class TransparencySprites {
 	private static final Identifier IN_WORLD_MENU_SEPARATOR_TEXTURE = SkinTotemMod.id("textures/gui/transparency/inworld_menu_separator.png");
 
 	public static Identifier getMenuBackgroundTexture() {
-		return MinecraftClient.getInstance().world == null ? MENU_BACKGROUND_TEXTURE : IN_WORLD_MENU_BACKGROUND_TEXTURE;
+		return Minecraft.getInstance().world == null ? MENU_BACKGROUND_TEXTURE : IN_WORLD_MENU_BACKGROUND_TEXTURE;
 	}
 
 	public static Identifier getMenuListBackgroundTexture() {
-		return MinecraftClient.getInstance().world == null ? MENU_LIST_BACKGROUND_TEXTURE : IN_WORLD_MENU_LIST_BACKGROUND_TEXTURE;
+		return Minecraft.getInstance().world == null ? MENU_LIST_BACKGROUND_TEXTURE : IN_WORLD_MENU_LIST_BACKGROUND_TEXTURE;
 	}
 
 	public static Identifier getMenuSeparatorTexture() {
-		return MinecraftClient.getInstance().world == null ? MENU_SEPARATOR_TEXTURE : IN_WORLD_MENU_SEPARATOR_TEXTURE;
+		return Minecraft.getInstance().world == null ? MENU_SEPARATOR_TEXTURE : IN_WORLD_MENU_SEPARATOR_TEXTURE;
 	}
 
 	public record SpriteTextures(Identifier enabled, Identifier disabled, Identifier enabledFocused,

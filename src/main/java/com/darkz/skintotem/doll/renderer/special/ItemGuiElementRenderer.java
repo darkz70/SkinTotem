@@ -2,7 +2,7 @@ package com.darkz.skintotem.doll.renderer.special;
 
 //? if >=1.21.6 {
 import com.darkz.skintotem.SkinTotemMod;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.render.SpecialGuiElementRenderer;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.DiffuseLighting.Type;
@@ -10,7 +10,7 @@ import net.minecraft.client.render.VertexConsumerProvider.Immediate;
 import net.minecraft.client.render.item.ItemRenderState;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.*;
+import net.minecraft.world.item.*;;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,7 +35,7 @@ public class ItemGuiElementRenderer extends SpecialGuiElementRenderer<ItemGuiRen
 
 	@Override
 	protected void render(ItemGuiRenderState state, MatrixStack matrices) {
-		MinecraftClient client = MinecraftClient.getInstance();
+		Minecraft client = Minecraft.getInstance();
 
 		client.gameRenderer.getDiffuseLighting().setShaderLights(Type.ITEMS_FLAT);
 		matrices.multiply(state.rotation());
@@ -68,9 +68,9 @@ public class ItemGuiElementRenderer extends SpecialGuiElementRenderer<ItemGuiRen
 	}
 
 	public void renderItem(@Nullable LivingEntity entity, ItemStack stack, ItemDisplayContext displayContext, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, int seed) {
-		MinecraftClient.getInstance().getItemModelManager().clearAndUpdate(this.itemRenderState, stack, displayContext, world, entity, seed);
+		Minecraft.getInstance().getItemModelManager().clearAndUpdate(this.itemRenderState, stack, displayContext, world, entity, seed);
 		//? if >=1.21.9 {
-		RenderDispatcher dispatcher = MinecraftClient.getInstance().gameRenderer.getEntityRenderDispatcher();
+		RenderDispatcher dispatcher = Minecraft.getInstance().gameRenderer.getEntityRenderDispatcher();
 		this.itemRenderState.render(matrices, dispatcher.getQueue(), light, overlay, 0);
 		dispatcher.render();
 		//?} else {

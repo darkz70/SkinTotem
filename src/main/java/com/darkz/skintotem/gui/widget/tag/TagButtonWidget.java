@@ -1,12 +1,12 @@
 package com.darkz.skintotem.gui.widget.tag;
 
 import lombok.*;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.*;
-import net.minecraft.client.gui.tooltip.*;
+import net.minecraft.client.gui.screens.inventory.tooltip.*;;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.tag.Tag;
@@ -109,7 +109,7 @@ public class TagButtonWidget extends ButtonWidget {
 	}
 
 	public void requestTooltip() {
-		MinecraftClient client = MinecraftClient.getInstance();
+		Minecraft client = Minecraft.getInstance();
 		Screen screen = client.currentScreen;
 
 		if (!this.isHovered()) {
@@ -134,7 +134,7 @@ public class TagButtonWidget extends ButtonWidget {
 		if (this.tooltipText == null) {
 			return null;
 		}
-		return TooltipComponent.of(this.tooltipText.asOrderedText());
+		return ClientTooltipComponent.create(this.tooltipText.getVisualOrderText());
 	}
 
 	public boolean over(double mouseX, double mouseY) {

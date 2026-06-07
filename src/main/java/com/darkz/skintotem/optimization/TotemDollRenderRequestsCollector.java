@@ -10,7 +10,7 @@ import com.darkz.skintotem.doll.model.TotemDollModel;
 import com.darkz.skintotem.doll.renderer.*;
 import com.darkz.skintotem.extension.MatrixStackEntryExtension;
 import com.darkz.skintotem.utils.*;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.VertexConsumerProvider.Immediate;
@@ -48,8 +48,8 @@ public class TotemDollRenderRequestsCollector {
 		}
 		atlasTexture.setLocked(true);
 
-		Immediate mainProvider = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
-		OutlineVertexConsumerProvider outlineProvider = MinecraftClient.getInstance().getBufferBuilders().getOutlineVertexConsumers();
+		Immediate mainProvider = Minecraft.getInstance().getBufferBuilders().getEntityVertexConsumers();
+		OutlineVertexConsumerProvider outlineProvider = Minecraft.getInstance().getBufferBuilders().getOutlineVertexConsumers();
 
 		for (TotemDollRenderRequest request : this.requests) {
 			this.renderRequest(request, request.provider() == null ? mainProvider : request.provider(), outlineProvider);

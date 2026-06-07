@@ -4,7 +4,7 @@ import dev.isxander.yacl3.gui.image.ImageRenderer;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.extension.DrawContextExtension;
 import com.darkz.skintotem.utils.*;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.*;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ClickableWidget;
@@ -63,7 +63,7 @@ public class TotemDollPreviewRenderer implements ImageRenderer {
 	}
 
 	private void updateSuggestion(int width, boolean resized) {
-		TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
 		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
 		TotemDollSkinType skinType = config.getStandardTotemDollSkinType();
 		String skinValue = config.getStandardTotemDollSkinValue();

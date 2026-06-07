@@ -12,7 +12,7 @@ import com.darkz.skintotem.model.bb.ModelState;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.*;
 
 @SuppressWarnings("unused")
@@ -106,7 +106,7 @@ public class MModelBuilder {
 				String path = split[1];
 				boolean pathValid = Identifier.isPathValid(path);
 				if (namespaceValid && pathValid) {
-					this.builtinSprite = AtlasSprite.of(Identifier.of(namespace, path));
+					this.builtinSprite = AtlasSprite.of(ResourceLocation.fromNamespaceAndPath(namespace, path));
 				}
 			} else {
 				this.builtinSprite = AtlasSprite.of(location.getFolderId().withSuffixedPath(this.getName()));

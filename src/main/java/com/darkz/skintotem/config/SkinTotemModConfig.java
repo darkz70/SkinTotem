@@ -5,7 +5,7 @@ import lombok.*;
 
 
 import com.darkz.skintotem.utils.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.slf4j.*;
 import com.mojang.serialization.*;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

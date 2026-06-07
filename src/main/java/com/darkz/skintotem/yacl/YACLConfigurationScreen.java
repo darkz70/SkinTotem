@@ -1,7 +1,7 @@
 package com.darkz.skintotem.yacl;
 
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.config.SkinTotemModConfig;

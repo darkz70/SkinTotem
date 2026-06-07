@@ -1,7 +1,7 @@
 package com.darkz.skintotem.utils;
 
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.yacl.custom.simple.utils.SimpleContent;

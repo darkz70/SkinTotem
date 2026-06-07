@@ -1,7 +1,7 @@
 package com.darkz.skintotem.tag;
 
 import lombok.Getter;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import org.jetbrains.annotations.*;
 

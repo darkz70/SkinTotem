@@ -2,10 +2,10 @@ package com.darkz.skintotem.client.event;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import com.darkz.skintotem.atlas.manager.*;
-import net.minecraft.client.gui.tooltip.*;
+import net.minecraft.client.gui.screens.inventory.tooltip.*;;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.ClientTooltipComponentCallback;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.gui.tooltip.combined.*;
@@ -24,7 +24,7 @@ public class SkinTotemModEvents {
 	}
 
 	private static void registerTooltipCallbacks() {
-		TooltipComponentCallback.EVENT.register((data -> {
+		ClientTooltipComponentCallback.EVENT.register((data -> {
 			if (data instanceof TagsTooltipData tooltipData) {
 				return new TagsTooltipComponent(tooltipData.tags());
 			}
@@ -32,7 +32,7 @@ public class SkinTotemModEvents {
 				return new InfoTooltipComponent(tooltipData.key(), tooltipData.color());
 			}
 			if (data instanceof LoadingStateTooltipData tooltipData) {
-				return TooltipComponent.of(SkinTotemMod.text("text.status").append(tooltipData.state().getText()).asOrderedText());
+				return ClientTooltipComponent.create(SkinTotemMod.text("text.status").append(tooltipData.state().getText()).getVisualOrderText());
 			}
 			if (data instanceof CombinedTooltipData tooltipData) {
 				return new CombinedTooltipComponent(tooltipData.list());

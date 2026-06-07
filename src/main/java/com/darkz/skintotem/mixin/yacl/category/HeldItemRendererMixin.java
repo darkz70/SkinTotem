@@ -6,7 +6,7 @@ import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import dev.isxander.yacl3.gui.YACLScreen;
 import java.util.function.*;
 import com.darkz.skintotem.client.SkinTotemModClient;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.*;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -14,7 +14,7 @@ import net.minecraft.client.render.item.HeldItemRenderer;
 
 import net.minecraft.client.render.item.HeldItemRenderer.HandRenderType;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.*;
+import net.minecraft.world.item.*;;
 import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.*;
 import com.darkz.skintotem.yacl.YACLConfigurationScreen;
@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 //? if >=1.20.5 {
-import net.minecraft.component.DataComponentTypes;
+import net.minecraft.core.component.DataComponents;
 //?}
 
 //? if >=1.21.9 {
@@ -136,7 +136,7 @@ public class HeldItemRendererMixin {
 
 	@Unique
 	private static void createBoolean(LocalBooleanRef ref) {
-		MinecraftClient client = MinecraftClient.getInstance();
+		Minecraft client = Minecraft.getInstance();
 		Screen currentScreen = client.currentScreen;
 
 		ref.set(false);
@@ -149,7 +149,7 @@ public class HeldItemRendererMixin {
 		if (!(yaclScreen.tabManager.getCurrentTab() instanceof RenderingCategoryTab)) {
 			return;
 		}
-		ClientPlayerEntity player = MinecraftClient.getInstance().player;
+		ClientPlayerEntity player = Minecraft.getInstance().player;
 		if (player == null) {
 			return;
 		}
@@ -158,7 +158,7 @@ public class HeldItemRendererMixin {
 
 	@Unique
 	private static void renderDoll(ItemStack original, Consumer<ItemStack> draw) {
-		ClientPlayerEntity player = MinecraftClient.getInstance().player;
+		ClientPlayerEntity player = Minecraft.getInstance().player;
 		if (player == null) {
 			draw.accept(original);
 			return;
@@ -167,7 +167,7 @@ public class HeldItemRendererMixin {
 			ItemStack totem = Items.TOTEM_OF_UNDYING.getDefaultStack();
 
 			//? if >=1.20.5 {
-			totem.set(DataComponentTypes.CUSTOM_NAME, player.getName());
+			totem.set(DataComponents.CUSTOM_NAME, player.getName());
 			//?} else {
 			/*totem.setCustomName(player.getName());
 			 *///?}

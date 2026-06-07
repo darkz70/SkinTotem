@@ -1,6 +1,6 @@
 package com.darkz.skintotem.utils;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public record ButtonTextures(Identifier enabled, Identifier disabled, Identifier enabledHovered, Identifier disabledHovered) {
 

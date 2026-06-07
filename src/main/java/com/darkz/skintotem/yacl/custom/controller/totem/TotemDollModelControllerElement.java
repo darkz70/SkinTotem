@@ -4,11 +4,11 @@ import dev.isxander.yacl3.api.utils.Dimension;
 import dev.isxander.yacl3.gui.YACLScreen;
 import dev.isxander.yacl3.gui.controllers.ControllerWidget;
 import com.darkz.skintotem.utils.DrawUtils;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.text.*;
+import net.minecraft.network.chat.*;;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.yacl.custom.screen.TotemDollModelSelectionScreen;
@@ -39,7 +39,7 @@ public class TotemDollModelControllerElement extends ControllerWidget<TotemDollM
 
 	@Override
 	protected void drawValueText(DrawContext graphics, int mouseX, int mouseY, float delta) {
-		TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
 		Text valueText = this.getValueText();
 
 		int width = textRenderer.getWidth(valueText);
@@ -55,7 +55,7 @@ public class TotemDollModelControllerElement extends ControllerWidget<TotemDollM
 	public boolean mouseClicked(Click click, boolean doubled) {
 		if (this.isAvailable() && this.isMouseOver(click.x(), click.y()) && this.getDimension().isPointInside((int) click.x(), (int) click.y())) {
 			this.playDownSound();
-			MinecraftClient.getInstance().setScreen(new TotemDollModelSelectionScreen(this.screen, this.controller.option()));
+			Minecraft.getInstance().setScreen(new TotemDollModelSelectionScreen(this.screen, this.controller.option()));
 			return true;
 		}
 		return false;
@@ -65,7 +65,7 @@ public class TotemDollModelControllerElement extends ControllerWidget<TotemDollM
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		if (this.isAvailable() && this.isMouseOver(mouseX, mouseY) && this.getDimension().isPointInside((int) mouseX, (int) mouseY)) {
 			this.playDownSound();
-			MinecraftClient.getInstance().setScreen(new TotemDollModelSelectionScreen(this.screen, this.controller.option()));
+			Minecraft.getInstance().setScreen(new TotemDollModelSelectionScreen(this.screen, this.controller.option()));
 			return true;
 		}
 		return false;

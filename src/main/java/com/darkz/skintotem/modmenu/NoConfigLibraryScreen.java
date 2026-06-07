@@ -2,7 +2,7 @@ package com.darkz.skintotem.modmenu;
 
 import com.google.common.collect.Sets;
 import net.minecraft.SharedConstants;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.*;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.util.Util;
@@ -43,7 +43,7 @@ public class NoConfigLibraryScreen {
 				SkinTotemModClient.LOGGER.error("Can't open YACL Modrinth page:", e);
 			}
 		} else {
-			MinecraftClient.getInstance().setScreen(parent);
+			Minecraft.getInstance().setScreen(parent);
 		}
 	}
 

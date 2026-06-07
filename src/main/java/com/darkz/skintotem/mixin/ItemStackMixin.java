@@ -4,17 +4,17 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.config.SkinTotemModConfig;
 import com.darkz.skintotem.utils.ScreenUtils;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.AnvilScreen;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.item.*;
+import net.minecraft.world.item.*;;
 //? if >=1.21 {
 import net.minecraft.item.tooltip.TooltipData;
  //?} else {
 /*import net.minecraft.client.item.TooltipData;
 *///?}
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -56,7 +56,7 @@ public abstract class ItemStackMixin {
 		if (tags == null || name == null) {
 			return original;
 		}
-		return Text.literal(name).setStyle(original.getStyle());
+		return Component.literal(name).setStyle(original.getStyle());
 	}
 
 	@ModifyReturnValue(at = @At("RETURN"), method = "getTooltipData")
@@ -87,7 +87,7 @@ public abstract class ItemStackMixin {
 
 	@Unique
 	private Optional<TooltipData> getLoadingStateTooltipData(String[] data) {
-		Screen currentScreen = MinecraftClient.getInstance().currentScreen;
+		Screen currentScreen = Minecraft.getInstance().currentScreen;
 		if (!(currentScreen instanceof AnvilScreen || ScreenUtils.hasShiftDown())) {
 			return Optional.empty();
 		}

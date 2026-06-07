@@ -2,12 +2,12 @@ package com.darkz.skintotem.gui.widget;
 
 import lombok.*;
 import com.darkz.skintotem.utils.DrawUtils;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.*;
 
 import com.darkz.skintotem.SkinTotemMod;
@@ -47,7 +47,7 @@ public class TotemDollModelPreviewWidget extends ClickableWidget {
 
 	protected void renderLoadingText(DrawContext context) {
 		int halfOfSize = (int) this.size / 2;
-		TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
 		//context.fill(this.getX(), this.getY(), this.getX() + 1, this.getY() + 1, -1);
 		DrawUtils.drawCenteredText(context, this.getLoadingText(Util.getMeasuringTimeMs()), this.getX(), this.getY() + halfOfSize - (textRenderer.fontHeight / 2), (int) this.size);
 	}

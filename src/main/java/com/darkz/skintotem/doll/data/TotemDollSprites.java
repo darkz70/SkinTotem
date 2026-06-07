@@ -3,7 +3,7 @@ package com.darkz.skintotem.doll.data;
 import lombok.*;
 import com.darkz.skintotem.atlas.*;
 import com.darkz.skintotem.atlas.manager.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.config.totem.TotemDollArmsType;
 

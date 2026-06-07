@@ -3,7 +3,7 @@ package com.darkz.skintotem.config.totem;
 import lombok.Getter;
 
 
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringIdentifiable;
 import com.mojang.serialization.Codec;
 import com.darkz.skintotem.SkinTotemMod;

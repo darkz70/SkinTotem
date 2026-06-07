@@ -6,7 +6,7 @@ import com.darkz.skintotem.doll.data.TotemDollData;
 import com.darkz.skintotem.doll.renderer.DollRenderContext;
 import net.minecraft.client.gui.ScreenRect;
 import net.minecraft.client.gui.render.state.special.SpecialGuiElementRenderState;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 

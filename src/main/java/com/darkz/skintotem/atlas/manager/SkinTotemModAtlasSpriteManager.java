@@ -9,10 +9,10 @@ import com.darkz.skintotem.atlas.*;
 import com.darkz.skintotem.atlas.stitch.*;
 import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.utils.texture.PlayerSkinUtils;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.texture.*;
 import net.minecraft.resource.Resource;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.*;
 
 public class SkinTotemModAtlasSpriteManager {
@@ -20,13 +20,13 @@ public class SkinTotemModAtlasSpriteManager {
 	private static final AtlasSprite MISSING_SPRITE = AtlasSprite.of(MissingSprite.createSpriteContents());
 
 	@NotNull
-	public static final AtlasSprite STEVE_SKIN_SPRITE = Objects.requireNonNull(AtlasSprite.of(Identifier.of("minecraft", "textures/entity/player/wide/steve.png")));
+	public static final AtlasSprite STEVE_SKIN_SPRITE = Objects.requireNonNull(AtlasSprite.of(ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/player/wide/steve.png")));
 	//? if >=1.21.2 {
 	@NotNull
-	public static final RemappedAtlasSprite ELYTRA_SPRITE = RemappedAtlasSprite.ofResource(Identifier.of("textures/entity/equipment/wings/elytra.png"));
+	public static final RemappedAtlasSprite ELYTRA_SPRITE = RemappedAtlasSprite.ofResource(ResourceLocation.fromNamespaceAndPath("textures/entity/equipment/wings/elytra.png"));
 	//?} else {
 	/*@NotNull
-	public static final RemappedAtlasSprite ELYTRA_SPRITE = RemappedAtlasSprite.ofResource(Objects.requireNonNull(Identifier.of("minecraft","textures/entity/elytra.png")));
+	public static final RemappedAtlasSprite ELYTRA_SPRITE = RemappedAtlasSprite.ofResource(Objects.requireNonNull(ResourceLocation.fromNamespaceAndPath("minecraft","textures/entity/elytra.png")));
 	*///?}
 
 	private static final Map<Long, AtlasSprite> CONTENT_CACHED_SPECIAL_SKIN_SPRITES = new ConcurrentHashMap<>();
@@ -134,9 +134,9 @@ public class SkinTotemModAtlasSpriteManager {
 	}
 
 	private static void loadFromResource(Identifier id, Consumer<NativeImage> consumer) {
-		Resource resource = MinecraftClient.getInstance().getResourceManager().getResource(id).orElse(null);
+		Resource resource = Minecraft.getInstance().getResourceManager().getResource(id).orElse(null);
 		if (resource == null) {
-			AbstractTexture texture = MinecraftClient.getInstance().getTextureManager().textures.get(id);
+			AbstractTexture texture = Minecraft.getInstance().getTextureManager().textures.get(id);
 			//? if >=1.21.4 {
 			if (!(texture instanceof NativeImageBackedTexture backedTexture)) {
 				SkinTotemModClient.LOGGER.error("Failed to register mod's texture as a sprite in atlas! Failed to find texture even from TextureManager! Id: \"{}\", Texture Class: \"{}\"", id, texture == null ? "null" : texture.getClass().getSimpleName());

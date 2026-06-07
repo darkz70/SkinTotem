@@ -2,11 +2,11 @@ package com.darkz.skintotem.mixin.yacl.category;
 
 //? if <=1.20.4 {
 /*import com.llamalad7.mixinextras.injector.wrapoperation.*;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.*;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -35,7 +35,7 @@ public abstract class TabButtonWidgetMixin extends ClickableWidget {
 	//? if <=1.20.1 {
 	/^@WrapOperation(at = @At(value = "INVOKE", target = WRAP_TARGET), method = "renderButton")
 	private void renderTransparencyTab1(DrawContext context, Identifier identifier, int x, int y, int w, int h, int a, int b, int c, int d, int e, int k, int l, int u, Operation<Void> original) {
-		if (YACLConfigurationScreen.notOpen(MinecraftClient.getInstance().currentScreen)) {
+		if (YACLConfigurationScreen.notOpen(Minecraft.getInstance().currentScreen)) {
 			original.call(context, identifier, x, y, w, h, a, b, c, d, e, k, l, u);
 			return;
 		}
@@ -48,7 +48,7 @@ public abstract class TabButtonWidgetMixin extends ClickableWidget {
 	
 	@WrapOperation(at = @At(value = "INVOKE", target = WRAP_TARGET), method = RENDER_METHOD)
 	private void renderTransparencyTab2(DrawContext context, Identifier textureId, int x, int y, int width, int height, Operation<Void> original) {
-		if (YACLConfigurationScreen.notOpen(MinecraftClient.getInstance().currentScreen)) {
+		if (YACLConfigurationScreen.notOpen(Minecraft.getInstance().currentScreen)) {
 			original.call(context, textureId, x, y, width, height);
 			return;
 		}

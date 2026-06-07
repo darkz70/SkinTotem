@@ -6,7 +6,7 @@ import net.minecraft.item.tooltip.TooltipData;
 /*import net.minecraft.client.item.TooltipData;
 *///?}
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.doll.data.TotemDollData;
 
