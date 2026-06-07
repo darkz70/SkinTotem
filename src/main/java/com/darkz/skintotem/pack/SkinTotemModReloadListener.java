@@ -39,5 +39,39 @@ public class SkinTotemModReloadListener implements /*? if >=1.21.9 {*/ ResourceR
 			profiler.pop();
 		}, applyExecutor);
 	}
-	//?} elif
-
+	//?} elif >=1.21.2 {
+	/*@Override
+	public CompletableFuture<Void> reload(Synchronizer synchronizer, ResourceManager manager, Executor prepareExecutor, Executor applyExecutor) {
+		return synchronizer.whenPrepared(Unit.INSTANCE).thenRunAsync(() -> {
+			Profiler profiler = Profilers.get();
+			profiler.push("listener");
+			this.reloadStuff(synchronizer, manager, prepareExecutor, applyExecutor);
+			profiler.pop();
+		}, applyExecutor);
+	}
+	*///?} else {
+	/*@Override
+	public CompletableFuture<Void> reload(ResourceReloader.Synchronizer synchronizer, ResourceManager manager, Profiler prepareProfiler, Profiler applyProfiler, Executor prepareExecutor, Executor applyExecutor) {
+		return synchronizer.whenPrepared(Unit.INSTANCE).thenRunAsync(() -> {
+			applyProfiler.startTick();
+			applyProfiler.push("listener");
+			this.reloadStuff(synchronizer, manager, prepareExecutor, applyExecutor);
+			applyProfiler.pop();
+			applyProfiler.endTick();
+		}, applyExecutor);
+	}
+
+	*///?}
+
+	private void reloadStuff(Synchronizer synchronizer, ResourceManager resourceManager, Executor prepareExecutor, Executor applyExecutor) {
+		this.reloadAtlas(synchronizer, prepareExecutor, applyExecutor);
+		BlockBenchModelManager.reload(resourceManager);
+		TotemDollModelFinder.reload(resourceManager);
+		TagsManager.reloadCustomModelIdsTags();
+	}
+
+	private void reloadAtlas(Synchronizer synchronizer, Executor prepareExecutor, Executor applyExecutor) {
+		SkinTotemModAtlasSpriteManager.reload();
+		SkinTotemModAtlasManager.stitchAndUpdate(SkinTotemModAtlasSpriteManager.getSprites(), synchronizer, prepareExecutor, applyExecutor, null);
+	}
+}
