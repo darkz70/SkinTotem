@@ -1,22 +1,19 @@
 package com.darkz.skintotem.pack;
 
-import net.minecraft.resource.*;
-import net.minecraft.resources.ResourceLocation;
-
+import net.minecraft.resources.*;
 import com.darkz.skintotem.SkinTotemMod;
-
 import java.util.*;
 
 public class TotemDollModelFinder {
 
-	private static final Set<Identifier> BUILTIN_TOTEM_MODELS = new LinkedHashSet<>();
-	private static final Map<String, Set<Identifier>> FOUNDED_TOTEM_MODELS = new LinkedHashMap<>();
+	private static final Set<ResourceLocation> BUILTIN_TOTEM_MODELS = new LinkedHashSet<>();
+	private static final Map<String, Set<ResourceLocation>> FOUNDED_TOTEM_MODELS = new LinkedHashMap<>();
 
-	public static Map<String, Set<Identifier>> getFoundedTotemModels() {
+	public static Map<String, Set<ResourceLocation>> getFoundedTotemModels() {
 		return FOUNDED_TOTEM_MODELS;
 	}
 
-	public static Set<Identifier> getBuiltinTotemModels() {
+	public static Set<ResourceLocation> getBuiltinTotemModels() {
 		return BUILTIN_TOTEM_MODELS;
 	}
 
@@ -26,7 +23,7 @@ public class TotemDollModelFinder {
 		FOUNDED_TOTEM_MODELS.clear();
 		for (ResourcePack pack : list) {
 			String packId = pack./*? if >=1.21 {*/getId()/*?} else {*//*getName()*//*?}*/.replace("file/", "");
-		if (packId.equals(SkinTotemMod.MOD_ID) /*? if =1.20.1 {*/ /*|| pack instanceof net.fabricmc.fabric.impl.resource.loader.FabricModResourcePack *//*?}*/) {
+			if (packId.equals(SkinTotemMod.MOD_ID) /*? if =1.20.1 {*/ /*|| pack instanceof net.fabricmc.fabric.impl.resource.loader.FabricModResourcePack *//*?}*/) {
 				continue;
 			}
 			pack.findResources(ResourceType.CLIENT_RESOURCES, SkinTotemMod.MOD_ID, "dolls", (id, input) -> {
@@ -34,7 +31,7 @@ public class TotemDollModelFinder {
 					return;
 				}
 
-				Set<Identifier> set = FOUNDED_TOTEM_MODELS.getOrDefault(packId, new LinkedHashSet<>());
+				Set<ResourceLocation> set = FOUNDED_TOTEM_MODELS.getOrDefault(packId, new LinkedHashSet<>());
 				set.add(id);
 
 				if (!FOUNDED_TOTEM_MODELS.containsKey(packId)) {
@@ -44,7 +41,7 @@ public class TotemDollModelFinder {
 		}
 	}
 
-	private static boolean isModelPath(Identifier id) {
+	private static boolean isModelPath(ResourceLocation id) {
 		return id.getPath().endsWith(".bbmodel");
 	}
 }
