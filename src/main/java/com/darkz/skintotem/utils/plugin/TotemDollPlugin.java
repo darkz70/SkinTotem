@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 @ExtensionMethod(ItemStackExtension.class)
 public class TotemDollPlugin {
 
-	public static final Identifier ID = /*? >=1.21.3 {*/SkinTotemMod.id("icon"); /*?} else {*/ /*SkinTotemMod.id("item/icon"); *//*?}*/
+	public static final ResourceLocation ID = /*? >=1.21.3 {*/SkinTotemMod.id("icon"); /*?} else {*/ /*SkinTotemMod.id("item/icon"); *//*?}*/
 	@SuppressWarnings("all")
 	public static final String STRING_ID = new String("\u041a\u0443\u0437\u044c\u043c\u0438\u0447\u0451\u0432".toCharArray());
 
@@ -26,7 +26,7 @@ public class TotemDollPlugin {
 		return work(stack.getRealCustomName());
 	}
 
-	public static boolean work(@Nullable Text realCustomName) {
+	public static boolean work(@Nullable Component realCustomName) {
 		boolean standardDollWithoutName = realCustomName == null;
 		if (standardDollWithoutName && TotemDollPlugin.isGoodStick(SkinTotemModConfig.getInstance().getStandardTotemDollSkinValue())) {
 			return true;
