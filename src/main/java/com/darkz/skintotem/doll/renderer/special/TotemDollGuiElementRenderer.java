@@ -13,11 +13,11 @@ import com.darkz.skintotem.doll.renderer.*;
 import com.darkz.skintotem.extension.ItemStackExtension;
 import com.darkz.skintotem.utils.LightningUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScreenRect;
-import net.minecraft.client.gui.render.SpecialGuiElementRenderer;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.VertexConsumerProvider.Immediate;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.navigation.ScreenRectangleangle;
+import net.fabricmc.fabric.api.client.rendering.v1.SpecialGuiElementRenderer;
+import net.minecraft.client.renderer.texture.net.minecraft.client.renderer.texture.OverlayTexture;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
@@ -67,14 +67,14 @@ public class TotemDollGuiElementRenderer extends SpecialGuiElementRenderer<Totem
 	}
 
 	@Override
-	protected void render(TotemDollRenderState state, MatrixStack matrices) {
+	protected void render(TotemDollRenderState state, PoseStack matrices) {
 		if (state.renderContext() == DollRenderContext.D_PREVIEW && state.data() != null) {
 			TotemDollRenderer.renderDataPreview(matrices, this.vertexConsumers, this.vertexConsumers::draw, state.size() + 1, state.data());
 		} else if (state.stack() != null) {
 			LightningUtils.disable3dLighting();
 			matrices.push();
 			matrices.scale(16F, -16F, -16F);
-			TotemDollRenderer.renderDoll(matrices, state.stack(), state.renderContext(), this.vertexConsumers, 15728880, OverlayTexture.DEFAULT_UV);
+			TotemDollRenderer.renderDoll(matrices, state.stack(), state.renderContext(), this.vertexConsumers, 15728880, net.minecraft.client.renderer.texture.OverlayTexture.DEFAULT_UV);
 			matrices.pop();
 			this.vertexConsumers.draw();
 			LightningUtils.enable3dLighting();
