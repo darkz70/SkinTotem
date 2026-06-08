@@ -4,12 +4,12 @@ import lombok.*;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.atlas.*;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.*;
-import net.minecraft.client.render.model.json.*;
-import net.minecraft.client.texture.*;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.client.renderer.texture.*;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.math.*;
+import net.minecraft.util.*;
 
 import com.darkz.skintotem.extension.*;
 import com.darkz.skintotem.model.bb.*;
@@ -65,7 +65,7 @@ public class MModel extends ModelPart {
 	}
 
 	@Override
-	public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, /*? if >=1.21 {*/int color/*?} else {*//*float red, float green, float blue, float alpha *//*?}*/) {
+	public void render(PoseStack matrices, VertexConsumer vertices, int light, int overlay, /*? if >=1.21 {*/int color/*?} else {*//*float red, float green, float blue, float alpha *//*?}*/) {
 		// NO-OP
 	}
 
@@ -92,7 +92,7 @@ public class MModel extends ModelPart {
 		return this;
 	}
 
-	public void draw(MatrixStack matrices, VertexConsumerProvider provider, SpriteAtlasTexture atlas, RenderLayer atlasRenderLayer, AtlasSprite mainSprite, Map<String, AtlasSprite> requestedParts, int light, int overlay, /*? if >=1.21 {*/int color/*?} else {*//*float red, float green, float blue, float alpha *//*?}*/) {
+	public void draw(PoseStack matrices, MultiBufferSource provider, SpriteAtlasTexture atlas, RenderLayer atlasRenderLayer, AtlasSprite mainSprite, Map<String, AtlasSprite> requestedParts, int light, int overlay, /*? if >=1.21 {*/int color/*?} else {*//*float red, float green, float blue, float alpha *//*?}*/) {
 		AtlasSprite providedSprite = requestedParts.get(this.getName());
 
 		if ((this.skipRendering && providedSprite == null) || (!this.visible) || (this.mCuboids.isEmpty() && this.mChildren.isEmpty())) {
@@ -234,4 +234,5 @@ public class MModel extends ModelPart {
 	public int hashCode() {
 		return this.getLocation() == null ? super.hashCode() : this.getLocation().hashCode();
 	}
-}
+									}
+			  
