@@ -2,16 +2,16 @@ package com.darkz.skintotem.doll.data;
 
 import lombok.*;
 import com.darkz.skintotem.model.bb.manager.BlockBenchModelManager;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.player.AbstractClientPlayer;
 
 //? if >=1.21.9 {
-import net.minecraft.entity.player.SkinTextures;
-import net.minecraft.entity.player.PlayerSkinType;
-import net.minecraft.util.AssetInfo.TextureAsset;
+import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.client.resources.PlayerSkin;
 import java.util.Optional;
 //?} elif >=1.21 {
-/*import net.minecraft.client.util.SkinTextures;
-import net.minecraft.client.util.SkinTextures.*;
+/*import net.minecraft.client.util.PlayerSkin;
+import net.minecraft.client.util.PlayerSkin.*;
 *///?}
 import net.minecraft.resources.ResourceLocation;
 
@@ -144,23 +144,23 @@ public class TotemDollData {
 		this.renderProperties.setFrameSprites(frameSprites);
 	}
 
-	public void setFrameSprites(@Nullable AbstractClientPlayerEntity playerEntity) {
+	public void setFrameSprites(@Nullable AbstractClientPlayer playerEntity) {
 		if (playerEntity == null) {
 			return;
 		}
 
 		//? if >=1.21.9 {
-		SkinTextures skinTextures = playerEntity.getSkin();
+		PlayerSkin skinTextures = playerEntity.getSkin();
 		Identifier skinTexture = skinTextures.body().texturePath();
-		Identifier capeTexture = Optional.of(skinTextures).map(SkinTextures::cape).map(TextureAsset::texturePath).orElse(null);
-		Identifier elytraTexture = Optional.of(skinTextures).map(SkinTextures::cape).map(TextureAsset::texturePath).orElse(null);
-		boolean slim = skinTextures.model() == PlayerSkinType.SLIM;
+		Identifier capeTexture = Optional.of(skinTextures).map(PlayerSkin::cape).map(PlayerSkin::texturePath).orElse(null);
+		Identifier elytraTexture = Optional.of(skinTextures).map(PlayerSkin::cape).map(PlayerSkin::texturePath).orElse(null);
+		boolean slim = skinTextures.model() == PlayerSkin.Model.SLIM;
 		//?} elif >=1.21 {
-		/*SkinTextures skinTextures = playerEntity.getSkinTextures();
+		/*PlayerSkin skinTextures = playerEntity.getPlayerSkin();
 		Identifier skinTexture = skinTextures.texture();
 		Identifier capeTexture = skinTextures.capeTexture();
 		Identifier elytraTexture = skinTextures.elytraTexture();
-		boolean slim = skinTextures.model() == SkinTextures.Model.SLIM;
+		boolean slim = skinTextures.model() == PlayerSkin.Model.SLIM;
 		*///?} else {
 		/*Identifier skinTexture = playerEntity.getSkinTexture();
 		Identifier capeTexture = playerEntity.getCapeTexture();
@@ -207,7 +207,7 @@ public class TotemDollData {
 
 	//? if >=1.21.6 {
 	@NotNull
-	public com.darkz.skintotem.doll.renderer.special.TotemDollGuiElementRenderer getGuiRenderer(net.minecraft.client.render.VertexConsumerProvider.Immediate immediate) {
+	public com.darkz.skintotem.doll.renderer.special.TotemDollGuiElementRenderer getGuiRenderer(net.minecraft.client.render.MultiBufferSource.Immediate immediate) {
 		return com.darkz.skintotem.doll.renderer.special.TotemDollGuiElementRenderer.getRenderer(this.renderProperties, immediate);
 	}
 	//?}
