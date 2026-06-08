@@ -9,10 +9,10 @@ import com.darkz.skintotem.atlas.stitch.*;
 import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.thread.SkinTotemModTaskExecutor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.render.*;
-import net.minecraft.client.texture.*;
-import net.minecraft.client.texture.SpriteLoader.StitchResult;
-import net.minecraft.resource.*;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.texture.*;
+import net.minecraft.client.renderer.texture.SpriteLoader.Preparations;
+import net.minecraft.server.packs.resources.*;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.*;
 
@@ -22,19 +22,19 @@ public class SkinTotemModAtlasManager {
 	private static final AtomicInteger LATEST_ATLAS_VERSION = new AtomicInteger();
 	public static final Identifier ATLAS_ID = SkinTotemMod.id("main_atlas.png");
 	//? if >=1.21.11 {
-	public static final RenderLayer ATLAS_RENDER_LAYER = RenderLayers.entityTranslucent(ATLAS_ID);
+	public static final RenderType ATLAS_RENDER_LAYER = RenderTypes.entityTranslucent(ATLAS_ID);
 	//?} else {
-	/*public static final RenderLayer ATLAS_RENDER_LAYER = RenderLayer.getEntityTranslucent(ATLAS_ID);
+	/*public static final RenderType ATLAS_RENDER_LAYER = RenderType.getEntityTranslucent(ATLAS_ID);
 	*///?}
 	@Nullable
 	private static LockableAtlasTexture ATLAS_TEXTURE;
 
 	@NotNull
-	public static SpriteAtlasTexture createNotRegisteredInstance() {
-		return new SpriteAtlasTexture(ATLAS_ID);
+	public static TextureAtlas createNotRegisteredInstance() {
+		return new TextureAtlas(ATLAS_ID);
 	}
 
-	public static RenderLayer getRenderLayer() {
+	public static RenderType getRenderType() {
 		return ATLAS_RENDER_LAYER;
 	}
 
@@ -42,7 +42,7 @@ public class SkinTotemModAtlasManager {
 		return ATLAS_TEXTURE;
 	}
 
-	public static void setAtlas(@NotNull SpriteAtlasTexture texture) {
+	public static void setAtlas(@NotNull TextureAtlas texture) {
 		if (ATLAS_TEXTURE != null && ATLAS_TEXTURE.isLocked()) {
 			LockableAtlasTexture atlasTexture = new LockableAtlasTexture(texture);
 			ATLAS_TEXTURE.setUnlockHook(() -> set(atlasTexture));
@@ -53,7 +53,7 @@ public class SkinTotemModAtlasManager {
 
 	@NotNull
 	private static LockableAtlasTexture set(@NotNull LockableAtlasTexture texture) {
-		SpriteAtlasTexture atlas = texture.getAtlas();
+		TextureAtlas atlas = texture.getAtlas();
 		ATLAS_TEXTURE = texture;
 		Minecraft.getInstance().getTextureManager().registerTexture(atlas.getId(), atlas);
 		return ATLAS_TEXTURE;
@@ -67,19 +67,19 @@ public class SkinTotemModAtlasManager {
 		stitchAndUpdate(sprites, null, executor, Minecraft.getInstance(), onAtlasStitched);
 	}
 
-	public static void stitchAndUpdate(Set<AtlasSprite> sprites, @Nullable ResourceReloader.Synchronizer synchronizer, Executor prepareExecutor, Executor applyExecutor, @Nullable OnAtlasStitched onAtlasStitched) {
+	public static void stitchAndUpdate(Set<AtlasSprite> sprites, @Nullable PreparableReloadListener.PreparationBarrier synchronizer, Executor prepareExecutor, Executor applyExecutor, @Nullable OnAtlasStitched onAtlasStitched) {
 		int currentId = LATEST_ATLAS_VERSION.incrementAndGet();
 		STITCH_HOOKS_MANAGER.addHook(onAtlasStitched);
 
-		SpriteAtlasTexture atlasTexture = SkinTotemModAtlasManager.createNotRegisteredInstance();
+		TextureAtlas atlasTexture = SkinTotemModAtlasManager.createNotRegisteredInstance();
 
 		List<SpriteContents> contents = sprites.stream().map(AtlasSprite::getContents).filter(Objects::nonNull).toList();
 		//? if >=1.21.9 {
-		CompletableFuture<StitchResult> future = CompletableFuture.supplyAsync(
+		CompletableFuture<Preparations> future = CompletableFuture.supplyAsync(
 				() -> SpriteLoader.fromAtlas(atlasTexture).stitch(contents, 0, prepareExecutor)
 		);
 		//?} else {
-		/*CompletableFuture<StitchResult> future = SpriteLoader.fromAtlas(atlasTexture)
+		/*CompletableFuture<Preparations> future = SpriteLoader.fromAtlas(atlasTexture)
 				.stitch(contents, 0, prepareExecutor)
 				.whenComplete();
 		*///?}
@@ -99,9 +99,9 @@ public class SkinTotemModAtlasManager {
 		ATLAS_TEXTURE.getAtlas().close();
 	}
 
-	private record AtlasStitchingContext(int version, SpriteAtlasTexture atlas, Set<AtlasSprite> atlasSprites) {
+	private record AtlasStitchingContext(int version, TextureAtlas atlas, Set<AtlasSprite> atlasSprites) {
 
-		public void upload(StitchResult result) {
+		public void upload(Preparations result) {
 			int latestAtlasVersion = LATEST_ATLAS_VERSION.get();
 			if (this.version != latestAtlasVersion) {
 				SkinTotemModClient.LOGGER.warn("Skipped atlas stitching, waiting \"{}\"", latestAtlasVersion);
