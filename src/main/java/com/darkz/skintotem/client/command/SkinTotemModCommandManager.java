@@ -10,8 +10,8 @@ import net.minecraft.core.component.DataComponents;
 //?}
 import net.minecraft.world.item.Items;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
+import static net.minecraft.commands.Commands.literal;
+import static net.minecraft.commands.Commands.argument;
 
 public class SkinTotemModCommandManager {
 
