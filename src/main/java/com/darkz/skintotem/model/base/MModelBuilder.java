@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.*;
 
 @SuppressWarnings("unused")
-@ExtensionMethod({ModelPart.RotationExtension.class, CubeDeformationExtension.class, IdentifierExtension.class})
+@ExtensionMethod({ModelTransformExtension.class, CubeDeformationExtension.class, IdentifierExtension.class})
 public class MModelBuilder {
 
 	private final List<MCubeBuilder> cuboidBuilders = new ArrayList<>();
@@ -73,7 +73,7 @@ public class MModelBuilder {
 	}
 
 	private MModel build(int textureWidth, int textureHeight, boolean isParentRoot, boolean isRoot) {
-		ModelPart.Rotation cuboidTransform = this.transform.getBlockBenchedModelPart.Rotation();
+		ModelPart.Rotation cuboidTransform = this.transform.getBlockBenchedModelTransform();
 
 		Map<String, MModel> children = this.childrenBuilders.entrySet().stream().collect(Collectors.toMap(Entry::getKey, e -> e.getValue().build(textureWidth, textureHeight, isRoot, false)));
 		List<MCuboid> cuboids = this.cuboidBuilders.stream().map(builder -> builder.build(textureWidth, textureHeight, cuboidTransform)).toList();
@@ -84,7 +84,7 @@ public class MModelBuilder {
 
 		ModelPart.Rotation transform = this.parent == null || isParentRoot ? this.transform : this.transform.subtract(this.parent.getTransform());
 
-		ModelPart.Rotation blockBenchedModelPart.Rotation = transform.getBlockBenchedModelPart.Rotation();
+		ModelPart.Rotation blockBenchedModelPart.Rotation = transform.getBlockBenchedModelTransform();
 
 		part.setTransform(blockBenchedModelPart.Rotation);
 		part.setDefaultTransform(blockBenchedModelPart.Rotation);
