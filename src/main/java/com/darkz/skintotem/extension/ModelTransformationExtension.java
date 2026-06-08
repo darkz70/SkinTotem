@@ -2,7 +2,7 @@ package com.darkz.skintotem.extension;
 
 import net.minecraft.client.renderer.block.model.*;
 
-public class ModelPart.RotationationExtension {
+public class ModelTransformationExtension {
 	
 	public static ItemTransform getTl(ModelPart.Rotationation transform) {
 		return /*? >=1.21.4 {*/ transform.thirdPersonLeftHand(); /*?} else {*/ /*transform.thirdPersonLeftHand; *//*?}*/
@@ -42,7 +42,7 @@ public class ModelPart.RotationationExtension {
 	}
 	//?}
 
-//	public static ModelPart.Rotationation getBlockBenchedModelPart.Rotationation(ModelPart.Rotationation transform) {
+//	public static ModelPart.Rotationation getBlockBenchedModelTransformation(ModelPart.Rotationation transform) {
 //		return ModelPart.Rotationation.of(-getPivotX(transform), -getPivotY(transform), getPivotZ(transform), getPitch(transform), getYaw(transform), getRoll(transform));
 //	}
 //
