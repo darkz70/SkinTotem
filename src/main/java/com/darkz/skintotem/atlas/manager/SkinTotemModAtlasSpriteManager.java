@@ -10,8 +10,8 @@ import com.darkz.skintotem.atlas.stitch.*;
 import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.utils.texture.PlayerSkinUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.texture.*;
-import net.minecraft.resource.Resource;
+import net.minecraft.client.renderer.texture.*;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.*;
 
