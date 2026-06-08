@@ -1,6 +1,6 @@
 package com.darkz.skintotem.pack;
 
-import net.minecraft.resource.*;
+import net.minecraft.server.packs.resources.*;
 import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotemMod;
@@ -21,15 +21,15 @@ public class TotemDollModelFinder {
 	}
 
 	public static void reload(ResourceManager resourceManager) {
-		List<ResourcePack> list = resourceManager.streamResourcePacks().filter(resourcePack -> resourcePack.getNamespaces(ResourceType.CLIENT_RESOURCES).contains(SkinTotemMod.MOD_ID)).toList();
+		List<PackResources> list = resourceManager.streamPackResourcess().filter(resourcePack -> resourcePack.getNamespaces(PackType.CLIENT_RESOURCES).contains(SkinTotemMod.MOD_ID)).toList();
 
 		FOUNDED_TOTEM_MODELS.clear();
-		for (ResourcePack pack : list) {
+		for (PackResources pack : list) {
 			String packId = pack./*? if >=1.21 {*/getId()/*?} else {*//*getName()*//*?}*/.replace("file/", "");
-		if (packId.equals(SkinTotemMod.MOD_ID) /*? if =1.20.1 {*/ /*|| pack instanceof net.fabricmc.fabric.impl.resource.loader.FabricModResourcePack *//*?}*/) {
+		if (packId.equals(SkinTotemMod.MOD_ID) /*? if =1.20.1 {*/ /*|| pack instanceof net.fabricmc.fabric.impl.resource.loader.FabricModPackResources *//*?}*/) {
 				continue;
 			}
-			pack.findResources(ResourceType.CLIENT_RESOURCES, SkinTotemMod.MOD_ID, "dolls", (id, input) -> {
+			pack.findResources(PackType.CLIENT_RESOURCES, SkinTotemMod.MOD_ID, "dolls", (id, input) -> {
 				if (!isModelPath(id)) {
 					return;
 				}
