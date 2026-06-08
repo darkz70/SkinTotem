@@ -5,15 +5,15 @@ import java.util.*;
 import lombok.*;
 import com.darkz.skintotem.atlas.stitch.OnSpriteUploaded;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resource.metadata.*;
-import net.minecraft.client.texture.*;
+import net.minecraft.client.resources.metadata.*;
+import net.minecraft.client.renderer.texture.*;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.*;
 
 //? if >=1.21 {
-import net.minecraft.resource.metadata.*;
+import net.minecraft.server.packs.metadata.*;
 //?} else {
-/*import net.minecraft.client.resource.metadata.*;
+/*import net.minecraft.client.resources.metadata.*;
 *///?}
 
 @Setter
