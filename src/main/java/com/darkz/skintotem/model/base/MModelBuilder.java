@@ -84,10 +84,10 @@ public class MModelBuilder {
 
 		ModelPart.Rotation transform = this.parent == null || isParentRoot ? this.transform : this.transform.subtract(this.parent.getTransform());
 
-		ModelPart.Rotation blockBenchedModelPart.Rotation = transform.getBlockBenchedModelTransform();
+		ModelPart.Rotation blockBenchedModelTransform = transform.getBlockBenchedModelTransform();
 
-		part.setTransform(blockBenchedModelPart.Rotation);
-		part.setDefaultTransform(blockBenchedModelPart.Rotation);
+		part.setTransform(blockBenchedModelTransform);
+		part.setDefaultTransform(blockBenchedModelTransform);
 
 		part.xScale = this.xScale;
 		part.yScale = this.yScale;
