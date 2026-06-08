@@ -5,8 +5,8 @@ import com.darkz.skintotem.atlas.*;
 import com.darkz.skintotem.atlas.manager.SkinTotemModAtlasManager;
 import com.darkz.skintotem.config.SkinTotemModConfig;
 import net.minecraft.client.model.Model;
-import net.minecraft.client.render.*;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.renderer.*;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.resources.ResourceLocation;
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.client.SkinTotemModClient;
@@ -140,7 +140,7 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 	//? <=1.21.1 {
 
 	/*@Override
-	public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, /^? if >=1.21 {^/ int color /^?} else {^/ /^float r, float g, float b, float a^//^?}^/) {
+	public void render(PoseStack matrices, VertexConsumer vertices, int light, int overlay, /^? if >=1.21 {^/ int color /^?} else {^/ /^float r, float g, float b, float a^//^?}^/) {
 		// NO-OP
 	}
 
@@ -186,7 +186,7 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 			this.sprites.put(part, sprite);
 		}
 
-		public void draw(MatrixStack matrices, VertexConsumerProvider provider, AtlasSprite mainTexture, int light, int overlay, /*? if >=1.21 {*/int color/*?} else {*//*float red, float green, float blue, float alpha *//*?}*/) {
+		public void draw(PoseStack matrices, MultiBufferSource provider, AtlasSprite mainTexture, int light, int overlay, /*? if >=1.21 {*/int color/*?} else {*//*float red, float green, float blue, float alpha *//*?}*/) {
 			LockableAtlasTexture atlasTexture = SkinTotemModAtlasManager.getNullableAtlasTexture();
 			if (atlasTexture == null) {
 				SkinTotemModClient.LOGGER.error("Game tried to render doll model, but atlas not initialized yet!");
