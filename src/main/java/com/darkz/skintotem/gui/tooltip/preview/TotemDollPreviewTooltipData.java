@@ -10,6 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.doll.data.TotemDollData;
 
-public record TotemDollPreviewTooltipProvider(TotemDollData data, Identifier model) implements TooltipProvider {
+public record TotemDollPreviewTooltipData(TotemDollData data, ResourceLocation model) implements net.minecraft.world.item.tooltip.TooltipData {
 
 }
