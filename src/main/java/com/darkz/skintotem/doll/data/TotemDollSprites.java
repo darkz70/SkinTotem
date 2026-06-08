@@ -13,7 +13,7 @@ import static com.darkz.skintotem.atlas.manager.SkinTotemModAtlasSpriteManager.S
 
 //? if >=1.21.9 {
 
-import net.minecraft.util.AssetInfo.TextureAsset;
+import net.minecraft.client.resources.PlayerSkin;
 
 //?}
 
@@ -47,22 +47,22 @@ public class TotemDollSprites {
 	}
 
 	//? if >=1.21.9 {
-	public static TotemDollSprites of(net.minecraft.client.network.AbstractClientPlayerEntity player) {
+	public static TotemDollSprites of(net.minecraft.client.network.AbstractClientPlayer player) {
 		return of(player.getSkin());
 	}
 
-	public static TotemDollSprites of(net.minecraft.entity.player.SkinTextures skinTextures) {
-		TextureAsset cape = skinTextures.cape();
-		TextureAsset elytra = skinTextures.elytra();
-		return of(skinTextures.body().texturePath(), cape == null ? null : cape.texturePath(), elytra == null ? null : elytra.texturePath(), skinTextures.model() == net.minecraft.entity.player.PlayerSkinType.SLIM, true);
+	public static TotemDollSprites of(net.minecraft.entity.player.PlayerSkin skinTextures) {
+		PlayerSkin cape = skinTextures.cape();
+		PlayerSkin elytra = skinTextures.elytra();
+		return of(skinTextures.body().texturePath(), cape == null ? null : cape.texturePath(), elytra == null ? null : elytra.texturePath(), skinTextures.model() == net.minecraft.entity.player.PlayerSkin.Model.SLIM, true);
 	}
 	//?} elif >=1.21 {
-	/*public static TotemDollSprites of(net.minecraft.client.network.AbstractClientPlayerEntity player) {
-		return of(player.getSkinTextures());
+	/*public static TotemDollSprites of(net.minecraft.client.network.AbstractClientPlayer player) {
+		return of(player.getPlayerSkin());
 	}
 
-	public static TotemDollSprites of(net.minecraft.client.util.SkinTextures skinTextures) {
-		return of(skinTextures.texture(), skinTextures.capeTexture(), skinTextures.elytraTexture(), skinTextures.model() == net.minecraft.client.util.SkinTextures.Model.SLIM, true);
+	public static TotemDollSprites of(net.minecraft.client.util.PlayerSkin skinTextures) {
+		return of(skinTextures.texture(), skinTextures.capeTexture(), skinTextures.elytraTexture(), skinTextures.model() == net.minecraft.client.util.PlayerSkin.Model.SLIM, true);
 	}
 	*///?}
 
@@ -158,4 +158,4 @@ public class TotemDollSprites {
 		totemDollSprites.setState(this.state);
 		return totemDollSprites;
 	}
-}
+		}
