@@ -9,7 +9,7 @@ import net.minecraft.world.item.tooltip.TooltipProvider;
 
 import java.util.*;
 
-public record CombinedTooltipProvider(List<TooltipComponent> list) implements TooltipProvider {
+public record CombinedTooltipData(List<net.minecraft.world.item.tooltip.TooltipData> list) implements net.minecraft.world.item.tooltip.TooltipData {
 
 	public CombinedTooltipProvider(TooltipProvider... data) {
 		this(Arrays.stream(data).map(TooltipComponent::of).toList());
