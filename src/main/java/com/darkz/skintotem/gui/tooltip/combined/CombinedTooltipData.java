@@ -11,8 +11,8 @@ import java.util.*;
 
 public record CombinedTooltipData(List<net.minecraft.world.item.tooltip.TooltipData> list) implements net.minecraft.world.item.tooltip.TooltipData {
 
-	public CombinedTooltipProvider(TooltipProvider... data) {
-		this(Arrays.stream(data).map(TooltipComponent::of).toList());
+	public CombinedTooltipData(net.minecraft.world.item.tooltip.TooltipData... data) {
+		this(Arrays.asList(data));
 	}
 
 }
