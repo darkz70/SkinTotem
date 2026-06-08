@@ -7,6 +7,6 @@ import net.minecraft.world.item.tooltip.TooltipProvider;
 *///?}
 import net.minecraft.network.chat.Component;
 
-public record WrappedTextTooltipProvider(Component text) implements TooltipProvider {
+public record WrappedTextTooltipData(Component text) implements net.minecraft.world.item.tooltip.TooltipData {
 
 }
