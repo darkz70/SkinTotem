@@ -6,6 +6,6 @@ import net.minecraft.world.item.tooltip.TooltipProvider;
 /*import net.minecraft.client.item.TooltipProvider;
 *///?}
 
-public record TagsTooltipProvider(String tags) implements TooltipProvider {
+public record TagsTooltipData(String tags) implements net.minecraft.world.item.tooltip.TooltipData {
 
 }
