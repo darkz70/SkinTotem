@@ -8,7 +8,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 /*import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Util;
-import net.minecraft.util.Util.OperatingSystem;
+
 *///?}
 import org.slf4j.*;
 import net.fabricmc.api.ClientModInitializer;

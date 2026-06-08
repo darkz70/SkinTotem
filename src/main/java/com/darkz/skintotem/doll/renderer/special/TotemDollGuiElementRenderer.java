@@ -15,8 +15,8 @@ import com.darkz.skintotem.utils.LightningUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.navigation.ScreenRectangleangle;
 import net.fabricmc.fabric.api.client.rendering.v1.SpecialGuiElementRenderer;
-import net.minecraft.client.renderer.texture.net.minecraft.client.renderer.texture.OverlayTexture;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
 import com.mojang.blaze3d.vertex.PoseStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -74,7 +74,7 @@ public class TotemDollGuiElementRenderer extends SpecialGuiElementRenderer<Totem
 			LightningUtils.disable3dLighting();
 			matrices.push();
 			matrices.scale(16F, -16F, -16F);
-			TotemDollRenderer.renderDoll(matrices, state.stack(), state.renderContext(), this.vertexConsumers, 15728880, net.minecraft.client.renderer.texture.OverlayTexture.DEFAULT_UV);
+			TotemDollRenderer.renderDoll(matrices, state.stack(), state.renderContext(), this.vertexConsumers, 15728880, OverlayTexture.DEFAULT_UV);
 			matrices.pop();
 			this.vertexConsumers.draw();
 			LightningUtils.enable3dLighting();

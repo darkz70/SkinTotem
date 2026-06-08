@@ -2,16 +2,16 @@ package com.darkz.skintotem.gui.widget.preview;
 
 import lombok.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.*;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.client.SkinTotemModClient;
@@ -48,7 +48,7 @@ public class WelcomeTotemDollModelPreviewWidget extends TotemDollModelPreviewWid
 		float scale = 1.0F;
 
 		if (this.getHoverTime() > 0L) {
-			scale += this.easeOutSine(MathHelper.clamp((float) this.getHoverTime() / this.getMaxHoverTime(), 0.0F, 1.0F)) * 0.25F;
+			scale += this.easeOutSine(Mth.clamp((float) this.getHoverTime() / this.getMaxHoverTime(), 0.0F, 1.0F)) * 0.25F;
 		}
 
 		TotemDollRenderer.renderPreview(context, this.getX(), this.getY(), (int) this.getSize(), (int) this.getSize(), this.getSize() * scale, this.getData().refreshAndApplyRenderProperties());
@@ -59,7 +59,7 @@ public class WelcomeTotemDollModelPreviewWidget extends TotemDollModelPreviewWid
 	}
 
 	private float easeOutSine(float progress) {
-		return -(MathHelper.cos((float) (Math.PI * progress)) - 1) / 2;
+		return -(Mth.cos((float) (Math.PI * progress)) - 1) / 2;
 	}
 
 	//? if >=1.21.9 {

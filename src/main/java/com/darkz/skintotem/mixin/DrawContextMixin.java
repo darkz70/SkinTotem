@@ -6,10 +6,10 @@ import com.darkz.skintotem.doll.renderer.*;
 import com.darkz.skintotem.doll.renderer.special.TotemDollRenderState;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.GuiGraphics.ScissorStack;
-import net.minecraft.client.gui.render.state.GuiRenderState;
-import net.minecraft.entity.LivingEntity;
+
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import org.joml.*;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
@@ -36,7 +36,7 @@ public class DrawContextMixin {
 	@Inject(
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/client/item/ItemModelManager;clearAndUpdate(Lnet/minecraft/client/render/item/ItemRenderState;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemDisplayContext;Lnet/minecraft/world/World;Lnet/minecraft/util/HeldItemContext;I)V",
+					target = "Lnet/minecraft/client/item/ItemModelManager;clearAndUpdate(Lnet/minecraft/client/render/item/ItemStackRenderState;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemDisplayContext;Lnet/minecraft/world/World;Lnet/minecraft/util/HeldItemContext;I)V",
 					shift = Shift.AFTER
 			),
 			method = "drawItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/world/World;Lnet/minecraft/item/ItemStack;III)V",
@@ -46,7 +46,7 @@ public class DrawContextMixin {
 		this.renderDoll(stack, x, y, ci);
 	}
 	//?} else {
-	/*@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/item/ItemModelManager;clearAndUpdate(Lnet/minecraft/client/render/item/ItemRenderState;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemDisplayContext;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;I)V", shift = Shift.AFTER), method = "drawItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/world/World;Lnet/minecraft/item/ItemStack;III)V", cancellable = true)
+	/*@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/item/ItemModelManager;clearAndUpdate(Lnet/minecraft/client/render/item/ItemStackRenderState;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemDisplayContext;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;I)V", shift = Shift.AFTER), method = "drawItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/world/World;Lnet/minecraft/item/ItemStack;III)V", cancellable = true)
 	private void swapTotemRendering(LivingEntity entity, World world, ItemStack stack, int x, int y, int seed, CallbackInfo ci) {
 		this.renderDoll(stack, x, y, ci);
 	}

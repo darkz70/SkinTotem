@@ -2,7 +2,7 @@ package com.darkz.skintotem.gui.widget.button;
 
 import com.darkz.skintotem.gui.widget.list.AbstractSearchListWidget;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.*;
 import net.minecraft.network.chat.*;

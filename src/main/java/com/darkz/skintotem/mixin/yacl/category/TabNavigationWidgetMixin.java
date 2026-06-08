@@ -5,7 +5,7 @@ package com.darkz.skintotem.mixin.yacl.category;
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.widget.TabNavigationWidget;
+import net.minecraft.client.gui.components.TabNavigationBar;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;

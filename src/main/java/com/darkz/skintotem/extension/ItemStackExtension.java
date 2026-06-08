@@ -1,6 +1,6 @@
 package com.darkz.skintotem.extension;
 
-import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.Component;
 import com.darkz.skintotem.doll.data.*;
@@ -73,11 +73,11 @@ public class ItemStackExtension {
 		return ((ItemStackWithModdedBakedModel) itemStack).myTotemDoll$isModdedModel();
 	}
 
-	public static void setPlayerEntity(ItemStack itemStack, AbstractClientPlayerEntity playerEntity) {
+	public static void setPlayerEntity(ItemStack itemStack, AbstractClientPlayer playerEntity) {
 		((ItemStackWithPlayerEntity) itemStack).myTotemDoll$setPlayerEntity(playerEntity);
 	}
 
-	public static AbstractClientPlayerEntity getPlayerEntity(ItemStack itemStack) {
+	public static AbstractClientPlayer getPlayerEntity(ItemStack itemStack) {
 		return ((ItemStackWithPlayerEntity) itemStack).myTotemDoll$getPlayerEntity();
 	}
 

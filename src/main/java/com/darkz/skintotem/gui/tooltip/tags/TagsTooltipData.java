@@ -1,11 +1,11 @@
 package com.darkz.skintotem.gui.tooltip.tags;
 
 //? if >=1.21 {
-import net.minecraft.item.tooltip.TooltipData;
+import net.minecraft.world.item.tooltip.TooltipProvider;
  //?} else {
-/*import net.minecraft.client.item.TooltipData;
+/*import net.minecraft.client.item.TooltipProvider;
 *///?}
 
-public record TagsTooltipData(String tags) implements TooltipData {
+public record TagsTooltipProvider(String tags) implements TooltipProvider {
 
 }

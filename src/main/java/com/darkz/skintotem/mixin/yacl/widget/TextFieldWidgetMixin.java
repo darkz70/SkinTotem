@@ -18,7 +18,7 @@ import java.util.function.Function;
 //?}
 
 @Mixin(TextFieldWidget.class)
-public abstract class TextFieldWidgetMixin extends ClickableWidget implements Drawable {
+public abstract class TextFieldWidgetMixin extends AbstractWidget implements Drawable {
 
 	@Unique
 	private static final String RENDER_METHOD = /*? >=1.20.3 {*/ "renderWidget" /*?} else {*/ /*"renderButton" *//*?}*/;

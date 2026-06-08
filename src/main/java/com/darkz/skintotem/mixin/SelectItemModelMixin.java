@@ -6,7 +6,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.extension.ItemStackExtension;
-import net.minecraft.client.render.item.model.*;
+import net.minecraft.client.renderer.item.properties.*;
 import net.minecraft.world.item.*;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 //? if >=1.21.5 {
 
-import net.minecraft.client.render.item.model.SelectItemModel.ModelSelector;
+import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperty;
 
 //?}
 

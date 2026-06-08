@@ -4,7 +4,7 @@ import java.util.function.*;
 import lombok.*;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.atlas.AtlasSprite;
-import net.minecraft.client.model.ModelTransform;
+import net.minecraft.client.model.ModelPart.Rotation;
 
 
 import com.darkz.skintotem.extension.*;
@@ -16,14 +16,14 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.*;
 
 @SuppressWarnings("unused")
-@ExtensionMethod({ModelTransformExtension.class, DilationExtension.class, IdentifierExtension.class})
+@ExtensionMethod({ModelPart.RotationExtension.class, CubeDeformationExtension.class, IdentifierExtension.class})
 public class MModelBuilder {
 
 	private final List<MCubeBuilder> cuboidBuilders = new ArrayList<>();
 	private final Map<String, MModelBuilder> childrenBuilders = new HashMap<>();
 	private final ModelState state;
 	@Getter
-	private ModelTransform transform = ModelTransform.NONE;
+	private ModelPart.Rotation transform = ModelPart.Rotation.NONE;
 	@Setter(AccessLevel.PRIVATE)
 	@Getter(AccessLevel.PRIVATE)
 	@Nullable
@@ -56,8 +56,8 @@ public class MModelBuilder {
 		return this;
 	}
 
-	public MModelBuilder withTransform(ModelTransform transform) {
-		this.transform = ModelTransform.of(transform.getPivotX(), transform.getPivotY(), transform.getPivotZ(), transform.getPitch(), transform.getYaw(), transform.getRoll());
+	public MModelBuilder withTransform(ModelPart.Rotation transform) {
+		this.transform = ModelPart.Rotation.of(transform.getPivotX(), transform.getPivotY(), transform.getPivotZ(), transform.getPitch(), transform.getYaw(), transform.getRoll());
 		return this;
 	}
 
@@ -73,7 +73,7 @@ public class MModelBuilder {
 	}
 
 	private MModel build(int textureWidth, int textureHeight, boolean isParentRoot, boolean isRoot) {
-		ModelTransform cuboidTransform = this.transform.getBlockBenchedModelTransform();
+		ModelPart.Rotation cuboidTransform = this.transform.getBlockBenchedModelPart.Rotation();
 
 		Map<String, MModel> children = this.childrenBuilders.entrySet().stream().collect(Collectors.toMap(Entry::getKey, e -> e.getValue().build(textureWidth, textureHeight, isRoot, false)));
 		List<MCuboid> cuboids = this.cuboidBuilders.stream().map(builder -> builder.build(textureWidth, textureHeight, cuboidTransform)).toList();
@@ -82,12 +82,12 @@ public class MModelBuilder {
 
 		MModel part = new MModel(cuboids, children, this.state, name, this.builtinSprite);
 
-		ModelTransform transform = this.parent == null || isParentRoot ? this.transform : this.transform.subtract(this.parent.getTransform());
+		ModelPart.Rotation transform = this.parent == null || isParentRoot ? this.transform : this.transform.subtract(this.parent.getTransform());
 
-		ModelTransform blockBenchedModelTransform = transform.getBlockBenchedModelTransform();
+		ModelPart.Rotation blockBenchedModelPart.Rotation = transform.getBlockBenchedModelPart.Rotation();
 
-		part.setTransform(blockBenchedModelTransform);
-		part.setDefaultTransform(blockBenchedModelTransform);
+		part.setTransform(blockBenchedModelPart.Rotation);
+		part.setDefaultTransform(blockBenchedModelPart.Rotation);
 
 		part.xScale = this.xScale;
 		part.yScale = this.yScale;

@@ -2,8 +2,8 @@ package com.darkz.skintotem.doll.renderer.special;
 
 //? if >=1.21.6 {
 
-import net.minecraft.client.gui.ScreenRect;
-import net.minecraft.client.gui.render.state.special.SpecialGuiElementRenderState;
+import net.minecraft.client.gui.navigation.ScreenRectangleangle;
+import net.fabricmc.fabric.api.client.rendering.v1.SpecialGuiElementRenderState;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
@@ -17,8 +17,8 @@ public record ItemGuiRenderState(
 		int height,
 		float size,
 		Quaternionf rotation,
-		@Nullable ScreenRect scissorArea,
-		@Nullable ScreenRect bounds
+		@Nullable ScreenRectangle scissorArea,
+		@Nullable ScreenRectangle bounds
 ) implements SpecialGuiElementRenderState {
 
 	public ItemGuiRenderState(
@@ -30,7 +30,7 @@ public record ItemGuiRenderState(
 			int height,
 			float size,
 			Quaternionf rotation,
-			@Nullable ScreenRect scissorArea
+			@Nullable ScreenRectangle scissorArea
 	) {
 		this(stack, x, y, width, height, size, rotation, scissorArea, SpecialGuiElementRenderState.createBounds(x, y, x + width, y + height, scissorArea));
 	}

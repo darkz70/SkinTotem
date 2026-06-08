@@ -4,7 +4,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.*;
-import net.minecraft.screen.ScreenTexts;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.util.Util;
 import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.utils.ModMenuUtils;
@@ -23,7 +23,7 @@ public class NoConfigLibraryScreen {
 
 	@Contract("_ -> new")
 	public static @NotNull Screen createScreen(Screen parent) {
-		return new ConfirmScreen((open) -> NoConfigLibraryScreen.onConfirm(open, parent), ModMenuUtils.getModTitle(), ModMenuUtils.getNoConfigScreenMessage(), ScreenTexts.CONTINUE, ScreenTexts.BACK);
+		return new ConfirmScreen((open) -> NoConfigLibraryScreen.onConfirm(open, parent), ModMenuUtils.getModTitle(), ModMenuUtils.getNoConfigScreenMessage(), CommonComponents.CONTINUE, CommonComponents.BACK);
 	}
 
 	private static void onConfirm(boolean open, Screen parent) {
@@ -48,6 +48,6 @@ public class NoConfigLibraryScreen {
 	}
 
 	public static Screen createScreenAboutOldVersion(Screen parent, String version) {
-		return new ConfirmScreen((open) -> NoConfigLibraryScreen.onConfirm(open, parent), ModMenuUtils.getModTitle(), ModMenuUtils.getOldConfigScreenMessage(version), ScreenTexts.CONTINUE, ScreenTexts.BACK);
+		return new ConfirmScreen((open) -> NoConfigLibraryScreen.onConfirm(open, parent), ModMenuUtils.getModTitle(), ModMenuUtils.getOldConfigScreenMessage(version), CommonComponents.CONTINUE, CommonComponents.BACK);
 	}
 }

@@ -5,12 +5,12 @@ package com.darkz.skintotem.mixin;
 /*import com.llamalad7.mixinextras.sugar.Local;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.thing.ThingMarks;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.item.*;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.item.*;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.*;
 
 import com.darkz.skintotem.client.SkinTotemModClient;
@@ -18,9 +18,9 @@ import com.darkz.skintotem.doll.renderer.*;
 import com.darkz.skintotem.extension.ItemStackExtension;
 
 //? <=1.21.1
-/^import net.minecraft.client.render.model.json.ModelTransformationMode;^/
+/^import net.minecraft.client.render.model.json.ModelPart.RotationationMode;^/
 
-import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.resources.model.BakedModel;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.*;
 
@@ -53,11 +53,11 @@ public class ItemRendererMixin {
 
 
 	//? if >=1.21.2 {
-	@Inject(at = @At(value = "HEAD"), method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ModelTransformationMode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;ZF)V", cancellable = true)
-	private void renderDoll(ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model, boolean useInventoryModel, float z, CallbackInfo ci) {
+	@Inject(at = @At(value = "HEAD"), method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ModelPart.RotationationMode;ZLnet/minecraft/client/util/math/PoseStack;Lnet/minecraft/client/render/MultiBufferSource;IILnet/minecraft/client/render/model/BakedModel;ZF)V", cancellable = true)
+	private void renderDoll(ItemStack stack, ModelPart.RotationationMode renderMode, boolean leftHanded, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, BakedModel model, boolean useInventoryModel, float z, CallbackInfo ci) {
 	//?} else {
-	/^@Inject(at = @At(value = "HEAD"), method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformationMode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;)V", cancellable = true)
-	private void renderDoll(ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo ci) {
+	/^@Inject(at = @At(value = "HEAD"), method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelPart.RotationationMode;ZLnet/minecraft/client/util/math/PoseStack;Lnet/minecraft/client/render/MultiBufferSource;IILnet/minecraft/client/render/model/BakedModel;)V", cancellable = true)
+	private void renderDoll(ItemStack stack, ModelPart.RotationationMode renderMode, boolean leftHanded, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo ci) {
 	^///?}
 		DollRenderContext context = DollRenderContext.of(renderMode);
 		if (TotemDollRenderer.sentRenderRequest(matrices, stack, context, light, overlay, 0, vertexConsumers)) {

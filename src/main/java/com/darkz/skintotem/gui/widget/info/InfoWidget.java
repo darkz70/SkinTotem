@@ -2,14 +2,14 @@ package com.darkz.skintotem.gui.widget.info;
 
 import lombok.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.tooltip.*;
 //? if >=1.21 {
-import net.minecraft.item.tooltip.TooltipData;
+import net.minecraft.world.item.tooltip.TooltipProvider;
  //?} else {
-/*import net.minecraft.client.item.TooltipData;
+/*import net.minecraft.client.item.TooltipProvider;
 *///?}
 import net.minecraft.resources.ResourceLocation;
 
@@ -34,9 +34,9 @@ public class InfoWidget implements Drawable {
 	private Identifier texture;
 
 	@Nullable
-	private TooltipData tooltipData;
+	private TooltipProvider tooltipData;
 
-	public InfoWidget(int x, int y, int width, int height, @Nullable TooltipData tooltipData, Identifier texture) {
+	public InfoWidget(int x, int y, int width, int height, @Nullable TooltipProvider tooltipData, Identifier texture) {
 		this.x           = x;
 		this.y           = y;
 		this.width       = width;
@@ -61,7 +61,7 @@ public class InfoWidget implements Drawable {
 	public void requestTooltip() {
 		Minecraft client = Minecraft.getInstance();
 		Screen screen = client.currentScreen;
-		TextRenderer textRenderer = client.textRenderer;
+		Font textRenderer = client.textRenderer;
 
 		if (!(screen instanceof IRequestableTooltipScreen tooltipScreen)) {
 			return;

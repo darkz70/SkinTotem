@@ -8,10 +8,10 @@ import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.extension.DrawContextExtension;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.screen.ScreenTexts;
+import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.Mth;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -22,11 +22,11 @@ import com.darkz.skintotem.yacl.custom.screen.SkinTotemModYACLScreen;
 @ExtensionMethod(DrawContextExtension.class)
 public class BetterCategoryTab extends CategoryTab {
 
-	private final ScreenRect rightPaneDim;
+	private final ScreenRectangle rightPaneDim;
 
-	public BetterCategoryTab(YACLScreen screen, ConfigCategory category, ScreenRect tabArea) {
+	public BetterCategoryTab(YACLScreen screen, ConfigCategory category, ScreenRectangle tabArea) {
 		super(screen, category, tabArea);
-		this.rightPaneDim = new ScreenRect(screen.width / 3 * 2, tabArea.getTop() + 1, screen.width / 3, tabArea.height());
+		this.rightPaneDim = new ScreenRectangle(screen.width / 3 * 2, tabArea.getTop() + 1, screen.width / 3, tabArea.height());
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class BetterCategoryTab extends CategoryTab {
 	@Override
 	public void updateButtons() {
 		this.undoButton.active = false;
-		this.saveFinishedButton.setMessage(ScreenTexts.DONE);
+		this.saveFinishedButton.setMessage(CommonComponents.DONE);
 		this.saveFinishedButton.setTooltip(Tooltip.of(Component.translatable("yacl.gui.finished.tooltip")));
 		this.cancelResetButton.setMessage(Component.translatable("controls.reset"));
 		this.cancelResetButton.setTooltip(Tooltip.of(Component.translatable("yacl.gui.reset.tooltip")));

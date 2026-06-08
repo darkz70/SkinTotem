@@ -1,7 +1,7 @@
 package com.darkz.skintotem.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
-import net.minecraft.client.texture.*;
+import net.minecraft.client.renderer.texture.*;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 

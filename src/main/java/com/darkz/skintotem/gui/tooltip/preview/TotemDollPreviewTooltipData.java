@@ -1,15 +1,15 @@
 package com.darkz.skintotem.gui.tooltip.preview;
 
 //? if >=1.21 {
-import net.minecraft.item.tooltip.TooltipData;
+import net.minecraft.world.item.tooltip.TooltipProvider;
  //?} else {
-/*import net.minecraft.client.item.TooltipData;
+/*import net.minecraft.client.item.TooltipProvider;
 *///?}
 
 import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.doll.data.TotemDollData;
 
-public record TotemDollPreviewTooltipData(TotemDollData data, Identifier model) implements TooltipData {
+public record TotemDollPreviewTooltipProvider(TotemDollData data, Identifier model) implements TooltipProvider {
 
 }

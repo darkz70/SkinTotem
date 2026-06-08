@@ -3,10 +3,10 @@ package com.darkz.skintotem.gui.widget;
 import lombok.*;
 import com.darkz.skintotem.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
-import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.*;
 
@@ -19,7 +19,7 @@ import com.darkz.skintotem.model.bb.manager.BlockBenchModelManager;
 
 @Getter
 @Setter
-public class TotemDollModelPreviewWidget extends ClickableWidget {
+public class TotemDollModelPreviewWidget extends AbstractWidget {
 
 	private final float size;
 
@@ -47,7 +47,7 @@ public class TotemDollModelPreviewWidget extends ClickableWidget {
 
 	protected void renderLoadingText(GuiGraphics context) {
 		int halfOfSize = (int) this.size / 2;
-		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
+		Font textRenderer = Minecraft.getInstance().textRenderer;
 		//context.fill(this.getX(), this.getY(), this.getX() + 1, this.getY() + 1, -1);
 		DrawUtils.drawCenteredText(context, this.getLoadingText(Util.getMeasuringTimeMs()), this.getX(), this.getY() + halfOfSize - (textRenderer.fontHeight / 2), (int) this.size);
 	}
@@ -88,7 +88,7 @@ public class TotemDollModelPreviewWidget extends ClickableWidget {
 	}
 
 	@Override
-	protected void appendClickableNarrations(NarrationMessageBuilder builder) {
+	protected void appendClickableNarrations(NarrationElementOutput builder) {
 
 	}
 }

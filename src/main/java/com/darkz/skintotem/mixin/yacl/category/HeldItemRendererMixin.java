@@ -8,14 +8,14 @@ import java.util.function.*;
 import com.darkz.skintotem.client.SkinTotemModClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.network.*;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.item.HeldItemRenderer;
+import net.minecraft.client.multiplayer.*;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.ItemInHandRenderer;
 
-import net.minecraft.client.render.item.HeldItemRenderer.HandRenderType;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.renderer.item.ItemModelResolver;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.world.item.*;
-import net.minecraft.util.Hand;
+import net.minecraft.world.InteractionHand;
 import org.spongepowered.asm.mixin.*;
 import com.darkz.skintotem.yacl.YACLConfigurationScreen;
 import com.darkz.skintotem.yacl.custom.category.rendering.RenderingCategoryTab;
@@ -28,16 +28,16 @@ import net.minecraft.core.component.DataComponents;
 //?}
 
 //? if >=1.21.9 {
-import net.minecraft.client.render.command.OrderedRenderCommandQueue;
+
  //?}
 
-@Mixin(HeldItemRenderer.class)
-public class HeldItemRendererMixin {
+@Mixin(ItemInHandRenderer.class)
+public class ItemInHandRendererMixin {
 
 	//? if >=1.21.9 {
 	@Inject(
 			at = @At("HEAD"),
-			method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/network/ClientPlayerEntity;I)V"
+			method = "renderItem(FLnet/minecraft/client/util/math/PoseStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/network/ClientPlayerEntity;I)V"
 	)
 	private void createBoolean(CallbackInfo ci, @Share("mtd_bl") LocalBooleanRef ref) {
 		createBoolean(ref);
@@ -46,9 +46,9 @@ public class HeldItemRendererMixin {
 	@WrapOperation(
 			at = @At(
 					value = "FIELD",
-					target = "Lnet/minecraft/client/render/item/HeldItemRenderer$HandRenderType;renderMainHand:Z"
+					target = "Lnet/minecraft/client/render/item/ItemInHandRenderer$HandRenderType;renderMainHand:Z"
 			),
-			method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/network/ClientPlayerEntity;I)V"
+			method = "renderItem(FLnet/minecraft/client/util/math/PoseStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/network/ClientPlayerEntity;I)V"
 	)
 	private boolean swapRenderValue1(HandRenderType instance, Operation<Boolean> original, @Share("mtd_bl") LocalBooleanRef ref) {
 		if (ref.get()) {
@@ -60,9 +60,9 @@ public class HeldItemRendererMixin {
 	@WrapOperation(
 			at = @At(
 					value = "FIELD",
-					target = "Lnet/minecraft/client/render/item/HeldItemRenderer$HandRenderType;renderOffHand:Z"
+					target = "Lnet/minecraft/client/render/item/ItemInHandRenderer$HandRenderType;renderOffHand:Z"
 			),
-			method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/network/ClientPlayerEntity;I)V"
+			method = "renderItem(FLnet/minecraft/client/util/math/PoseStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/network/ClientPlayerEntity;I)V"
 	)
 	private boolean swapRenderValue2(HandRenderType instance, Operation<Boolean> original, @Share("mtd_bl") LocalBooleanRef ref) {
 		if (ref.get()) {
@@ -71,8 +71,8 @@ public class HeldItemRendererMixin {
 		return original.call(instance);
 	}
 
-	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/HeldItemRenderer;renderFirstPersonItem(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/util/Hand;FLnet/minecraft/item/ItemStack;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;I)V"), method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/network/ClientPlayerEntity;I)V")
-	private void swapRenderingStack(HeldItemRenderer instance, AbstractClientPlayerEntity playerEntity, float a, float b, Hand hand, float c, ItemStack stack, float d, MatrixStack matrixStack, OrderedRenderCommandQueue queue, int i, Operation<Void> original, @Share("mtd_bl") LocalBooleanRef ref) {
+	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemInHandRenderer;renderFirstPersonItem(Lnet/minecraft/client/network/AbstractClientPlayer;FFLnet/minecraft/util/Hand;FLnet/minecraft/item/ItemStack;FLnet/minecraft/client/util/math/PoseStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;I)V"), method = "renderItem(FLnet/minecraft/client/util/math/PoseStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/network/ClientPlayerEntity;I)V")
+	private void swapRenderingStack(ItemInHandRenderer instance, AbstractClientPlayer playerEntity, float a, float b, Hand hand, float c, ItemStack stack, float d, PoseStack matrixStack, OrderedRenderCommandQueue queue, int i, Operation<Void> original, @Share("mtd_bl") LocalBooleanRef ref) {
 		Consumer<ItemStack> consumer = (itemStack) -> original.call(instance, playerEntity, a, b, hand, c, itemStack, d, matrixStack, queue, i);
 		if (ref.get()) {
 			renderDoll(stack, consumer);
@@ -83,7 +83,7 @@ public class HeldItemRendererMixin {
 	//?} else {
 	/*@Inject(
 			at = @At("HEAD"),
-			method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V"
+			method = "renderItem(FLnet/minecraft/client/util/math/PoseStack;Lnet/minecraft/client/render/MultiBufferSource$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V"
 	)
 	private void createBoolean(CallbackInfo ci, @Share("mtd_bl") LocalBooleanRef ref) {
 		createBoolean(ref);
@@ -92,9 +92,9 @@ public class HeldItemRendererMixin {
 	@WrapOperation(
 			at = @At(
 					value = "FIELD",
-					target = "Lnet/minecraft/client/render/item/HeldItemRenderer$HandRenderType;renderMainHand:Z"
+					target = "Lnet/minecraft/client/render/item/ItemInHandRenderer$HandRenderType;renderMainHand:Z"
 			),
-			method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V"
+			method = "renderItem(FLnet/minecraft/client/util/math/PoseStack;Lnet/minecraft/client/render/MultiBufferSource$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V"
 	)
 	private boolean swapRenderValue1(HandRenderType instance, Operation<Boolean> original, @Share("mtd_bl") LocalBooleanRef ref) {
 		if (ref.get()) {
@@ -106,9 +106,9 @@ public class HeldItemRendererMixin {
 	@WrapOperation(
 			at = @At(
 					value = "FIELD",
-					target = "Lnet/minecraft/client/render/item/HeldItemRenderer$HandRenderType;renderOffHand:Z"
+					target = "Lnet/minecraft/client/render/item/ItemInHandRenderer$HandRenderType;renderOffHand:Z"
 			),
-			method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V"
+			method = "renderItem(FLnet/minecraft/client/util/math/PoseStack;Lnet/minecraft/client/render/MultiBufferSource$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V"
 	)
 	private boolean swapRenderValue2(HandRenderType instance, Operation<Boolean> original, @Share("mtd_bl") LocalBooleanRef ref) {
 		if (ref.get()) {
@@ -120,11 +120,11 @@ public class HeldItemRendererMixin {
 	@WrapOperation(
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/client/render/item/HeldItemRenderer;renderFirstPersonItem(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/util/Hand;FLnet/minecraft/item/ItemStack;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V"
+					target = "Lnet/minecraft/client/render/item/ItemInHandRenderer;renderFirstPersonItem(Lnet/minecraft/client/network/AbstractClientPlayer;FFLnet/minecraft/util/Hand;FLnet/minecraft/item/ItemStack;FLnet/minecraft/client/util/math/PoseStack;Lnet/minecraft/client/render/MultiBufferSource;I)V"
 			),
-			method = "renderItem(FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V"
+			method = "renderItem(FLnet/minecraft/client/util/math/PoseStack;Lnet/minecraft/client/render/MultiBufferSource$Immediate;Lnet/minecraft/client/network/ClientPlayerEntity;I)V"
 	)
-	private void swapRenderingStack(HeldItemRenderer instance, AbstractClientPlayerEntity player, float tickProgress, float pitch, Hand hand, float swingProgress, ItemStack stack, float equipProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, Operation<Void> original, @Share("mtd_bl") LocalBooleanRef ref) {
+	private void swapRenderingStack(ItemInHandRenderer instance, AbstractClientPlayer player, float tickProgress, float pitch, Hand hand, float swingProgress, ItemStack stack, float equipProgress, PoseStack matrices, MultiBufferSource vertexConsumers, int light, Operation<Void> original, @Share("mtd_bl") LocalBooleanRef ref) {
 		Consumer<ItemStack> consumer = (itemStack) -> original.call(instance, player, tickProgress, pitch, hand, swingProgress, itemStack, equipProgress, matrices, vertexConsumers, light);
 		if (ref.get()) {
 			renderDoll(stack, consumer);

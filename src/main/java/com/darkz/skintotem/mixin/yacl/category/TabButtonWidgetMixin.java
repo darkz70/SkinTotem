@@ -17,7 +17,7 @@ import com.darkz.skintotem.yacl.YACLConfigurationScreen;
 import com.darkz.skintotem.yacl.custom.TransparencySprites;
 
 @Mixin(TabButtonWidget.class)
-public abstract class TabButtonWidgetMixin extends ClickableWidget {
+public abstract class TabButtonWidgetMixin extends AbstractWidget {
 
 	public TabButtonWidgetMixin(int x, int y, int width, int height, Component message) {
 		super(x, y, width, height, message);
@@ -59,7 +59,7 @@ public abstract class TabButtonWidgetMixin extends ClickableWidget {
 	}
 	//?}
 
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/TabButtonWidget;drawCurrentTabLine(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/font/TextRenderer;I)V"), method = RENDER_METHOD)
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/TabButtonWidget;drawCurrentTabLine(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/client/font/Font;I)V"), method = RENDER_METHOD)
 	private void renderTabBackground(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 		int left = this.getX() + 2;
 		int top = this.getY() + 2;

@@ -4,13 +4,13 @@ import lombok.Getter;
 
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.StringIdentifiable;
+import net.minecraft.util.StringRepresentable;
 import com.mojang.serialization.Codec;
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.config.other.EnumWithText;
 
 @Getter
-public enum TotemDollSkinType implements StringIdentifiable, EnumWithText {
+public enum TotemDollSkinType implements StringRepresentable, EnumWithText {
 
 	STEVE(false),
 	PLAYER(true),
@@ -20,7 +20,7 @@ public enum TotemDollSkinType implements StringIdentifiable, EnumWithText {
 	TLAUNCHER(true),
 	ELY_BY(true);
 
-	public static final Codec<TotemDollSkinType> CODEC = StringIdentifiable.createCodec(TotemDollSkinType::values);
+	public static final Codec<TotemDollSkinType> CODEC = StringRepresentable.createCodec(TotemDollSkinType::values);
 
 	private final boolean needData;
 

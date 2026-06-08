@@ -1,8 +1,8 @@
 package com.darkz.skintotem.extension;
 
-import net.minecraft.client.util.math.MatrixStack.Entry;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-public class MatrixStackEntryExtension {
+public class PoseStackEntryExtension {
 
 	public static void copyFrom(Entry entry, Entry anotherEntry) {
 		entry.getPositionMatrix().set(anotherEntry.getPositionMatrix());

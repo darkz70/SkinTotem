@@ -3,8 +3,8 @@ package com.darkz.skintotem.gui.widget.button;
 import lombok.Getter;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.widget.Button.PressAction;
-import net.minecraft.client.gui.widget.ElementListWidget.Entry;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.network.chat.Component;
 
 import java.util.List;

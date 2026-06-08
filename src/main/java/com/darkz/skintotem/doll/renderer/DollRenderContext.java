@@ -2,16 +2,16 @@ package com.darkz.skintotem.doll.renderer;
 
 import lombok.Getter;
 import lombok.experimental.ExtensionMethod;
-import net.minecraft.client.render.model.json.*;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.MatrixStack.Entry;
+import net.minecraft.client.renderer.block.model.*;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import com.darkz.skintotem.client.SkinTotemModClient;
-import com.darkz.skintotem.extension.ModelTransformationExtension;
+import com.darkz.skintotem.extension.ModelPart.RotationationExtension;
 import com.darkz.skintotem.model.base.MModel;
 
 @Getter
-@ExtensionMethod(ModelTransformationExtension.class)
+@ExtensionMethod(ModelPart.RotationationExtension.class)
 public enum DollRenderContext {
 
 	D_NONE("none"),
@@ -42,9 +42,9 @@ public enum DollRenderContext {
 		//? if <=1.21.4 {
 		/*if (object instanceof
 				//? if >=1.21.2 {
-				net.minecraft.item.ModelTransformationMode
+				net.minecraft.item.ModelPart.RotationationMode
 				//?} else {
-				/^net.minecraft.client.render.model.json.ModelTransformationMode
+				/^net.minecraft.client.render.model.json.ModelPart.RotationationMode
 				^///?}
 						mode) {
 			return switch (mode) {
@@ -81,7 +81,7 @@ public enum DollRenderContext {
 		return D_NONE;
 	}
 
-	public Transformation get(ModelTransformation transformation) {
+	public ItemTransform get(ModelPart.Rotationation transformation) {
 		return switch (this) {
 			case D_THIRD_PERSON_LEFT_HAND -> transformation.getTl();
 			case D_THIRD_PERSON_RIGHT_HAND -> transformation.getTr();
@@ -94,12 +94,12 @@ public enum DollRenderContext {
 			//? if >=1.21.9 {
 			case D_ON_SHELF -> transformation.getOnShelf();
 			//?}
-			default -> Transformation.IDENTITY;
+			default -> ItemTransform.IDENTITY;
 		};
 	}
 
-	public void apply(MModel model, MatrixStack matrices) {
-		Transformation transformation = get(model.getTransformation());
+	public void apply(MModel model, PoseStack matrices) {
+		ItemTransform transformation = get(model.getItemTransform());
 		Entry peek = matrices.peek();
 		transformation.apply(this.isLeftHanded(), /*? if <=1.21.4 {*/ /*matrices *//*?} else {*/ peek /*?}*/);
 		//? if >=1.21.5 {

@@ -1,10 +1,10 @@
 package com.darkz.skintotem.utils;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.*;
-import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -15,7 +15,7 @@ public class DrawUtils {
 	public static void drawTexture(GuiGraphics context, Identifier sprite, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
 		context.drawTexture(
 				/*? if >=1.21.6 {*/ net.minecraft.client.gl.RenderPipelines.GUI_TEXTURED,
-				/*?} elif >=1.21.2 {*/ /*net.minecraft.client.render.RenderLayer::getGuiTextured,
+				/*?} elif >=1.21.2 {*/ /*net.minecraft.client.render.RenderType::getGuiTextured,
 				 *//*?}*/
 				sprite,
 				x,
@@ -45,7 +45,7 @@ public class DrawUtils {
 	}
 
 	public static void drawCenteredText(GuiGraphics context, Component text, int x, int y, int width, int height) {
-		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
+		Font textRenderer = Minecraft.getInstance().textRenderer;
 		int textWidth = textRenderer.getWidth(text);
 
 		int centerX = x + (width / 2);
@@ -60,7 +60,7 @@ public class DrawUtils {
 	}
 
 	public static void drawText(GuiGraphics context, Component text, int x, int y, int width, int height) {
-		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
+		Font textRenderer = Minecraft.getInstance().textRenderer;
 		int textWidth = textRenderer.getWidth(text);
 		if (x + textWidth > x + width) {
 			drawScrollableText(context, x, y, width, height, text);
@@ -73,8 +73,8 @@ public class DrawUtils {
 		//? if >=1.21.11 {
 		context.getTextConsumer().text(text, x, x + width, y, y + height);
 		//?} else {
-		/*TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
-		ClickableWidget.drawScrollableText(context, textRenderer, text, x, y, x + width, y + height, -1);
+		/*Font textRenderer = Minecraft.getInstance().textRenderer;
+		AbstractWidget.drawScrollableText(context, textRenderer, text, x, y, x + width, y + height, -1);
 		*///?}
 	}
 }

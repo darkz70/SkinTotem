@@ -3,7 +3,7 @@ package com.darkz.skintotem.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import lombok.experimental.ExtensionMethod;
 import net.minecraft.world.item.*;
-import net.minecraft.screen.AnvilScreenHandler;
+import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,9 +11,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.extension.ItemStackExtension;
 
-@Mixin(AnvilScreenHandler.class)
+@Mixin(AnvilMenu.class)
 @ExtensionMethod(ItemStackExtension.class)
-public class AnvilScreenHandlerMixin {
+public class AnvilMenuMixin {
 
 	@WrapOperation(
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getName()Lnet/minecraft/text/Component;"),

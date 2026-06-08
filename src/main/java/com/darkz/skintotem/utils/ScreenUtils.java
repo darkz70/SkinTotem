@@ -2,9 +2,9 @@ package com.darkz.skintotem.utils;
 
 import com.darkz.skintotem.client.SkinTotemModClient;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.util.Util;
-import net.minecraft.util.Util.OperatingSystem;
+
 
 public class ScreenUtils {
 

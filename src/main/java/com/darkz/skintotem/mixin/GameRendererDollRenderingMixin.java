@@ -2,7 +2,7 @@ package com.darkz.skintotem.mixin;
 
 import com.darkz.skintotem.optimization.TotemDollRenderRequestsCollector;
 import com.darkz.skintotem.thing.ThingMarks;
-import net.minecraft.client.render.*;
+import net.minecraft.client.renderer.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -33,12 +33,12 @@ public class GameRendererDollRenderingMixin {
 		ThingMarks.WORLD_RENDERING.get().setMarked(false);
 	}
 	*///?} else {
-	/*@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;getEntities()Ljava/lang/Iterable;"), method = "render")
+	/*@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientLevel;getEntities()Ljava/lang/Iterable;"), method = "render")
 	private void beforeDollRendering(CallbackInfo ci) {
 		ThingMarks.WORLD_RENDERING.get().setMarked(true);
 	}
 
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;drawCurrentLayer()V", ordinal = 0), method = "render")
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/MultiBufferSource$Immediate;drawCurrentLayer()V", ordinal = 0), method = "render")
 	private void afterDollRendering(CallbackInfo ci) {
 		TotemDollRenderRequestsCollector.getInstance().render();
 		ThingMarks.WORLD_RENDERING.get().setMarked(false);

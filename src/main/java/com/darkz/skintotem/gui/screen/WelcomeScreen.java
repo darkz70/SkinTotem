@@ -2,7 +2,7 @@ package com.darkz.skintotem.gui.screen;
 
 import com.darkz.skintotem.utils.texture.PlayerSkinUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.font.MultilineText;
+import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screens.*;
 import net.minecraft.resources.ResourceLocation;
@@ -18,12 +18,12 @@ import com.darkz.skintotem.utils.DrawUtils;
 import org.jetbrains.annotations.NotNull;
 
 //? if >=1.21.11 {
-import net.minecraft.client.font.Alignment;
+import net.minecraft.client.gui.components.MultiLineLabel;
 //?}
 
 //? if >=1.21.9 && <=1.21.10 {
 /*
-import net.minecraft.client.font.MultilineText.Alignment;
+
 */
 //?}
 
@@ -35,7 +35,7 @@ public class WelcomeScreen extends Screen {
 	private Area secondDollArea;
 	private TotemDollModelPreviewWidget firstDollPreviewWidget;
 	private TotemDollModelPreviewWidget secondDollPreviewWidget;
-	private MultilineText text;
+	private MultiLineLabel text;
 
 	//? if =1.20.1 {
 	/*private final RotatingCubeMapRenderer backgroundRenderer;
@@ -54,7 +54,7 @@ public class WelcomeScreen extends Screen {
 		int offset = 20;
 		int screenWidth = this.width;
 		int screenHeight = this.height;
-		this.text = MultilineText.create(Minecraft.getInstance().textRenderer, SkinTotemMod.text("welcome_screen.text"), screenWidth - (offset * 2));
+		this.text = MultiLineLabel.create(Minecraft.getInstance().textRenderer, SkinTotemMod.text("welcome_screen.text"), screenWidth - (offset * 2));
 
 		//? if >=1.21.9 {
 		int textHeight = (this.text.getLineCount() * 9) + 10;

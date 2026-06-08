@@ -5,7 +5,7 @@ package com.darkz.skintotem.mixin.yacl.category;
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.widget.ScrollableWidget;
+import net.minecraft.client.gui.components.AbstractScrollWidget;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

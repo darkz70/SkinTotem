@@ -13,7 +13,7 @@ import static com.darkz.skintotem.atlas.manager.SkinTotemModAtlasSpriteManager.S
 
 //? if >=1.21.9 {
 
-import net.minecraft.client.resources.PlayerSkin;
+
 
 //?}
 
@@ -52,8 +52,8 @@ public class TotemDollSprites {
 	}
 
 	public static TotemDollSprites of(net.minecraft.entity.player.PlayerSkin skinTextures) {
-		PlayerSkin cape = skinTextures.cape();
-		PlayerSkin elytra = skinTextures.elytra();
+		TextureAsset cape = skinTextures.cape();
+		TextureAsset elytra = skinTextures.elytra();
 		return of(skinTextures.body().texturePath(), cape == null ? null : cape.texturePath(), elytra == null ? null : elytra.texturePath(), skinTextures.model() == net.minecraft.entity.player.PlayerSkin.Model.SLIM, true);
 	}
 	//?} elif >=1.21 {
@@ -158,4 +158,4 @@ public class TotemDollSprites {
 		totemDollSprites.setState(this.state);
 		return totemDollSprites;
 	}
-		}
+}

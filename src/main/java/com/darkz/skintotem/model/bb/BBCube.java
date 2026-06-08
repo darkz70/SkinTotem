@@ -5,13 +5,13 @@ import lombok.*;
 import lombok.experimental.ExtensionMethod;
 import net.minecraft.client.model.*;
 import net.minecraft.util.*;
-import net.minecraft.util.math.Direction;
+import net.minecraft.core.Direction;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import com.darkz.skintotem.config.other.vector.Vec3f;
-import com.darkz.skintotem.extension.DilationExtension;
+import com.darkz.skintotem.extension.CubeDeformationExtension;
 
 import java.util.*;
 import org.jetbrains.annotations.*;
@@ -22,10 +22,10 @@ import static com.darkz.skintotem.utils.CodecUtils.option;
 @Getter
 @Setter
 @AllArgsConstructor
-@ExtensionMethod(DilationExtension.class)
+@ExtensionMethod(CubeDeformationExtension.class)
 public class BBCube {
 
-	public static Codec<Dilation> DILATION_CODEC = Codec.FLOAT.xmap(Dilation::new, dilation -> dilation.getRadiusX());
+	public static Codec<CubeDeformation> DILATION_CODEC = Codec.FLOAT.xmap(CubeDeformation::new, dilation -> dilation.getRadiusX());
 
 	public static final Codec<BBCube> CODEC = RecordCodecBuilder.create(inst -> inst.group(
 			option("name", Codec.STRING, BBCube::getName),
@@ -33,7 +33,7 @@ public class BBCube {
 			option("to", Vec3f.CODEC, BBCube::getTo),
 			option("origin", Vec3f.CODEC, BBCube::getOrigin),
 			option("rotation", new Vec3f(), Vec3f.CODEC, BBCube::getRotation),
-			option("inflate", Dilation.NONE, DILATION_CODEC, BBCube::getInflate),
+			option("inflate", CubeDeformation.NONE, DILATION_CODEC, BBCube::getInflate),
 			option("autouv", Codec.INT, BBCube::getAutoUV),
 			option("uuid", Uuids.CODEC, BBCube::getUuid),
 			option("visibility", true, Codec.BOOL, BBCube::isVisible)
@@ -44,13 +44,13 @@ public class BBCube {
 	private Vec3f to;
 	private Vec3f origin;
 	private Vec3f rotation;
-	private Dilation inflate;
+	private CubeDeformation inflate;
 	private int autoUV;
 	private BBCubeFaces faces;
 	private UUID uuid;
 	private boolean visible;
 
-	public BBCube(String name, Vec3f from, Vec3f to, Vec3f origin, Vec3f rotation, Dilation inflate, int autoUV, UUID uuid, boolean visible) {
+	public BBCube(String name, Vec3f from, Vec3f to, Vec3f origin, Vec3f rotation, CubeDeformation inflate, int autoUV, UUID uuid, boolean visible) {
 		this.name     = name;
 		this.from     = from;
 		this.to       = to;
@@ -63,8 +63,8 @@ public class BBCube {
 		this.visible  = visible;
 	}
 
-	public ModelTransform getTransformation() {
-		return ModelTransform.of(this.origin.x(), this.origin.y(), this.origin.z(), (float) -Math.toRadians(this.rotation.x()), (float) -Math.toRadians(this.rotation.y()), (float) Math.toRadians(this.rotation.z()));
+	public ModelPart.Rotation getItemTransform() {
+		return ModelPart.Rotation.of(this.origin.x(), this.origin.y(), this.origin.z(), (float) -Math.toRadians(this.rotation.x()), (float) -Math.toRadians(this.rotation.y()), (float) Math.toRadians(this.rotation.z()));
 	}
 
 	@Getter

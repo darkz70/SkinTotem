@@ -6,8 +6,8 @@ import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.gui.widget.ElementListWidget.Entry;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.*;
 

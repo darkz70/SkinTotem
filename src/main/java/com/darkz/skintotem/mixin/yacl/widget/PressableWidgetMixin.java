@@ -15,7 +15,7 @@ import com.darkz.skintotem.yacl.YACLConfigurationScreen;
 import java.util.function.Function;
 
 @Mixin(PressableWidget.class)
-public abstract class PressableWidgetMixin extends ClickableWidget implements Drawable {
+public abstract class PressableWidgetMixin extends AbstractWidget implements Drawable {
 
 	@Unique
 	private static final String RENDER_METHOD = /*? >=1.20.3 {*/ "renderWidget" /*?} else {*/ /*"renderButton" *//*?}*/;

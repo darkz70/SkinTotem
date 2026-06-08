@@ -1,13 +1,13 @@
 package com.darkz.skintotem.gui.tooltip.state;
 
 //? if >=1.21 {
-import net.minecraft.item.tooltip.TooltipData;
+import net.minecraft.world.item.tooltip.TooltipProvider;
  //?} else {
-/*import net.minecraft.client.item.TooltipData;
+/*import net.minecraft.client.item.TooltipProvider;
 *///?}
 
 import com.darkz.skintotem.doll.data.LoadingState;
 
-public record LoadingStateTooltipData(LoadingState state) implements TooltipData {
+public record LoadingStateTooltipProvider(LoadingState state) implements TooltipProvider {
 
 }

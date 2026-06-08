@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.*;
+import net.minecraft.core.*;
 
 import com.darkz.skintotem.extension.*;
 import com.darkz.skintotem.model.bb.*;
@@ -22,11 +22,11 @@ import org.slf4j.Logger;
 
 @Getter
 @Setter
-@ExtensionMethod({ModelTransformExtension.class, DilationExtension.class, IdentifierExtension.class})
+@ExtensionMethod({ModelPart.RotationExtension.class, CubeDeformationExtension.class, IdentifierExtension.class})
 public class MModel extends ModelPart {
 
 	@Setter(AccessLevel.PRIVATE)
-	private ModelTransformation transformation = ModelTransformation.NONE;
+	private ModelPart.Rotationation transformation = ModelPart.Rotationation.NONE;
 	private final Map<String, MModel> mChildren;
 	private final List<MModel> mChildrenModels;
 	private final List<MCuboid> mCuboids;
@@ -55,7 +55,7 @@ public class MModel extends ModelPart {
 
 	public MModel initAfterBuild(BBModel model) {
 		this.setLocation(model.getLocation());
-		this.setTransformation(model.getTransformation());
+		this.setItemTransform(model.getItemTransform());
 		return this;
 	}
 
@@ -92,7 +92,7 @@ public class MModel extends ModelPart {
 		return this;
 	}
 
-	public void draw(PoseStack matrices, MultiBufferSource provider, SpriteAtlasTexture atlas, RenderLayer atlasRenderLayer, AtlasSprite mainSprite, Map<String, AtlasSprite> requestedParts, int light, int overlay, /*? if >=1.21 {*/int color/*?} else {*//*float red, float green, float blue, float alpha *//*?}*/) {
+	public void draw(PoseStack matrices, MultiBufferSource provider, TextureAtlas atlas, RenderType atlasRenderType, AtlasSprite mainSprite, Map<String, AtlasSprite> requestedParts, int light, int overlay, /*? if >=1.21 {*/int color/*?} else {*//*float red, float green, float blue, float alpha *//*?}*/) {
 		AtlasSprite providedSprite = requestedParts.get(this.getName());
 
 		if ((this.skipRendering && providedSprite == null) || (!this.visible) || (this.mCuboids.isEmpty() && this.mChildren.isEmpty())) {
@@ -108,12 +108,12 @@ public class MModel extends ModelPart {
 		this./*? if <=1.21.4 {*//*rotate*//*?} else {*/ applyTransform /*?}*/(matrices);
 		if (!this.hidden && !this.mCuboids.isEmpty()) {
 			Sprite currentSprite = atlas.getSprite(currentSpriteId.getSpriteId());
-			VertexConsumer consumer = currentSprite.getTextureSpecificVertexConsumer(provider.getBuffer(atlasRenderLayer));
+			VertexConsumer consumer = currentSprite.getTextureSpecificVertexConsumer(provider.getBuffer(atlasRenderType));
 			this.renderCuboids(matrices.peek(), consumer, light, overlay, /*? if >=1.21 {*/ color /*?} else {*/ /*red, green, blue, alpha *//*?}*/);
 		}
 
 		for (MModel model : this.mChildrenModels) {
-			model.draw(matrices, provider, atlas, atlasRenderLayer, currentSpriteId, requestedParts, light, overlay, /*? if >=1.21 {*/ color /*?} else {*/ /*red, green, blue, alpha *//*?}*/);
+			model.draw(matrices, provider, atlas, atlasRenderType, currentSpriteId, requestedParts, light, overlay, /*? if >=1.21 {*/ color /*?} else {*/ /*red, green, blue, alpha *//*?}*/);
 		}
 
 		matrices.pop();
@@ -149,17 +149,17 @@ public class MModel extends ModelPart {
 		String cuboidDataHierarchyLine = this.getHierarchyLine(countOfParents + 1 + 1);
 
 		for (MCuboid value : this.mCuboids) {
-			Dilation dilation = value.getDilation();
+			CubeDeformation dilation = value.getCubeDeformation();
 
 			String cuboidMain = "%s %s".formatted(cuboidHierarchyLine, this.toString());
 			String cuboidFrom = "%s From: [%s %s %s]".formatted(cuboidDataHierarchyLine, value.minX, value.minY, value.minZ);
 			String cuboidTo = "%s To: [%s %s %s]".formatted(cuboidDataHierarchyLine, value.maxX, value.maxY, value.maxZ);
-			String cuboidDilation = "%s Dilation: [%s %s %s]".formatted(cuboidDataHierarchyLine, dilation.getRadiusX(), dilation.getRadiusY(), dilation.getRadiusZ());
+			String cuboidCubeDeformation = "%s CubeDeformation: [%s %s %s]".formatted(cuboidDataHierarchyLine, dilation.getRadiusX(), dilation.getRadiusY(), dilation.getRadiusZ());
 
 			logger.info(cuboidMain);
 			logger.info(cuboidFrom);
 			logger.info(cuboidTo);
-			logger.info(cuboidDilation);
+			logger.info(cuboidCubeDeformation);
 		}
 
 		for (MModel value : this.mChildrenModels) {
@@ -234,5 +234,4 @@ public class MModel extends ModelPart {
 	public int hashCode() {
 		return this.getLocation() == null ? super.hashCode() : this.getLocation().hashCode();
 	}
-									}
-			  
+}

@@ -9,9 +9,9 @@ import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.extension.DrawContextExtension;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.tooltip.Tooltip;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.*;
-import net.minecraft.screen.ScreenTexts;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.*;
 
 import com.darkz.skintotem.utils.*;
@@ -30,14 +30,14 @@ public class RenderingCategoryTab implements TabExt {
 	private final ConfigCategory category;
 	private final Tooltip tooltip;
 	private final SearchFieldWidget searchField;
-	private final ScreenRect rightPaneDim;
+	private final ScreenRectangle rightPaneDim;
 	//? if !1.20.1 {
 	private WidgetAndType<OptionListWidget> optionList;
 	//?} else {
 	/*public ListHolderWidget<OptionListWidget> optionList;
 	*///?}
 
-	public RenderingCategoryTab(YACLScreen screen, ConfigCategory category, ScreenRect tabArea) {
+	public RenderingCategoryTab(YACLScreen screen, ConfigCategory category, ScreenRectangle tabArea) {
 		if (!(screen instanceof SkinTotemModYACLScreen yaclScreen)) {
 			throw new IllegalArgumentException("This category is only for me! [My Totem Doll]");
 		}
@@ -49,16 +49,16 @@ public class RenderingCategoryTab implements TabExt {
 		int padding = columnWidth / 20;
 		columnWidth = Math.min(columnWidth, 400);
 		int paddedWidth = columnWidth - padding * 2;
-		this.rightPaneDim = new ScreenRect(screen.width / 3 * 2, tabArea.getTop() + 1, screen.width / 3, tabArea.getTop() + (padding * 2) + 39);
+		this.rightPaneDim = new ScreenRectangle(screen.width / 3 * 2, tabArea.getTop() + 1, screen.width / 3, tabArea.getTop() + (padding * 2) + 39);
 		MutableDimension<Integer> actionDim = Dimension.ofInt(screen.width / 3 * 2 + screen.width / 6, tabArea.getTop() + padding + 44, paddedWidth, 20);
 
-		this.saveFinishedButton = Button.builder(ScreenTexts.DONE, btn -> yaclScreen.finishOrSave())
+		this.saveFinishedButton = Button.builder(CommonComponents.DONE, btn -> yaclScreen.finishOrSave())
 				.position(actionDim.x() - actionDim.width() / 2, actionDim.y())
 				.size(actionDim.width(), actionDim.height())
 				.build();
 
 		actionDim.expand(-actionDim.width() / 2 - 2, 0).move(-actionDim.width() / 2 - 2, -22);
-		this.cancelResetButton = Button.builder(ScreenTexts.CANCEL, btn -> yaclScreen.cancelOrReset())
+		this.cancelResetButton = Button.builder(CommonComponents.CANCEL, btn -> yaclScreen.cancelOrReset())
 				.position(actionDim.x() - actionDim.width() / 2, actionDim.y())
 				.size(actionDim.width(), actionDim.height())
 				.build();
@@ -98,7 +98,7 @@ public class RenderingCategoryTab implements TabExt {
 		));
 		//?} else {
 		/*this.optionList = new ListHolderWidget<>(
-				() -> new ScreenRect(tabArea.position(), tabArea.width() / 3 * 2 - 2, tabArea.height()),
+				() -> new ScreenRectangle(tabArea.position(), tabArea.width() / 3 * 2 - 2, tabArea.height()),
 				new OptionListWidget(screen, category, Minecraft.getInstance(), 0, 0, screen.width / 3 * 2 + 1, screen.height, desc -> {})
 		);
 		*///?}
@@ -112,7 +112,7 @@ public class RenderingCategoryTab implements TabExt {
 	}
 
 	@Override
-	public void forEachChild(Consumer<ClickableWidget> consumer) {
+	public void forEachChild(Consumer<AbstractWidget> consumer) {
 		consumer.accept(this.optionList/*? if !1.20.1 {*/.getWidget() /*?}*/);
 		consumer.accept(this.saveFinishedButton);
 		consumer.accept(this.cancelResetButton);
@@ -154,9 +154,9 @@ public class RenderingCategoryTab implements TabExt {
 
 
 	@Override
-	public void refreshGrid(ScreenRect area) {
+	public void refreshGrid(ScreenRectangle area) {
 		//? if !1.20.1 {
-		ScreenRect rect = new ScreenRect(area.position(), area.width() / 3 * 2, area.height());
+		ScreenRectangle rect = new ScreenRectangle(area.position(), area.width() / 3 * 2, area.height());
 		this.optionList.getType().setX(rect.getLeft());
 		this.optionList.getType().setY(rect.getTop() + 1);
 		this.optionList.getType().setWidth(rect.width());
@@ -172,7 +172,7 @@ public class RenderingCategoryTab implements TabExt {
 
 	public void updateButtons() {
 		this.undoButton.active = false;
-		this.saveFinishedButton.setMessage(ScreenTexts.DONE);
+		this.saveFinishedButton.setMessage(CommonComponents.DONE);
 		this.saveFinishedButton.setTooltip(Tooltip.of(Component.translatable("yacl.gui.finished.tooltip")));
 		this.cancelResetButton.setMessage(Component.translatable("controls.reset"));
 		this.cancelResetButton.setTooltip(Tooltip.of(Component.translatable("yacl.gui.reset.tooltip")));

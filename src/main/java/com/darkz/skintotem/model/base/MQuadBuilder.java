@@ -2,9 +2,9 @@ package com.darkz.skintotem.model.base;
 
 import lombok.*;
 import lombok.experimental.ExtensionMethod;
-import net.minecraft.client.model.Dilation;
+import net.minecraft.client.model.CubeDeformation;
 import net.minecraft.client.model.ModelPart.*;
-import net.minecraft.util.math.Direction;
+import net.minecraft.core.Direction;
 import org.joml.Vector3f;
 
 import com.darkz.skintotem.extension.*;
@@ -13,7 +13,7 @@ import com.darkz.skintotem.extension.*;
 @Getter
 @AllArgsConstructor
 @SuppressWarnings("unused")
-@ExtensionMethod({DilationExtension.class, ArrayExtension.class})
+@ExtensionMethod({CubeDeformationExtension.class, ArrayExtension.class})
 public class MQuadBuilder {
 
 	private float fromU;
@@ -28,7 +28,7 @@ public class MQuadBuilder {
 	}
 
 	// wild stuff 0-0
-	public Quad build(int textureWidth, int textureHeight, Vector3f pos, Vector3f size, Dilation dilation) {
+	public Quad build(int textureWidth, int textureHeight, Vector3f pos, Vector3f size, CubeDeformation dilation) {
 		float f = 0.0F / textureWidth;
 		float g = 0.0F / textureHeight;
 

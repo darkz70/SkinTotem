@@ -2,16 +2,16 @@ package com.darkz.skintotem.mixin.citresewn;
 
 //? if <=1.21.4 {
 /*import com.bawnorton.mixinsquared.TargetHandler;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.*;
 *///?}
 
 import lombok.experimental.ExtensionMethod;
-import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.renderer.ItemRenderer;
 import org.spongepowered.asm.mixin.*;
 import com.darkz.skintotem.extension.ItemStackExtension;
 

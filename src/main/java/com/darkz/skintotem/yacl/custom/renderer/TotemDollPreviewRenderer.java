@@ -5,9 +5,9 @@ import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.extension.DrawContextExtension;
 import com.darkz.skintotem.utils.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.font.*;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.gui.components.AbstractWidget;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.client.SkinTotemModClient;
@@ -22,12 +22,12 @@ import com.darkz.skintotem.utils.plugin.TotemDollPlugin;
 import org.jetbrains.annotations.Nullable;
 
 //? if >=1.21.11 {
-import net.minecraft.client.font.Alignment;
+import net.minecraft.client.gui.components.MultiLineLabel;
 //?}
 
 //? if >=1.21.9 && <=1.21.10 {
 /*
-import net.minecraft.client.font.MultilineText.Alignment;
+
 */
 //?}
 
@@ -39,7 +39,7 @@ public class TotemDollPreviewRenderer implements ImageRenderer {
 
 	private TotemDollData data;
 	@Nullable
-	private MultilineText suggestionText;
+	private MultiLineLabel suggestionText;
 	@Nullable
 	private TotemDollSkinType suggestionSkinType;
 
@@ -63,7 +63,7 @@ public class TotemDollPreviewRenderer implements ImageRenderer {
 	}
 
 	private void updateSuggestion(int width, boolean resized) {
-		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
+		Font textRenderer = Minecraft.getInstance().textRenderer;
 		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
 		TotemDollSkinType skinType = config.getStandardTotemDollSkinType();
 		String skinValue = config.getStandardTotemDollSkinValue();
@@ -78,7 +78,7 @@ public class TotemDollPreviewRenderer implements ImageRenderer {
 		}
 
 		if (this.suggestionSkinType != null && (type != this.suggestionSkinType || resized)) {
-			this.suggestionText = MultilineText.create(textRenderer, this.suggestionSkinType.getSuggestionText(), width - 5);
+			this.suggestionText = MultiLineLabel.create(textRenderer, this.suggestionSkinType.getSuggestionText(), width - 5);
 		}
 	}
 

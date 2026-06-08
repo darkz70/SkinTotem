@@ -7,17 +7,17 @@ import com.darkz.skintotem.utils.ScreenUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
 
 import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.config.SkinTotemModConfig;
 import com.darkz.skintotem.doll.manager.StandardTotemDollManager;
 import com.darkz.skintotem.doll.renderer.TotemDollRenderer;
-import com.darkz.skintotem.gui.tooltip.preview.TotemDollPreviewTooltipData;
+import com.darkz.skintotem.gui.tooltip.preview.TotemDollPreviewTooltipProvider;
 import com.darkz.skintotem.tag.*;
 import com.darkz.skintotem.tag.manager.TagsManager;
 
@@ -77,7 +77,7 @@ public class CustomModelTagButtonWidget extends TagButtonWidget {
 			this.tooltipData.setStandardMModel(this.data.getRenderProperties().getStandardMModel());
 		}
 		this.tooltipDataActive = true;
-		return ClientTooltipComponent.create(new TotemDollPreviewTooltipData(this.tooltipData, this.model));
+		return ClientTooltipComponent.create(new TotemDollPreviewTooltipProvider(this.tooltipData, this.model));
 	}
 
 	@Override
@@ -88,10 +88,10 @@ public class CustomModelTagButtonWidget extends TagButtonWidget {
 		int amount = ((int) verticalAmount) > 0 ? 1 : -1;
 		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
 		if (ScreenUtils.hasShiftDown()) {
-			config.setBetterTagMenuTooltipSize(MathHelper.clamp(config.getBetterTagMenuTooltipSize() + (amount * 2), 60, 500));
+			config.setBetterTagMenuTooltipSize(Mth.clamp(config.getBetterTagMenuTooltipSize() + (amount * 2), 60, 500));
 			return true;
 		} else if (ScreenUtils.hasControlDown()) {
-			config.setTagMenuTooltipModelScale(MathHelper.clamp(config.getTagMenuTooltipModelScale() + (amount / 12F), 0.1F, 10F));
+			config.setTagMenuTooltipModelScale(Mth.clamp(config.getTagMenuTooltipModelScale() + (amount / 12F), 0.1F, 10F));
 			return true;
 		}
 		return false;

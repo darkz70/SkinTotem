@@ -1,6 +1,6 @@
 package com.darkz.skintotem.mixin;
 
-import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.screens.Screen;
 import org.spongepowered.asm.mixin.*;
@@ -14,7 +14,7 @@ import com.darkz.skintotem.utils.tooltip.IRequestableTooltipScreen;
 @Mixin(Screen.class)
 public abstract class ScreenMixin extends AbstractParentElement implements Drawable, IRequestableTooltipScreen {
 
-	@Shadow public TextRenderer textRenderer;
+	@Shadow public Font textRenderer;
 	@Unique
 	private TooltipRequest tooltipRequest;
 

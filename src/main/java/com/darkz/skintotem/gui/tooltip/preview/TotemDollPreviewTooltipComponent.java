@@ -3,10 +3,10 @@ package com.darkz.skintotem.gui.tooltip.preview;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.doll.renderer.*;
 import com.darkz.skintotem.utils.DrawUtils;
-import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 
@@ -28,17 +28,17 @@ public class TotemDollPreviewTooltipComponent implements TooltipComponent {
 	}
 
 	@Override
-	public int getHeight(/*? >=1.21.2 {*/TextRenderer textRenderer/*?}*/) {
+	public int getHeight(/*? >=1.21.2 {*/Font textRenderer/*?}*/) {
 		return SkinTotemModConfig.getInstance().getBetterTagMenuTooltipSize() + 10;
 	}
 
 	@Override
-	public int getWidth(TextRenderer textRenderer) {
+	public int getWidth(Font textRenderer) {
 		return SkinTotemModConfig.getInstance().getBetterTagMenuTooltipSize();
 	}
 
 	@Override
-	public void drawItems(TextRenderer textRenderer, int x, int y,/*? >=1.21.2 {*/int w, int h,/*?}*/ GuiGraphics context) {
+	public void drawItems(Font textRenderer, int x, int y,/*? >=1.21.2 {*/int w, int h,/*?}*/ GuiGraphics context) {
 		int width = this.getWidth(textRenderer);
 		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
 		float sizeOriginal = config.getBetterTagMenuTooltipSize();

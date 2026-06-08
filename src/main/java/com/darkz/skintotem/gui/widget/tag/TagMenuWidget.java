@@ -4,7 +4,7 @@ import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.doll.data.TotemDollData;
 import com.darkz.skintotem.gui.widget.list.AbstractVersionedEntryListWidget;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Font;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.*;
@@ -289,7 +289,7 @@ public class TagMenuWidget extends AbstractVersionedEntryListWidget<TagRow> {
 
 		private void render(GuiGraphics context, int y, int x, int entryHeight, boolean hovered) {
 			Minecraft client = Minecraft.getInstance();
-			TextRenderer textRenderer = client.textRenderer;
+			Font textRenderer = client.textRenderer;
 
 			RenderUtils.enableBlend();
 			DrawUtils.drawTexture(context, SEPARATOR, x - 1, y + (entryHeight / 2) - 3, 0, 0, 32, 7, 32, 7);

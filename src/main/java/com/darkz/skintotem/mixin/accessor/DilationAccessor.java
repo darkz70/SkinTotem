@@ -1,11 +1,11 @@
 package com.darkz.skintotem.mixin.accessor;
 
-import net.minecraft.client.model.Dilation;
+import net.minecraft.client.model.CubeDeformation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(Dilation.class)
-public interface DilationAccessor {
+@Mixin(CubeDeformation.class)
+public interface CubeDeformationAccessor {
 
 	@Accessor("radiusX")
 	float getRadiusX();

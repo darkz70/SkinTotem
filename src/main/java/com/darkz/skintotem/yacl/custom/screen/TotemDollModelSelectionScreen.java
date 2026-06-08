@@ -6,11 +6,11 @@ import com.darkz.skintotem.config.SkinTotemModConfig;
 import com.darkz.skintotem.doll.model.TotemDollModel;
 import com.darkz.skintotem.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.components.*;
-import net.minecraft.client.gui.widget.Button.PressAction;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.*;
 import net.minecraft.util.*;
 
@@ -159,7 +159,7 @@ public class TotemDollModelSelectionScreen extends Screen {
 	@Override
 	public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
-		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
+		Font textRenderer = Minecraft.getInstance().textRenderer;
 
 		// Title
 		DrawUtils.drawCenteredText(context, this.getTitle(), this.titleDimension.x() + 2, this.titleDimension.y(), this.titleDimension.width() - 2, this.titleDimension.height());
@@ -181,7 +181,7 @@ public class TotemDollModelSelectionScreen extends Screen {
 		// Model Path Component
 		context.enableScissor(this.modelPathDimension.x(), this.modelPathDimension.y(), this.modelPathDimension.xLimit() - offset, this.modelPathDimension.yLimit());
 
-		Component text = this.selectedModel == null ? Component.literal("...").formatted(Formatting.GRAY) : this.selectedModel;
+		Component text = this.selectedModel == null ? Component.literal("...").formatted(ChatFormatting.GRAY) : this.selectedModel;
 		int width = textRenderer.getWidth(text);
 		if (this.modelPathDimension.x() + width + offset > this.modelPathDimension.xLimit() - offset) {
 			DrawUtils.drawText(context, text, this.modelPathDimension.x() + offset, this.modelPathDimension.yLimit() - textRenderer.fontHeight - offset, this.modelPathDimension.width() - offset, textRenderer.fontHeight);

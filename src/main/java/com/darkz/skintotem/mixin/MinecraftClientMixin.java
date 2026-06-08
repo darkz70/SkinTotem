@@ -5,7 +5,7 @@ import net.minecraft.client.*;
 import net.minecraft.client.RunArgs.QuickPlay;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.realms.RealmsClient;
-import net.minecraft.resource.ResourceReload;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.*;
@@ -35,8 +35,8 @@ public class MinecraftClientMixin {
 		}
 	}
 	//?} else {
-	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;onInitFinished(Lnet/minecraft/client/realms/RealmsClient;Lnet/minecraft/resource/ResourceReload;Lnet/minecraft/client/RunArgs$QuickPlay;)V"), method = "<init>")
-	private void addMTDHelloScreen(Minecraft client, RealmsClient realmsClient, ResourceReload resourceReload, QuickPlay quickPlay, Operation<Void> original) {
+	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;onInitFinished(Lnet/minecraft/client/realms/RealmsClient;Lnet/minecraft/resource/PreparableReloadListener;Lnet/minecraft/client/RunArgs$QuickPlay;)V"), method = "<init>")
+	private void addMTDHelloScreen(Minecraft client, RealmsClient realmsClient, PreparableReloadListener resourceReload, QuickPlay quickPlay, Operation<Void> original) {
 		Runnable runnable = () -> original.call(client, realmsClient, resourceReload, quickPlay);
 
 		SkinTotemModConfig config = SkinTotemModConfig.getInstance();

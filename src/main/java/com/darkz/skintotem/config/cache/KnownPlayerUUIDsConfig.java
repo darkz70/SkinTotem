@@ -8,7 +8,7 @@ import lombok.*;
 import net.fabricmc.loader.api.FabricLoader;
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.utils.*;
-import net.minecraft.util.Uuids;
+
 import org.slf4j.*;
 import static com.mojang.serialization.codecs.RecordCodecBuilder.create;
 import static com.darkz.skintotem.utils.CodecUtils.option;

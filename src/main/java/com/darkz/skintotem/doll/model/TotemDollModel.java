@@ -48,9 +48,9 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 
 	public TotemDollModel(MModel root, boolean slim) {
 		//? if >=1.21.11 {
-		super(root, RenderLayers::entityTranslucent);
+		super(root, RenderTypes::entityTranslucent);
 		//?} else {
-		/*super(/^? >=1.21.2 {^/ root, /^?}^/RenderLayer::getEntityTranslucent);
+		/*super(/^? >=1.21.2 {^/ root, /^?}^/RenderType::getEntityTranslucent);
 		*///?}
 
 		this.head         = root.findModels("head");
@@ -199,7 +199,7 @@ public class TotemDollModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 			enableIfPresent(leftArm);
 			enableIfPresent(rightArm);
 
-			RenderLayer renderLayer = SkinTotemModAtlasManager.getRenderLayer();
+			RenderType renderLayer = SkinTotemModAtlasManager.getRenderType();
 
 			boolean wasLocked = atlasTexture.isLocked();
 			if (!wasLocked) {

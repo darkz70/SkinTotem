@@ -1,7 +1,7 @@
 package com.darkz.skintotem.extension;
 
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.Mth;
 
 public class DrawContextExtension {
 

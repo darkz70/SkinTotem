@@ -5,9 +5,9 @@ import dev.isxander.yacl3.gui.YACLScreen;
 import dev.isxander.yacl3.gui.controllers.ControllerWidget;
 import com.darkz.skintotem.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.*;
 
 import com.darkz.skintotem.SkinTotemMod;
@@ -39,7 +39,7 @@ public class TotemDollModelControllerElement extends ControllerWidget<TotemDollM
 
 	@Override
 	protected void drawValueText(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
+		Font textRenderer = Minecraft.getInstance().textRenderer;
 		Component valueText = this.getValueText();
 
 		int width = textRenderer.getWidth(valueText);

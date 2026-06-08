@@ -21,7 +21,7 @@ import java.util.function.Function;
 *///?}
 
 @Mixin(EntryListWidget.class)
-public abstract class EntryListWidgetMixin /*? >=1.20.3 {*/ extends ClickableWidget /*?}*/ {
+public abstract class EntryListWidgetMixin /*? >=1.20.3 {*/ extends AbstractWidget /*?}*/ {
 
 	@Unique
 	private static final String RENDER_METHOD = /*? >=1.20.3 {*/ "renderWidget" /*?} else {*/ /*"render" *//*?}*/;

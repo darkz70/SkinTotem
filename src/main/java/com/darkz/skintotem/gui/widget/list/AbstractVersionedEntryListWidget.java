@@ -3,8 +3,8 @@ package com.darkz.skintotem.gui.widget.list;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.widget.ElementListWidget;
-import net.minecraft.client.gui.widget.ElementListWidget.Entry;
+import net.minecraft.client.gui.components.ObjectSelectionList;
+import net.minecraft.client.gui.components.ObjectSelectionList;
 
 @Getter
 public abstract class AbstractVersionedEntryListWidget<E extends Entry<E>> extends ElementListWidget<E> {

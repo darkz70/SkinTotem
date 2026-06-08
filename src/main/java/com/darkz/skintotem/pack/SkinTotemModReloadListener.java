@@ -14,13 +14,13 @@ import net.minecraft.util.profiling.*;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 //?}
 
-public class SkinTotemModReloadListener implements /*? if >=1.21.9 {*/ PreparableReloadListener /*?} else {*/ /*IdentifiableResourceReloadListener *//*?}*/ {
+public class SkinTotemModReloadListener implements /*? if >=1.21.9 {*/ PreparableReloadListenerer /*?} else {*/ /*IdentifiablePreparableReloadListenerListener *//*?}*/ {
 
 	public static void register() {
 		//? if >=1.21.9 {
-		ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(getFabricId(), new SkinTotemModReloadListener());
+		ResourceLoader.get(ResourceType.CLIENT_RESOURCES).registerReloader(getFabricId(), new SkinTotemModReloadListener());
 		//?} else {
-		/*ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new SkinTotemModReloadListener());
+		/*ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new SkinTotemModReloadListener());
 		 *///?}
 	}
 
@@ -31,9 +31,9 @@ public class SkinTotemModReloadListener implements /*? if >=1.21.9 {*/ Preparabl
 
 	//? if >=1.21.9 {
 	@Override
-	public CompletableFuture<Void> reload(Store store, Executor prepareExecutor, PreparationBarrier synchronizer, Executor applyExecutor) {
+	public CompletableFuture<Void> reload(Store store, Executor prepareExecutor, Synchronizer synchronizer, Executor applyExecutor) {
 		return synchronizer.whenPrepared(Unit.INSTANCE).thenRunAsync(() -> {
-			Profiler profiler = Profilers.get();
+			ProfilerFiller profiler = ProfilerFillers.get();
 			profiler.push("listener");
 			this.reloadStuff(synchronizer, store.getResourceManager(), prepareExecutor, applyExecutor);
 			profiler.pop();
@@ -41,9 +41,9 @@ public class SkinTotemModReloadListener implements /*? if >=1.21.9 {*/ Preparabl
 	}
 	//?} elif >=1.21.2 {
 	/*@Override
-	public CompletableFuture<Void> reload(PreparationBarrier synchronizer, ResourceManager manager, Executor prepareExecutor, Executor applyExecutor) {
+	public CompletableFuture<Void> reload(Synchronizer synchronizer, ResourceManager manager, Executor prepareExecutor, Executor applyExecutor) {
 		return synchronizer.whenPrepared(Unit.INSTANCE).thenRunAsync(() -> {
-			Profiler profiler = Profilers.get();
+			ProfilerFiller profiler = ProfilerFillers.get();
 			profiler.push("listener");
 			this.reloadStuff(synchronizer, manager, prepareExecutor, applyExecutor);
 			profiler.pop();
@@ -51,26 +51,26 @@ public class SkinTotemModReloadListener implements /*? if >=1.21.9 {*/ Preparabl
 	}
 	*///?} else {
 	/*@Override
-	public CompletableFuture<Void> reload(PreparableReloadListener.PreparationBarrier synchronizer, ResourceManager manager, Profiler prepareProfiler, Profiler applyProfiler, Executor prepareExecutor, Executor applyExecutor) {
+	public CompletableFuture<Void> reload(PreparableReloadListenerer.Synchronizer synchronizer, ResourceManager manager, ProfilerFiller prepareProfilerFiller, ProfilerFiller applyProfilerFiller, Executor prepareExecutor, Executor applyExecutor) {
 		return synchronizer.whenPrepared(Unit.INSTANCE).thenRunAsync(() -> {
-			applyProfiler.startTick();
-			applyProfiler.push("listener");
+			applyProfilerFiller.startTick();
+			applyProfilerFiller.push("listener");
 			this.reloadStuff(synchronizer, manager, prepareExecutor, applyExecutor);
-			applyProfiler.pop();
-			applyProfiler.endTick();
+			applyProfilerFiller.pop();
+			applyProfilerFiller.endTick();
 		}, applyExecutor);
 	}
 
 	*///?}
 
-	private void reloadStuff(PreparationBarrier synchronizer, ResourceManager resourceManager, Executor prepareExecutor, Executor applyExecutor) {
+	private void reloadStuff(Synchronizer synchronizer, ResourceManager resourceManager, Executor prepareExecutor, Executor applyExecutor) {
 		this.reloadAtlas(synchronizer, prepareExecutor, applyExecutor);
 		BlockBenchModelManager.reload(resourceManager);
 		TotemDollModelFinder.reload(resourceManager);
 		TagsManager.reloadCustomModelIdsTags();
 	}
 
-	private void reloadAtlas(PreparationBarrier synchronizer, Executor prepareExecutor, Executor applyExecutor) {
+	private void reloadAtlas(Synchronizer synchronizer, Executor prepareExecutor, Executor applyExecutor) {
 		SkinTotemModAtlasSpriteManager.reload();
 		SkinTotemModAtlasManager.stitchAndUpdate(SkinTotemModAtlasSpriteManager.getSprites(), synchronizer, prepareExecutor, applyExecutor, null);
 	}

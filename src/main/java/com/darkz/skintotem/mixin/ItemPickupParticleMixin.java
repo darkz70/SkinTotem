@@ -1,12 +1,12 @@
 package com.darkz.skintotem.mixin;
 
 //? if >=1.21.9 {
-import com.darkz.skintotem.utils.mixin.ItemRenderStateWithStack;
+import com.darkz.skintotem.utils.mixin.ItemStackRenderStateWithStack;
 import net.minecraft.client.particle.ItemPickupParticle;
-import net.minecraft.client.render.entity.state.*;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.*;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.renderer.entity.state.*;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -15,9 +15,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ItemPickupParticleMixin {
 
 	@Inject(at = @At("TAIL"), method = "<init>")
-	private void markClear(ClientWorld world, EntityRenderState renderState, Entity collector, Vec3d velocity, CallbackInfo ci) {
+	private void markClear(ClientLevel world, EntityRenderState renderState, Entity collector, Vec3 velocity, CallbackInfo ci) {
 		if (renderState instanceof ItemStackEntityRenderState state) {
-			((ItemRenderStateWithStack) state.itemRenderState).myTotemDoll$shouldClear(false);
+			((ItemStackRenderStateWithStack) state.itemRenderState).myTotemDoll$shouldClear(false);
 		}
 	}
 

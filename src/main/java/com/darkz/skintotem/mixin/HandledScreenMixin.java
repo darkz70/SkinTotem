@@ -1,6 +1,6 @@
 package com.darkz.skintotem.mixin;
 
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
@@ -13,8 +13,8 @@ import com.darkz.skintotem.utils.mixin.MTDAnvilScreen;
 import net.minecraft.client.gui.Click;
 //?}
 
-@Mixin(HandledScreen.class)
-public class HandledScreenMixin {
+@Mixin(AbstractContainerScreen.class)
+public class AbstractContainerScreenMixin {
 
 	//? if >=1.21.9 {
 	@Inject(at = @At("HEAD"), method = "mouseDragged", cancellable = true)

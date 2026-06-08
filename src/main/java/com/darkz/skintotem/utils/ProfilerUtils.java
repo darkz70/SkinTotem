@@ -1,14 +1,14 @@
 package com.darkz.skintotem.utils;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.profiler.*;
+import net.minecraft.util.profiling.*;
 
-public class ProfilerUtils {
+public class ProfilerFillerUtils {
 
-	public static Profiler getProfiler() {
+	public static ProfilerFiller getProfilerFiller() {
 		/*? >=1.21.2 {*/
-		return Profilers.get();
-		/*?} else {*/ /*return Minecraft.getInstance().getProfiler(); *//*?}*/
+		return ProfilerFillers.get();
+		/*?} else {*/ /*return Minecraft.getInstance().getProfilerFiller(); *//*?}*/
 	}
 
 }

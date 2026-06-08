@@ -6,7 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.*;
 import lombok.*;
 import com.darkz.skintotem.utils.CodecUtils;
-import net.minecraft.util.Uuids;
+
 import static com.darkz.skintotem.utils.CodecUtils.option;
 
 @Setter

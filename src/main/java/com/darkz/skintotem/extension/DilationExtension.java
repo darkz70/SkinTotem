@@ -1,20 +1,20 @@
 package com.darkz.skintotem.extension;
 
-import net.minecraft.client.model.Dilation;
+import net.minecraft.client.model.CubeDeformation;
 
-import com.darkz.skintotem.mixin.accessor.DilationAccessor;
+import com.darkz.skintotem.mixin.accessor.CubeDeformationAccessor;
 
-public class DilationExtension {
+public class CubeDeformationExtension {
 
-	public static float getRadiusX(Dilation dilation) {
-		return ((DilationAccessor) dilation).getRadiusX();
+	public static float getRadiusX(CubeDeformation dilation) {
+		return ((CubeDeformationAccessor) dilation).getRadiusX();
 	}
 
-	public static float getRadiusY(Dilation dilation) {
-		return ((DilationAccessor) dilation).getRadiusY();
+	public static float getRadiusY(CubeDeformation dilation) {
+		return ((CubeDeformationAccessor) dilation).getRadiusY();
 	}
 
-	public static float getRadiusZ(Dilation dilation) {
-		return ((DilationAccessor) dilation).getRadiusZ();
+	public static float getRadiusZ(CubeDeformation dilation) {
+		return ((CubeDeformationAccessor) dilation).getRadiusZ();
 	}
 }

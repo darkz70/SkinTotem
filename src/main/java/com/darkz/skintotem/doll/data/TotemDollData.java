@@ -6,12 +6,12 @@ import net.minecraft.client.player.AbstractClientPlayer;
 
 //? if >=1.21.9 {
 import net.minecraft.client.resources.PlayerSkin;
-import net.minecraft.client.resources.PlayerSkin;
-import net.minecraft.client.resources.PlayerSkin;
+
+
 import java.util.Optional;
 //?} elif >=1.21 {
 /*import net.minecraft.client.util.PlayerSkin;
-import net.minecraft.client.util.PlayerSkin.*;
+import net.minecraft.client.resources.PlayerSkin;
 *///?}
 import net.minecraft.resources.ResourceLocation;
 
@@ -152,8 +152,8 @@ public class TotemDollData {
 		//? if >=1.21.9 {
 		PlayerSkin skinTextures = playerEntity.getSkin();
 		Identifier skinTexture = skinTextures.body().texturePath();
-		Identifier capeTexture = Optional.of(skinTextures).map(PlayerSkin::cape).map(PlayerSkin::texturePath).orElse(null);
-		Identifier elytraTexture = Optional.of(skinTextures).map(PlayerSkin::cape).map(PlayerSkin::texturePath).orElse(null);
+		Identifier capeTexture = Optional.of(skinTextures).map(PlayerSkin::cape).map(TextureAsset::texturePath).orElse(null);
+		Identifier elytraTexture = Optional.of(skinTextures).map(PlayerSkin::cape).map(TextureAsset::texturePath).orElse(null);
 		boolean slim = skinTextures.model() == PlayerSkin.Model.SLIM;
 		//?} elif >=1.21 {
 		/*PlayerSkin skinTextures = playerEntity.getPlayerSkin();

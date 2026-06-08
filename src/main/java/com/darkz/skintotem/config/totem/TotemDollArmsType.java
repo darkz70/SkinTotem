@@ -11,12 +11,12 @@ import com.darkz.skintotem.config.other.EnumWithText;
 import org.jetbrains.annotations.Nullable;
 
 @Getter
-public enum TotemDollArmsType implements StringIdentifiable, EnumWithText {
+public enum TotemDollArmsType implements StringRepresentable, EnumWithText {
 
 	WIDE,
 	SLIM;
 
-	public static final Codec<TotemDollArmsType> CODEC = StringIdentifiable.createCodec(TotemDollArmsType::values);
+	public static final Codec<TotemDollArmsType> CODEC = StringRepresentable.createCodec(TotemDollArmsType::values);
 
 	public Component getText() {
 		return SkinTotemMod.text("modmenu.option.standard_doll_model_arms_type.%s".formatted(this.asString()));

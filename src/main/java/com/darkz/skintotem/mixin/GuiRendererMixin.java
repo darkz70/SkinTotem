@@ -5,10 +5,10 @@ import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.doll.data.TotemDollData;
 import com.darkz.skintotem.doll.renderer.special.*;
 import com.darkz.skintotem.extension.ItemStackExtension;
-import net.minecraft.client.gui.render.GuiRenderer;
-import net.minecraft.client.gui.render.state.GuiRenderState;
-import net.minecraft.client.gui.render.state.special.SpecialGuiElementRenderState;
-import net.minecraft.client.render.VertexConsumerProvider.Immediate;
+import net.minecraft.client.gui.GuiGraphics;
+
+import net.fabricmc.fabric.api.client.rendering.v1.SpecialGuiElementRenderState;
+import net.minecraft.client.renderer.MultiBufferSource;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;

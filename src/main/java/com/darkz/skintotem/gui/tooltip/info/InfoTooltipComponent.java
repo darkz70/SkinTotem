@@ -1,9 +1,9 @@
 package com.darkz.skintotem.gui.tooltip.info;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.font.*;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.tooltip.TooltipComponent;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
@@ -12,12 +12,12 @@ import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.utils.*;
 
 //? if >=1.21.11 {
-import net.minecraft.client.font.Alignment;
+import net.minecraft.client.gui.components.MultiLineLabel;
 //?}
 
 //? if >=1.21.9 && <=1.21.10 {
 /*
-import net.minecraft.client.font.MultilineText.Alignment;
+
 */
 //?}
 
@@ -26,26 +26,26 @@ public class InfoTooltipComponent implements TooltipComponent {
 	public static final Identifier SEPARATOR = SkinTotemMod.id("textures/gui/info/separator.png");
 
 	private final MutableComponent title;
-	private final MultilineText text;
+	private final MultiLineLabel text;
 
 	public InfoTooltipComponent(String key, int color) {
 		this.title = SkinTotemMod.text("%s.title".formatted(key));
 		this.title.setStyle(this.title.getStyle().withColor(color));
-		this.text  = MultilineText.create(Minecraft.getInstance().textRenderer, SkinTotemMod.text("%s.text".formatted(key)), 140);
+		this.text  = MultiLineLabel.create(Minecraft.getInstance().textRenderer, SkinTotemMod.text("%s.text".formatted(key)), 140);
 	}
 
 	@Override
-	public int getHeight(/*? >=1.21.2 {*/TextRenderer textRenderer/*?}*/) {
+	public int getHeight(/*? >=1.21.2 {*/Font textRenderer/*?}*/) {
 		return (this.text./*? if >=1.21.9 {*/ getLineCount /*?} else {*/ /*count *//*?}*/() * 10) + 26 + 2 + 5 + 2 + 5;
 	}
 
 	@Override
-	public int getWidth(TextRenderer textRenderer) {
+	public int getWidth(Font textRenderer) {
 		return 150;
 	}
 
 	@Override
-	public void drawItems(TextRenderer textRenderer, int x, int y, /*? >=1.21.2 {*/int w, int h,/*?}*/ GuiGraphics context) {
+	public void drawItems(Font textRenderer, int x, int y, /*? >=1.21.2 {*/int w, int h,/*?}*/ GuiGraphics context) {
 		int width = this.getWidth(textRenderer);
 		int titleWidth = textRenderer.getWidth(this.title);
 		context.drawText(textRenderer, this.title, x + (((width) / 2) - (titleWidth / 2)), y + 8, -1, false);

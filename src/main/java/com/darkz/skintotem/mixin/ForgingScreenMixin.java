@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import java.util.function.*;
 import com.darkz.skintotem.config.SkinTotemModConfig;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screen.ingame.ForgingScreen;
+import net.minecraft.client.gui.screens.inventory.AnvilScreen;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,8 +17,8 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 
 //?}
 
-@Mixin(ForgingScreen.class)
-public class ForgingScreenMixin {
+@Mixin(AnvilScreen.class)
+public class AnvilScreenMixin {
 
 	//? if >=1.21.6 {
 	@WrapOperation(

@@ -5,7 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import com.darkz.skintotem.gui.widget.button.ButtonListWidget;
 import com.darkz.skintotem.gui.widget.list.AbstractVersionedEntryListWidget;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.widget.EntryListWidget;
+import net.minecraft.client.gui.components.ObjectSelectionList;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 

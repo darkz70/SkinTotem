@@ -8,10 +8,10 @@ import com.darkz.skintotem.thing.ThingMarks;
 import com.darkz.skintotem.utils.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.network.*;
-import net.minecraft.client.render.*;
-import net.minecraft.client.render.VertexConsumerProvider.Immediate;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.multiplayer.*;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.MultiBufferSource;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.world.item.*;
 
 import com.darkz.skintotem.SkinTotemMod;
@@ -26,8 +26,8 @@ import com.darkz.skintotem.doll.model.TotemDollModel.Drawer;
 import com.darkz.skintotem.utils.plugin.TotemDollPlugin;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.math.*;
-import net.minecraft.util.profiler.Profiler;
+import net.minecraft.core.*;
+import net.minecraft.util.profiling.ProfilerFillerFiller;
 import net.minecraft.util.*;
 import org.jetbrains.annotations.*;
 
@@ -40,7 +40,7 @@ import net.minecraft.core.component.DataComponents;
 @ExtensionMethod({ItemStackExtension.class, DrawContextExtension.class})
 public class TotemDollRenderer {
 
-	public static boolean sentRenderRequest(MatrixStack matrices, ItemStack stack, DollRenderContext context, int light, int overlay, int outlineColor, @Nullable VertexConsumerProvider provider) {
+	public static boolean sentRenderRequest(PoseStack matrices, ItemStack stack, DollRenderContext context, int light, int overlay, int outlineColor, @Nullable MultiBufferSource provider) {
 		if (canRender(stack)) {
 			TotemDollData totemDollData = stack.getTotemDollData(false);
 			TotemDollRenderRequestsCollector.getInstance().requestRender(matrices, totemDollData, stack.getPlayerEntity(), context, light, overlay, outlineColor, provider);
@@ -52,11 +52,11 @@ public class TotemDollRenderer {
 		return false;
 	}
 
-	public static void renderDoll(MatrixStack matrices, ItemStack stack, DollRenderContext context, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+	public static void renderDoll(PoseStack matrices, ItemStack stack, DollRenderContext context, MultiBufferSource vertexConsumers, int light, int overlay) {
 		renderDoll(matrices, stack.getTotemDollData(), stack.getPlayerEntity(), context, vertexConsumers, light, overlay);
 	}
 
-	public static void renderDoll(MatrixStack matrices, TotemDollData totemDollData, AbstractClientPlayerEntity holdingPlayer, DollRenderContext context, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+	public static void renderDoll(PoseStack matrices, TotemDollData totemDollData, AbstractClientPlayer holdingPlayer, DollRenderContext context, MultiBufferSource vertexConsumers, int light, int overlay) {
 		DollRenderContext renderContext = context == DollRenderContext.D_NONE ? DollRenderContext.D_GUI : context;
 		beforeDollRendered(renderContext, holdingPlayer, totemDollData);
 		matrices.push();
@@ -107,7 +107,7 @@ public class TotemDollRenderer {
 		}*///?}
 	}
 
-	public static void renderDataPreview(MatrixStack matrices, Immediate consumers, Runnable draw, float size, @NotNull TotemDollData data) {
+	public static void renderDataPreview(PoseStack matrices, Immediate consumers, Runnable draw, float size, @NotNull TotemDollData data) {
 		float i = (size / 2F);
 
 		long currentTime = Util.getMeasuringTimeMs();
@@ -151,7 +151,7 @@ public class TotemDollRenderer {
 	}
 	*///?}
 
-	public static void renderInHand(boolean leftHanded, boolean firstPerson, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, TotemDollData totemDollData) {
+	public static void renderInHand(boolean leftHanded, boolean firstPerson, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay, TotemDollData totemDollData) {
 		matrices.push();
 
 		if (firstPerson) {
@@ -176,7 +176,7 @@ public class TotemDollRenderer {
 		matrices.pop();
 	}
 
-	public static void render(MatrixStack matrices, VertexConsumerProvider provider, int light, int overlay, TotemDollData totemDollData) {
+	public static void render(PoseStack matrices, MultiBufferSource provider, int light, int overlay, TotemDollData totemDollData) {
 		TotemDollSprites textures = totemDollData.getSpritesToRender();
 		AtlasSprite skinSprite = textures.getSkinSprite();
 		AtlasSprite capeSprite = textures.getCapeSprite();
@@ -216,8 +216,8 @@ public class TotemDollRenderer {
 		matrices.pop();
 	}
 
-	private static void beforeDollRendered(@Nullable DollRenderContext context, AbstractClientPlayerEntity playerEntity, TotemDollData totemDollData) {
-		Profiler profiler = ProfilerUtils.getProfiler();
+	private static void beforeDollRendered(@Nullable DollRenderContext context, AbstractClientPlayer playerEntity, TotemDollData totemDollData) {
+		ProfilerFiller profiler = ProfilerFillerUtils.getProfilerFiller();
 		profiler.swap(SkinTotemMod.MOD_ID);
 
 		if (context == DollRenderContext.D_GUI && SkinTotemModConfig.getInstance().getStandardTotemDollSkinType() == TotemDollSkinType.HOLDING_PLAYER) {
@@ -229,7 +229,7 @@ public class TotemDollRenderer {
 		}
 	}
 
-	private static void prepareStandardDollForRendering(AbstractClientPlayerEntity playerEntity, TotemDollData totemDollData) {
+	private static void prepareStandardDollForRendering(AbstractClientPlayer playerEntity, TotemDollData totemDollData) {
 		if (playerEntity != null && SkinTotemModConfig.getInstance().getStandardTotemDollSkinType() == TotemDollSkinType.HOLDING_PLAYER) {
 			if (!playerEntity.equals(Minecraft.getInstance().player) && playerEntity.isInvisibleTo(Minecraft.getInstance().player)) {
 				return;
@@ -239,7 +239,7 @@ public class TotemDollRenderer {
 	}
 
 	private static void afterDollRenderer() {
-		Profiler profiler = ProfilerUtils.getProfiler();
+		ProfilerFiller profiler = ProfilerFillerUtils.getProfilerFiller();
 		profiler.pop();
 	}
 

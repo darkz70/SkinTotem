@@ -6,11 +6,11 @@ import net.fabricmc.loader.api.*;
 import com.darkz.skintotem.atlas.manager.*;
 import com.darkz.skintotem.model.bb.BBOutliner;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelTransform;
-import net.minecraft.client.render.model.json.*;
-import net.minecraft.resource.ResourceManager;
+import net.minecraft.client.model.ModelPart.Rotation;
+import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.*;
-import net.minecraft.util.math.Direction;
+import net.minecraft.core.Direction;
 import org.slf4j.*;
 
 import com.mojang.datafixers.util.Either;
@@ -298,7 +298,7 @@ public class BlockBenchModelManager {
 		);
 		groups.add(0, rootGroup);
 
-		ModelTransformation display = CodecUtils.decode("display", ModelTransformation.NONE, Transformations.MODEL_TRANSFORMATION_CODEC, jsonObject);
+		ModelPart.Rotationation display = CodecUtils.decode("display", ModelPart.Rotationation.NONE, ItemTransforms.MODEL_TRANSFORMATION_CODEC, jsonObject);
 		Boolean frontGuiLight = CodecUtils.decode("front_gui_light", false, Codec.BOOL, jsonObject);
 		return new BBModel(id, name, meta, resolution, cubes, groups, frontGuiLight, display);
 	}
@@ -327,7 +327,7 @@ public class BlockBenchModelManager {
 		SkinTotemModAtlasManager.stitchAndUpdate(SkinTotemModAtlasSpriteManager.getSprites(), null);
 
 		return () -> builder
-				.withTransform(ModelTransform./*? if <=1.21.4 {*/ /*pivot *//*?} else {*/ origin /*?}*/(-16.0F, -8.0F, 0.0F))
+				.withTransform(ModelPart.Rotation./*? if <=1.21.4 {*/ /*pivot *//*?} else {*/ origin /*?}*/(-16.0F, -8.0F, 0.0F))
 				.build(resolution.getWidth(), resolution.getHeight())
 				.initAfterBuild(model);
 	}
@@ -354,7 +354,7 @@ public class BlockBenchModelManager {
 		}
 
 		return builder
-				.withTransform(group.getTransformation());
+				.withTransform(group.getItemTransform());
 	}
 
 	private static MModelBuilder getChildCube(BBCube cube) {
@@ -362,7 +362,7 @@ public class BlockBenchModelManager {
 		Vec3f to = cube.getTo();
 
 		MCubeBuilder cubeBuilder = MCubeBuilder.blockBenchBuilder(from.x(), from.y(), from.z(), to.x(), to.y(), to.z())
-				.withDilation(cube.getInflate());
+				.withCubeDeformation(cube.getInflate());
 
 		BBCubeFaces faces = cube.getFaces();
 		Map<Direction, BBCubeFace> map = faces.getFaces();
@@ -388,7 +388,7 @@ public class BlockBenchModelManager {
 
 		return MModelBuilder.builder(ModelState.CUBE)
 				.addCube(cubeBuilder)
-				.withTransform(cube.getTransformation());
+				.withTransform(cube.getItemTransform());
 	}
 
 	public static void reload(ResourceManager resourceManager) {

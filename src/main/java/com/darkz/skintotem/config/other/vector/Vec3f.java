@@ -1,7 +1,7 @@
 package com.darkz.skintotem.config.other.vector;
 
 import lombok.*;
-import net.minecraft.client.render.model.json.Transformation;
+import net.minecraft.client.renderer.block.model.ItemTransform;
 import net.minecraft.util.Util;
 import org.joml.*;
 

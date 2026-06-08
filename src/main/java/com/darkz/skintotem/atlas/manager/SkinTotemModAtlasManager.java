@@ -11,7 +11,7 @@ import com.darkz.skintotem.thread.SkinTotemModTaskExecutor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.*;
-import net.minecraft.client.renderer.texture.SpriteLoader.Preparations;
+import net.minecraft.client.renderer.texture.SpriteLoader;
 import net.minecraft.server.packs.resources.*;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.*;
@@ -67,7 +67,7 @@ public class SkinTotemModAtlasManager {
 		stitchAndUpdate(sprites, null, executor, Minecraft.getInstance(), onAtlasStitched);
 	}
 
-	public static void stitchAndUpdate(Set<AtlasSprite> sprites, @Nullable PreparableReloadListener.PreparationBarrier synchronizer, Executor prepareExecutor, Executor applyExecutor, @Nullable OnAtlasStitched onAtlasStitched) {
+	public static void stitchAndUpdate(Set<AtlasSprite> sprites, @Nullable PreparableReloadListenerer.Synchronizer synchronizer, Executor prepareExecutor, Executor applyExecutor, @Nullable OnAtlasStitched onAtlasStitched) {
 		int currentId = LATEST_ATLAS_VERSION.incrementAndGet();
 		STITCH_HOOKS_MANAGER.addHook(onAtlasStitched);
 
@@ -75,11 +75,11 @@ public class SkinTotemModAtlasManager {
 
 		List<SpriteContents> contents = sprites.stream().map(AtlasSprite::getContents).filter(Objects::nonNull).toList();
 		//? if >=1.21.9 {
-		CompletableFuture<Preparations> future = CompletableFuture.supplyAsync(
+		CompletableFuture<SpriteLoader.Preparations> future = CompletableFuture.supplyAsync(
 				() -> SpriteLoader.fromAtlas(atlasTexture).stitch(contents, 0, prepareExecutor)
 		);
 		//?} else {
-		/*CompletableFuture<Preparations> future = SpriteLoader.fromAtlas(atlasTexture)
+		/*CompletableFuture<SpriteLoader.Preparations> future = SpriteLoader.fromAtlas(atlasTexture)
 				.stitch(contents, 0, prepareExecutor)
 				.whenComplete();
 		*///?}
@@ -101,7 +101,7 @@ public class SkinTotemModAtlasManager {
 
 	private record AtlasStitchingContext(int version, TextureAtlas atlas, Set<AtlasSprite> atlasSprites) {
 
-		public void upload(Preparations result) {
+		public void upload(SpriteLoader.Preparations result) {
 			int latestAtlasVersion = LATEST_ATLAS_VERSION.get();
 			if (this.version != latestAtlasVersion) {
 				SkinTotemModClient.LOGGER.warn("Skipped atlas stitching, waiting \"{}\"", latestAtlasVersion);
