@@ -7,8 +7,8 @@ import com.darkz.skintotem.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.screen.ingame.*;
-import net.minecraft.client.gui.widget.*;
+import net.minecraft.client.gui.screens.inventory.*;
+import net.minecraft.client.gui.components.*;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.world.item.*;
 import net.minecraft.screen.*;
@@ -50,7 +50,7 @@ public abstract class AnvilScreenMixin extends ForgingScreen<AnvilScreenHandler>
 	@Unique
 	private boolean currentVisibleState = false;
 
-	public AnvilScreenMixin(AnvilScreenHandler handler, PlayerInventory playerInventory, Text title, Identifier texture) {
+	public AnvilScreenMixin(AnvilScreenHandler handler, PlayerInventory playerInventory, Component title, Identifier texture) {
 		super(handler, playerInventory, title, texture);
 	}
 
@@ -187,10 +187,10 @@ public abstract class AnvilScreenMixin extends ForgingScreen<AnvilScreenHandler>
 	}
 
 	@WrapOperation(
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;fill(IIIII)V"),
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;fill(IIIII)V"),
 			method = "drawForeground"
 	)
-	private void swapBackgroundValue(DrawContext instance, int x1, int y1, int x2, int y2, int color, Operation<Void> original) {
+	private void swapBackgroundValue(GuiGraphics instance, int x1, int y1, int x2, int y2, int color, Operation<Void> original) {
 		if (!SkinTotemModConfig.getInstance().isModEnabled()) {
 			original.call(instance, x1, y1, x2, y2, color);
 			return;
@@ -202,7 +202,7 @@ public abstract class AnvilScreenMixin extends ForgingScreen<AnvilScreenHandler>
 			at = @At("TAIL"),
 			method = "drawBackground"
 	)
-	private void updateWidgetPositions(DrawContext context, float delta, int mouseX, int mouseY, CallbackInfo ci) {
+	private void updateWidgetPositions(GuiGraphics context, float delta, int mouseX, int mouseY, CallbackInfo ci) {
 		if (!SkinTotemModConfig.getInstance().isModEnabled()) {
 			return;
 		}
@@ -217,10 +217,10 @@ public abstract class AnvilScreenMixin extends ForgingScreen<AnvilScreenHandler>
 
 	//? if >=1.21.6 {
 	@WrapOperation(
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V"),
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Component;III)V"),
 			method = "drawForeground"
 	)
-	private void swapBackgroundValue(DrawContext instance, TextRenderer textRenderer, Text text, int x, int y, int color, Operation<Integer> original) {
+	private void swapBackgroundValue(GuiGraphics instance, TextRenderer textRenderer, Component text, int x, int y, int color, Operation<Integer> original) {
 		if (!SkinTotemModConfig.getInstance().isModEnabled()) {
 			original.call(instance, textRenderer, text, x, y, color);
 			return;
@@ -228,8 +228,8 @@ public abstract class AnvilScreenMixin extends ForgingScreen<AnvilScreenHandler>
 		original.call(instance, textRenderer, text, x - this.backgroundWidth + 176, y, color);
 	}
 	//?} else {
-	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I"), method = "drawForeground")
-	private int swapBackgroundValue(DrawContext instance, TextRenderer textRenderer, Text text, int x, int y, int color, Operation<Integer> original) {
+	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Component;III)I"), method = "drawForeground")
+	private int swapBackgroundValue(GuiGraphics instance, TextRenderer textRenderer, Component text, int x, int y, int color, Operation<Integer> original) {
 		if (!SkinTotemModConfig.getInstance().isModEnabled()) {
 			return original.call(instance, textRenderer, text, x, y, color);
 		}
@@ -238,8 +238,8 @@ public abstract class AnvilScreenMixin extends ForgingScreen<AnvilScreenHandler>
 	*///?}
 
 	//? <1.21 {
-	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"), method = "drawInvalidRecipeArrow")
-	private void swapBackgroundValue(DrawContext instance, Identifier identifier, int x, int y, int a, int b, int c, int d, Operation<Void> original) {
+	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"), method = "drawInvalidRecipeArrow")
+	private void swapBackgroundValue(GuiGraphics instance, Identifier identifier, int x, int y, int a, int b, int c, int d, Operation<Void> original) {
 		if (!SkinTotemModConfig.getInstance().isModEnabled()) {
 			original.call(instance, identifier, x, y, a, b, c, d);
 		}
@@ -260,12 +260,12 @@ public abstract class AnvilScreenMixin extends ForgingScreen<AnvilScreenHandler>
 		}
 	}
 
-	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getName()Lnet/minecraft/text/Text;"), method = "onSlotUpdate")
-	private Text swapItemName(ItemStack stack, Operation<Text> original) {
+	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getName()Lnet/minecraft/text/Component;"), method = "onSlotUpdate")
+	private Component swapItemName(ItemStack stack, Operation<Component> original) {
 		if (!SkinTotemModClient.canProcess(stack)) {
 			return original.call(stack);
 		}
-		Text customName = stack.getRealCustomName();
+		Component customName = stack.getRealCustomName();
 		if (customName == null) {
 			return original.call(stack);
 		}

@@ -229,11 +229,11 @@ public class TagsManager {
 		return SkinTotemMod.id("textures/gui/tags/%s.png".formatted(c));
 	}
 
-	public static Text getTagDescription(Character character) {
+	public static Component getTagDescription(Character character) {
 		return SkinTotemMod.text("tags.%s".formatted(character));
 	}
 
-	public static Text getAppliedTagDescription(char c) {
+	public static Component getAppliedTagDescription(char c) {
 		return SkinTotemMod.text("tags.%s.applied".formatted(c));
 	}
 

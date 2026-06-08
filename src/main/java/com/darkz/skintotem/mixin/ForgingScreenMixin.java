@@ -3,7 +3,7 @@ package com.darkz.skintotem.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import java.util.function.*;
 import com.darkz.skintotem.config.SkinTotemModConfig;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screen.ingame.ForgingScreen;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.*;
@@ -24,17 +24,17 @@ public class ForgingScreenMixin {
 	@WrapOperation(
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIFFIIII)V"
+					target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIFFIIII)V"
 			),
 			method = "drawBackground"
 	)
-	private void drawBackground(DrawContext instance, com.mojang.blaze3d.pipeline.RenderPipeline renderPipeline, Identifier identifier, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight, Operation<Void> original) {
+	private void drawBackground(GuiGraphics instance, com.mojang.blaze3d.pipeline.RenderPipeline renderPipeline, Identifier identifier, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight, Operation<Void> original) {
 		Consumer<Integer> draw = (w) -> original.call(instance, renderPipeline, identifier, x, y, u, v, w, height, textureWidth, textureHeight);
 		this.drawBackground(width, draw);
 	}
 	//?} elif >=1.21.2 {
-	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIFFIIII)V"), method = "drawBackground")
-	private void drawBackground(DrawContext instance, Function<?, ?> function, Identifier identifier, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight, Operation<Void> original) {
+	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIFFIIII)V"), method = "drawBackground")
+	private void drawBackground(GuiGraphics instance, Function<?, ?> function, Identifier identifier, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight, Operation<Void> original) {
 		Consumer<Integer> draw = (w) -> original.call(instance, function, identifier, x, y, u, v, w, height, textureWidth, textureHeight);
 		this.drawBackground(width, draw);
 	}
@@ -42,11 +42,11 @@ public class ForgingScreenMixin {
 	/*@WrapOperation(
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
+					target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
 			),
 			method = "drawBackground"
 	)
-	private void drawBackground(DrawContext instance, Identifier texture, int x, int y, int u, int v, int width, int height, Operation<Void> original) {
+	private void drawBackground(GuiGraphics instance, Identifier texture, int x, int y, int u, int v, int width, int height, Operation<Void> original) {
 		Consumer<Integer> draw = (w) -> original.call(instance, texture, x, y, u, v, w, height);
 		this.drawBackground(width, draw);
 	}

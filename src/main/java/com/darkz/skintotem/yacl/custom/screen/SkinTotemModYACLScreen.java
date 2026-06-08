@@ -6,7 +6,7 @@ import dev.isxander.yacl3.gui.*;
 import lombok.Getter;
 import lombok.experimental.ExtensionMethod;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 
 import com.darkz.skintotem.SkinTotemMod;
 

@@ -12,7 +12,6 @@ import net.minecraft.util.profiler.*;
 
 //? if >=1.21.9 {
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
-import net.fabricmc.fabric.api.resource.v1.Synchronizer;
 //?}
 
 public class SkinTotemModReloadListener implements /*? if >=1.21.9 {*/ ResourceReloader /*?} else {*/ /*IdentifiableResourceReloadListener *//*?}*/ {

@@ -7,7 +7,7 @@ import dev.isxander.yacl3.gui.YACLScreen;
 import java.util.function.*;
 import com.darkz.skintotem.client.SkinTotemModClient;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.network.*;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.HeldItemRenderer;

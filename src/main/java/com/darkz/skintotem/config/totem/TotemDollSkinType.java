@@ -28,11 +28,11 @@ public enum TotemDollSkinType implements StringIdentifiable, EnumWithText {
 		this.needData = needData;
 	}
 
-	public Text getText() {
+	public Component getText() {
 		return SkinTotemMod.text("modmenu.option.standard_doll_skin_type.%s".formatted(this.asString()));
 	}
 
-	public Text getSuggestionText() {
+	public Component getSuggestionText() {
 		return SkinTotemMod.text("modmenu.option.standard_doll_skin_type.%s.suggestion".formatted(this.asString()));
 	}
 

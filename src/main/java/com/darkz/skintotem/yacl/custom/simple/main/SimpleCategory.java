@@ -12,7 +12,7 @@ public class SimpleCategory {
 
 	private SimpleCategory(String categoryId) {
 		String categoryKey = ModMenuUtils.getCategoryKey(categoryId);
-		Text categoryName = ModMenuUtils.getName(categoryKey);
+		Component categoryName = ModMenuUtils.getName(categoryKey);
 		this.builder = BetterConfigCategory.createBuilder().name(categoryName);
 	}
 

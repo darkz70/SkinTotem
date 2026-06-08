@@ -6,7 +6,7 @@ import com.darkz.skintotem.extension.DrawContextExtension;
 import com.darkz.skintotem.utils.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.*;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.widget.ClickableWidget;
 
 import com.darkz.skintotem.SkinTotemMod;
@@ -50,7 +50,7 @@ public class TotemDollPreviewRenderer implements ImageRenderer {
 	}
 
 	@Override
-	public int render(DrawContext context, int x, int y, int renderWidth, float tickDelta) {
+	public int render(GuiGraphics context, int x, int y, int renderWidth, float tickDelta) {
 		int offset = 5;
 		int width = renderWidth - (offset * 2);
 
@@ -82,7 +82,7 @@ public class TotemDollPreviewRenderer implements ImageRenderer {
 		}
 	}
 
-	private int renderSuggestionText(DrawContext context, int x, int y, int width) {
+	private int renderSuggestionText(GuiGraphics context, int x, int y, int width) {
 		int suggestionColor = this.getSuggestionColors();
 
 		if (this.suggestionText == null) {
@@ -113,13 +113,13 @@ public class TotemDollPreviewRenderer implements ImageRenderer {
 		return STANDARD_SUGGESTION_TEXT_COLOR;
 	}
 
-	private void renderDollStatus(DrawContext context, int x, int y, int width) {
+	private void renderDollStatus(GuiGraphics context, int x, int y, int width) {
 		BackgroundRenderer.drawTransparencyWidgetBackground(context, x, y, width, 30, true, true);
 
 		DrawUtils.drawCenteredText(context, SkinTotemMod.text("text.status").append(this.data.getStandardSprites().getState().getText()), x + 2, y + 15, width - 2);
 	}
 
-	private int renderDoll(DrawContext context, int x, int y, int size) {
+	private int renderDoll(GuiGraphics context, int x, int y, int size) {
 		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
 
 		BackgroundRenderer.drawTransparencyWidgetBackground(context, x, y, size, size, true, true);

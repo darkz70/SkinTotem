@@ -2,8 +2,8 @@ package com.darkz.skintotem.gui.widget.button;
 
 import lombok.Getter;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.ButtonWidget.PressAction;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.widget.Button.PressAction;
 import net.minecraft.client.gui.widget.ElementListWidget.Entry;
 import net.minecraft.network.chat.Component;
 
@@ -12,10 +12,10 @@ import java.util.List;
 @Getter
 public class ButtonListEntryWidget extends Entry<ButtonListEntryWidget> {
 
-	private final ButtonWidget widget;
+	private final Button widget;
 
-	public ButtonListEntryWidget(Text text, PressAction pressAction) {
-		this.widget = ButtonWidget.builder(text, pressAction).build();
+	public ButtonListEntryWidget(Component text, PressAction pressAction) {
+		this.widget = Button.builder(text, pressAction).build();
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class ButtonListEntryWidget extends Entry<ButtonListEntryWidget> {
 
 	//? if >=1.21.9 {
 	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+	public void render(GuiGraphics context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
 		this.widget.render(context, mouseX, mouseY, deltaTicks);
 	}
 
@@ -59,7 +59,7 @@ public class ButtonListEntryWidget extends Entry<ButtonListEntryWidget> {
 	}
 	//?} else {
 	/*@Override
-	public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+	public void render(GuiGraphics context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
 		this.widget.setWidth(entryWidth);
 		this.widget.setX(x);
 

@@ -30,7 +30,7 @@ public class BetterCategoryTab extends CategoryTab {
 	}
 
 	@Override
-	public void renderBackground(DrawContext context) {
+	public void renderBackground(GuiGraphics context) {
 		RenderUtils.enableBlend();
 		RenderUtils.enableDepthTest();
 

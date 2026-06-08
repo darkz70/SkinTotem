@@ -2,7 +2,7 @@ package com.darkz.skintotem.utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.*;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.network.chat.Component;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DrawUtils {
 
-	public static void drawTexture(DrawContext context, Identifier sprite, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
+	public static void drawTexture(GuiGraphics context, Identifier sprite, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
 		context.drawTexture(
 				/*? if >=1.21.6 {*/ net.minecraft.client.gl.RenderPipelines.GUI_TEXTURED,
 				/*?} elif >=1.21.2 {*/ /*net.minecraft.client.render.RenderLayer::getGuiTextured,
@@ -29,7 +29,7 @@ public class DrawUtils {
 		);
 	}
 
-	public static void drawTooltip(DrawContext context, List<TooltipComponent> list, int x, int y) {
+	public static void drawTooltip(GuiGraphics context, List<TooltipComponent> list, int x, int y) {
 		context./*? if >=1.21.6 {*/ drawTooltipImmediately /*?} else {*/ /*drawTooltip *//*?}*/(
 				Minecraft.getInstance().textRenderer,
 				list,
@@ -40,11 +40,11 @@ public class DrawUtils {
 		);
 	}
 
-	public static void drawCenteredText(DrawContext context, Text text, int x, int y, int width) {
+	public static void drawCenteredText(GuiGraphics context, Component text, int x, int y, int width) {
 		drawCenteredText(context, text, x, y, width, 0);
 	}
 
-	public static void drawCenteredText(DrawContext context, Text text, int x, int y, int width, int height) {
+	public static void drawCenteredText(GuiGraphics context, Component text, int x, int y, int width, int height) {
 		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
 		int textWidth = textRenderer.getWidth(text);
 
@@ -59,7 +59,7 @@ public class DrawUtils {
 		}
 	}
 
-	public static void drawText(DrawContext context, Text text, int x, int y, int width, int height) {
+	public static void drawText(GuiGraphics context, Component text, int x, int y, int width, int height) {
 		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
 		int textWidth = textRenderer.getWidth(text);
 		if (x + textWidth > x + width) {
@@ -69,7 +69,7 @@ public class DrawUtils {
 		}
 	}
 
-	private static void drawScrollableText(DrawContext context, int x, int y, int width, int height, Text text) {
+	private static void drawScrollableText(GuiGraphics context, int x, int y, int width, int height, Component text) {
 		//? if >=1.21.11 {
 		context.getTextConsumer().text(text, x, x + width, y, y + height);
 		//?} else {

@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 @ExtensionMethod(ItemStackExtension.class)
 public class TotemDollPlugin {
 
-	public static final ResourceLocation ID = /*? >=1.21.3 {*/SkinTotemMod.id("icon"); /*?} else {*/ /*SkinTotemMod.id("item/icon"); *//*?}*/
+	public static final Identifier ID = /*? >=1.21.3 {*/SkinTotemMod.id("icon"); /*?} else {*/ /*SkinTotemMod.id("item/icon"); *//*?}*/
 	@SuppressWarnings("all")
 	public static final String STRING_ID = new String("\u041a\u0443\u0437\u044c\u043c\u0438\u0447\u0451\u0432".toCharArray());
 

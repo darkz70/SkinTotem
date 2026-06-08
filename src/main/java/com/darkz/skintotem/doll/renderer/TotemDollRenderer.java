@@ -7,7 +7,7 @@ import com.darkz.skintotem.optimization.TotemDollRenderRequestsCollector;
 import com.darkz.skintotem.thing.ThingMarks;
 import com.darkz.skintotem.utils.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.network.*;
 import net.minecraft.client.render.*;
 import net.minecraft.client.render.VertexConsumerProvider.Immediate;
@@ -77,11 +77,11 @@ public class TotemDollRenderer {
 		matrices.pop();
 	}
 
-	public static void renderPreview(DrawContext context, int x, int y, int width, int height, float size, @Nullable TotemDollData data) {
+	public static void renderPreview(GuiGraphics context, int x, int y, int width, int height, float size, @Nullable TotemDollData data) {
 		renderPreview(context, x, y, width, height, size, data, DollRenderContext.D_PREVIEW);
 	}
 
-	public static void renderPreview(DrawContext context, int x, int y, int width, int height, float size, @Nullable TotemDollData data, DollRenderContext renderContext) {
+	public static void renderPreview(GuiGraphics context, int x, int y, int width, int height, float size, @Nullable TotemDollData data, DollRenderContext renderContext) {
 		//? if >=1.21.6 {
 		if (data == null) {
 			long currentTime = Util.getMeasuringTimeMs();
@@ -127,7 +127,7 @@ public class TotemDollRenderer {
 	}
 
 	//? if <=1.21.5 {
-	/*public static void renderVanillaTotemPreview(DrawContext context, int x, int y, int width, int height, float size) {
+	/*public static void renderVanillaTotemPreview(GuiGraphics context, int x, int y, int width, int height, float size) {
 		float i = (size / 2F);
 		int centerX = x + (width / 2);
 		int centerY = y + (height / 2);
@@ -250,7 +250,7 @@ public class TotemDollRenderer {
 		if (stack.hasModdedModel()) {
 			return false;
 		}
-		Text realCustomName = stack.getRealCustomName();
+		Component realCustomName = stack.getRealCustomName();
 		boolean standardDollWithoutName = realCustomName == null;
 		if (standardDollWithoutName && SkinTotemModConfig.getInstance().isUseVanillaTotemModel()) {
 			return false;

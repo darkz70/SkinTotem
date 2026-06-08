@@ -26,11 +26,11 @@ public final class ModMenuUtils {
 		return String.format("modmenu.group.%s", groupId);
 	}
 
-	public static Text getName(String key) {
+	public static Component getName(String key) {
 		return SkinTotemMod.text(key + ".name");
 	}
 
-	public static Text getDescription(String key) {
+	public static Component getDescription(String key) {
 		return SkinTotemMod.text(key + ".description");
 	}
 
@@ -38,19 +38,19 @@ public final class ModMenuUtils {
 		return SkinTotemMod.id(String.format("textures/config/%s.%s", contentId, content.getFileExtension()));
 	}
 
-	public static Text getModTitle() {
+	public static Component getModTitle() {
 		return SkinTotemMod.text("modmenu.title");
 	}
 
-	public static Function<Boolean, Text> getEnabledOrDisabledFormatter() {
+	public static Function<Boolean, Component> getEnabledOrDisabledFormatter() {
 		return state -> SkinTotemMod.text("modmenu.formatter.enabled_or_disabled." + state);
 	}
 
-	public static Text getNoConfigScreenMessage() {
+	public static Component getNoConfigScreenMessage() {
 		return SkinTotemMod.text("modmenu.no_config_library_screen.message");
 	}
 
-	public static Text getOldConfigScreenMessage(String version) {
+	public static Component getOldConfigScreenMessage(String version) {
 		return SkinTotemMod.text("modmenu.old_config_library_screen.message", version, SkinTotemMod.YACL_DEPEND_VERSION);
 	}
 }

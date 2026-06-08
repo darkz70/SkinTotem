@@ -4,6 +4,6 @@ import net.minecraft.network.chat.Component;
 
 public interface EnumWithText {
 
-	Text getText();
+	Component getText();
 
 }

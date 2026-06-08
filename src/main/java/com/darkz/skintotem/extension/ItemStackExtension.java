@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 public class ItemStackExtension {
 
 	@Nullable
-	public static Text getRealCustomName(ItemStack itemStack) {
+	public static Component getRealCustomName(ItemStack itemStack) {
 		//? if >=1.21 {
 		if (itemStack.components == null) {
 			return null;
@@ -23,7 +23,7 @@ public class ItemStackExtension {
 		/*net.minecraft.nbt.NbtCompound nbtCompound = itemStack.getSubNbt("display");
 		if (nbtCompound != null && nbtCompound.contains("Name", 8)) {
 			try {
-				Text text = net.minecraft.text.Text.Serializer.fromJson(nbtCompound.getString("Name"));
+				Component text = net.minecraft.text.Component.Serializer.fromJson(nbtCompound.getString("Name"));
 				if (text != null) {
 					return text;
 				}
@@ -43,7 +43,7 @@ public class ItemStackExtension {
 	}
 
 	public static TotemDollData getTotemDollData(ItemStack stack, boolean applyRenderProperties) {
-		Text name = getRealCustomName(stack);
+		Component name = getRealCustomName(stack);
 
 		if (name != null) {
 			String o = TagsManager.getNicknameOrSkinProviderFromName(name.getString());

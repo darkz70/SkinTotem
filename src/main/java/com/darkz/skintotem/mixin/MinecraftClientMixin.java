@@ -3,7 +3,7 @@ package com.darkz.skintotem.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import net.minecraft.client.*;
 import net.minecraft.client.RunArgs.QuickPlay;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.realms.RealmsClient;
 import net.minecraft.resource.ResourceReload;
 import org.spongepowered.asm.mixin.Mixin;

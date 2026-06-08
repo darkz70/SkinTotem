@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import com.darkz.skintotem.gui.widget.button.ButtonListWidget;
 import com.darkz.skintotem.gui.widget.list.AbstractVersionedEntryListWidget;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
@@ -15,22 +15,22 @@ public abstract class EntryListWidgetMixin {
 	@WrapWithCondition(
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/client/gui/widget/EntryListWidget;enableScissor(Lnet/minecraft/client/gui/DrawContext;)V"
+					target = "Lnet/minecraft/client/gui/widget/EntryListWidget;enableScissor(Lnet/minecraft/client/gui/GuiGraphics;)V"
 			),
 			method = /*? if >=1.21 {*/ "renderWidget" /*?} else {*/ /*"render" *//*?}*/
 	)
-	private boolean disableScissorEnabling(EntryListWidget<?> instance, DrawContext context) {
+	private boolean disableScissorEnabling(EntryListWidget<?> instance, GuiGraphics context) {
 		return !(((EntryListWidget<?>) (Object) this) instanceof AbstractVersionedEntryListWidget<?>);
 	}
 
 	@WrapWithCondition(
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/client/gui/DrawContext;disableScissor()V"
+					target = "Lnet/minecraft/client/gui/GuiGraphics;disableScissor()V"
 			),
 			method = /*? if >=1.21 {*/ "renderWidget" /*?} else {*/ /*"render" *//*?}*/
 	)
-	private boolean disableScissorDisabling(DrawContext instance) {
+	private boolean disableScissorDisabling(GuiGraphics instance) {
 		return !(((EntryListWidget<?>) (Object) this) instanceof AbstractVersionedEntryListWidget<?>);
 	}
 
@@ -52,15 +52,15 @@ public abstract class EntryListWidgetMixin {
 		return height + 2;
 	}
 
-	@WrapWithCondition(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/EntryListWidget;drawScrollbar(Lnet/minecraft/client/gui/DrawContext;II)V"), method = "renderWidget")
-	private boolean noScrollbar(EntryListWidget<?> instance, DrawContext context, int a, int b) {
+	@WrapWithCondition(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/EntryListWidget;drawScrollbar(Lnet/minecraft/client/gui/GuiGraphics;II)V"), method = "renderWidget")
+	private boolean noScrollbar(EntryListWidget<?> instance, GuiGraphics context, int a, int b) {
 		return !(((EntryListWidget<?>) (Object) this) instanceof AbstractVersionedEntryListWidget<?>);
 	}
 	//?}
 
 	//? if >=1.21.4 && <=1.21.8 {
-	/*@WrapWithCondition(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/EntryListWidget;drawScrollbar(Lnet/minecraft/client/gui/DrawContext;)V"), method = "renderWidget")
-	private boolean noScrollbar(EntryListWidget<?> instance, DrawContext context) {
+	/*@WrapWithCondition(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/EntryListWidget;drawScrollbar(Lnet/minecraft/client/gui/GuiGraphics;)V"), method = "renderWidget")
+	private boolean noScrollbar(EntryListWidget<?> instance, GuiGraphics context) {
 		return !(((EntryListWidget<?>) (Object) this) instanceof AbstractVersionedEntryListWidget<?>);
 	}*///?} elif >=1.21 && <=1.21.8 {
 	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/EntryListWidget;isScrollbarVisible()Z"), method = "renderWidget")

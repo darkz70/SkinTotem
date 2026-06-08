@@ -17,7 +17,7 @@ public class CommandTextBuilder {
 	private static MutableComponent translatable(String key, Object... args) {
 		for (int i = 0; i < args.length; ++i) {
 			Object object = args[i];
-			if (!isPrimitive(object) && !(object instanceof Text)) {
+			if (!isPrimitive(object) && !(object instanceof Component)) {
 				args[i] = String.valueOf(object);
 			}
 		}
@@ -33,7 +33,7 @@ public class CommandTextBuilder {
 		return new CommandTextBuilder(key, args);
 	}
 
-	public Text build() {
+	public Component build() {
 		return MOD_ID_TEXT.copy().append(" ").append(this.text);
 	}
 }

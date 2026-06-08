@@ -2,7 +2,7 @@ package com.darkz.skintotem.gui.widget.list;
 
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.gui.widget.ElementListWidget.Entry;
 
@@ -24,34 +24,34 @@ public abstract class AbstractVersionedEntryListWidget<E extends Entry<E>> exten
 
 	//? if >=1.21.9 {
 	@Override
-	protected void drawSelectionHighlight(DrawContext context, E entry, int color) {
+	protected void drawSelectionHighlight(GuiGraphics context, E entry, int color) {
 	}
 	//?} else {
 	/*@Override
-	protected void drawSelectionHighlight(DrawContext context, int y, int entryWidth, int entryHeight, int borderColor, int fillColor) {
+	protected void drawSelectionHighlight(GuiGraphics context, int y, int entryWidth, int entryHeight, int borderColor, int fillColor) {
 	}
 	*///?}
 
 	//? if >=1.21 {
 	@Override
-	protected void drawHeaderAndFooterSeparators(DrawContext context) {
+	protected void drawHeaderAndFooterSeparators(GuiGraphics context) {
 	}
 	//?}
 
 	//? if <1.21 {
 	/*@Override
-	protected void renderBackground(DrawContext context) {
+	protected void renderBackground(GuiGraphics context) {
 		this.drawMenuListBackground(context);
 	}
 
-	protected void drawMenuListBackground(DrawContext context) {
+	protected void drawMenuListBackground(GuiGraphics context) {
 
 	}
 	*///?}
 
 	//? if <1.21 {
 	/*@Override
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+	public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
 		if (!this.visible) {
 			return;
 		}
@@ -60,17 +60,17 @@ public abstract class AbstractVersionedEntryListWidget<E extends Entry<E>> exten
 	*///?}
 
 	@Override
-	protected void renderList(DrawContext context, int mouseX, int mouseY, float delta) {
+	protected void renderList(GuiGraphics context, int mouseX, int mouseY, float delta) {
 		this.startScissor(context);
 		super.renderList(context, mouseX, mouseY, delta);
 		this.endScissor(context);
 	}
 
-	protected void endScissor(DrawContext context) {
+	protected void endScissor(GuiGraphics context) {
 		context.disableScissor();
 	}
 
-	protected void startScissor(DrawContext context) {
+	protected void startScissor(GuiGraphics context) {
 		context.enableScissor(0, this.getY() + 2, this.getX() + this.getWidth(), this.getY() + this.getHeight() - 2);
 	}
 

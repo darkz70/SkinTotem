@@ -4,8 +4,8 @@ package com.darkz.skintotem.mixin;
 
 import com.darkz.skintotem.doll.renderer.*;
 import com.darkz.skintotem.doll.renderer.special.TotemDollRenderState;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.DrawContext.ScissorStack;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphics.ScissorStack;
 import net.minecraft.client.gui.render.state.GuiRenderState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Debug(export = true)
-@Mixin(DrawContext.class)
+@Mixin(GuiGraphics.class)
 public class DrawContextMixin {
 
 	@Shadow

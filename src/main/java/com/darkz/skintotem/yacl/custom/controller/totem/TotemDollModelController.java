@@ -11,7 +11,7 @@ import com.darkz.skintotem.SkinTotemMod;
 public record TotemDollModelController(Option<Identifier> option) implements Controller<Identifier> {
 
 	@Override
-	public Text formatValue() {
+	public Component formatValue() {
 		Identifier identifier = this.option.pendingValue();
 		return SkinTotemMod.text("text.nice_id.quoted", identifier.getNamespace(), identifier.getPath());
 	}

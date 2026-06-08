@@ -43,11 +43,11 @@ public class RefreshCommand {
 			return 0;
 		}
 
-		Text startFeedback = CommandTextBuilder.startBuilder("command.refresh.all.start").build();
+		Component startFeedback = CommandTextBuilder.startBuilder("command.refresh.all.start").build();
 		context.getSource().sendFeedback(startFeedback);
 
 		RELOADING_ALL_FUTURE = TotemDollManager.reloadData((seconds) -> {
-			Text endFeedback = CommandTextBuilder.startBuilder("command.refresh.all.end", seconds).build();
+			Component endFeedback = CommandTextBuilder.startBuilder("command.refresh.all.end", seconds).build();
 			Minecraft.getInstance().execute(() -> context.getSource().sendFeedback(endFeedback));
 		}).whenComplete((r, e) -> {
 			RELOADING_ALL_FUTURE = null;
@@ -69,11 +69,11 @@ public class RefreshCommand {
 			return 0;
 		}
 
-		Text startFeedback = CommandTextBuilder.startBuilder("command.refresh.player.start", nickname).build();
+		Component startFeedback = CommandTextBuilder.startBuilder("command.refresh.player.start", nickname).build();
 		context.getSource().sendFeedback(startFeedback);
 
 		CompletableFuture<Float> f = TotemDollManager.reloadData(nickname, (seconds) -> {
-			Text endFeedback = CommandTextBuilder.startBuilder("command.refresh.player.end", nickname, seconds).build();
+			Component endFeedback = CommandTextBuilder.startBuilder("command.refresh.player.end", nickname, seconds).build();
 			Minecraft.getInstance().execute(() -> context.getSource().sendFeedback(endFeedback));
 		});
 

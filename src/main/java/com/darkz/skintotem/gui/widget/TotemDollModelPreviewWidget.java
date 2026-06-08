@@ -29,13 +29,13 @@ public class TotemDollModelPreviewWidget extends ClickableWidget {
 	private int failedLoadingStatusCode = 0;
 
 	public TotemDollModelPreviewWidget(int x, int y, float size) {
-		super(x, y, (int) size, (int) size, Text.of(""));
+		super(x, y, (int) size, (int) size, Component.of(""));
 		this.size = size;
 		this.data = StandardTotemDollManager.getStandardDoll().copy();
 	}
 
 	@Override
-	protected void /*? if >=1.21 {*/renderWidget/*?} else {*//*renderButton*//*?}*/(DrawContext context, int mouseX, int mouseY, float delta) {
+	protected void /*? if >=1.21 {*/renderWidget/*?} else {*//*renderButton*//*?}*/(GuiGraphics context, int mouseX, int mouseY, float delta) {
 		context.enableScissor(this.getX(), this.getY(), (this.getX() + this.getWidth()), (int) (this.getY() + this.getHeight()));
 		if (this.loading) {
 			this.renderLoadingText(context);
@@ -45,14 +45,14 @@ public class TotemDollModelPreviewWidget extends ClickableWidget {
 		context.disableScissor();
 	}
 
-	protected void renderLoadingText(DrawContext context) {
+	protected void renderLoadingText(GuiGraphics context) {
 		int halfOfSize = (int) this.size / 2;
 		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
 		//context.fill(this.getX(), this.getY(), this.getX() + 1, this.getY() + 1, -1);
 		DrawUtils.drawCenteredText(context, this.getLoadingText(Util.getMeasuringTimeMs()), this.getX(), this.getY() + halfOfSize - (textRenderer.fontHeight / 2), (int) this.size);
 	}
 
-	protected void renderPreview(DrawContext context) {
+	protected void renderPreview(GuiGraphics context) {
 		TotemDollRenderer.renderPreview(context, this.getX(), this.getY(), (int) this.getSize(), (int) this.getSize(), this.getSize() / 1.5F, this.getData().refreshAndApplyRenderProperties());
 	}
 
@@ -74,7 +74,7 @@ public class TotemDollModelPreviewWidget extends ClickableWidget {
 		this.data.setStandardMModel(model);
 	}
 
-	private Text getLoadingText(long tick) {
+	private Component getLoadingText(long tick) {
 		if (this.failedLoadingStatusCode == 100) {
 			return SkinTotemMod.text("text.loading.failed.to_load");
 		} else if (this.failedLoadingStatusCode == 102){

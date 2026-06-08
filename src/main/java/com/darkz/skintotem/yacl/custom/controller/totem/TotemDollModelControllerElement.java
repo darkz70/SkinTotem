@@ -16,7 +16,7 @@ import com.darkz.skintotem.yacl.custom.screen.TotemDollModelSelectionScreen;
 public class TotemDollModelControllerElement extends ControllerWidget<TotemDollModelController> {
 
 	private final TotemDollModelController controller;
-	private final Text selectText;
+	private final Component selectText;
 
 	public TotemDollModelControllerElement(TotemDollModelController controller, YACLScreen screen, Dimension<Integer> dim) {
 		super(controller, screen, dim);
@@ -30,7 +30,7 @@ public class TotemDollModelControllerElement extends ControllerWidget<TotemDollM
 	}
 
 	@Override
-	protected Text getValueText() {
+	protected Component getValueText() {
 		if (this.hovered && this.isAvailable()) {
 			return this.selectText;
 		}
@@ -38,9 +38,9 @@ public class TotemDollModelControllerElement extends ControllerWidget<TotemDollM
 	}
 
 	@Override
-	protected void drawValueText(DrawContext graphics, int mouseX, int mouseY, float delta) {
+	protected void drawValueText(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
 		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
-		Text valueText = this.getValueText();
+		Component valueText = this.getValueText();
 
 		int width = textRenderer.getWidth(valueText);
 		if (this.getDimension().x() + this.getXPadding() + width > this.getDimension().xLimit() - this.getXPadding()) {

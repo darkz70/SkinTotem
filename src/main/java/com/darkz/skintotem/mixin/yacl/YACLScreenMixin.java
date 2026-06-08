@@ -4,7 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.gui.YACLScreen;
 
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
@@ -20,7 +20,7 @@ public abstract class YACLScreenMixin extends Screen {
 	@Final
 	public YetAnotherConfigLib config;
 
-	protected YACLScreenMixin(Text title) {
+	protected YACLScreenMixin(Component title) {
 		super(title);
 	}
 

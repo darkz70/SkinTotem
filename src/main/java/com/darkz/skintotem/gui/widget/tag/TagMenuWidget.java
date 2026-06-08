@@ -6,9 +6,9 @@ import com.darkz.skintotem.gui.widget.list.AbstractVersionedEntryListWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.TextRenderer;
 
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.*;
-import net.minecraft.client.gui.widget.*;
+import net.minecraft.client.gui.components.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.*;
 import net.minecraft.util.*;
@@ -79,7 +79,7 @@ public class TagMenuWidget extends AbstractVersionedEntryListWidget<TagRow> {
 	}
 
 	@Override
-	protected void drawMenuListBackground(DrawContext context) {
+	protected void drawMenuListBackground(GuiGraphics context) {
 		//DrawUtils.drawTexture(context, BACKGROUND, this.getX(), this.getY(), 0, 0, 50, 166, 50, 166);
 	}
 
@@ -179,7 +179,7 @@ public class TagMenuWidget extends AbstractVersionedEntryListWidget<TagRow> {
 
 	@Nullable
 	private static String getTags(ItemStack stack) {
-		Text text = stack.getRealCustomName();
+		Component text = stack.getRealCustomName();
 		if (text == null) {
 			return null;
 		}
@@ -242,7 +242,7 @@ public class TagMenuWidget extends AbstractVersionedEntryListWidget<TagRow> {
 		}
 
 		@Override
-		public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+		public void render(GuiGraphics context, int mouseX, int mouseY, boolean hovered, float tickDelta) {
 			for (TagButtonWidget widget : this.buttons) {
 				widget.setCanBeHovered(hovered);
 				widget.render(context, mouseX, mouseY, tickDelta);
@@ -251,7 +251,7 @@ public class TagMenuWidget extends AbstractVersionedEntryListWidget<TagRow> {
 
 		//?} else {
 		/*@Override
-		public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+		public void render(GuiGraphics context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
 			int xOffset = 0;
 
 			for (TagButtonWidget widget : this.buttons) {
@@ -268,26 +268,26 @@ public class TagMenuWidget extends AbstractVersionedEntryListWidget<TagRow> {
 
 		public static final Identifier SEPARATOR = SkinTotemMod.id("textures/gui/tag_menu/separator.png");
 
-		private final Text text;
+		private final Component text;
 
-		public SeparatorRow(Text text) {
+		public SeparatorRow(Component text) {
 			super(new ArrayList<>());
 			this.text = text;
 		}
 
 		//? if >=1.21.9 {
 		@Override
-		public void render(DrawContext context, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+		public void render(GuiGraphics context, int mouseX, int mouseY, boolean hovered, float tickDelta) {
 			this.render(context, this.getY(), this.getX(), this.getHeight(), hovered);
 		}
 		//?} else {
 		/*@Override
-		public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+		public void render(GuiGraphics context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
 			this.render(context, y, x, entryHeight, hovered);
 		}
 		*///?}
 
-		private void render(DrawContext context, int y, int x, int entryHeight, boolean hovered) {
+		private void render(GuiGraphics context, int y, int x, int entryHeight, boolean hovered) {
 			Minecraft client = Minecraft.getInstance();
 			TextRenderer textRenderer = client.textRenderer;
 

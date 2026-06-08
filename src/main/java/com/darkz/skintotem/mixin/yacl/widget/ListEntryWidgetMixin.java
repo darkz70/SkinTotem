@@ -56,14 +56,14 @@ public class ListEntryWidgetMixin {
 	}
 
 	@Dynamic
-	@WrapWithCondition(at = @At(value = "INVOKE", target = "Ldev/isxander/yacl3/gui/TooltipButtonWidget;render(Lnet/minecraft/client/gui/DrawContext;IIF)V"), method = "render")
-	private boolean disableRendering1(TooltipButtonWidget instance, DrawContext context, int x, int y, float v) {
+	@WrapWithCondition(at = @At(value = "INVOKE", target = "Ldev/isxander/yacl3/gui/TooltipButtonWidget;render(Lnet/minecraft/client/gui/GuiGraphics;IIF)V"), method = "render")
+	private boolean disableRendering1(TooltipButtonWidget instance, GuiGraphics context, int x, int y, float v) {
 		return !((instance == this.moveDownButton || instance == this.moveUpButton) && (this.listOptionEntry.pendingValue() instanceof SimpleEntry<?, ?>));
 	}
 
 	@Dynamic
-	@WrapWithCondition(at = @At(value = "INVOKE", target = "Ldev/isxander/yacl3/gui/TooltipButtonWidget;render(Lnet/minecraft/client/gui/DrawContext;IIF)V"), method = "render")
-	private boolean disableRendering2(TooltipButtonWidget instance, DrawContext context, int x, int y, float v) {
+	@WrapWithCondition(at = @At(value = "INVOKE", target = "Ldev/isxander/yacl3/gui/TooltipButtonWidget;render(Lnet/minecraft/client/gui/GuiGraphics;IIF)V"), method = "render")
+	private boolean disableRendering2(TooltipButtonWidget instance, GuiGraphics context, int x, int y, float v) {
 		return !((instance == this.moveDownButton || instance == this.moveUpButton) && (this.listOptionEntry.pendingValue() instanceof SimpleEntry<?, ?>));
 	}
 

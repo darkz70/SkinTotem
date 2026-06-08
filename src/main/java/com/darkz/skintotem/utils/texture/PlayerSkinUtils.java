@@ -5,20 +5,15 @@ import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.atlas.RemappedAtlasSprite;
 import com.darkz.skintotem.atlas.manager.*;
 import com.darkz.skintotem.doll.data.*;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.texture.*;
-import net.minecraft.client.texture.NativeImage;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.client.SkinTotemModClient;
 
 import java.io.*;
 import java.nio.file.*;
-//? if >=1.21.2 {
 import net.minecraft.util.math.ColorHelper;
-//?} else {
-/*import net.minecraft.util.color.ColorHelper;*/
-//?}
 import org.jetbrains.annotations.*;
 
 import com.darkz.skintotem.atlas.manager.*;
@@ -52,7 +47,7 @@ public class PlayerSkinUtils {
 
 		NativeImage image;
 		try {
-			connection = (HttpURLConnection) currentUri.toURL().openConnection(MinecraftClient.getInstance().getNetworkProxy());
+			connection = (HttpURLConnection) currentUri.toURL().openConnection(Minecraft.getInstance().getNetworkProxy());
 			connection.setDoInput(true);
 			connection.setDoOutput(false);
 			connection.connect();
@@ -177,7 +172,7 @@ public class PlayerSkinUtils {
 
 	public static void setupClientTextures(TotemDollData data) {
 		//? if >=1.21 {
-		MinecraftClient.getInstance().getSkinProvider().fetchSkinTextures(MinecraftClient.getInstance().getGameProfile()).thenAccept((/*? if >=1.21.4 {*/ optional /*?} else {*/ /*skinTextures *//*?}*/) -> {
+		Minecraft.getInstance().getSkinProvider().fetchSkinTextures(Minecraft.getInstance().getGameProfile()).thenAccept((/*? if >=1.21.4 {*/ optional /*?} else {*/ /*skinTextures *//*?}*/) -> {
 			//? if >=1.21.4 {
 			if (optional.isEmpty()) {
 				return;
@@ -192,9 +187,9 @@ public class PlayerSkinUtils {
 			data.setSprites(TotemDollSprites.of(skinTextures));
 		});
 		//?} else {
-		/*MinecraftClient.getInstance().getSkinProvider().loadSkin(MinecraftClient.getInstance().getSession().getProfile(), (type, id, texture) -> {
+		/*Minecraft.getInstance().getSkinProvider().loadSkin(Minecraft.getInstance().getSession().getProfile(), (type, id, texture) -> {
 			SkinTotemModTaskExecutor.execute(() -> {
-				MinecraftClient.getInstance().execute(() -> {
+				Minecraft.getInstance().execute(() -> {
 					TotemDollSprites textures = data.getStandardSprites();
 
 					switch (type) {

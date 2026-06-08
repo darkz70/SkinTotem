@@ -4,7 +4,7 @@ import com.darkz.skintotem.utils.texture.PlayerSkinUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.MultilineText;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.screen.*;
+import net.minecraft.client.gui.screens.*;
 import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotemMod;
@@ -97,7 +97,7 @@ public class WelcomeScreen extends Screen {
 	}
 
 	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+	public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
 
 		//? if =1.20.1 {

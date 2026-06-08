@@ -1,38 +1,27 @@
+
 plugins {
 	id "net.lopymine.mossy-plugin-core" version "$mossy_plugin_version"
 }
 
 mossyDependencies {
-	minecraft = stonecutter.current.version.toString()
-
+	minecraft = stonecutter.current.project.substring(stonecutter.current.project.indexOf("-") + 1)
 	lombok = prop("base.lombok_version")
+
 	fabricApi = prop("build.fabric_api")
 	fabricLoader = prop("build.fabric_loader")
 
+//	forge = prop("build.forge")
+//
+//	neoForge = prop("build.neoforge")
+//	parchment = prop("build.parchment")
+
 	additional {
-		// - By default, every additional project dependency ("dep.modId" from gradle.properties) will use
-		// - Modrinth Maven and "modImplementation" configuration name
-		// - If you want to override mod configuration name, you can do this:
-
-		//override("modCompileOnly", "just_mod_id")
-
-		// - It will do this:
-		// - modImplementation("maven.modrinth:modId:version") -> modCompileOnly("maven.modrinth:modId:version")
-
-		// - Or if you want to disable it and handle by yourself, just disable it auto handling:
-
-		//disable("just_mod_id")
-
+		//override("modCompileOnly", "yacl")
 		disable("cit-resewn")
 	}
 }
 
-mossyResources {
-	//expandFiles = ["custom", "file", "patterns", "here"]
-}
-
 repositories {
-	mavenCentral()
 	// Mixin^2
 	maven {
 		name = "Mixin Squared"
@@ -41,10 +30,6 @@ repositories {
 }
 
 dependencies {
-	// Lombok
-	compileOnly "org.projectlombok:lombok:${prop("base.lombok_version")}"
-	annotationProcessor "org.projectlombok:lombok:${prop("base.lombok_version")}"
-
 	// Mixin^2
 	include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:${prop("build.mixin_squared")}")))
 
@@ -53,6 +38,12 @@ dependencies {
 	if (cit != "unknown") {
 		modImplementation "maven.modrinth:cit-resewn:${cit}"
 		modImplementation "maven.modrinth:cit-resewn-defaults:${cit}"
+	}
+}
+
+stonecutter {
+	replacements.string(current.parsed >= "26.1") {
+		replace("atlas.location()", "atlas.location()")
 	}
 }
 

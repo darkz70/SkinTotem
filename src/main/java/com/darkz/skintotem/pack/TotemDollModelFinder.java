@@ -1,8 +1,11 @@
 package com.darkz.skintotem.pack;
 
+import net.minecraft.resource.*;
+import net.minecraft.resources.ResourceLocation;
+
+import com.darkz.skintotem.SkinTotemMod;
+
 import java.util.*;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.util.Identifier;
 
 public class TotemDollModelFinder {
 
@@ -18,24 +21,30 @@ public class TotemDollModelFinder {
 	}
 
 	public static void reload(ResourceManager resourceManager) {
+		List<ResourcePack> list = resourceManager.streamResourcePacks().filter(resourcePack -> resourcePack.getNamespaces(ResourceType.CLIENT_RESOURCES).contains(SkinTotemMod.MOD_ID)).toList();
+
 		FOUNDED_TOTEM_MODELS.clear();
-		BUILTIN_TOTEM_MODELS.clear();
-
-		for (Identifier id : resourceManager.findResources("models/totem", path -> path.getPath().endsWith(".json")).keySet()) {
-			if (isModelPath(id)) {
-				FOUNDED_TOTEM_MODELS.computeIfAbsent(id.getNamespace(), k -> new LinkedHashSet<>()).add(id);
+		for (ResourcePack pack : list) {
+			String packId = pack./*? if >=1.21 {*/getId()/*?} else {*//*getName()*//*?}*/.replace("file/", "");
+		if (packId.equals(SkinTotemMod.MOD_ID) /*? if =1.20.1 {*/ /*|| pack instanceof net.fabricmc.fabric.impl.resource.loader.FabricModResourcePack *//*?}*/) {
+				continue;
 			}
-		}
+			pack.findResources(ResourceType.CLIENT_RESOURCES, SkinTotemMod.MOD_ID, "dolls", (id, input) -> {
+				if (!isModelPath(id)) {
+					return;
+				}
 
-		for (Identifier id : resourceManager.findResources("models/item/totem", path -> path.getPath().endsWith(".json")).keySet()) {
-			if (isModelPath(id)) {
-				BUILTIN_TOTEM_MODELS.add(id);
-			}
+				Set<Identifier> set = FOUNDED_TOTEM_MODELS.getOrDefault(packId, new LinkedHashSet<>());
+				set.add(id);
+
+				if (!FOUNDED_TOTEM_MODELS.containsKey(packId)) {
+					FOUNDED_TOTEM_MODELS.put(packId, set);
+				}
+			});
 		}
 	}
 
 	private static boolean isModelPath(Identifier id) {
-		String path = id.getPath();
-		return path.startsWith("models/") && path.endsWith(".json");
+		return id.getPath().endsWith(".bbmodel");
 	}
 }

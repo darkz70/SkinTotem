@@ -10,7 +10,7 @@ import com.darkz.skintotem.extension.DrawContextExtension;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.*;
+import net.minecraft.client.gui.components.*;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.network.chat.*;
 
@@ -24,9 +24,9 @@ import org.jetbrains.annotations.Nullable;
 @ExtensionMethod(DrawContextExtension.class)
 public class RenderingCategoryTab implements TabExt {
 
-	public final ButtonWidget saveFinishedButton;
-	public final ButtonWidget cancelResetButton;
-	public final ButtonWidget undoButton;
+	public final Button saveFinishedButton;
+	public final Button cancelResetButton;
+	public final Button undoButton;
 	private final ConfigCategory category;
 	private final Tooltip tooltip;
 	private final SearchFieldWidget searchField;
@@ -52,19 +52,19 @@ public class RenderingCategoryTab implements TabExt {
 		this.rightPaneDim = new ScreenRect(screen.width / 3 * 2, tabArea.getTop() + 1, screen.width / 3, tabArea.getTop() + (padding * 2) + 39);
 		MutableDimension<Integer> actionDim = Dimension.ofInt(screen.width / 3 * 2 + screen.width / 6, tabArea.getTop() + padding + 44, paddedWidth, 20);
 
-		this.saveFinishedButton = ButtonWidget.builder(ScreenTexts.DONE, btn -> yaclScreen.finishOrSave())
+		this.saveFinishedButton = Button.builder(ScreenTexts.DONE, btn -> yaclScreen.finishOrSave())
 				.position(actionDim.x() - actionDim.width() / 2, actionDim.y())
 				.size(actionDim.width(), actionDim.height())
 				.build();
 
 		actionDim.expand(-actionDim.width() / 2 - 2, 0).move(-actionDim.width() / 2 - 2, -22);
-		this.cancelResetButton = ButtonWidget.builder(ScreenTexts.CANCEL, btn -> yaclScreen.cancelOrReset())
+		this.cancelResetButton = Button.builder(ScreenTexts.CANCEL, btn -> yaclScreen.cancelOrReset())
 				.position(actionDim.x() - actionDim.width() / 2, actionDim.y())
 				.size(actionDim.width(), actionDim.height())
 				.build();
 
 		actionDim.move(actionDim.width() + 4, 0);
-		this.undoButton = ButtonWidget.builder(Component.translatable("yacl.gui.undo"), btn -> yaclScreen.undo())
+		this.undoButton = Button.builder(Component.translatable("yacl.gui.undo"), btn -> yaclScreen.undo())
 				.position(actionDim.x() - actionDim.width() / 2, actionDim.y())
 				.size(actionDim.width(), actionDim.height())
 				.tooltip(Tooltip.of(Component.translatable("yacl.gui.undo.tooltip")))
@@ -107,7 +107,7 @@ public class RenderingCategoryTab implements TabExt {
 	}
 
 	@Override
-	public Text getTitle() {
+	public Component getTitle() {
 		return this.category.name();
 	}
 
@@ -121,7 +121,7 @@ public class RenderingCategoryTab implements TabExt {
 	}
 
 	@Override
-	public void renderBackground(DrawContext context) {
+	public void renderBackground(GuiGraphics context) {
 		RenderUtils.enableBlend();
 		RenderUtils.enableDepthTest();
 

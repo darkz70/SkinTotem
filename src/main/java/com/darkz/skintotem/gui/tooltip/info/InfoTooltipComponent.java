@@ -2,7 +2,7 @@ package com.darkz.skintotem.gui.tooltip.info;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.*;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 
 import net.minecraft.network.chat.*;
@@ -45,7 +45,7 @@ public class InfoTooltipComponent implements TooltipComponent {
 	}
 
 	@Override
-	public void drawItems(TextRenderer textRenderer, int x, int y, /*? >=1.21.2 {*/int w, int h,/*?}*/ DrawContext context) {
+	public void drawItems(TextRenderer textRenderer, int x, int y, /*? >=1.21.2 {*/int w, int h,/*?}*/ GuiGraphics context) {
 		int width = this.getWidth(textRenderer);
 		int titleWidth = textRenderer.getWidth(this.title);
 		context.drawText(textRenderer, this.title, x + (((width) / 2) - (titleWidth / 2)), y + 8, -1, false);

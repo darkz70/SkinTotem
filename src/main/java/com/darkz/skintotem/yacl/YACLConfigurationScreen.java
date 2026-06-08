@@ -1,6 +1,6 @@
 package com.darkz.skintotem.yacl;
 
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
 import com.darkz.skintotem.client.SkinTotemModClient;
@@ -27,7 +27,7 @@ public class YACLConfigurationScreen {
 		return !(currentScreen instanceof SkinTotemModYACLScreen || currentScreen instanceof TotemDollModelSelectionScreen);
 	}
 
-	public static Text getRenderingCategoryTitle() {
+	public static Component getRenderingCategoryTitle() {
 		return ModMenuUtils.getName(ModMenuUtils.getCategoryKey("rendering"));
 	}
 }

@@ -4,7 +4,7 @@ import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.doll.renderer.*;
 import com.darkz.skintotem.utils.DrawUtils;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.network.chat.*;
@@ -38,12 +38,12 @@ public class TotemDollPreviewTooltipComponent implements TooltipComponent {
 	}
 
 	@Override
-	public void drawItems(TextRenderer textRenderer, int x, int y,/*? >=1.21.2 {*/int w, int h,/*?}*/ DrawContext context) {
+	public void drawItems(TextRenderer textRenderer, int x, int y,/*? >=1.21.2 {*/int w, int h,/*?}*/ GuiGraphics context) {
 		int width = this.getWidth(textRenderer);
 		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
 		float sizeOriginal = config.getBetterTagMenuTooltipSize();
 		float size = (sizeOriginal / 1.25F) * config.getTagMenuTooltipModelScale();
-		Text text = Text.of(this.modelId.getFileName());
+		Component text = Component.of(this.modelId.getFileName());
 		int textWidth = textRenderer.getWidth(text);
 
 		int height = this.getHeight(/*? >=1.21.2 {*/textRenderer/*?}*/);

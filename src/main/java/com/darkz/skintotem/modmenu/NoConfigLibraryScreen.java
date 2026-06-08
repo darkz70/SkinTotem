@@ -3,7 +3,7 @@ package com.darkz.skintotem.modmenu;
 import com.google.common.collect.Sets;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.*;
+import net.minecraft.client.gui.screens.*;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.util.Util;
 import com.darkz.skintotem.client.SkinTotemModClient;

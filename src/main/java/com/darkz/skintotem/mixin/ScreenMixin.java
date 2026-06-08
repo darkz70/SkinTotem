@@ -2,7 +2,7 @@ package com.darkz.skintotem.mixin;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -19,7 +19,7 @@ public abstract class ScreenMixin extends AbstractParentElement implements Drawa
 	private TooltipRequest tooltipRequest;
 
 	@Inject(at = @At("TAIL"), method = "renderWithTooltip")
-	private void renderWithTooltip(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+	private void renderWithTooltip(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 		if (this.tooltipRequest != null) {
 			//? if >=1.21.6 {
 			context.createNewRootLayer();

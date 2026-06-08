@@ -5,8 +5,8 @@ import com.darkz.skintotem.doll.data.*;
 import com.darkz.skintotem.model.base.MModel;
 import com.darkz.skintotem.utils.ScreenUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.chat.Component;
@@ -49,7 +49,7 @@ public class CustomModelTagButtonWidget extends TagButtonWidget {
 	}
 
 	@Override
-	public void /*? if >=1.21 {*/renderWidget/*?} else {*//*renderButton*//*?}*/(DrawContext context, int mouseX, int mouseY, float delta) {
+	public void /*? if >=1.21 {*/renderWidget/*?} else {*//*renderButton*//*?}*/(GuiGraphics context, int mouseX, int mouseY, float delta) {
 		if (this.model != null) {
 			this.data.setFrameMModel(this.model);
 		}
@@ -61,7 +61,7 @@ public class CustomModelTagButtonWidget extends TagButtonWidget {
 	}
 
 	@Override
-	protected void renderIcon(DrawContext context, int x, int y) {
+	protected void renderIcon(GuiGraphics context, int x, int y) {
 		context.enableScissor(this.getX() + 1, this.getY() + 1, this.getX() + this.getWidth() - 1, this.getY() + this.getHeight() - 1);
 		TotemDollRenderer.renderPreview(context, x, y, this.getWidth(), this.getHeight(),  Math.min(this.getWidth(), this.getHeight()), this.getData());
 		context.disableScissor();
@@ -70,7 +70,7 @@ public class CustomModelTagButtonWidget extends TagButtonWidget {
 	@Override
 	public @Nullable TooltipComponent getTooltipComponent() {
 		if (this.model == null) {
-			return ClientTooltipComponent.create(net.minecraft.text.Text.of("Unknown Model").getVisualOrderText());
+			return ClientTooltipComponent.create(net.minecraft.text.Component.of("Unknown Model").getVisualOrderText());
 		}
 		if (this.tooltipData == null) {
 			this.tooltipData = this.data.copy();

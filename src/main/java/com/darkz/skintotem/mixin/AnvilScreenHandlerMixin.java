@@ -16,14 +16,14 @@ import com.darkz.skintotem.extension.ItemStackExtension;
 public class AnvilScreenHandlerMixin {
 
 	@WrapOperation(
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getName()Lnet/minecraft/text/Text;"),
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getName()Lnet/minecraft/text/Component;"),
 			method = "updateResult"
 	)
-	private Text swapItemName(ItemStack stack, Operation<Text> original) {
+	private Component swapItemName(ItemStack stack, Operation<Component> original) {
 		if (!SkinTotemModClient.canProcess(stack)) {
 			return original.call(stack);
 		}
-		Text customName = stack.getRealCustomName();
+		Component customName = stack.getRealCustomName();
 		if (customName == null) {
 			return original.call(stack);
 		}

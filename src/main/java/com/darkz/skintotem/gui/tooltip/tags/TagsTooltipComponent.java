@@ -3,7 +3,7 @@ package com.darkz.skintotem.gui.tooltip.tags;
 import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
 import com.darkz.skintotem.tag.*;
 import net.minecraft.client.font.*;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.network.chat.*;
@@ -18,11 +18,11 @@ import org.jetbrains.annotations.Nullable;
 
 public class TagsTooltipComponent implements TooltipComponent {
 
-	private final Map<Identifier, Text> rows = new HashMap<>();
+	private final Map<Identifier, Component> rows = new HashMap<>();
 	@Nullable
 	private CustomModelTag modelTag;
 	@Nullable
-	private Text modelTagName;
+	private Component modelTagName;
 
 	public TagsTooltipComponent(String tags) {
 		Char2ObjectMap<Tag> registeredTags = TagsManager.getRegisteredTags();
@@ -51,7 +51,7 @@ public class TagsTooltipComponent implements TooltipComponent {
 	@Override
 	public int getWidth(TextRenderer textRenderer) {
 		int maxWidth = 0;
-		for (Text text : this.rows.values()) {
+		for (Component text : this.rows.values()) {
 			int textWidth = textRenderer.getWidth(text) + 10;
 			maxWidth = Math.max(maxWidth, textWidth);
 		}
@@ -59,11 +59,11 @@ public class TagsTooltipComponent implements TooltipComponent {
 	}
 
 	@Override
-	public void drawItems(TextRenderer textRenderer, int x, int y,/*? >=1.21.2 {*/int w, int h,/*?}*/ DrawContext context) {
+	public void drawItems(TextRenderer textRenderer, int x, int y,/*? >=1.21.2 {*/int w, int h,/*?}*/ GuiGraphics context) {
 		int yOffset = 0;
 
 		int space = textRenderer.getWidth(ScreenTexts.space());
-		for (Entry<Identifier, Text> entry : this.rows.entrySet()) {
+		for (Entry<Identifier, Component> entry : this.rows.entrySet()) {
 			DrawUtils.drawTexture(context, entry.getKey(), x + space, y + yOffset - 1, 0, 0, 10, 10, 10, 10);
 			context.drawText(textRenderer, entry.getValue(), x + space + 10 + 4, y + yOffset, -1, true);
 			yOffset += 10;

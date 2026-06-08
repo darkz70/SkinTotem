@@ -18,7 +18,7 @@ public enum TotemDollArmsType implements StringIdentifiable, EnumWithText {
 
 	public static final Codec<TotemDollArmsType> CODEC = StringIdentifiable.createCodec(TotemDollArmsType::values);
 
-	public Text getText() {
+	public Component getText() {
 		return SkinTotemMod.text("modmenu.option.standard_doll_model_arms_type.%s".formatted(this.asString()));
 	}
 

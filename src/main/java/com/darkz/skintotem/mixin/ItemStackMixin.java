@@ -5,7 +5,7 @@ import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.config.SkinTotemModConfig;
 import com.darkz.skintotem.utils.ScreenUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screen.ingame.AnvilScreen;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.world.item.*;
@@ -42,7 +42,7 @@ public abstract class ItemStackMixin {
 	public abstract boolean isOf(Item item);
 
 	@ModifyReturnValue(at = @At("RETURN"), method = "getName")
-	private Text getName(Text original) {
+	private Component getName(Component original) {
 		if (!SkinTotemModConfig.getInstance().isModEnabled() || !this.isOf(Items.TOTEM_OF_UNDYING)) {
 			return original;
 		}
@@ -67,7 +67,7 @@ public abstract class ItemStackMixin {
 			return original;
 		}
 
-		Text customName = itemStack.getRealCustomName();
+		Component customName = itemStack.getRealCustomName();
 		if (customName == null) {
 			return original;
 		}

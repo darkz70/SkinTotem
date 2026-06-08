@@ -27,7 +27,7 @@ public abstract class AbstractSearchListWidget<E extends Entry<E>> extends Abstr
 	//? if >=1.21.9 {
 
 	@Override
-	protected void renderList(DrawContext context, int mouseX, int mouseY, float delta) {
+	protected void renderList(GuiGraphics context, int mouseX, int mouseY, float delta) {
 		this.startScissor(context);
 		for(E entry : this.getWidgets()) {
 			if (entry.getY() + entry.getHeight() >= this.getY() && entry.getY() <= this.getBottom()) {
@@ -58,7 +58,7 @@ public abstract class AbstractSearchListWidget<E extends Entry<E>> extends Abstr
 	//?}
 
 	@Override
-	protected void drawMenuListBackground(DrawContext context) {
+	protected void drawMenuListBackground(GuiGraphics context) {
 		if (this.searching && this.children.isEmpty()) {
 			int a = (this.getWidth() - this.getRowWidth()) / 2;
 			DrawUtils.drawText(context, NOTHING_FOUND_TEXT, this.getX() + a, this.getY(), this.getWidth() - a, this.getHeight() + 4);

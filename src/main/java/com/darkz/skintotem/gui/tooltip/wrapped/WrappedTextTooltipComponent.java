@@ -2,7 +2,7 @@ package com.darkz.skintotem.gui.tooltip.wrapped;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.network.chat.*;
 
@@ -12,7 +12,7 @@ public class WrappedTextTooltipComponent implements TooltipComponent {
 
 	private final List<OrderedText> texts;
 
-	public WrappedTextTooltipComponent(Text text) {
+	public WrappedTextTooltipComponent(Component text) {
 		this.texts = Minecraft.getInstance().textRenderer.wrapLines(text, 100000);
 	}
 
@@ -33,7 +33,7 @@ public class WrappedTextTooltipComponent implements TooltipComponent {
 	}
 
 	@Override
-	public void drawItems(TextRenderer textRenderer, int x, int y, /*? >=1.21.2 {*/int w, int h,/*?}*/ DrawContext context) {
+	public void drawItems(TextRenderer textRenderer, int x, int y, /*? >=1.21.2 {*/int w, int h,/*?}*/ GuiGraphics context) {
 		int offset = 0;
 		for (OrderedText text : this.texts) {
 			context.drawText(textRenderer, text, x, y + offset, -1, true);

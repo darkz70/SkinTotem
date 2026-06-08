@@ -18,7 +18,7 @@ public enum LoadingState {
 	REGISTERING, // X
 	DOWNLOADED; // X
 
-	public Text getText() {
+	public Component getText() {
 		return SkinTotemMod.text("modmenu.option.standard_doll_skin_type.result.%s".formatted(this.name().toLowerCase()));
 	}
 }

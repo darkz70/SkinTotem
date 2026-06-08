@@ -7,10 +7,10 @@ import com.darkz.skintotem.doll.model.TotemDollModel;
 import com.darkz.skintotem.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.*;
-import net.minecraft.client.gui.widget.ButtonWidget.PressAction;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.components.*;
+import net.minecraft.client.gui.widget.Button.PressAction;
 import net.minecraft.network.chat.*;
 import net.minecraft.util.*;
 
@@ -41,9 +41,9 @@ public class TotemDollModelSelectionScreen extends Screen {
 	@Nullable
 	private Identifier selectedModelId;
 	@Nullable
-	private Text selectedModelName;
+	private Component selectedModelName;
 	@Nullable
-	private Text selectedModel;
+	private Component selectedModel;
 
 	public TotemDollModelSelectionScreen( Screen parent, Option<Identifier> option) {
 		super(SkinTotemMod.text("standard_model_selection_screen.title"));
@@ -66,18 +66,18 @@ public class TotemDollModelSelectionScreen extends Screen {
 
 		this.listWidget = this.addDrawableChild(new ButtonListWidget(this.listPanelDimension.x(), this.listPanelDimension.y() + 2, this.listPanelDimension.width(), this.listPanelDimension.height(), 20));
 
-		TextFieldWidget textFieldWidget = this.addDrawableChild(new TextFieldWidget(Minecraft.getInstance().textRenderer, textFieldDimension.x(), textFieldDimension.y(), textFieldDimension.width(), textFieldDimension.height(), Text.of("")));
+		TextFieldWidget textFieldWidget = this.addDrawableChild(new TextFieldWidget(Minecraft.getInstance().textRenderer, textFieldDimension.x(), textFieldDimension.y(), textFieldDimension.width(), textFieldDimension.height(), Component.of("")));
 		textFieldWidget.setChangedListener(this.listWidget::search);
 		textFieldWidget.setPlaceholder(SkinTotemMod.text("placeholder.search"));
 
 		this.addDrawableChild(
-				ButtonWidget.builder(SkinTotemMod.text("button.close"), (b) -> this.close(false))
+				Button.builder(SkinTotemMod.text("button.close"), (b) -> this.close(false))
 						.dimensions(buttonPanelDimension.x(), buttonPanelDimension.y(), buttonPanelDimension.width(), buttonPanelDimension.height())
 						.build()
 		);
 		buttonPanelDimension.move(0, h + o);
 		this.addDrawableChild(
-				ButtonWidget.builder(SkinTotemMod.text("button.select_current"), (b) -> this.close(true))
+				Button.builder(SkinTotemMod.text("button.select_current"), (b) -> this.close(true))
 						.dimensions(buttonPanelDimension.x(), buttonPanelDimension.y(), buttonPanelDimension.width(), buttonPanelDimension.height())
 						.build()
 		);
@@ -101,7 +101,7 @@ public class TotemDollModelSelectionScreen extends Screen {
 
 				PressAction pressAction = (widget) -> this.setSelectedModel(id, pack, modelName);
 
-				ButtonListEntryWidget button = new ButtonListEntryWidget(Text.of(modelName), pressAction);
+				ButtonListEntryWidget button = new ButtonListEntryWidget(Component.of(modelName), pressAction);
 
 				if (id.equals(standardModelId)) {
 					pressAction.onPress(button.getWidget());
@@ -148,7 +148,7 @@ public class TotemDollModelSelectionScreen extends Screen {
 	}
 
 	@Override
-	public void renderBackground(DrawContext context /*? if >=1.21 {*/ ,int mouseX, int mouseY, float delta/*?}*/) {
+	public void renderBackground(GuiGraphics context /*? if >=1.21 {*/ ,int mouseX, int mouseY, float delta/*?}*/) {
 		super.renderBackground(context/*? if >=1.21 {*/ , mouseX, mouseY, delta /*?}*/);
 
 		for (Dimension<Integer> dimension : this.dimensions) {
@@ -157,7 +157,7 @@ public class TotemDollModelSelectionScreen extends Screen {
 	}
 
 	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+	public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
 		TextRenderer textRenderer = Minecraft.getInstance().textRenderer;
 
@@ -178,10 +178,10 @@ public class TotemDollModelSelectionScreen extends Screen {
 			context.drawText(textRenderer, fullModelPathText, this.modelPathDimension.x() + offset, this.modelPathDimension.y() + offset, -1, true);
 		}
 
-		// Model Path Text
+		// Model Path Component
 		context.enableScissor(this.modelPathDimension.x(), this.modelPathDimension.y(), this.modelPathDimension.xLimit() - offset, this.modelPathDimension.yLimit());
 
-		Text text = this.selectedModel == null ? Component.literal("...").formatted(Formatting.GRAY) : this.selectedModel;
+		Component text = this.selectedModel == null ? Component.literal("...").formatted(Formatting.GRAY) : this.selectedModel;
 		int width = textRenderer.getWidth(text);
 		if (this.modelPathDimension.x() + width + offset > this.modelPathDimension.xLimit() - offset) {
 			DrawUtils.drawText(context, text, this.modelPathDimension.x() + offset, this.modelPathDimension.yLimit() - textRenderer.fontHeight - offset, this.modelPathDimension.width() - offset, textRenderer.fontHeight);
@@ -191,10 +191,10 @@ public class TotemDollModelSelectionScreen extends Screen {
 
 		context.disableScissor();
 
-		// Model Name Text
+		// Model Name Component
 		context.enableScissor(this.modelPanelDimension.x(), this.modelPanelDimension.y(), this.modelPanelDimension.xLimit(), this.modelPanelDimension.yLimit());
 
-		Text selectedModelNameText = this.selectedModelName == null ? SkinTotemMod.text("text.standard_doll") : this.selectedModelName;
+		Component selectedModelNameText = this.selectedModelName == null ? SkinTotemMod.text("text.standard_doll") : this.selectedModelName;
 		context.drawText(textRenderer, selectedModelNameText, this.modelPanelDimension.x() + offset, this.modelPanelDimension.y() + offset, -1, true);
 
 		// Underline for this text
@@ -209,7 +209,7 @@ public class TotemDollModelSelectionScreen extends Screen {
 		String packName = SkinTotemMod.MOD_ID.equals(pack) ? SkinTotemMod.MOD_NAME.replace(" ", "") : pack;
 		this.selectedModel     = SkinTotemMod.text("text.nice_id", packName, modelId.getPath());
 		this.selectedModelId   = modelId;
-		this.selectedModelName = Text.of(modelName);
+		this.selectedModelName = Component.of(modelName);
 		this.totemDollModelPreviewWidget.updateModel(modelId);
 	}
 

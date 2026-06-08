@@ -1,11 +1,11 @@
 package com.darkz.skintotem.extension;
 
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.math.RotationAxis;
 
 public class DrawContextExtension {
 
-	public static void push(DrawContext context) {
+	public static void push(GuiGraphics context) {
 		//? if >=1.21.6 {
 		context.getMatrices().pushMatrix();
 		//?} else {
@@ -13,7 +13,7 @@ public class DrawContextExtension {
 		*///?}
 	}
 
-	public static void pop(DrawContext context) {
+	public static void pop(GuiGraphics context) {
 		//? if >=1.21.6 {
 		context.getMatrices().popMatrix();
 		//?} else {
@@ -21,7 +21,7 @@ public class DrawContextExtension {
 		*///?}
 	}
 
-	public static void translate(DrawContext context, float x, float y, float z) {
+	public static void translate(GuiGraphics context, float x, float y, float z) {
 		//? if >=1.21.6 {
 		context.getMatrices().translate(x, y);
 		//?} else {
@@ -29,7 +29,7 @@ public class DrawContextExtension {
 		 *///?}
 	}
 
-	public static void scale(DrawContext context, float x, float y, float z) {
+	public static void scale(GuiGraphics context, float x, float y, float z) {
 		//? if >=1.21.6 {
 		context.getMatrices().scale(x, y);
 		//?} else {
@@ -37,7 +37,7 @@ public class DrawContextExtension {
 		 *///?}
 	}
 
-	public static void rotateZ(DrawContext context, float angle) {
+	public static void rotateZ(GuiGraphics context, float angle) {
 		//? if >=1.21.6 {
 		context.getMatrices().rotate(angle * ((float) Math.PI / 180F));
 		//?} else {
@@ -45,7 +45,7 @@ public class DrawContextExtension {
 		 *///?}
 	}
 
-	public static void drawBorder(DrawContext context, int x, int y, int width, int height, int color) {
+	public static void drawBorder(GuiGraphics context, int x, int y, int width, int height, int color) {
 		//? if >=1.21.9 {
 		context.fill(x, y, x + width, y + 1, color);
 		context.fill(x, y + height - 1, x + width, y + height, color);

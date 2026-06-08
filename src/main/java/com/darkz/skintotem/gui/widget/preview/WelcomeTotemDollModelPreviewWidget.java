@@ -38,7 +38,7 @@ public class WelcomeTotemDollModelPreviewWidget extends TotemDollModelPreviewWid
 	}
 
 	@Override
-	protected void renderPreview(DrawContext context) {
+	protected void renderPreview(GuiGraphics context) {
 		long a = this.isHovered() ? 1L : -1L;
 		long time = this.getHoverTime() + a;
 		if (time < this.getMaxHoverTime() && time > 0L) {
