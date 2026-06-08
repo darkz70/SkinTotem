@@ -4,7 +4,7 @@ import net.minecraft.client.model.CubeDeformation;
 
 import com.darkz.skintotem.mixin.accessor.CubeDeformationAccessor;
 
-public class CubeDeformationExtension {
+public class DilationExtension {
 
 	public static float getRadiusX(CubeDeformation dilation) {
 		return ((CubeDeformationAccessor) dilation).getRadiusX();
