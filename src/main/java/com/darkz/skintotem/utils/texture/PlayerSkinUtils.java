@@ -6,14 +6,14 @@ import com.darkz.skintotem.atlas.RemappedAtlasSprite;
 import com.darkz.skintotem.atlas.manager.*;
 import com.darkz.skintotem.doll.data.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.texture.*;
+import net.minecraft.client.renderer.texture.*;
 import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.client.SkinTotemModClient;
 
 import java.io.*;
 import java.nio.file.*;
-import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.FastColor;
 import org.jetbrains.annotations.*;
 
 import com.darkz.skintotem.atlas.manager.*;
@@ -118,7 +118,7 @@ public class PlayerSkinUtils {
 		for (int i = x1; i < x2; ++i) {
 			for (int j = y1; j < y2; ++j) {
 				int k = image.getColorArgb(i, j);
-				if (ColorHelper.getAlpha(k) < 128) {
+				if (FastColor.getAlpha(k) < 128) {
 					return;
 				}
 			}
@@ -135,7 +135,7 @@ public class PlayerSkinUtils {
 	private static void stripAlpha(NativeImage image, int x1, int y1, int x2, int y2) {
 		for (int i = x1; i < x2; ++i) {
 			for (int j = y1; j < y2; ++j) {
-				image.setColorArgb(i, j, ColorHelper.fullAlpha(image.getColorArgb(i, j)));
+				image.setColorArgb(i, j, FastColor.fullAlpha(image.getColorArgb(i, j)));
 			}
 		}
 	}
@@ -172,15 +172,15 @@ public class PlayerSkinUtils {
 
 	public static void setupClientTextures(TotemDollData data) {
 		//? if >=1.21 {
-		Minecraft.getInstance().getSkinProvider().fetchSkinTextures(Minecraft.getInstance().getGameProfile()).thenAccept((/*? if >=1.21.4 {*/ optional /*?} else {*/ /*skinTextures *//*?}*/) -> {
+		Minecraft.getInstance().getSkinProvider().fetchPlayerSkin(Minecraft.getInstance().getGameProfile()).thenAccept((/*? if >=1.21.4 {*/ optional /*?} else {*/ /*skinTextures *//*?}*/) -> {
 			//? if >=1.21.4 {
 			if (optional.isEmpty()) {
 				return;
 			}
 			//? if >=1.21.9 {
-			net.minecraft.entity.player.SkinTextures skinTextures = optional.get();
+			net.minecraft.entity.player.PlayerSkin skinTextures = optional.get();
 			//?} else {
-			/*net.minecraft.client.util.SkinTextures skinTextures = optional.get();
+			/*net.minecraft.client.util.PlayerSkin skinTextures = optional.get();
 			*///?}
 
 			//?}
