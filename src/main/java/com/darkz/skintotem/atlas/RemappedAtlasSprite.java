@@ -4,6 +4,7 @@ import java.util.Objects;
 import lombok.*;
 import com.darkz.skintotem.SkinTotemMod;
 import net.minecraft.client.renderer.texture.*;
+import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.*;
