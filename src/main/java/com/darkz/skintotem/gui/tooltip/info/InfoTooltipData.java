@@ -6,6 +6,6 @@ import net.minecraft.world.item.tooltip.TooltipProvider;
 /*import net.minecraft.client.item.TooltipProvider;
 *///?}
 
-public record InfoTooltipProvider(String key, int color) implements TooltipProvider {
+public record InfoTooltipData(String key, int color) implements net.minecraft.world.item.tooltip.TooltipData {
 
 }
