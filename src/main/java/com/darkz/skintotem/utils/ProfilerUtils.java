@@ -3,7 +3,7 @@ package com.darkz.skintotem.utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.profiling.*;
 
-public class ProfilerFillerUtils {
+public class ProfilerUtils {
 
 	public static ProfilerFiller getProfilerFiller() {
 		/*? >=1.21.2 {*/
