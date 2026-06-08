@@ -22,11 +22,11 @@ import org.slf4j.Logger;
 
 @Getter
 @Setter
-@ExtensionMethod({ModelPart.RotationExtension.class, CubeDeformationExtension.class, IdentifierExtension.class})
+@ExtensionMethod({ModelTransformExtension.class, CubeDeformationExtension.class, IdentifierExtension.class})
 public class MModel extends ModelPart {
 
 	@Setter(AccessLevel.PRIVATE)
-	private ModelPart.Rotationation transformation = ModelPart.Rotationation.NONE;
+	private ItemTransforms transformation = ItemTransforms.NONE;
 	private final Map<String, MModel> mChildren;
 	private final List<MModel> mChildrenModels;
 	private final List<MCuboid> mCuboids;
@@ -168,7 +168,7 @@ public class MModel extends ModelPart {
 	}
 
 	public void logSize(Logger logger) {
-		Box box = this.getBox();
+		AABB box = this.getAABB();
 		logger.info("Union Model Size:");
 		logger.info("Size: [{}, {}, {}]", Math.abs(box.minX - box.maxX), Math.abs(box.minY - box.maxY), Math.abs(box.minZ - box.maxZ));
 		logger.info("From: [{}, {}, {}]", box.minX, box.minY, box.minZ);
@@ -186,7 +186,7 @@ public class MModel extends ModelPart {
 		return hierarchy;
 	}
 
-	public Box getBox() {
+	public AABB getAABB() {
 		float minX = 0F;
 		float minY = 0F;
 		float minZ = 0F;
@@ -204,10 +204,10 @@ public class MModel extends ModelPart {
 			maxZ = Math.max(maxZ, cuboid.maxZ);
 		}
 
-		Box box = new Box(minX, minY, minZ, maxX, maxY, maxZ);
+		AABB box = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
 
 		for (MModel value : this.mChildren.values()) {
-			Box size = value.getBox();
+			AABB size = value.getAABB();
 			box = box.union(size);
 		}
 
