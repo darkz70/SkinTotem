@@ -11,6 +11,7 @@ import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.utils.texture.PlayerSkinUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.*;
+import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.*;
@@ -232,4 +233,4 @@ public class SkinTotemModAtlasSpriteManager {
 		AtlasSprite create();
 
 	}
-}
+		}
