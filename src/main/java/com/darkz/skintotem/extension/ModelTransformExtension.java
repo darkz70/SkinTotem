@@ -2,7 +2,7 @@ package com.darkz.skintotem.extension;
 
 import net.minecraft.client.model.ModelPart.Rotation;
 
-public class ModelPart.RotationExtension {
+public class ModelTransformExtension {
 
 	public static ModelPart.Rotation subtract(ModelPart.Rotation root, ModelPart.Rotation parent) {
 		return ModelPart.Rotation.of(
@@ -39,7 +39,7 @@ public class ModelPart.RotationExtension {
 		return /*? >=1.21.2 {*/ transform.roll(); /*?} else {*/ /*transform.roll; *//*?}*/
 	}
 
-	public static ModelPart.Rotation getBlockBenchedModelPart.Rotation(ModelPart.Rotation transform) {
+	public static ModelPart.Rotation getBlockBenchedModelTransform(ModelPart.Rotation transform) {
 		return ModelPart.Rotation.of(-getPivotX(transform), -getPivotY(transform), getPivotZ(transform), getPitch(transform), getYaw(transform), getRoll(transform));
 	}
 
