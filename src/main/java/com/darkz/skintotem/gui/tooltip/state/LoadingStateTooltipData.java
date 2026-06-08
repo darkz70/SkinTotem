@@ -8,6 +8,6 @@ import net.minecraft.world.item.tooltip.TooltipProvider;
 
 import com.darkz.skintotem.doll.data.LoadingState;
 
-public record LoadingStateTooltipProvider(LoadingState state) implements TooltipProvider {
+public record LoadingStateTooltipData(LoadingState state) implements net.minecraft.world.item.tooltip.TooltipData {
 
 }
