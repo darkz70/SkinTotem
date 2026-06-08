@@ -17,8 +17,8 @@ import com.darkz.skintotem.client.command.builder.CommandTextBuilder;
 import com.darkz.skintotem.doll.manager.TotemDollManager;
 import org.jetbrains.annotations.Nullable;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+import static net.minecraft.commands.Commands.argument;
+import static net.minecraft.commands.Commands.literal;
 
 public class RefreshCommand {
 
