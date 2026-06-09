@@ -22,6 +22,7 @@ import com.darkz.skintotem.config.other.vector.Vec3f;
 import com.darkz.skintotem.doll.data.TotemDollData;
 import com.darkz.skintotem.doll.manager.*;
 import com.darkz.skintotem.doll.model.TotemDollModel;
+import net.minecraft.resources.ResourceLocation;
 import com.darkz.skintotem.model.base.*;
 import com.darkz.skintotem.model.bb.*;
 import com.darkz.skintotem.model.bb.BBCube.*;
@@ -42,7 +43,7 @@ public class BlockBenchModelManager {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("%s/BlockBenchModelManager".formatted(SkinTotemMod.MOD_NAME));
 
-	private static final Map<Identifier, CompletableFuture<Response<MModelFactory>>> LOADED_MODELS = new ConcurrentHashMap<>();
+	private static final Map<ResourceLocation, CompletableFuture<Response<MModelFactory>>> LOADED_MODELS = new ConcurrentHashMap<>();
 
 	private static final Set<String> SUPPORTED_MODEL_FORMATS = Set.of("java_block", "free_rotation");
 
@@ -50,11 +51,11 @@ public class BlockBenchModelManager {
 	private static ResourceManager currentResourceManager = null;
 
 	@Nullable
-	public static MModel getModel(Identifier id) {
+	public static MModel getModel(ResourceLocation id) {
 		return createMModel(getMModelFactoryAsResponse(id)).value();
 	}
 
-	public static @NotNull Response<MModelFactory> getMModelFactoryAsResponse(Identifier id) {
+	public static @NotNull Response<MModelFactory> getMModelFactoryAsResponse(ResourceLocation id) {
 		CompletableFuture<Response<MModelFactory>> future = LOADED_MODELS.computeIfAbsent(id,
 				(key) -> CompletableFuture.completedFuture(createMModelFactory(id))
 		);
@@ -72,7 +73,7 @@ public class BlockBenchModelManager {
 		return Response.empty(-1);
 	}
 
-	public static void consumeModelById(Identifier id, Consumer<MModel> consumer) {
+	public static void consumeModelById(ResourceLocation id, Consumer<MModel> consumer) {
 		BlockBenchModelManager.getModelAsyncAsResponse(id, (response) -> {
 			MModel value = response.value();
 			if (value != null) {
@@ -81,7 +82,7 @@ public class BlockBenchModelManager {
 		});
 	}
 
-	public static void getModelAsyncAsResponse(Identifier id, Consumer<Response<MModel>> consumer) {
+	public static void getModelAsyncAsResponse(ResourceLocation id, Consumer<Response<MModel>> consumer) {
 		LOADED_MODELS.computeIfAbsent(
 				id,
 				(key) -> CompletableFuture.supplyAsync(() -> createMModelFactory(id))
@@ -107,7 +108,7 @@ public class BlockBenchModelManager {
 		return Response.empty(-10);
 	}
 
-	private static @NotNull Response<MModelFactory> createMModelFactory(Identifier id) {
+	private static @NotNull Response<MModelFactory> createMModelFactory(ResourceLocation id) {
 		Response<BBModel> response = parseModel(id);
 		int statusCode = response.statusCode();
 		BBModel value = response.value();
@@ -120,7 +121,7 @@ public class BlockBenchModelManager {
 	}
 
 	@NotNull
-	private static Response<BBModel> parseModel(Identifier id) {
+	private static Response<BBModel> parseModel(ResourceLocation id) {
 		try {
 			JsonObject jsonObject = readAsJsonObject(id);
 
@@ -151,7 +152,7 @@ public class BlockBenchModelManager {
 	}
 
 	@NotNull
-	private static Response<BBModel> processBBModel410(Identifier id, JsonObject jsonObject, String name, BBModelMeta meta) {
+	private static Response<BBModel> processBBModel410(ResourceLocation id, JsonObject jsonObject, String name, BBModelMeta meta) {
 		BBModelResolution resolution = CodecUtils.decode("resolution", BBModelResolution.CODEC, jsonObject);
 		if (resolution == null) {
 			LOGGER.warn("Failed to parse resolution from 4.10 format for model \"{}\"! Skipping.", name);
@@ -165,7 +166,7 @@ public class BlockBenchModelManager {
 	}
 
 	@NotNull
-	private static Response<BBModel> processBBModel50(Identifier id, JsonObject jsonObject, String name, BBModelMeta meta) {
+	private static Response<BBModel> processBBModel50(ResourceLocation id, JsonObject jsonObject, String name, BBModelMeta meta) {
 		BBModelResolution resolution = CodecUtils.decode("resolution", BBModelResolution.CODEC, jsonObject);
 		if (resolution == null) {
 			LOGGER.warn("Failed to parse resolution from 5.0 format for model \"{}\"! Skipping.", name);
@@ -284,7 +285,7 @@ public class BlockBenchModelManager {
 
 	}
 
-	private static @NotNull BBModel createFinalBBModel(Identifier id, JsonObject jsonObject, String name, BBModelMeta meta, List<UUID> rootCubes, List<BBGroup> groups, BBModelResolution resolution, List<BBCube> cubes) {
+	private static @NotNull BBModel createFinalBBModel(ResourceLocation id, JsonObject jsonObject, String name, BBModelMeta meta, List<UUID> rootCubes, List<BBGroup> groups, BBModelResolution resolution, List<BBCube> cubes) {
 		BBGroup rootGroup = new BBGroup(
 				"root",
 				new Vec3f(),
@@ -303,7 +304,7 @@ public class BlockBenchModelManager {
 		return new BBModel(id, name, meta, resolution, cubes, groups, frontGuiLight, display);
 	}
 
-	private static JsonObject readAsJsonObject(Identifier id) throws IOException {
+	private static JsonObject readAsJsonObject(ResourceLocation id) throws IOException {
 		ResourceManager resourceManager = currentResourceManager != null
 				? currentResourceManager
 				: Minecraft.getInstance().getResourceManager();

@@ -50,7 +50,7 @@ public class TotemDollRenderProperties {
 	@Nullable
 	private TotemDollSprites frameSprites;
 	@NotNull
-	private final Map<Identifier, MModel> cachedFrameMModels = new HashMap<>();
+	private final Map<ResourceLocation, MModel> cachedFrameMModels = new HashMap<>();
 	@NotNull
 	private final Int2ObjectMap<TotemDollSprites> cachedFrameTextures = new Int2ObjectArrayMap<>();
 
@@ -73,7 +73,7 @@ public class TotemDollRenderProperties {
 		return new TotemDollModel(this.frameMModel, this.isSlim());
 	}
 
-	public void consumeFrameMModel(@NotNull Identifier id, Consumer<MModel> set) {
+	public void consumeFrameMModel(@NotNull ResourceLocation id, Consumer<MModel> set) {
 		MModel model = this.cachedFrameMModels.get(id);
 		if (model == null) {
 			BlockBenchModelManager.getModelAsyncAsResponse(id, (response) -> {
@@ -89,7 +89,7 @@ public class TotemDollRenderProperties {
 	}
 
 	//? if >=1.21 {
-	public void setFrameSprites(Identifier skinTexture, Identifier capeTexture, Identifier elytraTexture, boolean slim, boolean remapCape) {
+	public void setFrameSprites(ResourceLocation skinTexture, ResourceLocation capeTexture, ResourceLocation elytraTexture, boolean slim, boolean remapCape) {
 		int hash = Objects.hash(skinTexture, capeTexture, elytraTexture, slim);
 		TotemDollSprites cachedSprites = this.cachedFrameTextures.get(hash);
 		if (cachedSprites == null) {

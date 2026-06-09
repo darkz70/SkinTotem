@@ -22,7 +22,7 @@ import static com.darkz.skintotem.utils.CodecUtils.option;
 @AllArgsConstructor
 public class BBModel {
 
-	private Identifier location;
+	private ResourceLocation location;
 	private String name;
 	private BBModelMeta meta;
 	private BBModelResolution resolution;

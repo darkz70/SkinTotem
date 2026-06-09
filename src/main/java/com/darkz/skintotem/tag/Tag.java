@@ -1,17 +1,14 @@
 package com.darkz.skintotem.tag;
 
 import lombok.*;
-import net.minecraft.network.chat.Component;
-
 import com.darkz.skintotem.doll.data.TotemDollData;
-
 import org.jetbrains.annotations.Nullable;
 
+@Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Tag {
 
 	private final char tag;
-	public char getTag() { return tag; }
 	@Nullable
 	private TagAction action;
 

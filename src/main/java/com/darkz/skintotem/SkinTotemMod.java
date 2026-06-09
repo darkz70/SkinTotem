@@ -13,15 +13,15 @@ public class SkinTotemMod implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
 	public static final String YACL_DEPEND_VERSION = /*$ yacl*/ "3.8.1+1.21.11-fabric";
 
-	public static Identifier id(String path) {
+	public static ResourceLocation id(String path) {
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
 
-	public static Identifier getDollTextureId(String path) {
+	public static ResourceLocation getDollTextureId(String path) {
 		return id("doll/textures/" + path);
 	}
 
-	public static Identifier getDollModelId(String path) {
+	public static ResourceLocation getDollModelId(String path) {
 		return id("dolls/%s.bbmodel".formatted(path));
 	}
 
@@ -29,7 +29,7 @@ public class SkinTotemMod implements ModInitializer {
 		return Component.literal(Component.translatable(String.format("%s.%s", MOD_ID, path), args).getString().replace('&', '§'));
 	}
 
-	public static Identifier spriteId(String path) {
+	public static ResourceLocation spriteId(String path) {
 		//? if >=1.20.2 {
 		return id(path);
 		//?} else {

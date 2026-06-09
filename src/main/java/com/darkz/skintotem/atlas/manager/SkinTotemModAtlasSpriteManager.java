@@ -32,7 +32,7 @@ public class SkinTotemModAtlasSpriteManager {
 
 	private static final Map<Long, AtlasSprite> CONTENT_CACHED_SPECIAL_SKIN_SPRITES = new ConcurrentHashMap<>();
 	private static final Map<Long, AtlasSprite> CONTENT_CACHED_SPECIAL_REMAPPED_SPRITES = new ConcurrentHashMap<>();
-	private static final Map<Identifier, AtlasSprite> DYNAMIC_SPRITES = new ConcurrentHashMap<>();
+	private static final Map<ResourceLocation, AtlasSprite> DYNAMIC_SPRITES = new ConcurrentHashMap<>();
 
 	private static final AtomicReference<Set<AtlasSprite>> ATLAS_SPRITES = new AtomicReference<>(Set.of());
 
@@ -40,11 +40,11 @@ public class SkinTotemModAtlasSpriteManager {
 		return ATLAS_SPRITES.get();
 	}
 
-	public static void registerDynamicSprite(Identifier id, boolean stitchAndUpdate, @Nullable OnSpriteUploaded onSpriteUploaded) {
+	public static void registerDynamicSprite(ResourceLocation id, boolean stitchAndUpdate, @Nullable OnSpriteUploaded onSpriteUploaded) {
 		loadFromResource(id, (image) -> registerDynamicSprite(id, image, stitchAndUpdate, onSpriteUploaded));
 	}
 
-	public static void registerDynamicSprite(Identifier id, NativeImage image, boolean stitchAndUpdate, @Nullable OnSpriteUploaded onSpriteUploaded) {
+	public static void registerDynamicSprite(ResourceLocation id, NativeImage image, boolean stitchAndUpdate, @Nullable OnSpriteUploaded onSpriteUploaded) {
 		SpriteFactory factory = () -> {
 			AtlasSprite sprite = AtlasSprite.of(id, image);
 			sprite.setUnregisterAction(() -> handleSprite(sprite, false));
@@ -59,11 +59,11 @@ public class SkinTotemModAtlasSpriteManager {
 		uploadSprite(stitchAndUpdate, onSpriteUploaded, createdSprite);
 	}
 
-	public static void registerSpecialSkinSprite(Identifier id, boolean stitchAndUpdate, @Nullable OnSpriteUploaded onSpriteUploaded) {
+	public static void registerSpecialSkinSprite(ResourceLocation id, boolean stitchAndUpdate, @Nullable OnSpriteUploaded onSpriteUploaded) {
 		loadFromResource(id, (image) -> registerSpecialSkinSprite(id, image, stitchAndUpdate, onSpriteUploaded));
 	}
 
-	public static void registerSpecialSkinSprite(Identifier id, NativeImage image, boolean stitchAndUpdate, @Nullable OnSpriteUploaded onSpriteUploaded) {
+	public static void registerSpecialSkinSprite(ResourceLocation id, NativeImage image, boolean stitchAndUpdate, @Nullable OnSpriteUploaded onSpriteUploaded) {
 		registerSpecialContentCachedSprite(image, id, CONTENT_CACHED_SPECIAL_SKIN_SPRITES, AtlasSprite::of, stitchAndUpdate, onSpriteUploaded);
 	}
 
@@ -79,14 +79,14 @@ public class SkinTotemModAtlasSpriteManager {
 			}
 		}
 
-		Identifier resourceId = sprite.getResourceId();
+		ResourceLocation resourceId = sprite.getResourceId();
 		loadFromResource(resourceId, (image) -> {
 			NativeImage remapped = PlayerSkinUtils.remapTextureToStandardSize(image, true);
 			registerSpecialContentCachedSprite(remapped, resourceId, CONTENT_CACHED_SPECIAL_REMAPPED_SPRITES, RemappedAtlasSprite::ofResource, false, sprite::copyFrom);
 		});
 	}
 
-	private static void registerSpecialContentCachedSprite(NativeImage image, Identifier id, Map<Long, AtlasSprite> specialSprites, BiFunction<Identifier, NativeImage, AtlasSprite> spriteFactory, boolean stitchAndUpdate, @Nullable OnSpriteUploaded onSpriteUploaded) {
+	private static void registerSpecialContentCachedSprite(NativeImage image, ResourceLocation id, Map<Long, AtlasSprite> specialSprites, BiFunction<ResourceLocation, NativeImage, AtlasSprite> spriteFactory, boolean stitchAndUpdate, @Nullable OnSpriteUploaded onSpriteUploaded) {
 		long spriteUniqueId = AtlasSprite.generateUniqueIdByContent(image);
 
 		SpriteFactory factory = () -> {
@@ -134,7 +134,7 @@ public class SkinTotemModAtlasSpriteManager {
 		return sprite;
 	}
 
-	private static void loadFromResource(Identifier id, Consumer<NativeImage> consumer) {
+	private static void loadFromResource(ResourceLocation id, Consumer<NativeImage> consumer) {
 		Resource resource = Minecraft.getInstance().getResourceManager().getResource(id).orElse(null);
 		if (resource == null) {
 			AbstractTexture texture = Minecraft.getInstance().getTextureManager().textures.get(id);
@@ -233,4 +233,4 @@ public class SkinTotemModAtlasSpriteManager {
 		AtlasSprite create();
 
 	}
-		}
+}

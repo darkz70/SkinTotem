@@ -2,7 +2,7 @@ package com.darkz.skintotem.tag.manager;
 
 import it.unimi.dsi.fastutil.chars.*;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.*;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.doll.data.TotemDollData;
@@ -63,14 +63,14 @@ public class TagsManager {
 	}
 
 	public static void reloadCustomModelIdsTags() {
-		Collection<Set<Identifier>> values = TotemDollModelFinder.getFoundedTotemModels().values();
+		Collection<Set<ResourceLocation>> values = TotemDollModelFinder.getFoundedTotemModels().values();
 		Set<Character> characters = getRegisteredTags().keySet();
 		TagsGenerator generator = new TagsGenerator();
 
 		CUSTOM_MODEL_IDS_TAGS.clear();
 		registerBuiltinCustomModels();
-		for (Set<Identifier> value : values) {
-			for (Identifier id : value) {
+		for (Set<ResourceLocation> value : values) {
+			for (ResourceLocation id : value) {
 
 				Character next = null;
 				while (generator.hasNext()) {
@@ -110,7 +110,7 @@ public class TagsManager {
 	}
 
 	private static void registerBuiltinCustomModel(char ch, String modelName) {
-		Identifier modelId = SkinTotemMod.getDollModelId(modelName);
+		ResourceLocation modelId = SkinTotemMod.getDollModelId(modelName);
 		CustomModelTag tag = CustomModelTag.startBuilder(ch, modelId)
 				.setAction((data) -> data.setFrameMModel(modelId))
 				.build();
@@ -222,7 +222,7 @@ public class TagsManager {
 		return joinData(data);
 	}
 
-	public static Identifier getTagIcon(char c) {
+	public static ResourceLocation getTagIcon(char c) {
 		if (hasRegisteredTag(CUSTOM_MODEL_IDS_TAGS, c)) {
 			return SkinTotemMod.id("textures/gui/tags/unknown.png");
 		}

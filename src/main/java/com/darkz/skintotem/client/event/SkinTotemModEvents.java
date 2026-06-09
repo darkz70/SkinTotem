@@ -9,7 +9,7 @@ import com.darkz.skintotem.atlas.manager.*;
 import com.darkz.skintotem.gui.tooltip.combined.*;
 import com.darkz.skintotem.gui.tooltip.info.*;
 import com.darkz.skintotem.gui.tooltip.preview.*;
-import com.darkz.skintotem.gui.tooltip.state.LoadingStateTooltipProvider;
+import com.darkz.skintotem.gui.tooltip.state.LoadingStateTooltipData;
 import com.darkz.skintotem.gui.tooltip.tags.*;
 import com.darkz.skintotem.gui.tooltip.wrapped.*;
 import com.darkz.skintotem.thread.SkinTotemModTaskExecutor;
@@ -23,22 +23,22 @@ public class SkinTotemModEvents {
 
 	private static void registerTooltipCallbacks() {
 		ClientTooltipComponentCallback.EVENT.register((data) -> {
-			if (data instanceof TagsTooltipProvider tooltipData) {
+			if (data instanceof TagsTooltipData tooltipData) {
 				return new TagsTooltipComponent(tooltipData.tags());
 			}
-			if (data instanceof InfoTooltipProvider tooltipData) {
+			if (data instanceof InfoTooltipData tooltipData) {
 				return new InfoTooltipComponent(tooltipData.key(), tooltipData.color());
 			}
-			if (data instanceof LoadingStateTooltipProvider tooltipData) {
-				return ClientTooltipComponent.create(SkinTotemMod.text("text.status").append(tooltipData.state().getText()).getVisualOrderText());
+			if (data instanceof LoadingStateTooltipData tooltipData) {
+				return ClientTooltipComponent.create(SkinTotemMod.text("text.status").append(SkinTotemMod.text("text.loading.%s".formatted(tooltipData.state().name().toLowerCase()))).getVisualOrderText());
 			}
-			if (data instanceof CombinedTooltipProvider tooltipData) {
+			if (data instanceof CombinedTooltipData tooltipData) {
 				return new CombinedTooltipComponent(tooltipData.list());
 			}
-			if (data instanceof TotemDollPreviewTooltipProvider tooltipData) {
+			if (data instanceof TotemDollPreviewTooltipData tooltipData) {
 				return new TotemDollPreviewTooltipComponent(tooltipData.data(), tooltipData.model());
 			}
-			if (data instanceof WrappedTextTooltipProvider tooltipData) {
+			if (data instanceof WrappedTextTooltipData tooltipData) {
 				return new WrappedTextTooltipComponent(tooltipData.text());
 			}
 			return null;

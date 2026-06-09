@@ -13,9 +13,9 @@ import org.jetbrains.annotations.*;
 @Setter
 public class RemappedAtlasSprite extends AtlasSprite {
 
-	private Identifier resourceId;
+	private ResourceLocation resourceId;
 
-	protected RemappedAtlasSprite(@NotNull Identifier resourceId, @NotNull Identifier spriteId) {
+	protected RemappedAtlasSprite(@NotNull ResourceLocation resourceId, @NotNull ResourceLocation spriteId) {
 		super(spriteId);
 		this.resourceId = resourceId;
 	}
@@ -31,12 +31,12 @@ public class RemappedAtlasSprite extends AtlasSprite {
 		return Objects.hashCode(this.getResourceId());
 	}
 
-	public static RemappedAtlasSprite ofResource(@NotNull Identifier resourceId) {
-		Identifier spriteId = SkinTotemMod.id("remapped_sprites/%s.png".formatted(Mth.abs(resourceId.toString().hashCode())));
+	public static RemappedAtlasSprite ofResource(@NotNull ResourceLocation resourceId) {
+		ResourceLocation spriteId = SkinTotemMod.id("remapped_sprites/%s.png".formatted(Mth.abs(resourceId.toString().hashCode())));
 		return new RemappedAtlasSprite(resourceId, spriteId);
 	}
 
-	public static RemappedAtlasSprite ofResource(Identifier resourceId, NativeImage image) {
+	public static RemappedAtlasSprite ofResource(ResourceLocation resourceId, NativeImage image) {
 		RemappedAtlasSprite remappedAtlasSprite = ofResource(resourceId);
 		updateContents(remappedAtlasSprite, image);
 		return remappedAtlasSprite;

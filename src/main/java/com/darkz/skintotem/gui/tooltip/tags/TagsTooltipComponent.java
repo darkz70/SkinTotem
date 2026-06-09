@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.*;
-import net.minecraft.util.*;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.tag.manager.TagsManager;
 import com.darkz.skintotem.utils.DrawUtils;
@@ -16,9 +16,9 @@ import java.util.*;
 import java.util.Map.Entry;
 import org.jetbrains.annotations.Nullable;
 
-public class TagsTooltipComponent implements TooltipComponent {
+public class TagsTooltipComponent implements ClientTooltipComponent {
 
-	private final Map<Identifier, Component> rows = new HashMap<>();
+	private final Map<ResourceLocation, Component> rows = new HashMap<>();
 	@Nullable
 	private CustomModelTag modelTag;
 	@Nullable
@@ -39,7 +39,7 @@ public class TagsTooltipComponent implements TooltipComponent {
 			}
 		});
 		if (this.modelTag != null) {
-			this.modelTagName = Component.literal(" > " + this.modelTag.getModelName() + " <").formatted(ChatFormatting.BLUE);
+			this.modelTagName = Component.literal(" > " + this.modelTag.getModelName() + " <").withStyle(ChatFormatting.BLUE);
 		}
 	}
 
@@ -59,11 +59,11 @@ public class TagsTooltipComponent implements TooltipComponent {
 	}
 
 	@Override
-	public void drawItems(Font textRenderer, int x, int y,/*? >=1.21.2 {*/int w, int h,/*?}*/ GuiGraphics context) {
+	public void renderImage(Font textRenderer, int x, int y, GuiGraphics context) {
 		int yOffset = 0;
 
 		int space = textRenderer.getWidth(CommonComponents.space());
-		for (Entry<Identifier, Component> entry : this.rows.entrySet()) {
+		for (Entry<ResourceLocation, Component> entry : this.rows.entrySet()) {
 			DrawUtils.drawTexture(context, entry.getKey(), x + space, y + yOffset - 1, 0, 0, 10, 10, 10, 10);
 			context.drawText(textRenderer, entry.getValue(), x + space + 10 + 4, y + yOffset, -1, true);
 			yOffset += 10;

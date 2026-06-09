@@ -29,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
 public class CustomModelTagButtonWidget extends TagButtonWidget {
 
 	@Nullable
-	private final Identifier model;
+	private final ResourceLocation model;
 	private TotemDollData data;
 	@Nullable
 	private TotemDollData tooltipData;
@@ -68,9 +68,9 @@ public class CustomModelTagButtonWidget extends TagButtonWidget {
 	}
 
 	@Override
-	public @Nullable TooltipComponent getTooltipComponent() {
+	public @Nullable net.minecraft.client.gui.screens.inventory.tooltip.TooltipComponent getTooltipComponent() {
 		if (this.model == null) {
-			return ClientTooltipComponent.create(net.minecraft.text.Component.of("Unknown Model").getVisualOrderText());
+			return ClientTooltipComponent.create(Component.literal("Unknown Model").getVisualOrderText());
 		}
 		if (this.tooltipData == null) {
 			this.tooltipData = this.data.copy();

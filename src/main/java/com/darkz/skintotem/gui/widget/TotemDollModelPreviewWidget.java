@@ -9,6 +9,7 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.*;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.doll.data.TotemDollData;
@@ -29,7 +30,7 @@ public class TotemDollModelPreviewWidget extends AbstractWidget {
 	private int failedLoadingStatusCode = 0;
 
 	public TotemDollModelPreviewWidget(int x, int y, float size) {
-		super(x, y, (int) size, (int) size, Component.of(""));
+		super(x, y, (int) size, (int) size, Component.literal(""));
 		this.size = size;
 		this.data = StandardTotemDollManager.getStandardDoll().copy();
 	}
@@ -56,7 +57,7 @@ public class TotemDollModelPreviewWidget extends AbstractWidget {
 		TotemDollRenderer.renderPreview(context, this.getX(), this.getY(), (int) this.getSize(), (int) this.getSize(), this.getSize() / 1.5F, this.getData().refreshAndApplyRenderProperties());
 	}
 
-	public void updateModel(Identifier id) {
+	public void updateModel(ResourceLocation id) {
 		this.loading = true;
 		this.failedLoadingStatusCode = 0;
 		BlockBenchModelManager.getModelAsyncAsResponse(id, (response) -> {

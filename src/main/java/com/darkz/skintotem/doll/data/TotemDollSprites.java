@@ -51,9 +51,13 @@ public class TotemDollSprites {
 	}
 
 	public static TotemDollSprites of(net.minecraft.client.resources.PlayerSkin skinTextures) {
-		TextureAsset cape = skinTextures.cape();
+		//? if >=1.21.11 {
+		return of(skinTextures.texture(), skinTextures.capeTexture(), skinTextures.elytraTexture(), skinTextures.model() == net.minecraft.client.resources.PlayerSkin.Model.SLIM, true);
+		//?} else {
+		/*TextureAsset cape = skinTextures.cape();
 		TextureAsset elytra = skinTextures.elytra();
 		return of(skinTextures.body().texturePath(), cape == null ? null : cape.texturePath(), elytra == null ? null : elytra.texturePath(), skinTextures.model() == net.minecraft.client.resources.PlayerSkin.Model.SLIM, true);
+		*///?}
 	}
 	//?} elif >=1.21 {
 	/*public static TotemDollSprites of(net.minecraft.client.network.AbstractClientPlayer player) {

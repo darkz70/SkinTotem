@@ -6,22 +6,20 @@ import com.darkz.skintotem.utils.DrawUtils;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 
-import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.config.SkinTotemModConfig;
 import com.darkz.skintotem.doll.data.TotemDollData;
-import com.darkz.skintotem.extension.IdentifierExtension;
+import com.darkz.skintotem.extension.ResourceLocationExtension;
 
-@ExtensionMethod(IdentifierExtension.class)
+@ExtensionMethod(ResourceLocationExtension.class)
 public class TotemDollPreviewTooltipComponent implements TooltipComponent {
 
 	private final TotemDollData data;
-	private final Identifier modelId;
+	private final ResourceLocation modelId;
 
-	public TotemDollPreviewTooltipComponent(TotemDollData data, Identifier modelId) {
+	public TotemDollPreviewTooltipComponent(TotemDollData data, ResourceLocation modelId) {
 		this.data    = data;
 		this.modelId = modelId;
 		this.data.setStandardMModel(modelId);
@@ -43,7 +41,7 @@ public class TotemDollPreviewTooltipComponent implements TooltipComponent {
 		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
 		float sizeOriginal = config.getBetterTagMenuTooltipSize();
 		float size = (sizeOriginal / 1.25F) * config.getTagMenuTooltipModelScale();
-		Component text = Component.of(this.modelId.getFileName());
+		Component text = Component.literal(this.modelId.getFileName());
 		int textWidth = textRenderer.getWidth(text);
 
 		int height = this.getHeight(/*? >=1.21.2 {*/textRenderer/*?}*/);

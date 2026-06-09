@@ -36,8 +36,8 @@ public class SkinTotemModConfig {
 	public void setStandardTotemDollSkinValue(String standardTotemDollSkinValue) { this.standardTotemDollSkinValue = standardTotemDollSkinValue; }
 	public TotemDollSkinType getStandardTotemDollSkinType() { return standardTotemDollSkinType; }
 	public void setStandardTotemDollSkinType(TotemDollSkinType standardTotemDollSkinType) { this.standardTotemDollSkinType = standardTotemDollSkinType; }
-	public Identifier getStandardTotemDollModelValue() { return standardTotemDollModelValue; }
-	public void setStandardTotemDollModelValue(Identifier standardTotemDollModelValue) { this.standardTotemDollModelValue = standardTotemDollModelValue; }
+	public ResourceLocation getStandardTotemDollModelValue() { return standardTotemDollModelValue; }
+	public void setStandardTotemDollModelValue(ResourceLocation standardTotemDollModelValue) { this.standardTotemDollModelValue = standardTotemDollModelValue; }
 	public TotemDollArmsType getStandardTotemDollArmsType() { return standardTotemDollArmsType; }
 	public void setStandardTotemDollArmsType(TotemDollArmsType standardTotemDollArmsType) { this.standardTotemDollArmsType = standardTotemDollArmsType; }
 	public Vec2i getTagButtonPos() { return tagButtonPos; }
@@ -55,7 +55,7 @@ public class SkinTotemModConfig {
 	public boolean isSupportOtherModsTotems() { return supportOtherModsTotems; }
 	public void setSupportOtherModsTotems(boolean supportOtherModsTotems) { this.supportOtherModsTotems = supportOtherModsTotems; }
 
-	public SkinTotemModConfig(boolean modEnabled, boolean debugLogEnabled, RenderingConfig renderingConfig, String standardTotemDollSkinValue, TotemDollSkinType standardTotemDollSkinType, Identifier standardTotemDollModelValue, TotemDollArmsType standardTotemDollArmsType, Vec2i tagButtonPos, boolean useVanillaTotemModel, int betterTagMenuTooltipSize, float tagMenuTooltipModelScale, int parallelTasksCount, boolean firstRun, boolean supportOtherModsTotems) {
+	public SkinTotemModConfig(boolean modEnabled, boolean debugLogEnabled, RenderingConfig renderingConfig, String standardTotemDollSkinValue, TotemDollSkinType standardTotemDollSkinType, ResourceLocation standardTotemDollModelValue, TotemDollArmsType standardTotemDollArmsType, Vec2i tagButtonPos, boolean useVanillaTotemModel, int betterTagMenuTooltipSize, float tagMenuTooltipModelScale, int parallelTasksCount, boolean firstRun, boolean supportOtherModsTotems) {
 		this.modEnabled = modEnabled;
 		this.debugLogEnabled = debugLogEnabled;
 		this.renderingConfig = renderingConfig;
@@ -78,7 +78,7 @@ public class SkinTotemModConfig {
 			option("rendering_config", RenderingConfig.getNewInstance(), RenderingConfig.CODEC, SkinTotemModConfig::getRenderingConfig),
 			option("standard_doll_skin_data", "", Codec.STRING, SkinTotemModConfig::getStandardTotemDollSkinValue),
 			option("standard_doll_skin_type", TotemDollSkinType.STEVE, TotemDollSkinType.CODEC, SkinTotemModConfig::getStandardTotemDollSkinType),
-			option("standard_doll_model_data", TotemDollModel.TWO_D_MODEL_ID, Identifier.CODEC, SkinTotemModConfig::getStandardTotemDollModelValue),
+			option("standard_doll_model_data", TotemDollModel.TWO_D_MODEL_ID, ResourceLocation.CODEC, SkinTotemModConfig::getStandardTotemDollModelValue),
 			option("standard_doll_model_arms_type", TotemDollArmsType.WIDE, TotemDollArmsType.CODEC, SkinTotemModConfig::getStandardTotemDollArmsType),
 			option("tag_button_pos", new Vec2i(155, 48), Vec2i.CODEC, SkinTotemModConfig::getTagButtonPos),
 			option("use_vanilla_totem_model", false, Codec.BOOL, SkinTotemModConfig::isUseVanillaTotemModel),
@@ -100,7 +100,7 @@ public class SkinTotemModConfig {
 	private RenderingConfig renderingConfig;
 	private String standardTotemDollSkinValue;
 	private TotemDollSkinType standardTotemDollSkinType;
-	private Identifier standardTotemDollModelValue;
+	private ResourceLocation standardTotemDollModelValue;
 	private TotemDollArmsType standardTotemDollArmsType;
 	private Vec2i tagButtonPos;
 	private boolean useVanillaTotemModel;

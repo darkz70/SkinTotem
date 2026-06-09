@@ -15,15 +15,9 @@ import com.darkz.skintotem.utils.*;
 import net.minecraft.client.gui.components.MultiLineLabel;
 //?}
 
-//? if >=1.21.9 && <=1.21.10 {
-/*
+public class InfoTooltipComponent implements ClientTooltipComponent {
 
-*/
-//?}
-
-public class InfoTooltipComponent implements TooltipComponent {
-
-	public static final Identifier SEPARATOR = SkinTotemMod.id("textures/gui/info/separator.png");
+	public static final ResourceLocation SEPARATOR = SkinTotemMod.id("textures/gui/info/separator.png");
 
 	private final MutableComponent title;
 	private final MultiLineLabel text;
@@ -45,13 +39,13 @@ public class InfoTooltipComponent implements TooltipComponent {
 	}
 
 	@Override
-	public void drawItems(Font textRenderer, int x, int y, /*? >=1.21.2 {*/int w, int h,/*?}*/ GuiGraphics context) {
+	public void renderImage(Font textRenderer, int x, int y, GuiGraphics context) {
 		int width = this.getWidth(textRenderer);
 		int titleWidth = textRenderer.getWidth(this.title);
 		context.drawText(textRenderer, this.title, x + (((width) / 2) - (titleWidth / 2)), y + 8, -1, false);
 		DrawUtils.drawTexture(context, SEPARATOR, x, y + 24, 0, 0, 150, 5, 150, 5);
 		//? if >=1.21.11 {
-		this.text.draw(Alignment.LEFT, x + 5, y + 26 + 2 + 5 + 2, 10, context.getTextConsumer());
+		this.text.renderLeftAligned(context, x + 5, y + 26 + 2 + 5 + 2, 10, -1);
 		//?} elif >=1.21.9 {
 		/*this.text.draw(context, Alignment.LEFT, x + 5, y + 26 + 2 + 5 + 2, 10, true, -1);
 		*///?} else {
