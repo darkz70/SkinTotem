@@ -11,7 +11,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import com.darkz.skintotem.config.other.vector.Vec3f;
-import com.darkz.skintotem.extension.CubeDeformationExtension;
+import com.darkz.skintotem.extension.DilationExtension;
 
 import java.util.*;
 import org.jetbrains.annotations.*;

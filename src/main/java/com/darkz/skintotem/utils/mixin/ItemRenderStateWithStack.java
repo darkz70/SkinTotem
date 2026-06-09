@@ -2,7 +2,7 @@ package com.darkz.skintotem.utils.mixin;
 
 import net.minecraft.world.item.ItemStack;
 
-public interface ItemStackRenderStateWithStack {
+public interface ItemRenderStateWithStack {
 
 	void myTotemDoll$setStack(ItemStack stack);
 

@@ -18,7 +18,7 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 //?}
 
 @Mixin(AnvilScreen.class)
-public class AnvilScreenMixin {
+public class ForgingScreenMixin {
 
 	//? if >=1.21.6 {
 	@WrapOperation(

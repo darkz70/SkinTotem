@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 @ExtensionMethod(ItemStackExtension.class)
 @Mixin(ItemStackRenderState.class)
-public class ItemStackRenderStateMixin implements ItemStackRenderStateWithStack {
+public class ItemRenderStateMixin implements ItemStackRenderStateWithStack {
 
 	//? if <=1.21.4 {
 	/*@Shadow

@@ -13,7 +13,7 @@ import com.darkz.skintotem.extension.ItemStackExtension;
 
 @Mixin(AnvilMenu.class)
 @ExtensionMethod(ItemStackExtension.class)
-public class AnvilMenuMixin {
+public class AnvilScreenHandlerMixin {
 
 	@WrapOperation(
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getName()Lnet/minecraft/text/Component;"),

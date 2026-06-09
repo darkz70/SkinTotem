@@ -14,7 +14,7 @@ import net.minecraft.client.gui.Click;
 //?}
 
 @Mixin(AbstractContainerScreen.class)
-public class AbstractContainerScreenMixin {
+public class HandledScreenMixin {
 
 	//? if >=1.21.9 {
 	@Inject(at = @At("HEAD"), method = "mouseDragged", cancellable = true)

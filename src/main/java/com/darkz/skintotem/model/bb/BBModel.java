@@ -10,7 +10,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import com.darkz.skintotem.config.other.vector.Vec3f;
 import com.darkz.skintotem.doll.renderer.DollRenderContext;
-import com.darkz.skintotem.extension.ModelPart.RotationationExtension;
+import com.darkz.skintotem.extension.ModelTransformationExtension;
 
 import java.util.*;
 import org.jetbrains.annotations.Nullable;

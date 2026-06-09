@@ -17,7 +17,7 @@ import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.config.SkinTotemModConfig;
 import com.darkz.skintotem.doll.manager.StandardTotemDollManager;
 import com.darkz.skintotem.doll.renderer.TotemDollRenderer;
-import com.darkz.skintotem.gui.tooltip.preview.TotemDollPreviewTooltipProvider;
+import com.darkz.skintotem.gui.tooltip.preview.TotemDollPreviewTooltipData;
 import com.darkz.skintotem.tag.*;
 import com.darkz.skintotem.tag.manager.TagsManager;
 
@@ -77,7 +77,7 @@ public class CustomModelTagButtonWidget extends TagButtonWidget {
 			this.tooltipData.setStandardMModel(this.data.getRenderProperties().getStandardMModel());
 		}
 		this.tooltipDataActive = true;
-		return ClientTooltipComponent.create(new TotemDollPreviewTooltipProvider(this.tooltipData, this.model));
+		return ClientTooltipComponent.create(new TotemDollPreviewTooltipData(this.tooltipData, this.model));
 	}
 
 	@Override
