@@ -10,8 +10,8 @@ import net.minecraft.core.component.DataComponents;
 //?}
 import net.minecraft.world.item.Items;
 
-import static net.minecraft.commands.Commands.literal;
-import static net.minecraft.commands.Commands.argument;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 
 public class SkinTotemModCommandManager {
 
@@ -66,8 +66,8 @@ public class SkinTotemModCommandManager {
         var player = mc.player;
         if (player == null) return 0;
         
-        var stack = player.getMainHandStack();
-        if (stack.isEmpty() || !stack.isOf(Items.TOTEM_OF_UNDYING)) {
+        var stack = player.getMainHandItem();
+        if (stack.isEmpty() || !stack.is(Items.TOTEM_OF_UNDYING)) {
             ctx.getSource().sendError(Component.literal("§cHold a Totem of Undying in your main hand!"));
             return 0;
         }

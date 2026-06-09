@@ -12,9 +12,8 @@ import static com.darkz.skintotem.atlas.manager.SkinTotemModAtlasSpriteManager.E
 import static com.darkz.skintotem.atlas.manager.SkinTotemModAtlasSpriteManager.STEVE_SKIN_SPRITE;
 
 //? if >=1.21.9 {
-
-
-
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.resources.PlayerSkin;
 //?}
 
 @Getter
@@ -47,14 +46,14 @@ public class TotemDollSprites {
 	}
 
 	//? if >=1.21.9 {
-	public static TotemDollSprites of(net.minecraft.client.network.AbstractClientPlayer player) {
+	public static TotemDollSprites of(net.minecraft.client.player.AbstractClientPlayer player) {
 		return of(player.getSkin());
 	}
 
-	public static TotemDollSprites of(net.minecraft.entity.player.PlayerSkin skinTextures) {
+	public static TotemDollSprites of(net.minecraft.client.resources.PlayerSkin skinTextures) {
 		TextureAsset cape = skinTextures.cape();
 		TextureAsset elytra = skinTextures.elytra();
-		return of(skinTextures.body().texturePath(), cape == null ? null : cape.texturePath(), elytra == null ? null : elytra.texturePath(), skinTextures.model() == net.minecraft.entity.player.PlayerSkin.Model.SLIM, true);
+		return of(skinTextures.body().texturePath(), cape == null ? null : cape.texturePath(), elytra == null ? null : elytra.texturePath(), skinTextures.model() == net.minecraft.client.resources.PlayerSkin.Model.SLIM, true);
 	}
 	//?} elif >=1.21 {
 	/*public static TotemDollSprites of(net.minecraft.client.network.AbstractClientPlayer player) {
@@ -66,7 +65,7 @@ public class TotemDollSprites {
 	}
 	*///?}
 
-	public static TotemDollSprites of(Identifier skinTexture, Identifier capeTexture, Identifier elytraTexture, boolean slim, boolean remapCape) {
+	public static TotemDollSprites of(ResourceLocation skinTexture, ResourceLocation capeTexture, ResourceLocation elytraTexture, boolean slim, boolean remapCape) {
 		TotemDollSprites totemDollSprites = new TotemDollSprites(null, null, null, TotemDollArmsType.of(slim));
 
 		if (skinTexture != null) {

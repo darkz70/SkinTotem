@@ -9,14 +9,14 @@ import java.util.*;
 
 public class TotemDollModelFinder {
 
-	private static final Set<Identifier> BUILTIN_TOTEM_MODELS = new LinkedHashSet<>();
-	private static final Map<String, Set<Identifier>> FOUNDED_TOTEM_MODELS = new LinkedHashMap<>();
+	private static final Set<ResourceLocation> BUILTIN_TOTEM_MODELS = new LinkedHashSet<>();
+	private static final Map<String, Set<ResourceLocation>> FOUNDED_TOTEM_MODELS = new LinkedHashMap<>();
 
-	public static Map<String, Set<Identifier>> getFoundedTotemModels() {
+	public static Map<String, Set<ResourceLocation>> getFoundedTotemModels() {
 		return FOUNDED_TOTEM_MODELS;
 	}
 
-	public static Set<Identifier> getBuiltinTotemModels() {
+	public static Set<ResourceLocation> getBuiltinTotemModels() {
 		return BUILTIN_TOTEM_MODELS;
 	}
 
@@ -34,7 +34,7 @@ public class TotemDollModelFinder {
 					return;
 				}
 
-				Set<Identifier> set = FOUNDED_TOTEM_MODELS.getOrDefault(packId, new LinkedHashSet<>());
+				Set<ResourceLocation> set = FOUNDED_TOTEM_MODELS.getOrDefault(packId, new LinkedHashSet<>());
 				set.add(id);
 
 				if (!FOUNDED_TOTEM_MODELS.containsKey(packId)) {
@@ -44,7 +44,7 @@ public class TotemDollModelFinder {
 		}
 	}
 
-	private static boolean isModelPath(Identifier id) {
+	private static boolean isModelPath(ResourceLocation id) {
 		return id.getPath().endsWith(".bbmodel");
 	}
 }

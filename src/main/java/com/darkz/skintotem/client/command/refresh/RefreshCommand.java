@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.concurrent.*;
 import com.darkz.skintotem.client.SkinTotemModClient;
 import net.minecraft.client.Minecraft;
-import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -17,8 +17,8 @@ import com.darkz.skintotem.client.command.builder.CommandTextBuilder;
 import com.darkz.skintotem.doll.manager.TotemDollManager;
 import org.jetbrains.annotations.Nullable;
 
-import static net.minecraft.commands.Commands.argument;
-import static net.minecraft.commands.Commands.literal;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
 public class RefreshCommand {
 
@@ -33,7 +33,7 @@ public class RefreshCommand {
 				.then(literal("player")
 						.then(argument("nickname", StringArgumentType.word())
 								.suggests((context, builder) ->
-										CommandSource.suggestMatching(TotemDollManager.getAllLoadedKeys(), builder))
+										SharedSuggestionProvider.suggest(TotemDollManager.getAllLoadedKeys(), builder))
 								.executes(RefreshCommand::reloadForPlayer)
 						));
 	}
