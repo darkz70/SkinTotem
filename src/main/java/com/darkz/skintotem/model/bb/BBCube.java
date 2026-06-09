@@ -4,6 +4,8 @@ import com.google.common.collect.*;
 import lombok.*;
 import lombok.experimental.ExtensionMethod;
 import net.minecraft.client.model.*;
+import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.model.CubeDeformation;
 import net.minecraft.util.*;
 import net.minecraft.core.Direction;
 

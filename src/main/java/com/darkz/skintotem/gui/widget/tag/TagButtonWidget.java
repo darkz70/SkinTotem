@@ -25,13 +25,14 @@ import org.jetbrains.annotations.Nullable;
 
 //? if >=1.21.9 {
 import net.minecraft.client.KeyMapping;
+import com.mojang.blaze3d.platform.InputConstants;
  //?}
 
 @Getter
 @Setter
 public class TagButtonWidget extends Button {
 
-	public static final Identifier INACTIVE_TEXTURE = SkinTotemMod.id("textures/gui/tag_menu/button_inactive.png");
+	public static final ResourceLocation INACTIVE_TEXTURE = SkinTotemMod.id("textures/gui/tag_menu/button_inactive.png");
 
 	public static final ButtonTextures TEXTURES = new ButtonTextures(
 			SkinTotemMod.id("textures/gui/tag_menu/button_pressed.png"),
@@ -42,15 +43,15 @@ public class TagButtonWidget extends Button {
 
 	private Tag tag;
 	private String text;
-	private Identifier icon;
+	private ResourceLocation icon;
 
 	private boolean pressed;
 	@Nullable
-	private net.minecraft.text.Component tooltipText;
+	private net.minecraft.network.chat.Component tooltipText;
 	private boolean canBeHovered = true;
 
 	public TagButtonWidget(Tag tag, int x, int y, TagPressAction pressAction) {
-		super(x, y, 14, 14, net.minecraft.text.Component.of(""), (widget) -> pressAction.onPress((TagButtonWidget) widget), Button.DEFAULT_NARRATION_SUPPLIER);
+		super(x, y, 14, 14, net.minecraft.network.chat.Component.literal(""), (widget) -> pressAction.onPress((TagButtonWidget) widget), Button.DEFAULT_NARRATION_SUPPLIER);
 		this.tag          = tag;
 		this.text         = String.valueOf(tag.getTag());
 		this.icon         = TagsManager.getTagIcon(this.text.charAt(0));
@@ -73,7 +74,7 @@ public class TagButtonWidget extends Button {
 		}
 	}
 
-	public void setTooltip(@Nullable net.minecraft.text.Component text) {
+	public void setTooltip(@Nullable net.minecraft.network.chat.Component text) {
 		this.tooltipText = text;
 	}
 
@@ -104,7 +105,7 @@ public class TagButtonWidget extends Button {
 	}
 
 	protected void renderBackground(GuiGraphics context, int x, int y) {
-		Identifier texture = !this.active ? INACTIVE_TEXTURE : TEXTURES.get(this.isPressed(), this.isHovered());
+		ResourceLocation texture = !this.active ? INACTIVE_TEXTURE : TEXTURES.get(this.isPressed(), this.isHovered());
 		DrawUtils.drawTexture(context, texture, x, y, 0, 0, this.width, this.height, this.width, this.height);
 	}
 

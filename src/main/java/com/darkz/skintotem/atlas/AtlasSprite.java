@@ -24,7 +24,7 @@ public class AtlasSprite {
 	public static final /*? if >=1.21 {*/ ResourceMetadata /*?} else {*/ /*AnimationResourceMetadata *//*?}*/ STANDARD_METADATA = /*? if >=1.21 {*/ ResourceMetadata.NONE /*?} else {*/ /*AnimationResourceMetadata.EMPTY *//*?}*/;
 
 	@NotNull
-	private Identifier spriteId;
+	private ResourceLocation spriteId;
 	@Nullable
 	private SpriteContents contents;
 
@@ -36,12 +36,12 @@ public class AtlasSprite {
 
 	private volatile boolean uploaded;
 
-	public AtlasSprite(@NotNull Identifier spriteId) {
+	public AtlasSprite(@NotNull ResourceLocation spriteId) {
 		this.spriteId = spriteId;
 	}
 
 	@Nullable
-	public static AtlasSprite of(@Nullable Identifier spriteId) {
+	public static AtlasSprite of(@Nullable ResourceLocation spriteId) {
 		if (spriteId == null) {
 			return null;
 		}
@@ -57,7 +57,7 @@ public class AtlasSprite {
 		return atlasSprite;
 	}
 
-	public static AtlasSprite of(Identifier spriteId, NativeImage image) {
+	public static AtlasSprite of(ResourceLocation spriteId, NativeImage image) {
 		AtlasSprite atlasSprite = new AtlasSprite(spriteId);
 		updateContents(atlasSprite, image);
 		return atlasSprite;
@@ -85,7 +85,7 @@ public class AtlasSprite {
 
 	public static /*? if >=1.21 {*/ResourceMetadata /*?} else {*/ /*AnimationResourceMetadata *//*?}*/ getAnimationMetadataForSprite(AtlasSprite sprite) {
 		try {
-			Identifier id = sprite.getSpriteId();
+			ResourceLocation id = sprite.getSpriteId();
 			InputStream stream = Minecraft.getInstance()
 					.getResourceManager()
 					.getResourceOrThrow(ResourceLocation.fromNamespaceAndPath(id.getNamespace(), id.getPath() + ".mcmeta"))

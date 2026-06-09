@@ -27,7 +27,7 @@ import org.jetbrains.annotations.*;
 @ExtensionMethod(ItemStackExtension.class)
 public class TagMenuWidget extends AbstractVersionedEntryListWidget<TagRow> {
 
-	public static final Identifier BACKGROUND = SkinTotemMod.id("textures/gui/tag_menu/background_new.png");
+	public static final ResourceLocation BACKGROUND = SkinTotemMod.id("textures/gui/tag_menu/background_new.png");
 
 	public TagMenuWidget(int x, int y, Renamer renamer) {
 		super(x, y, 30, 125, 16);
@@ -203,7 +203,7 @@ public class TagMenuWidget extends AbstractVersionedEntryListWidget<TagRow> {
 
 	}
 
-	public static class TagRow extends ElementListWidget.Entry<TagRow> {
+	public static class TagRow extends ObjectSelectionList.Entry<TagRow> {
 
 		private final List<TagButtonWidget> buttons;
 
@@ -266,7 +266,7 @@ public class TagMenuWidget extends AbstractVersionedEntryListWidget<TagRow> {
 
 	public static class SeparatorRow extends TagRow {
 
-		public static final Identifier SEPARATOR = SkinTotemMod.id("textures/gui/tag_menu/separator.png");
+		public static final ResourceLocation SEPARATOR = SkinTotemMod.id("textures/gui/tag_menu/separator.png");
 
 		private final Component text;
 

@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import com.darkz.skintotem.client.SkinTotemModClient;
-import com.darkz.skintotem.extension.ModelPart.RotationationExtension;
+import com.darkz.skintotem.extension.ModelPart;
 import com.darkz.skintotem.model.base.MModel;
 
 @Getter
@@ -100,7 +100,7 @@ public enum DollRenderContext {
 
 	public void apply(MModel model, PoseStack matrices) {
 		ItemTransform transformation = get(model.getItemTransform());
-		Entry peek = matrices.peek();
+		PoseStack.Entry peek = matrices.peek();
 		transformation.apply(this.isLeftHanded(), /*? if <=1.21.4 {*/ /*matrices *//*?} else {*/ peek /*?}*/);
 		//? if >=1.21.5 {
 		peek.translate(0.5F, 0.5F, 0.5F);

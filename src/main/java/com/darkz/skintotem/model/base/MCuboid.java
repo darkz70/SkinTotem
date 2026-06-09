@@ -2,7 +2,10 @@ package com.darkz.skintotem.model.base;
 
 import lombok.Getter;
 import net.minecraft.client.model.*;
-import net.minecraft.client.model.ModelPart.*;
+import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.model.ModelPart.Cuboid;
+import net.minecraft.client.model.ModelPart.Quad;
+import net.minecraft.client.model.CubeDeformation;
 import net.minecraft.core.Direction;
 import org.joml.Vector3f;
 

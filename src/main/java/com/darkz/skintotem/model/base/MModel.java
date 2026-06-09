@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.atlas.*;
 import net.minecraft.client.model.*;
+import net.minecraft.client.model.ModelPart.Cuboid;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.*;
@@ -38,7 +39,7 @@ public class MModel extends ModelPart {
 	@Nullable
 	private MModel parent;
 	@Nullable
-	private Identifier location;
+	private ResourceLocation location;
 	@Nullable
 	private AtlasSprite builtinTexture;
 
@@ -59,7 +60,7 @@ public class MModel extends ModelPart {
 		return this;
 	}
 
-	public void setLocation(@NotNull Identifier location) {
+	public void setLocation(@NotNull ResourceLocation location) {
 		this.location = location;
 		this.mChildren.forEach((modelName, model) -> model.setLocation(location));
 	}

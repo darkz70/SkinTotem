@@ -6,7 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 
 @Getter
-public abstract class AbstractVersionedEntryListWidget<E extends Entry<E>> extends ElementListWidget<E> {
+public abstract class AbstractVersionedEntryListWidget<E extends ObjectSelectionList.Entry<E>> extends ObjectSelectionList<E> {
 
 	//? if <1.21 {
 	/*public boolean visible = true;

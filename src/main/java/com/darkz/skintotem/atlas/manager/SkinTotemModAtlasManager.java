@@ -20,7 +20,7 @@ public class SkinTotemModAtlasManager {
 
 	private static final StitchHooksManager STITCH_HOOKS_MANAGER = new StitchHooksManager();
 	private static final AtomicInteger LATEST_ATLAS_VERSION = new AtomicInteger();
-	public static final Identifier ATLAS_ID = SkinTotemMod.id("main_atlas.png");
+	public static final ResourceLocation ATLAS_ID = SkinTotemMod.id("main_atlas.png");
 	//? if >=1.21.11 {
 	public static final RenderType ATLAS_RENDER_LAYER = RenderTypes.entityTranslucent(ATLAS_ID);
 	//?} else {
@@ -67,7 +67,7 @@ public class SkinTotemModAtlasManager {
 		stitchAndUpdate(sprites, null, executor, Minecraft.getInstance(), onAtlasStitched);
 	}
 
-	public static void stitchAndUpdate(Set<AtlasSprite> sprites, @Nullable PreparableReloadListenerer.Synchronizer synchronizer, Executor prepareExecutor, Executor applyExecutor, @Nullable OnAtlasStitched onAtlasStitched) {
+	public static void stitchAndUpdate(Set<AtlasSprite> sprites, @Nullable PreparableReloadListener.PreparationBarrier synchronizer, Executor prepareExecutor, Executor applyExecutor, @Nullable OnAtlasStitched onAtlasStitched) {
 		int currentId = LATEST_ATLAS_VERSION.incrementAndGet();
 		STITCH_HOOKS_MANAGER.addHook(onAtlasStitched);
 

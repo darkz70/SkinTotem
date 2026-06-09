@@ -57,7 +57,7 @@ public class TotemDollData {
 		return this.renderProperties.getNickname();
 	}
 
-	public void setStandardMModel(@NotNull Identifier modelId) {
+	public void setStandardMModel(@NotNull ResourceLocation modelId) {
 		BlockBenchModelManager.consumeModelById(modelId, this::setStandardMModel);
 	}
 
@@ -69,7 +69,7 @@ public class TotemDollData {
 		this.standardModel = this.renderProperties.createStandardModel();
 	}
 
-	public void setFrameMModel(@NotNull Identifier id) {
+	public void setFrameMModel(@NotNull ResourceLocation id) {
 		this.renderProperties.consumeFrameMModel(id, this::setFrameMModel);
 	}
 
@@ -151,20 +151,20 @@ public class TotemDollData {
 
 		//? if >=1.21.9 {
 		PlayerSkin skinTextures = playerEntity.getSkin();
-		Identifier skinTexture = skinTextures.body().texturePath();
-		Identifier capeTexture = Optional.of(skinTextures).map(PlayerSkin::cape).map(TextureAsset::texturePath).orElse(null);
-		Identifier elytraTexture = Optional.of(skinTextures).map(PlayerSkin::cape).map(TextureAsset::texturePath).orElse(null);
+		ResourceLocation skinTexture = skinTextures.body().texturePath();
+		ResourceLocation capeTexture = Optional.of(skinTextures).map(PlayerSkin::cape).map(TextureAsset::texturePath).orElse(null);
+		ResourceLocation elytraTexture = Optional.of(skinTextures).map(PlayerSkin::cape).map(TextureAsset::texturePath).orElse(null);
 		boolean slim = skinTextures.model() == PlayerSkin.Model.SLIM;
 		//?} elif >=1.21 {
 		/*PlayerSkin skinTextures = playerEntity.getPlayerSkin();
-		Identifier skinTexture = skinTextures.texture();
-		Identifier capeTexture = skinTextures.capeTexture();
-		Identifier elytraTexture = skinTextures.elytraTexture();
+		ResourceLocation skinTexture = skinTextures.texture();
+		ResourceLocation capeTexture = skinTextures.capeTexture();
+		ResourceLocation elytraTexture = skinTextures.elytraTexture();
 		boolean slim = skinTextures.model() == PlayerSkin.Model.SLIM;
 		*///?} else {
-		/*Identifier skinTexture = playerEntity.getSkinTexture();
-		Identifier capeTexture = playerEntity.getCapeTexture();
-		Identifier elytraTexture = playerEntity.getElytraTexture();
+		/*ResourceLocation skinTexture = playerEntity.getSkinTexture();
+		ResourceLocation capeTexture = playerEntity.getCapeTexture();
+		ResourceLocation elytraTexture = playerEntity.getElytraTexture();
 		boolean slim = playerEntity.getModel().equalsIgnoreCase("slim");
 		*///?}
 
@@ -207,7 +207,7 @@ public class TotemDollData {
 
 	//? if >=1.21.6 {
 	@NotNull
-	public com.darkz.skintotem.doll.renderer.special.TotemDollGuiElementRenderer getGuiRenderer(net.minecraft.client.render.MultiBufferSource.Immediate immediate) {
+	public com.darkz.skintotem.doll.renderer.special.TotemDollGuiElementRenderer getGuiRenderer(net.minecraft.client.renderer.MultiBufferSource.Immediate immediate) {
 		return com.darkz.skintotem.doll.renderer.special.TotemDollGuiElementRenderer.getRenderer(this.renderProperties, immediate);
 	}
 	//?}
