@@ -18,7 +18,7 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
 //? if >=1.21 {
-import net.minecraft.client.renderer.texture.SpriteContents;
+
 //?} else {
 /*import com.darkz.skintotem.utils.ButtonTextures;
 *///?}

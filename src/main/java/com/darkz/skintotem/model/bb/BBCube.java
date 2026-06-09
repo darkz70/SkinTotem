@@ -22,7 +22,7 @@ import static com.darkz.skintotem.utils.CodecUtils.option;
 @Getter
 @Setter
 @AllArgsConstructor
-@ExtensionMethod(CubeDeformationExtension.class)
+@ExtensionMethod(DilationExtension.class)
 public class BBCube {
 
 	public static Codec<CubeDeformation> DILATION_CODEC = Codec.FLOAT.xmap(CubeDeformation::new, dilation -> dilation.getRadiusX());

@@ -4,7 +4,7 @@ package com.darkz.skintotem.doll.renderer.special;
 
 import com.darkz.skintotem.doll.data.TotemDollData;
 import com.darkz.skintotem.doll.renderer.DollRenderContext;
-import net.minecraft.client.gui.navigation.ScreenRectangleangle;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.fabricmc.fabric.api.client.rendering.v1.SpecialGuiElementRenderState;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;

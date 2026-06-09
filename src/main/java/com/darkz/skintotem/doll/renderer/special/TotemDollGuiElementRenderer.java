@@ -13,7 +13,7 @@ import com.darkz.skintotem.doll.renderer.*;
 import com.darkz.skintotem.extension.ItemStackExtension;
 import com.darkz.skintotem.utils.LightningUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.navigation.ScreenRectangleangle;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.fabricmc.fabric.api.client.rendering.v1.SpecialGuiElementRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.MultiBufferSource;

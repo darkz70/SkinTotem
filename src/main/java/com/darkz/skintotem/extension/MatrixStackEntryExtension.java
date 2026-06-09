@@ -2,7 +2,7 @@ package com.darkz.skintotem.extension;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-public class PoseStackEntryExtension {
+public class MatrixStackEntryExtension {
 
 	public static void copyFrom(Entry entry, Entry anotherEntry) {
 		entry.getPositionMatrix().set(anotherEntry.getPositionMatrix());

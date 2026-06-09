@@ -31,7 +31,7 @@ import org.jetbrains.annotations.Nullable;
 
 @Mixin(AnvilScreen.class)
 @ExtensionMethod(ItemStackExtension.class)
-public abstract class AnvilScreenMixin extends AnvilScreen<AnvilMenu> implements MTDAnvilScreen {
+public abstract class AnvilScreenMixin extends AnvilScreen implements MTDAnvilScreen {
 
 	@Shadow
 	private TextFieldWidget nameField;
