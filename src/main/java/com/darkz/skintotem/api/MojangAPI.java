@@ -1,25 +1,19 @@
 package com.darkz.skintotem.api;
 
 import com.google.gson.*;
-import com.darkz.skintotem.cache.KnownPlayerUUIDsConfigManager;
-import com.darkz.skintotem.config.SkinTotemModConfig;
-import com.darkz.skintotem.config.cache.KnownPlayerUUIDsConfig;
-import com.darkz.skintotem.exception.HttpResponseException;
-import net.minecraft.client.Minecraft;
-import com.darkz.skintotem.client.SkinTotemModClient;
-import com.darkz.skintotem.skin.data.ParsedSkinData;
+import com.mojang.util.UndashedUuid;
 import java.net.URI;
 import java.net.http.*;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import com.darkz.skintotem.cache.KnownPlayerUUIDsConfigManager;
+import com.darkz.skintotem.client.SkinTotemClient;
+import com.darkz.skintotem.config.SkinTotemConfig;
+import com.darkz.skintotem.config.cache.KnownPlayerUUIDsConfig;
+import com.darkz.skintotem.exception.HttpResponseException;
+import com.darkz.skintotem.skin.data.ParsedSkinData;
 import org.jetbrains.annotations.*;
-
-//? if >=1.20.2 {
-import com.mojang.util.UndashedUuid;
-//?} else {
-/*import com.mojang.util.UUIDTypeAdapter;
- *///?}
 
 public class MojangAPI {
 
@@ -35,7 +29,7 @@ public class MojangAPI {
 	}
 
 	public static Response<UUID> getUUID(String nickname, boolean canRetry) {
-		boolean debugLogEnabled = SkinTotemModConfig.getInstance().isDebugLogEnabled();
+		boolean debugLogEnabled = SkinTotemConfig.getInstance().isDebugLogEnabled();
 		int statusCode = -1;
 		String responseBody = "Not reached";
 
@@ -45,18 +39,18 @@ public class MojangAPI {
 					.uri(URI.create(getUUIDEndpoint(nickname)))
 					.build();
 			HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
-			statusCode = response.statusCode();
+			statusCode   = response.statusCode();
 			responseBody = response.body();
 
 			if (statusCode == 429) {
 				if (debugLogEnabled) {
-					SkinTotemModClient.LOGGER.warn("Received Too Many Requests on {}", nickname);
+					SkinTotemClient.LOGGER.warn("Received Too Many Requests on {}", nickname);
 				}
 				return Response.empty(statusCode);
 			}
 			if (statusCode == 404) {
 				if (debugLogEnabled) {
-					SkinTotemModClient.LOGGER.warn("Failed to find player profile with nickname {}", nickname);
+					SkinTotemClient.LOGGER.warn("Failed to find player profile with nickname {}", nickname);
 				}
 				return Response.empty(statusCode);
 			}
@@ -76,21 +70,17 @@ public class MojangAPI {
 				throw new HttpResponseException(statusCode, "Response doesn't contains 'id'");
 			}
 			String uuidAsString = jsonObject.get("id").getAsString();
-			//? if >=1.20.2 {
 			UUID uuid = UndashedUuid.fromStringLenient(uuidAsString);
-			//?} else {
-			/*UUID uuid = UUIDTypeAdapter.fromString(uuidAsString);
-			 *///?}
 			return new Response<>(statusCode, uuid);
 		} catch (InterruptedException ignored) {
 		} catch (Exception e) {
-			SkinTotemModClient.LOGGER.error("Failed to get UUID: ", e);
-			SkinTotemModClient.LOGGER.error("Response Body: ");
-			SkinTotemModClient.LOGGER.error(responseBody);
+			SkinTotemClient.LOGGER.error("Failed to get UUID: ", e);
+			SkinTotemClient.LOGGER.error("Response Body: ");
+			SkinTotemClient.LOGGER.error(responseBody);
 		}
 
 		if (statusCode == 403) {
-			SkinTotemModClient.LOGGER.error("Received 403 status code, using fallback API for UUIDs!");
+			SkinTotemClient.LOGGER.error("Received 403 status code, using fallback API for UUIDs!");
 			MojangAPI.useFallbackAPI = true;
 			if (canRetry) {
 				return getUUID(nickname, false);
@@ -150,7 +140,7 @@ public class MojangAPI {
 
 			return new Response<>(response.statusCode(), parsedSkinData);
 		} catch (Exception e) {
-			SkinTotemModClient.LOGGER.error("Failed to load skin textures for {}: ", nickname, e);
+			SkinTotemClient.LOGGER.error("Failed to load skin textures for {}: ", nickname, e);
 		}
 		return null;
 	}

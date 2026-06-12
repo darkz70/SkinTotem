@@ -1,20 +1,16 @@
 package com.darkz.skintotem.tag;
 
 import lombok.*;
-import com.darkz.skintotem.doll.data.TotemDollData;
+import com.darkz.skintotem.doll.data.SkinTotemData;
 import org.jetbrains.annotations.Nullable;
 
-@Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Tag {
 
+	@Getter
 	private final char tag;
 	@Nullable
 	private TagAction action;
-
-	protected Tag() {
-		this.tag = ' ';
-	}
 
 	private Tag(char tag) {
 		this.tag = tag;
@@ -28,7 +24,7 @@ public class Tag {
 		return new Tag(c);
 	}
 
-	public void process(TotemDollData data) {
+	public void process(SkinTotemData data) {
 		if (this.action == null) {
 			return;
 		}

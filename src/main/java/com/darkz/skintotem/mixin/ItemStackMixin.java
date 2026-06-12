@@ -1,49 +1,43 @@
 package com.darkz.skintotem.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 import lombok.experimental.ExtensionMethod;
-import com.darkz.skintotem.config.SkinTotemModConfig;
+import com.darkz.skintotem.SkinTotem;
+import com.darkz.skintotem.config.SkinTotemConfig;
+import com.darkz.skintotem.doll.data.SkinTotemData;
+import com.darkz.skintotem.doll.manager.SkinTotemManager;
+import com.darkz.skintotem.doll.renderer.SkinTotemRenderer;
+import com.darkz.skintotem.extension.ItemStackExtension;
+import com.darkz.skintotem.gui.tooltip.combined.CombinedTooltipData;
+import com.darkz.skintotem.gui.tooltip.state.LoadingStateTooltipData;
+import com.darkz.skintotem.gui.tooltip.tags.TagsTooltipData;
+import com.darkz.skintotem.gui.tooltip.wrapped.WrappedTextTooltipData;
+import com.darkz.skintotem.tag.manager.TagsManager;
 import com.darkz.skintotem.utils.ScreenUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AnvilScreen;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.world.item.*;
-//? if >=1.21 {
-import net.minecraft.world.item.tooltip.TooltipProvider;
- //?} else {
-/*import net.minecraft.client.item.TooltipProvider;
-*///?}
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.ChatFormatting;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.*;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
-
-import com.darkz.skintotem.SkinTotemMod;
-import com.darkz.skintotem.client.SkinTotemModClient;
-import com.darkz.skintotem.doll.data.TotemDollData;
-import com.darkz.skintotem.doll.manager.TotemDollManager;
-import com.darkz.skintotem.doll.renderer.TotemDollRenderer;
-import com.darkz.skintotem.extension.ItemStackExtension;
-import com.darkz.skintotem.gui.tooltip.combined.CombinedTooltipProvider;
-import com.darkz.skintotem.gui.tooltip.state.LoadingStateTooltipProvider;
-import com.darkz.skintotem.gui.tooltip.tags.*;
-import com.darkz.skintotem.gui.tooltip.wrapped.WrappedTextTooltipProvider;
-import com.darkz.skintotem.tag.manager.TagsManager;
-
-import java.util.*;
-import java.util.stream.Stream;
 
 @Mixin(ItemStack.class)
 @ExtensionMethod(ItemStackExtension.class)
 public abstract class ItemStackMixin {
 
-	@Shadow
-	public abstract boolean isOf(Item item);
+	@Shadow public abstract boolean is(Predicate<Holder<Item>> predicate);
 
-	@ModifyReturnValue(at = @At("RETURN"), method = "getName")
+	@ModifyReturnValue(at = @At("RETURN"), method = "getHoverName")
 	private Component getName(Component original) {
-		if (!SkinTotemModConfig.getInstance().isModEnabled() || !this.isOf(Items.TOTEM_OF_UNDYING)) {
+		if (!SkinTotemConfig.getInstance().isModEnabled() || !this.is((holder) -> holder.is(Items.TOTEM_OF_UNDYING.builtInRegistryHolder().key()))) {
 			return original;
 		}
 		String string = original.getString();
@@ -59,11 +53,11 @@ public abstract class ItemStackMixin {
 		return Component.literal(name).setStyle(original.getStyle());
 	}
 
-	@ModifyReturnValue(at = @At("RETURN"), method = "getTooltipProvider")
-	private Optional<TooltipProvider> getTooltipProvider(Optional<TooltipProvider> original) {
+	@ModifyReturnValue(at = @At("RETURN"), method = "getTooltipImage")
+	private Optional<TooltipComponent> getTooltipData(Optional<TooltipComponent> original) {
 		ItemStack itemStack = (ItemStack) (Object) this;
 
-		if (!TotemDollRenderer.canRender(itemStack)) {
+		if (!SkinTotemRenderer.canRender(itemStack)) {
 			return original;
 		}
 
@@ -74,20 +68,20 @@ public abstract class ItemStackMixin {
 
 		String[] data = TagsManager.getDataFromString(customName.getString());
 
-		Optional<TooltipProvider> loadingStateTooltipProvider = this.getLoadingStateTooltipProvider(data);
-		Optional<TooltipProvider> tagsTooltipProvider = this.getTagsTooltipProvider(data);
+		Optional<TooltipComponent> loadingStateTooltipData = this.getLoadingStateTooltipData(data);
+		Optional<TooltipComponent> tagsTooltipData = this.getTagsTooltipData(data);
 
-		List<TooltipComponent> list = Stream.of(loadingStateTooltipProvider, tagsTooltipProvider)
+		List<ClientTooltipComponent> list = Stream.of(loadingStateTooltipData, tagsTooltipData)
 				.flatMap(Optional::stream)
-				.map(TooltipComponent::of)
+				.map(ClientTooltipComponent::create)
 				.toList();
 
-		return Optional.of(new CombinedTooltipProvider(list));
+		return Optional.of(new CombinedTooltipData(list));
 	}
 
 	@Unique
-	private Optional<TooltipProvider> getLoadingStateTooltipProvider(String[] data) {
-		Screen currentScreen = Minecraft.getInstance().currentScreen;
+	private Optional<TooltipComponent> getLoadingStateTooltipData(String[] data) {
+		Screen currentScreen = Minecraft.getInstance().screen;
 		if (!(currentScreen instanceof AnvilScreen || ScreenUtils.hasShiftDown())) {
 			return Optional.empty();
 		}
@@ -95,12 +89,12 @@ public abstract class ItemStackMixin {
 			return Optional.empty();
 		}
 		String o = data[0];
-		TotemDollData totemDollData = TotemDollManager.getDoll(o);
-		return Optional.of(new LoadingStateTooltipProvider(totemDollData.getStandardSprites().getState()));
+		SkinTotemData skinTotemData = SkinTotemManager.getDoll(o);
+		return Optional.of(new LoadingStateTooltipData(skinTotemData.getStandardSprites().getState()));
 	}
 
 	@Unique
-	private Optional<TooltipProvider> getTagsTooltipProvider(String[] data) {
+	private Optional<TooltipComponent> getTagsTooltipData(String[] data) {
 		if (data.length < 2) {
 			return Optional.empty();
 		}
@@ -108,9 +102,9 @@ public abstract class ItemStackMixin {
 		if (tags == null || tags.isEmpty()) {
 			return Optional.empty();
 		}
-		return Optional.of(new CombinedTooltipProvider(
-					new WrappedTextTooltipProvider(SkinTotemMod.text("tags.title").formatted(ChatFormatting.GRAY)),
-					new TagsTooltipProvider(tags)
+		return Optional.of(new CombinedTooltipData(
+						new WrappedTextTooltipData(SkinTotem.text("tags.title").withStyle(ChatFormatting.GRAY)),
+						new TagsTooltipData(tags)
 				)
 		);
 	}

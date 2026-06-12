@@ -1,7 +1,7 @@
 package com.darkz.skintotem.gui.tooltip.info;
 
-import net.minecraft.world.item.tooltip.TooltipData;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 
-public record InfoTooltipData(String key, int color) implements TooltipData {
+public record InfoTooltipData(String key, int color) implements TooltipComponent {
 
 }

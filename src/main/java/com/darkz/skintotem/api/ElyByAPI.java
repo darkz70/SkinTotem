@@ -1,7 +1,7 @@
 package com.darkz.skintotem.api;
 
 import com.google.gson.*;
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.skin.data.ParsedSkinData;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,7 +15,7 @@ import java.net.http.HttpResponse.BodyHandlers;
  * Endpoint: https://skinsystem.ely.by/textures/{nickname}
  * Возвращает JSON с полями SKIN, CAPE и моделью (slim/default)
  *
- * Автор: Darkz | K-TEAM
+ * Автор: Darkz | K-TEAM |KlashRaick | LopyMine
  */
 public class ElyByAPI {
 
@@ -61,7 +61,7 @@ public class ElyByAPI {
             }
 
             // Шаг 2: Fallback — /skins/{nickname}.png напрямую
-            SkinTotemModClient.LOGGER.warn("[ElyByAPI] /textures/ не дал данных для {}, пробуем /skins/ fallback", nickname);
+            SkinTotemClient.LOGGER.warn("[ElyByAPI] /textures/ не дал данных для {}, пробуем /skins/ fallback", nickname);
             String skinUrl = SKINS_URL + nickname + ".png";
 
             // Проверяем что URL существует
@@ -79,8 +79,8 @@ public class ElyByAPI {
             return Response.empty(statusCode);
         } catch (InterruptedException ignored) {
         } catch (Exception e) {
-            SkinTotemModClient.LOGGER.error("[ElyByAPI] Ошибка загрузки скина {}: ", nickname, e);
-            SkinTotemModClient.LOGGER.error("[ElyByAPI] Response: {}", responseBody);
+            SkinTotemClient.LOGGER.error("[ElyByAPI] Ошибка загрузки скина {}: ", nickname, e);
+            SkinTotemClient.LOGGER.error("[ElyByAPI] Response: {}", responseBody);
         }
         return Response.empty(statusCode);
     }
@@ -115,8 +115,8 @@ public class ElyByAPI {
 
             return new ParsedSkinData(skinUrl, capeUrl, null, slim);
         } catch (Exception e) {
-            SkinTotemModClient.LOGGER.error("[ElyByAPI] Ошибка парсинга ответа: ", e);
+            SkinTotemClient.LOGGER.error("[ElyByAPI] Ошибка парсинга ответа: ", e);
             return null;
         }
     }
-}
+        }

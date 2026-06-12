@@ -1,23 +1,21 @@
 package com.darkz.skintotem.gui.widget.info;
 
+import java.util.List;
 import lombok.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.tooltip.*;
-import net.minecraft.world.item.tooltip.TooltipData;
-import net.minecraft.resources.ResourceLocation;
-
 import com.darkz.skintotem.utils.DrawUtils;
 import com.darkz.skintotem.utils.tooltip.IRequestableTooltipScreen;
-
-import java.util.List;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import org.jetbrains.annotations.Nullable;
 
 @Setter
 @Getter
-public class InfoWidget implements Drawable {
+public class InfoWidget implements Renderable {
 
 	public boolean visible = true;
 	private int x;
@@ -27,12 +25,12 @@ public class InfoWidget implements Drawable {
 
 	private boolean hovered;
 
-	private ResourceLocation texture;
+	private Identifier texture;
 
 	@Nullable
-	private TooltipData tooltipData;
+	private TooltipComponent tooltipData;
 
-	public InfoWidget(int x, int y, int width, int height, @Nullable TooltipData tooltipData, ResourceLocation texture) {
+	public InfoWidget(int x, int y, int width, int height, @Nullable TooltipComponent tooltipData, Identifier texture) {
 		this.x           = x;
 		this.y           = y;
 		this.width       = width;
@@ -42,12 +40,12 @@ public class InfoWidget implements Drawable {
 	}
 
 	@Override
-	public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
+	public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
 		if (!this.isVisible()) {
 			return;
 		}
 
-		this.hovered = /*? if >=1.21 {*/context.scissorContains(mouseX, mouseY) &&  /*?}*/ mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
+		this.hovered = context.containsPointInScissor(mouseX, mouseY) && mouseX >= this.getX() && mouseY >= this.getY() && mouseX < this.getX() + this.width && mouseY < this.getY() + this.height;
 
 		DrawUtils.drawTexture(context, this.texture, this.getX(), this.getY(), 0, 0, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight());
 
@@ -56,9 +54,7 @@ public class InfoWidget implements Drawable {
 
 	public void requestTooltip() {
 		Minecraft client = Minecraft.getInstance();
-		Screen screen = client.currentScreen;
-		Font textRenderer = client.textRenderer;
-
+		Screen screen = client.screen;
 		if (!(screen instanceof IRequestableTooltipScreen tooltipScreen)) {
 			return;
 		}
@@ -71,8 +67,8 @@ public class InfoWidget implements Drawable {
 			return;
 		}
 
-		TooltipComponent component = ClientTooltipComponent.create(this.tooltipData);
-		tooltipScreen.myTotemDoll$requestTooltip(((c, x, y, d) -> {
+		ClientTooltipComponent component = ClientTooltipComponent.create(this.tooltipData);
+		tooltipScreen.mySkinTotem$requestTooltip(((c, x, y, d) -> {
 			DrawUtils.drawTooltip(c, List.of(component), x, y);
 		}));
 	}

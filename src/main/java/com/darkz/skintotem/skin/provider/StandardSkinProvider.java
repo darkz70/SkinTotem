@@ -1,23 +1,18 @@
 package com.darkz.skintotem.skin.provider;
 
-import lombok.*;
-import net.minecraft.resources.ResourceLocation;
-
-
-import com.darkz.skintotem.api.Response;
-import com.darkz.skintotem.client.SkinTotemModClient;
-import com.darkz.skintotem.config.totem.TotemDollArmsType;
-import com.darkz.skintotem.doll.data.*;
-import com.darkz.skintotem.doll.manager.StandardTotemDollManager;
-import com.darkz.skintotem.skin.data.ParsedSkinData;
-
-
-import com.darkz.skintotem.thread.SkinTotemModTaskExecutor;
-import com.darkz.skintotem.utils.texture.*;
-
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.*;
+import lombok.*;
+import com.darkz.skintotem.api.Response;
+import com.darkz.skintotem.client.SkinTotemClient;
+import com.darkz.skintotem.config.totem.SkinTotemArmsType;
+import com.darkz.skintotem.doll.data.*;
+import com.darkz.skintotem.doll.manager.StandardSkinTotemManager;
+import com.darkz.skintotem.skin.data.ParsedSkinData;
+import com.darkz.skintotem.thread.SkinTotemTaskExecutor;
+import com.darkz.skintotem.utils.texture.*;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.*;
 
 @Setter
@@ -25,7 +20,7 @@ import org.jetbrains.annotations.*;
 public abstract class StandardSkinProvider implements SkinProvider {
 
 	private final Map<String, CompletableFuture<Void>> reloadingFutures = new ConcurrentHashMap<>();
-	private final Map<String, TotemDollData> cache = new ConcurrentHashMap<>();
+	private final Map<String, SkinTotemData> cache = new ConcurrentHashMap<>();
 
 	private boolean maxRequestsCheckEnabled;
 	private int requestsCount = 0;
@@ -36,22 +31,22 @@ public abstract class StandardSkinProvider implements SkinProvider {
 	}
 
 	@Override
-	public @NotNull TotemDollData getOrLoadDoll(String value) {
+	public @NotNull SkinTotemData getOrLoadDoll(String value) {
 		if (!this.canProcess(value)) {
-			return StandardTotemDollManager.getStandardDoll();
+			return StandardSkinTotemManager.getStandardDoll();
 		}
 
-		TotemDollData totemDollData = this.getDataOrCreate(value);
+		SkinTotemData skinTotemData = this.getDataOrCreate(value);
 
-		if (totemDollData.getStandardSprites().canStartDownloading()) {
-			this.loadDoll(value, this.maxRequestsCheckEnabled, totemDollData);
+		if (skinTotemData.getStandardSprites().canStartDownloading()) {
+			this.loadDoll(value, this.maxRequestsCheckEnabled, skinTotemData);
 		}
 
-		return totemDollData;
+		return skinTotemData;
 	}
 
 
-	public CompletableFuture<Void> loadDoll(String value, boolean checkMaxRequests, TotemDollData totemDollData) {
+	public CompletableFuture<Void> loadDoll(String value, boolean checkMaxRequests, SkinTotemData skinTotemData) {
 		if (checkMaxRequests) {
 			// Max 10 requests per second
 			long now = System.currentTimeMillis();
@@ -65,32 +60,26 @@ public abstract class StandardSkinProvider implements SkinProvider {
 			this.requestsCount++;
 		}
 
-		totemDollData.getStandardSprites().setState(LoadingState.WAITING_DOWNLOADING);
+		skinTotemData.getStandardSprites().setState(LoadingState.WAITING_DOWNLOADING);
 
-		return SkinTotemModTaskExecutor.execute(() -> {
+		return SkinTotemTaskExecutor.execute(() -> {
 			int waitTime = 0;
 
 			while (true) {
-				TotemDollSprites textures = totemDollData.getStandardSprites();
+				SkinTotemSprites textures = skinTotemData.getStandardSprites();
 				textures.setState(LoadingState.DOWNLOADING);
 
 				Response<ParsedSkinData> response = this.loadDollFromAPI(value);
 				if (response.value() == null) {
-					// -1 = сетевая ошибка/таймаут, 429 = rate limit — оба повторяем
-					int code = response.statusCode();
-					LoadingState state = switch (code) {
-						case 404 -> LoadingState.NOT_FOUND;
-						case 429, -1 -> LoadingState.ERROR;
+					LoadingState state = switch (response.statusCode()) {
+						case 404 -> LoadingState.NOT_FOUND; // Not Found
+						case 429 -> LoadingState.ERROR; // Too many requests
 						default -> LoadingState.CRITICAL_ERROR;
 					};
 
-					if (state == LoadingState.ERROR) {
+					if (state == LoadingState.ERROR) { // Too many requests, we can retry
 						try {
 							waitTime += 1000;
-							if (waitTime > 10000) { // не ждём больше 10 секунд
-								textures.setState(LoadingState.CRITICAL_ERROR);
-								return;
-							}
 							Thread.sleep(waitTime);
 							continue;
 						} catch (Exception e) {
@@ -111,14 +100,14 @@ public abstract class StandardSkinProvider implements SkinProvider {
 					return;
 				}
 
-				TotemDollArmsType armsType = TotemDollArmsType.of(parsedSkinData.isSlim());
+				SkinTotemArmsType armsType = SkinTotemArmsType.of(parsedSkinData.isSlim());
 				textures.setStandardArmsType(armsType);
 
 				Identifier skinId = this.getSkinId(value);
 
 				FailedAction onFailed = (throwable) -> {
 					textures.setState(LoadingState.CRITICAL_ERROR);
-					SkinTotemModClient.LOGGER.warn("Failed to download doll skin:", throwable);
+					SkinTotemClient.LOGGER.warn("Failed to download doll skin:", throwable);
 				};
 
 				SuccessAction onSuccess = (sprite) -> {
@@ -143,10 +132,10 @@ public abstract class StandardSkinProvider implements SkinProvider {
 		});
 	}
 
-	private TotemDollData getDataOrCreate(String value) {
+	private SkinTotemData getDataOrCreate(String value) {
 		return Optional.ofNullable(this.getFromCache(value))
 				.orElseGet(() -> {
-					TotemDollData data = this.createNewDoll(value);
+					SkinTotemData data = this.createNewDoll(value);
 					this.putToCache(value, data);
 					return data;
 				});
@@ -158,7 +147,7 @@ public abstract class StandardSkinProvider implements SkinProvider {
 	}
 
 	@Override
-	public Collection<TotemDollData> getLoadedDolls() {
+	public Collection<SkinTotemData> getLoadedDolls() {
 		return this.cache.values();
 	}
 
@@ -166,9 +155,9 @@ public abstract class StandardSkinProvider implements SkinProvider {
 	public CompletableFuture<Void> reloadAll() {
 		Set<CompletableFuture<?>> list = new HashSet<>();
 
-		for (Entry<String, TotemDollData> entry : this.cache.entrySet()) {
+		for (Entry<String, SkinTotemData> entry : this.cache.entrySet()) {
 			String key = entry.getKey();
-			TotemDollData value = entry.getValue();
+			SkinTotemData value = entry.getValue();
 
 			CompletableFuture<Void> future = this.reloadingFutures.get(key);
 			if (future != null) {
@@ -189,23 +178,23 @@ public abstract class StandardSkinProvider implements SkinProvider {
 			return future;
 		}
 
-		TotemDollData totemDollData = this.getFromCache(value);
-		if (totemDollData == null) {
+		SkinTotemData skinTotemData = this.getFromCache(value);
+		if (skinTotemData == null) {
 			return CompletableFuture.completedFuture(null);
 		}
 
-		return this.reloadDataAndRegisterFuture(value, totemDollData);
+		return this.reloadDataAndRegisterFuture(value, skinTotemData);
 	}
 
-	private CompletableFuture<Void> reloadDataAndRegisterFuture(String value, TotemDollData totemDollData) {
-		TotemDollSprites textures = totemDollData.getStandardSprites();
+	private CompletableFuture<Void> reloadDataAndRegisterFuture(String value, SkinTotemData skinTotemData) {
+		SkinTotemSprites textures = skinTotemData.getStandardSprites();
 		textures.destroy();
 
-		CompletableFuture<Void> future = this.loadDoll(value, false, totemDollData)
+		CompletableFuture<Void> future = this.loadDoll(value, false, skinTotemData)
 				.whenComplete((r, e) -> {
 					this.reloadingFutures.remove(value);
 					if (e != null) {
-						SkinTotemModClient.LOGGER.error("Failed to reload doll data for \"{}\": ", value, e);
+						SkinTotemClient.LOGGER.error("Failed to reload doll data for \"{}\": ", value, e);
 					}
 				});
 		this.reloadingFutures.put(value, future);
@@ -214,14 +203,14 @@ public abstract class StandardSkinProvider implements SkinProvider {
 
 	protected abstract Response<ParsedSkinData> loadDollFromAPI(String value);
 
-	public abstract TotemDollData createNewDoll(String value);
+	public abstract SkinTotemData createNewDoll(String value);
 
 	@Nullable
-	protected TotemDollData getFromCache(String value) {
+	protected SkinTotemData getFromCache(String value) {
 		return this.cache.get(value);
 	}
 
-	protected void putToCache(String value, TotemDollData data) {
+	protected void putToCache(String value, SkinTotemData data) {
 		this.cache.put(value, data);
 	}
 

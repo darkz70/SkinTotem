@@ -2,18 +2,17 @@ package com.darkz.skintotem.model.base;
 
 import lombok.*;
 import lombok.experimental.ExtensionMethod;
-import net.minecraft.client.model.CubeDeformation;
-import net.minecraft.client.model.ModelPart.*;
+import com.darkz.skintotem.extension.*;
+import net.minecraft.client.model.geom.ModelPart.*;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.core.Direction;
 import org.joml.Vector3f;
-
-import com.darkz.skintotem.extension.*;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @SuppressWarnings("unused")
-@ExtensionMethod({CubeDeformationExtension.class, ArrayExtension.class})
+@ExtensionMethod({DilationExtension.class, ArrayExtension.class})
 public class MQuadBuilder {
 
 	private float fromU;
@@ -28,7 +27,7 @@ public class MQuadBuilder {
 	}
 
 	// wild stuff 0-0
-	public Quad build(int textureWidth, int textureHeight, Vector3f pos, Vector3f size, CubeDeformation dilation) {
+	public Polygon build(int textureWidth, int textureHeight, Vector3f pos, Vector3f size, CubeDeformation dilation) {
 		float f = 0.0F / textureWidth;
 		float g = 0.0F / textureHeight;
 
@@ -64,7 +63,7 @@ public class MQuadBuilder {
 
 		Vertex[] rotatedVertices = this.rotation > 0 ? vertices.shift(this.rotation / 90) : vertices;
 
-		return new Quad(rotatedVertices, this.fromU, this.fromV, this.toU, this.toV, textureWidth, textureHeight, false, this.direction);
+		return new Polygon(rotatedVertices, this.fromU, this.fromV, this.toU, this.toV, textureWidth, textureHeight, false, this.direction);
 	}
 }
 

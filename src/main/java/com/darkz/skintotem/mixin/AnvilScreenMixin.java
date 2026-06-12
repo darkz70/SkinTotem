@@ -2,39 +2,39 @@ package com.darkz.skintotem.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import lombok.experimental.ExtensionMethod;
-import com.darkz.skintotem.SkinTotemMod;
-import com.darkz.skintotem.utils.DrawUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.screens.inventory.*;
-import net.minecraft.client.gui.components.*;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.*;
-import net.minecraft.world.inventory.*;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import org.spongepowered.asm.mixin.*;
-import org.spongepowered.asm.mixin.injection.*;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import com.darkz.skintotem.client.SkinTotemModClient;
-import com.darkz.skintotem.config.SkinTotemModConfig;
+import com.darkz.skintotem.SkinTotem;
+import com.darkz.skintotem.client.SkinTotemClient;
+import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.config.other.vector.Vec2i;
 import com.darkz.skintotem.extension.ItemStackExtension;
 import com.darkz.skintotem.gui.widget.info.*;
 import com.darkz.skintotem.gui.widget.tag.*;
 import com.darkz.skintotem.gui.widget.tag.TagMenuWidget.Renamer;
 import com.darkz.skintotem.tag.Tag;
-import com.darkz.skintotem.utils.mixin.MTDAnvilScreen;
-
+import com.darkz.skintotem.utils.DrawUtils;
+import com.darkz.skintotem.utils.mixin.STAnvilScreen;
+import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.inventory.*;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.*;
+import net.minecraft.world.item.*;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AnvilScreen.class)
 @ExtensionMethod(ItemStackExtension.class)
-public abstract class AnvilScreenMixin extends AnvilScreen implements MTDAnvilScreen {
+public abstract class AnvilScreenMixin extends ItemCombinerScreen<AnvilMenu> implements STAnvilScreen {
 
 	@Shadow
-	private TextFieldWidget nameField;
+	private EditBox name;
+	@Mutable
+    @Shadow
+    protected int imageWidth;
 	@Unique
 	@Nullable
 	private DraggingTagButtonWidget tagButtonWidget = null;
@@ -54,35 +54,30 @@ public abstract class AnvilScreenMixin extends AnvilScreen implements MTDAnvilSc
 		super(handler, playerInventory, title, texture);
 	}
 
-	//? if <=1.21.10 {
-	/*@Shadow
-	public abstract void resize(Minecraft client, int width, int height);
-	*///?}
-
 	@Shadow
-	protected abstract void setup();
+	protected abstract void subInit();
 
-	@Inject(at = @At("HEAD"), method = "setup")
+	@Inject(at = @At("HEAD"), method = "subInit")
 	private void setupTagMenu(CallbackInfo ci) {
-		if (!SkinTotemModConfig.getInstance().isModEnabled()) {
+		if (!SkinTotemConfig.getInstance().isModEnabled()) {
 			return;
 		}
 
-		ItemStack stackOne = this.handler.getSlot(0).getStack();
-		ItemStack stackTwo = this.handler.getSlot(2).getStack();
-		boolean bl = SkinTotemModClient.canProcess(stackOne) && !stackOne.isEmpty();
+		ItemStack stackOne = this.menu.getSlot(0).getItem();
+		ItemStack stackTwo = this.menu.getSlot(2).getItem();
+		boolean bl = SkinTotemClient.canProcess(stackOne) && !stackOne.isEmpty();
 
 		//
 
-		this.tagMenuWidget = new TagMenuWidget(0, 0, new Renamer() {
+		this.tagMenuWidget         = new TagMenuWidget(0, 0, new Renamer() {
 			@Override
 			public String getName() {
-				return AnvilScreenMixin.this.nameField.getText();
+				return AnvilScreenMixin.this.name.getValue();
 			}
 
 			@Override
 			public void setName(String name) {
-				AnvilScreenMixin.this.nameField.setText(name);
+				AnvilScreenMixin.this.name.setValue(name);
 			}
 		});
 		this.tagMenuWidget.visible = this.currentVisibleState;
@@ -102,71 +97,60 @@ public abstract class AnvilScreenMixin extends AnvilScreen implements MTDAnvilSc
 
 		//
 
-		Vec2i originalPos = SkinTotemModConfig.getNewInstance().getTagButtonPos();
-		this.tagButtonWidget = new DraggingTagButtonWidget(
+		Vec2i originalPos = SkinTotemConfig.getNewInstance().getTagButtonPos();
+		this.tagButtonWidget         = new DraggingTagButtonWidget(
 				Tag.simple('4'),
-				this.x,
-				this.y,
-				this.x + originalPos.getX(),
-				this.y + originalPos.getY(),
+				this.leftPos,
+				this.topPos,
+				this.leftPos + originalPos.getX(),
+				this.topPos + originalPos.getY(),
 				0,
 				0,
 				(b) -> {
 					this.currentVisibleState = b.isPressed();
-					//? if >=1.21.11 {
 					this.resize(this.width, this.height);
-					//?} else {
-					/*this.resize(this.client, this.width, this.height);
-					*///?}
-		});
+				});
 		this.tagButtonWidget.visible = bl;
 		this.tagButtonWidget.setPressed(this.tagMenuWidget.visible);
-		
+
 		//
 
 		if (this.tagMenuWidget.visible) {
-			this.backgroundWidth = 176 + this.tagMenuWidget.getWidth() + 5 + this.infoWidget.getWidth();
+			this.imageWidth = 176 + this.tagMenuWidget.getWidth() + 5 + this.infoWidget.getWidth();
 		} else {
-			this.backgroundWidth = 176;
+			this.imageWidth = 176;
 		}
-		
+
 		//
 
-		this.addDrawableChild(this.tagMenuWidget);
-		this.addDrawable(this.infoWidget);
-		this.addDrawable(this.tipsWidget);
-		this.addDrawableChild(this.tagButtonWidget);
-		
+		this.addRenderableWidget(this.tagMenuWidget);
+		this.addRenderableOnly(this.infoWidget);
+		this.addRenderableOnly(this.tipsWidget);
+		this.addRenderableWidget(this.tagButtonWidget);
+
 		//
 
-		this.x = (this.width - this.backgroundWidth) / 2;
+		this.leftPos = (this.width - this.imageWidth) / 2;
 		this.updateWidgets();
 	}
 
-	//? if =1.20.1 {
-	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/TextFieldWidget;setEditable(Z)V"), method = "setup")
-	private void fixingMojangBugOmg(TextFieldWidget instance, boolean editable, Operation<Void> original) {
-		original.call(instance, this.handler.getSlot(0).hasStack());
-	}
-	*///?}
-
 	@Unique
 	private void updateWidgets() {
-		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
+		SkinTotemConfig config = SkinTotemConfig.getInstance();
 		if (!config.isModEnabled() || this.tagButtonWidget == null || this.tagMenuWidget == null || this.infoWidget == null || this.tipsWidget == null) {
 			return;
 		}
 
 		//
 
-		int tagMenuX = this.x + 176 + 1;
-		int tagMenuY = this.y;
+		int tagMenuX = this.leftPos + 176 + 1;
+		int tagMenuY = this.topPos;
 		this.tagMenuWidget.setPosition(tagMenuX + 10, tagMenuY + 33);
 
-		ItemStack stackOne = this.handler.getSlot(0).getStack();
-		ItemStack stackTwo = this.handler.getSlot(2).getStack();
+		ItemStack stackOne = this.menu.getSlot(0).getItem();
+		ItemStack stackTwo = this.menu.getSlot(2).getItem();
 		ItemStack result = stackTwo.isEmpty() ? stackOne : stackTwo;
-		if (result.isOf(Items.TOTEM_OF_UNDYING)) {
+		if (result.is(Items.TOTEM_OF_UNDYING)) {
 			this.tagMenuWidget.updateButtons(result);
 			this.tagMenuWidget.updateCustomModelTagButtons(result);
 		}
@@ -181,88 +165,69 @@ public abstract class AnvilScreenMixin extends AnvilScreen implements MTDAnvilSc
 		//
 
 		Vec2i pos = config.getTagButtonPos();
-		this.tagButtonWidget.setPosition(pos.getX() + this.x, pos.getY() + this.y);
-		this.tagButtonWidget.setOriginX(this.x);
-		this.tagButtonWidget.setOriginY(this.y);
+		this.tagButtonWidget.setPosition(pos.getX() + this.leftPos, pos.getY() + this.topPos);
+		this.tagButtonWidget.setOriginX(this.leftPos);
+		this.tagButtonWidget.setOriginY(this.topPos);
 	}
 
 	@WrapOperation(
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;fill(IIIII)V"),
-			method = "drawForeground"
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;fill(IIIII)V"),
+			method = "extractLabels"
 	)
-	private void swapBackgroundValue(GuiGraphics instance, int x1, int y1, int x2, int y2, int color, Operation<Void> original) {
-		if (!SkinTotemModConfig.getInstance().isModEnabled()) {
+	private void swapBackgroundValue(GuiGraphicsExtractor instance, int x1, int y1, int x2, int y2, int color, Operation<Void> original) {
+		if (!SkinTotemConfig.getInstance().isModEnabled()) {
 			original.call(instance, x1, y1, x2, y2, color);
 			return;
 		}
-		original.call(instance, x1 - this.backgroundWidth + 176, y1, x2 - this.backgroundWidth + 176, y2, color);
+		original.call(instance, x1 - this.imageWidth + 176, y1, x2 - this.imageWidth + 176, y2, color);
 	}
 
 	@Inject(
 			at = @At("TAIL"),
-			method = "drawBackground"
+			method = "extractBackground"
 	)
-	private void updateWidgetPositions(GuiGraphics context, float delta, int mouseX, int mouseY, CallbackInfo ci) {
-		if (!SkinTotemModConfig.getInstance().isModEnabled()) {
+	private void updateWidgetPositions(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+		if (!SkinTotemConfig.getInstance().isModEnabled()) {
 			return;
 		}
 		this.updateWidgets();
 		if (this.tagMenuWidget != null && this.tagMenuWidget.visible) {
-			int x = this.x + 176 + 1;
-			int y = this.y;
-			DrawUtils.drawTexture(context, TagMenuWidget.BACKGROUND, x, y, 0, 0, 50, 166, 50, 166);
-			DrawUtils.drawCenteredText(context, SkinTotemMod.text("tag_menu.title"), x + 9, y + 9 + 6 + 3, 32);
+			int x = this.leftPos + 176 + 1;
+			int y = this.topPos;
+			DrawUtils.drawTexture(graphics, TagMenuWidget.BACKGROUND, x, y, 0, 0, 50, 166, 50, 166);
+			DrawUtils.drawCenteredText(graphics, SkinTotem.text("tag_menu.title"), x + 9, y + 9 + 6 + 3, 32);
 		}
 	}
 
-	//? if >=1.21.6 {
+
 	@WrapOperation(
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;drawTextWithShadow(Lnet/minecraft/client/font/Font;Lnet/minecraft/text/Component;III)V"),
-			method = "drawForeground"
+			at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V"),
+			method = "extractLabels"
 	)
-	private void swapBackgroundValue(GuiGraphics instance, Font textRenderer, Component text, int x, int y, int color, Operation<Integer> original) {
-		if (!SkinTotemModConfig.getInstance().isModEnabled()) {
+	private void swapBackgroundValue(GuiGraphicsExtractor instance, Font textRenderer, Component text, int x, int y, int color, Operation<Integer> original) {
+		if (!SkinTotemConfig.getInstance().isModEnabled()) {
 			original.call(instance, textRenderer, text, x, y, color);
 			return;
 		}
-		original.call(instance, textRenderer, text, x - this.backgroundWidth + 176, y, color);
+		original.call(instance, textRenderer, text, x - this.imageWidth + 176, y, color);
 	}
-	//?} else {
-	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;drawTextWithShadow(Lnet/minecraft/client/font/Font;Lnet/minecraft/text/Component;III)I"), method = "drawForeground")
-	private int swapBackgroundValue(GuiGraphics instance, Font textRenderer, Component text, int x, int y, int color, Operation<Integer> original) {
-		if (!SkinTotemModConfig.getInstance().isModEnabled()) {
-			return original.call(instance, textRenderer, text, x, y, color);
-		}
-		return original.call(instance, textRenderer, text, x - this.backgroundWidth + 176, y, color);
-	}
-	*///?}
 
-	//? <1.21 {
-	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"), method = "drawInvalidRecipeArrow")
-	private void swapBackgroundValue(GuiGraphics instance, Identifier identifier, int x, int y, int a, int b, int c, int d, Operation<Void> original) {
-		if (!SkinTotemModConfig.getInstance().isModEnabled()) {
-			original.call(instance, identifier, x, y, a, b, c, d);
-		}
-		original.call(instance, identifier, x, y, a - this.backgroundWidth + 176, b, c, d);
-	}
-	*///?}
-
-	@Inject(at = @At("HEAD"), method = "onSlotUpdate")
-	private void checkTotem(ScreenHandler handler, int slotId, ItemStack stack, CallbackInfo ci) {
-		if (!SkinTotemModConfig.getInstance().isModEnabled() || this.tagButtonWidget == null || this.tagMenuWidget == null) {
+	@Inject(at = @At("HEAD"), method = "slotChanged")
+	private void checkTotem(AbstractContainerMenu handler, int slotId, ItemStack stack, CallbackInfo ci) {
+		if (!SkinTotemConfig.getInstance().isModEnabled() || this.tagButtonWidget == null || this.tagMenuWidget == null) {
 			return;
 		}
 		if (slotId == 0) {
-			this.tagButtonWidget.visible = SkinTotemModClient.canProcess(stack);
+			this.tagButtonWidget.visible = SkinTotemClient.canProcess(stack);
 			if (!this.tagButtonWidget.visible && this.tagMenuWidget.visible) {
 				this.tagButtonWidget.setPressed(false, true);
 			}
 		}
 	}
 
-	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getName()Lnet/minecraft/text/Component;"), method = "onSlotUpdate")
+	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getHoverName()Lnet/minecraft/network/chat/Component;"), method = "slotChanged")
 	private Component swapItemName(ItemStack stack, Operation<Component> original) {
-		if (!SkinTotemModClient.canProcess(stack)) {
+		if (!SkinTotemClient.canProcess(stack)) {
 			return original.call(stack);
 		}
 		Component customName = stack.getRealCustomName();
@@ -273,12 +238,12 @@ public abstract class AnvilScreenMixin extends AnvilScreen implements MTDAnvilSc
 	}
 
 	@Override
-	public @Nullable TagButtonWidget myTotemDoll$getTagButtonWidget() {
+	public @Nullable TagButtonWidget mySkinTotem$getTagButtonWidget() {
 		return this.tagButtonWidget;
 	}
 
 	@Override
-	public @Nullable TagMenuWidget myTotemDoll$getTagMenuWidget() {
+	public @Nullable TagMenuWidget mySkinTotem$getTagMenuWidget() {
 		return this.tagMenuWidget;
 	}
 }

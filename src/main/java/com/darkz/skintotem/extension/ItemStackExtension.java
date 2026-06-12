@@ -1,53 +1,32 @@
 package com.darkz.skintotem.extension;
 
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.chat.Component;
-import com.darkz.skintotem.doll.data.*;
+import com.darkz.skintotem.doll.data.SkinTotemData;
 import com.darkz.skintotem.doll.manager.*;
 import com.darkz.skintotem.tag.manager.TagsManager;
 import com.darkz.skintotem.utils.mixin.*;
-
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public class ItemStackExtension {
 
 	@Nullable
 	public static Component getRealCustomName(ItemStack itemStack) {
-		//? if >=1.21 {
-		if (itemStack.components == null) {
-			return null;
-		}
-		return itemStack.components.get(net.minecraft.component.DataComponents.CUSTOM_NAME);
-		//?} else {
-		/*net.minecraft.nbt.NbtCompound nbtCompound = itemStack.getSubNbt("display");
-		if (nbtCompound != null && nbtCompound.contains("Name", 8)) {
-			try {
-				Component text = net.minecraft.text.Component.Serializer.fromJson(nbtCompound.getString("Name"));
-				if (text != null) {
-					return text;
-				}
-
-				nbtCompound.remove("Name");
-			} catch (Exception var3) {
-				nbtCompound.remove("Name");
-			}
-		}
-
-		return null;
-		*///?}
+		// components is accessible via AW in 26.1
+		return itemStack.components.get(net.minecraft.core.component.DataComponents.CUSTOM_NAME);
 	}
 
-	public static TotemDollData getTotemDollData(ItemStack stack) {
-		return getTotemDollData(stack, true);
+	public static SkinTotemData getSkinTotemData(ItemStack stack) {
+		return getSkinTotemData(stack, true);
 	}
 
-	public static TotemDollData getTotemDollData(ItemStack stack, boolean applyRenderProperties) {
+	public static SkinTotemData getSkinTotemData(ItemStack stack, boolean applyRenderProperties) {
 		Component name = getRealCustomName(stack);
 
 		if (name != null) {
 			String o = TagsManager.getNicknameOrSkinProviderFromName(name.getString());
-			TotemDollData data = TotemDollManager.getDoll(o);
+			SkinTotemData data = SkinTotemManager.getDoll(o);
 
 			// refresh render properties
 			data.refreshRenderProperties();
@@ -61,24 +40,24 @@ public class ItemStackExtension {
 			return applyRenderProperties ? data.applyRenderProperties() : data; // apply render properties
 		}
 
-		TotemDollData data = StandardTotemDollManager.getStandardDoll().refreshRenderProperties();
+		SkinTotemData data = StandardSkinTotemManager.getStandardDoll().refreshRenderProperties();
 		return applyRenderProperties ? data.applyRenderProperties() : data;
 	}
 
 	public static void setModdedModel(ItemStack itemStack, boolean modded) {
-		((ItemStackWithModdedBakedModel) itemStack).myTotemDoll$setModdedModel(modded);
+		((ItemStackWithModdedBakedModel) (Object) itemStack).mySkinTotem$setModdedModel(modded);
 	}
 
 	public static boolean hasModdedModel(ItemStack itemStack) {
-		return ((ItemStackWithModdedBakedModel) itemStack).myTotemDoll$isModdedModel();
+		return ((ItemStackWithModdedBakedModel) (Object) itemStack).mySkinTotem$isModdedModel();
 	}
 
 	public static void setPlayerEntity(ItemStack itemStack, AbstractClientPlayer playerEntity) {
-		((ItemStackWithPlayerEntity) itemStack).myTotemDoll$setPlayerEntity(playerEntity);
+		((ItemStackWithPlayerEntity) (Object) itemStack).mySkinTotem$setPlayerEntity(playerEntity);
 	}
 
 	public static AbstractClientPlayer getPlayerEntity(ItemStack itemStack) {
-		return ((ItemStackWithPlayerEntity) itemStack).myTotemDoll$getPlayerEntity();
+		return ((ItemStackWithPlayerEntity) (Object) itemStack).mySkinTotem$getPlayerEntity();
 	}
 
 }

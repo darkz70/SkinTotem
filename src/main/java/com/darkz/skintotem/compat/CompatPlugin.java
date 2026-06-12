@@ -1,11 +1,9 @@
 package com.darkz.skintotem.compat;
 
+import java.util.*;
+import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.*;
-
-import net.fabricmc.loader.api.FabricLoader;
-
-import java.util.*;
 
 public abstract class CompatPlugin implements IMixinConfigPlugin {
 

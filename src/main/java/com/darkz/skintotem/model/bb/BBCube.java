@@ -1,23 +1,16 @@
 package com.darkz.skintotem.model.bb;
 
-import com.google.common.collect.*;
-import lombok.*;
-import lombok.experimental.ExtensionMethod;
-import net.minecraft.client.model.*;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.model.CubeDeformation;
-import net.minecraft.util.*;
-import net.minecraft.core.Direction;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
+import java.util.*;
+import lombok.*;
+import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.config.other.vector.Vec3f;
 import com.darkz.skintotem.extension.DilationExtension;
-
-import java.util.*;
-import org.jetbrains.annotations.*;
-
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.core.*;
+import net.minecraft.util.Util;
 import static com.darkz.skintotem.utils.CodecUtils.option;
 
 
@@ -27,7 +20,7 @@ import static com.darkz.skintotem.utils.CodecUtils.option;
 @ExtensionMethod(DilationExtension.class)
 public class BBCube {
 
-	public static Codec<CubeDeformation> DILATION_CODEC = Codec.FLOAT.xmap(CubeDeformation::new, dilation -> dilation.getRadiusX());
+	public static final Codec<CubeDeformation> DILATION_CODEC = Codec.FLOAT.xmap(CubeDeformation::new, dilation -> dilation.getRadiusX());
 
 	public static final Codec<BBCube> CODEC = RecordCodecBuilder.create(inst -> inst.group(
 			option("name", Codec.STRING, BBCube::getName),
@@ -37,7 +30,7 @@ public class BBCube {
 			option("rotation", new Vec3f(), Vec3f.CODEC, BBCube::getRotation),
 			option("inflate", CubeDeformation.NONE, DILATION_CODEC, BBCube::getInflate),
 			option("autouv", Codec.INT, BBCube::getAutoUV),
-			option("uuid", Uuids.CODEC, BBCube::getUuid),
+			option("uuid", UUIDUtil.AUTHLIB_CODEC, BBCube::getUuid),
 			option("visibility", true, Codec.BOOL, BBCube::isVisible)
 	).apply(inst, BBCube::new));
 
@@ -65,8 +58,8 @@ public class BBCube {
 		this.visible  = visible;
 	}
 
-	public ModelPart.Rotation getItemTransform() {
-		return ModelPart.Rotation.of(this.origin.x(), this.origin.y(), this.origin.z(), (float) -Math.toRadians(this.rotation.x()), (float) -Math.toRadians(this.rotation.y()), (float) Math.toRadians(this.rotation.z()));
+	public PartPose getTransformation() {
+		return PartPose.offsetAndRotation(this.origin.x(), this.origin.y(), this.origin.z(), (float) -Math.toRadians(this.rotation.x()), (float) -Math.toRadians(this.rotation.y()), (float) Math.toRadians(this.rotation.z()));
 	}
 
 	@Getter
@@ -85,7 +78,7 @@ public class BBCube {
 
 		public static final Codec<BBCubeFace> CODEC = RecordCodecBuilder.create(inst -> inst.group(
 				option("uv", UV.CODEC, BBCubeFace::getUv),
-				option("rotation",0, Codec.INT, BBCubeFace::getRotation)
+				option("rotation", 0, Codec.INT, BBCubeFace::getRotation)
 		).apply(inst, BBCubeFace::new));
 
 		private UV uv;
@@ -100,7 +93,7 @@ public class BBCube {
 
 		public static final Codec<UV> CODEC = Codec.FLOAT.listOf()
 				.comapFlatMap(
-						(coordinates) -> Util.decodeFixedLengthList(coordinates, 4)
+						(coordinates) -> Util.fixedSize(coordinates, 4)
 								.map((list) -> new UV(list.get(0), list.get(1), list.get(2), list.get(3))),
 						(vec) -> List.of(vec.getFromU(), vec.getFromV(), vec.getToU(), vec.getToV())
 				);

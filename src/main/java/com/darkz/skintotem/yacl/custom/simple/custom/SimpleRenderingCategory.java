@@ -2,7 +2,6 @@ package com.darkz.skintotem.yacl.custom.simple.custom;
 
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.ConfigCategory.Builder;
-
 import com.darkz.skintotem.yacl.YACLConfigurationScreen;
 import com.darkz.skintotem.yacl.custom.category.rendering.RenderingConfigCategory;
 

@@ -1,37 +1,38 @@
 package com.darkz.skintotem.gui.widget.button;
 
-import lombok.Getter;
-import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.ObjectSelectionList;
-import net.minecraft.network.chat.Component;
-
 import java.util.List;
+import lombok.Getter;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Button.OnPress;
+import net.minecraft.client.gui.components.ContainerObjectSelectionList.Entry;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.network.chat.Component;
 
 @Getter
 public class ButtonListEntryWidget extends Entry<ButtonListEntryWidget> {
 
 	private final Button widget;
 
-	public ButtonListEntryWidget(Component text, PressAction pressAction) {
+	public ButtonListEntryWidget(Component text, OnPress pressAction) {
 		this.widget = Button.builder(text, pressAction).build();
 	}
 
 	@Override
-	public List<? extends Selectable> selectableChildren() {
+	public List<? extends NarratableEntry> narratables() {
 		return List.of(this.widget);
 	}
 
 	@Override
-	public List<? extends Element> children() {
+	public List<? extends GuiEventListener> children() {
 		return List.of(this.widget);
 	}
 
-	//? if >=1.21.9 {
 	@Override
-	public void render(GuiGraphics context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
-		this.widget.render(context, mouseX, mouseY, deltaTicks);
+	public void extractContent(GuiGraphicsExtractor context, int mouseX, int mouseY, boolean hovered, float deltaTicks) {
+		this.widget.extractRenderState(context, mouseX, mouseY, deltaTicks);
 	}
 
 	@Override
@@ -57,53 +58,22 @@ public class ButtonListEntryWidget extends Entry<ButtonListEntryWidget> {
 		super.setY(y);
 		this.widget.setY(y);
 	}
-	//?} else {
-	/*@Override
-	public void render(GuiGraphics context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-		this.widget.setWidth(entryWidth);
-		this.widget.setX(x);
 
-		//? if >=1.21 {
-		this.widget.setHeight(entryHeight);
-		this.widget.setY(y);
-		//?} else {
-		/^this.widget.setY(y + ((entryHeight - 20) / 2));
-		 ^///?}
-		this.widget.render(context, mouseX, mouseY, tickDelta);
-	}
-	*///?}
 
-	//? if >=1.21.9 {
 	@Override
-	public boolean mouseClicked(Click click, boolean doubled) {
+	public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
 		return this.widget.mouseClicked(click, doubled);
 	}
 
 	@Override
-	public boolean mouseDragged(Click click, double offsetX, double offsetY) {
+	public boolean mouseDragged(MouseButtonEvent click, double offsetX, double offsetY) {
 		return this.widget.mouseDragged(click, offsetX, offsetY);
 	}
 
 	@Override
-	public boolean mouseReleased(Click click) {
+	public boolean mouseReleased(MouseButtonEvent click) {
 		return this.widget.mouseReleased(click);
 	}
-	//?} else {
-	/*@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int button) {
-		return this.widget.mouseClicked(mouseX, mouseY, button);
-	}
-
-	@Override
-	public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-		return this.widget.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
-	}
-
-	@Override
-	public boolean mouseReleased(double mouseX, double mouseY, int button) {
-		return this.widget.mouseReleased(mouseX, mouseY, button);
-	}
-	*///?}
 
 	@Override
 	public void mouseMoved(double mouseX, double mouseY) {

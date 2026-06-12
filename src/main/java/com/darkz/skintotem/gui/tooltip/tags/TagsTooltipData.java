@@ -1,7 +1,7 @@
 package com.darkz.skintotem.gui.tooltip.tags;
 
-import net.minecraft.world.item.tooltip.TooltipData;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 
-public record TagsTooltipData(String tags) implements TooltipData {
+public record TagsTooltipData(String tags) implements TooltipComponent {
 
 }

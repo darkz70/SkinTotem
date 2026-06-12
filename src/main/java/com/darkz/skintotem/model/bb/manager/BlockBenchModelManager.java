@@ -2,60 +2,53 @@ package com.darkz.skintotem.model.bb.manager;
 
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
-import net.fabricmc.loader.api.*;
-import com.darkz.skintotem.atlas.manager.*;
-import com.darkz.skintotem.model.bb.BBOutliner;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelPart.Rotation;
-import net.minecraft.client.renderer.block.model.*;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.util.*;
-import net.minecraft.core.Direction;
-import org.slf4j.*;
-
 import com.mojang.datafixers.util.Either;
-import com.mojang.serialization.*;
-
-import com.darkz.skintotem.SkinTotemMod;
+import com.mojang.serialization.Codec;
+import java.io.*;
+import java.nio.file.NoSuchFileException;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.Consumer;
+import net.fabricmc.loader.api.*;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.api.Response;
+import com.darkz.skintotem.atlas.manager.*;
 import com.darkz.skintotem.config.other.vector.Vec3f;
-import com.darkz.skintotem.doll.data.TotemDollData;
+import com.darkz.skintotem.doll.data.SkinTotemData;
 import com.darkz.skintotem.doll.manager.*;
-import com.darkz.skintotem.doll.model.TotemDollModel;
-import net.minecraft.resources.ResourceLocation;
+import com.darkz.skintotem.doll.model.SkinTotemModel;
 import com.darkz.skintotem.model.base.*;
 import com.darkz.skintotem.model.bb.*;
 import com.darkz.skintotem.model.bb.BBCube.*;
 import com.darkz.skintotem.model.bb.BBModel.*;
 import com.darkz.skintotem.utils.CodecUtils;
-
-import java.io.*;
-import java.nio.file.NoSuchFileException;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.function.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.resources.model.cuboid.*;
+import net.minecraft.client.resources.model.cuboid.*;
+import net.minecraft.core.*;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.resources.ResourceManager;
 import org.jetbrains.annotations.*;
+import org.slf4j.*;
 
 // 0 - success
 // -1 - failed
 // 99 - loading
 public class BlockBenchModelManager {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("%s/BlockBenchModelManager".formatted(SkinTotemMod.MOD_NAME));
+	private static final Logger LOGGER = LoggerFactory.getLogger("%s/BlockBenchModelManager".formatted(SkinTotem.MOD_NAME));
 
-	private static final Map<ResourceLocation, CompletableFuture<Response<MModelFactory>>> LOADED_MODELS = new ConcurrentHashMap<>();
+	private static final Map<Identifier, CompletableFuture<Response<MModelFactory>>> LOADED_MODELS = new ConcurrentHashMap<>();
 
 	private static final Set<String> SUPPORTED_MODEL_FORMATS = Set.of("java_block", "free_rotation");
 
 	@Nullable
-	private static ResourceManager currentResourceManager = null;
-
-	@Nullable
-	public static MModel getModel(ResourceLocation id) {
+	public static MModel getModel(Identifier id) {
 		return createMModel(getMModelFactoryAsResponse(id)).value();
 	}
 
-	public static @NotNull Response<MModelFactory> getMModelFactoryAsResponse(ResourceLocation id) {
+	public static @NotNull Response<MModelFactory> getMModelFactoryAsResponse(Identifier id) {
 		CompletableFuture<Response<MModelFactory>> future = LOADED_MODELS.computeIfAbsent(id,
 				(key) -> CompletableFuture.completedFuture(createMModelFactory(id))
 		);
@@ -73,7 +66,7 @@ public class BlockBenchModelManager {
 		return Response.empty(-1);
 	}
 
-	public static void consumeModelById(ResourceLocation id, Consumer<MModel> consumer) {
+	public static void consumeModelById(Identifier id, Consumer<MModel> consumer) {
 		BlockBenchModelManager.getModelAsyncAsResponse(id, (response) -> {
 			MModel value = response.value();
 			if (value != null) {
@@ -82,7 +75,7 @@ public class BlockBenchModelManager {
 		});
 	}
 
-	public static void getModelAsyncAsResponse(ResourceLocation id, Consumer<Response<MModel>> consumer) {
+	public static void getModelAsyncAsResponse(Identifier id, Consumer<Response<MModel>> consumer) {
 		LOADED_MODELS.computeIfAbsent(
 				id,
 				(key) -> CompletableFuture.supplyAsync(() -> createMModelFactory(id))
@@ -108,7 +101,7 @@ public class BlockBenchModelManager {
 		return Response.empty(-10);
 	}
 
-	private static @NotNull Response<MModelFactory> createMModelFactory(ResourceLocation id) {
+	private static @NotNull Response<MModelFactory> createMModelFactory(Identifier id) {
 		Response<BBModel> response = parseModel(id);
 		int statusCode = response.statusCode();
 		BBModel value = response.value();
@@ -121,7 +114,7 @@ public class BlockBenchModelManager {
 	}
 
 	@NotNull
-	private static Response<BBModel> parseModel(ResourceLocation id) {
+	private static Response<BBModel> parseModel(Identifier id) {
 		try {
 			JsonObject jsonObject = readAsJsonObject(id);
 
@@ -152,7 +145,7 @@ public class BlockBenchModelManager {
 	}
 
 	@NotNull
-	private static Response<BBModel> processBBModel410(ResourceLocation id, JsonObject jsonObject, String name, BBModelMeta meta) {
+	private static Response<BBModel> processBBModel410(Identifier id, JsonObject jsonObject, String name, BBModelMeta meta) {
 		BBModelResolution resolution = CodecUtils.decode("resolution", BBModelResolution.CODEC, jsonObject);
 		if (resolution == null) {
 			LOGGER.warn("Failed to parse resolution from 4.10 format for model \"{}\"! Skipping.", name);
@@ -166,7 +159,7 @@ public class BlockBenchModelManager {
 	}
 
 	@NotNull
-	private static Response<BBModel> processBBModel50(ResourceLocation id, JsonObject jsonObject, String name, BBModelMeta meta) {
+	private static Response<BBModel> processBBModel50(Identifier id, JsonObject jsonObject, String name, BBModelMeta meta) {
 		BBModelResolution resolution = CodecUtils.decode("resolution", BBModelResolution.CODEC, jsonObject);
 		if (resolution == null) {
 			LOGGER.warn("Failed to parse resolution from 5.0 format for model \"{}\"! Skipping.", name);
@@ -198,11 +191,7 @@ public class BlockBenchModelManager {
 		BBCubeFaces cubeFaces = new BBCubeFaces(new HashMap<>());
 
 		for (Direction direction : Direction.values()) {
-			//? if >=1.21.5 {
-			String id = direction.getId();
-			//?} else {
-			/*String id = direction.getName();
-			*///?}
+			String id = direction.getName();
 			JsonObject face = faces.get(id).getAsJsonObject();
 			if (face.has("texture") && face.get("texture").isJsonNull()) {
 				continue;
@@ -221,7 +210,7 @@ public class BlockBenchModelManager {
 		List<UUID> rootCubes = new ArrayList<>();
 		List<BBOutliner> outliners = new ArrayList<>();
 		for (JsonElement jsonElement : jsonObject.get("outliner").getAsJsonArray()) {
-			CodecUtils.decode(Codec.either(BBOutliner.CODEC, Uuids.CODEC), jsonElement, (either) -> {
+			CodecUtils.decode(Codec.either(BBOutliner.CODEC, UUIDUtil.CODEC), jsonElement, (either) -> {
 				Optional<BBOutliner> left = either.left();
 				left.ifPresent(outliners::add);
 				Optional<UUID> right = either.right();
@@ -265,7 +254,7 @@ public class BlockBenchModelManager {
 		List<UUID> rootCubes = new ArrayList<>();
 		List<BBGroup> groups = new ArrayList<>();
 		for (JsonElement jsonElement : jsonObject.get("outliner").getAsJsonArray()) {
-			CodecUtils.decode(Codec.either(BBGroup.CODEC, Uuids.CODEC), jsonElement, (either) -> {
+			CodecUtils.decode(Codec.either(BBGroup.CODEC, UUIDUtil.CODEC), jsonElement, (either) -> {
 				Optional<BBGroup> left = either.left();
 				left.ifPresent((group) -> {
 					if (group.getName().equals("root")) {
@@ -281,11 +270,7 @@ public class BlockBenchModelManager {
 		return new BBModelGroupsAndRootCubes(rootCubes, groups);
 	}
 
-	private record BBModelGroupsAndRootCubes(List<UUID> rootCubes, List<BBGroup> groups) {
-
-	}
-
-	private static @NotNull BBModel createFinalBBModel(ResourceLocation id, JsonObject jsonObject, String name, BBModelMeta meta, List<UUID> rootCubes, List<BBGroup> groups, BBModelResolution resolution, List<BBCube> cubes) {
+	private static @NotNull BBModel createFinalBBModel(Identifier id, JsonObject jsonObject, String name, BBModelMeta meta, List<UUID> rootCubes, List<BBGroup> groups, BBModelResolution resolution, List<BBCube> cubes) {
 		BBGroup rootGroup = new BBGroup(
 				"root",
 				new Vec3f(),
@@ -299,15 +284,13 @@ public class BlockBenchModelManager {
 		);
 		groups.add(0, rootGroup);
 
-		ModelPart.Rotationation display = CodecUtils.decode("display", ModelPart.Rotationation.NONE, ItemTransforms.MODEL_TRANSFORMATION_CODEC, jsonObject);
+		ItemTransforms display = CodecUtils.decode("display", ItemTransforms.NO_TRANSFORMS, Transformations.MODEL_TRANSFORMATION_CODEC, jsonObject);
 		Boolean frontGuiLight = CodecUtils.decode("front_gui_light", false, Codec.BOOL, jsonObject);
 		return new BBModel(id, name, meta, resolution, cubes, groups, frontGuiLight, display);
 	}
 
-	private static JsonObject readAsJsonObject(ResourceLocation id) throws IOException {
-		ResourceManager resourceManager = currentResourceManager != null
-				? currentResourceManager
-				: Minecraft.getInstance().getResourceManager();
+	private static JsonObject readAsJsonObject(Identifier id) throws IOException {
+		ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
 		InputStream open = resourceManager.open(id);
 		return new Gson().fromJson(new JsonReader(new InputStreamReader(open)), JsonObject.class);
 	}
@@ -322,13 +305,13 @@ public class BlockBenchModelManager {
 		BBModelResolution resolution = model.getResolution();
 
 		builder.collectAllBuiltinTextures().forEach((id, updateConsumer) -> {
-			SkinTotemModAtlasSpriteManager.registerDynamicSprite(id, false, updateConsumer::accept);
+			SkinTotemAtlasSpriteManager.registerDynamicSprite(id, false, updateConsumer::accept);
 		});
 
-		SkinTotemModAtlasManager.stitchAndUpdate(SkinTotemModAtlasSpriteManager.getSprites(), null);
+		SkinTotemAtlasManager.stitchAndUpdate(SkinTotemAtlasSpriteManager.getSprites(), null);
 
 		return () -> builder
-				.withTransform(ModelPart.Rotation./*? if <=1.21.4 {*/ /*pivot *//*?} else {*/ origin /*?}*/(-16.0F, -8.0F, 0.0F))
+				.withTransform(PartPose.offset(-16.0F, -8.0F, 0.0F))
 				.build(resolution.getWidth(), resolution.getHeight())
 				.initAfterBuild(model);
 	}
@@ -355,7 +338,7 @@ public class BlockBenchModelManager {
 		}
 
 		return builder
-				.withTransform(group.getItemTransform());
+				.withTransform(group.getTransformation());
 	}
 
 	private static MModelBuilder getChildCube(BBCube cube) {
@@ -363,7 +346,7 @@ public class BlockBenchModelManager {
 		Vec3f to = cube.getTo();
 
 		MCubeBuilder cubeBuilder = MCubeBuilder.blockBenchBuilder(from.x(), from.y(), from.z(), to.x(), to.y(), to.z())
-				.withCubeDeformation(cube.getInflate());
+				.withDilation(cube.getInflate());
 
 		BBCubeFaces faces = cube.getFaces();
 		Map<Direction, BBCubeFace> map = faces.getFaces();
@@ -389,17 +372,20 @@ public class BlockBenchModelManager {
 
 		return MModelBuilder.builder(ModelState.CUBE)
 				.addCube(cubeBuilder)
-				.withTransform(cube.getItemTransform());
+				.withTransform(cube.getTransformation());
 	}
 
-	public static void reload(ResourceManager resourceManager) {
-		currentResourceManager = resourceManager;
+	public static void reload() {
 		LOADED_MODELS.clear();
-		for (TotemDollData data : TotemDollManager.getAllLoadedDolls()) {
+		for (SkinTotemData data : SkinTotemManager.getAllLoadedDolls()) {
 			data.clearAllFrameModelsCompletely();
 			data.setShouldRecreateStandardModel(true);
 		}
-		TotemDollModel.createDollModel(); // Reloading doll at resource reloading while we can
-		StandardTotemDollManager.initializeStandardDollData();
+		SkinTotemModel.createDollModel(); // Reloading doll at resource reloading while we can
+		StandardSkinTotemManager.initializeStandardDollData();
+	}
+
+	private record BBModelGroupsAndRootCubes(List<UUID> rootCubes, List<BBGroup> groups) {
+
 	}
 }

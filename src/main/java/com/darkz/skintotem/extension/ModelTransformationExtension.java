@@ -1,53 +1,43 @@
 package com.darkz.skintotem.extension;
 
-import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.client.resources.model.cuboid.*;
 
 public class ModelTransformationExtension {
-	
-	public static ItemTransform getTl(ModelPart.Rotationation transform) {
-		return /*? >=1.21.4 {*/ transform.thirdPersonLeftHand(); /*?} else {*/ /*transform.thirdPersonLeftHand; *//*?}*/
+
+	public static ItemTransform getTl(ItemTransforms transform) {
+		return transform.thirdPersonLeftHand();
 	}
 
-	public static ItemTransform getTr(ModelPart.Rotationation transform) {
-		return /*? >=1.21.4 {*/ transform.thirdPersonRightHand(); /*?} else {*/ /*transform.thirdPersonRightHand; *//*?}*/
+	public static ItemTransform getTr(ItemTransforms transform) {
+		return transform.thirdPersonRightHand();
 	}
 
-	public static ItemTransform getFl(ModelPart.Rotationation transform) {
-		return /*? >=1.21.4 {*/ transform.firstPersonLeftHand(); /*?} else {*/ /*transform.firstPersonLeftHand; *//*?}*/
+	public static ItemTransform getFl(ItemTransforms transform) {
+		return transform.firstPersonLeftHand();
 	}
 
-	public static ItemTransform getFr(ModelPart.Rotationation transform) {
-		return /*? >=1.21.4 {*/ transform.firstPersonRightHand(); /*?} else {*/ /*transform.firstPersonRightHand; *//*?}*/
+	public static ItemTransform getFr(ItemTransforms transform) {
+		return transform.firstPersonRightHand();
 	}
 
-	public static ItemTransform getHead(ModelPart.Rotationation transform) {
-		return /*? >=1.21.4 {*/ transform.head(); /*?} else {*/ /*transform.head; *//*?}*/
+	public static ItemTransform getHead(ItemTransforms transform) {
+		return transform.head();
 	}
 
-	public static ItemTransform getGui(ModelPart.Rotationation transform) {
-		return /*? >=1.21.4 {*/ transform.gui(); /*?} else {*/ /*transform.gui; *//*?}*/
+	public static ItemTransform getGui(ItemTransforms transform) {
+		return transform.gui();
 	}
 
-	public static ItemTransform getGround(ModelPart.Rotationation transform) {
-		return /*? >=1.21.4 {*/ transform.ground(); /*?} else {*/ /*transform.ground; *//*?}*/
+	public static ItemTransform getGround(ItemTransforms transform) {
+		return transform.ground();
 	}
 
-	public static ItemTransform getFixed(ModelPart.Rotationation transform) {
-		return /*? >=1.21.4 {*/ transform.fixed(); /*?} else {*/ /*transform.fixed; *//*?}*/
+	public static ItemTransform getFixed(ItemTransforms transform) {
+		return transform.fixed();
 	}
 
-	//? if >=1.21.9 {
-	public static ItemTransform getOnShelf(ModelPart.Rotationation transform) {
+	public static ItemTransform getOnShelf(ItemTransforms transform) {
 		return transform.fixedFromBottom();
 	}
-	//?}
-
-//	public static ModelPart.Rotationation getBlockBenchedModelTransformation(ModelPart.Rotationation transform) {
-//		return ModelPart.Rotationation.of(-getPivotX(transform), -getPivotY(transform), getPivotZ(transform), getPitch(transform), getYaw(transform), getRoll(transform));
-//	}
-//
-//	public static String asString(ModelPart.Rotationation transform) {
-//		return "%s %s %s | %s %s %s".formatted(getPivotX(transform), getPivotY(transform), getPivotZ(transform), getPitch(transform), getYaw(transform), getRoll(transform));
-//	}
 
 }

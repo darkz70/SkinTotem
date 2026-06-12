@@ -1,31 +1,19 @@
 package com.darkz.skintotem.gui.screen;
 
+import com.darkz.skintotem.SkinTotem;
+import com.darkz.skintotem.config.SkinTotemConfig;
+import com.darkz.skintotem.doll.model.SkinTotemModel;
+import com.darkz.skintotem.gui.*;
+import com.darkz.skintotem.gui.widget.SkinTotemModelPreviewWidget;
+import com.darkz.skintotem.gui.widget.preview.WelcomeSkinTotemModelPreviewWidget;
+import com.darkz.skintotem.utils.DrawUtils;
 import com.darkz.skintotem.utils.texture.PlayerSkinUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.screens.*;
-import net.minecraft.resources.ResourceLocation;
-
-import com.darkz.skintotem.SkinTotemMod;
-import com.darkz.skintotem.config.SkinTotemModConfig;
-import com.darkz.skintotem.doll.model.TotemDollModel;
-import com.darkz.skintotem.gui.*;
-import com.darkz.skintotem.gui.widget.TotemDollModelPreviewWidget;
-import com.darkz.skintotem.gui.widget.preview.WelcomeTotemDollModelPreviewWidget;
-import com.darkz.skintotem.utils.DrawUtils;
-
-import org.jetbrains.annotations.NotNull;
-
-//? if >=1.21.11 {
 import net.minecraft.client.gui.components.MultiLineLabel;
-//?}
-
-//? if >=1.21.9 && <=1.21.10 {
-/*
-
-*/
-//?}
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.NotNull;
 
 public class WelcomeScreen extends Screen {
 
@@ -33,20 +21,14 @@ public class WelcomeScreen extends Screen {
 	private Area textArea;
 	private Area firstDollArea;
 	private Area secondDollArea;
-	private TotemDollModelPreviewWidget firstDollPreviewWidget;
-	private TotemDollModelPreviewWidget secondDollPreviewWidget;
+	private SkinTotemModelPreviewWidget firstDollPreviewWidget;
+	private SkinTotemModelPreviewWidget secondDollPreviewWidget;
 	private MultiLineLabel text;
 
-	//? if =1.20.1 {
-	/*private final RotatingCubeMapRenderer backgroundRenderer;
-	*///?}
 
 	public WelcomeScreen(Runnable onClose) {
-		super(SkinTotemMod.text("welcome_screen.title"));
+		super(SkinTotem.text("welcome_screen.title"));
 		this.onClose = onClose;
-		//? if =1.20.1 {
-		/*this.backgroundRenderer = new RotatingCubeMapRenderer(TitleScreen.PANORAMA_CUBE_MAP);
-		*///?}
 	}
 
 	@Override
@@ -54,14 +36,10 @@ public class WelcomeScreen extends Screen {
 		int offset = 20;
 		int screenWidth = this.width;
 		int screenHeight = this.height;
-		this.text = MultiLineLabel.create(Minecraft.getInstance().textRenderer, SkinTotemMod.text("welcome_screen.text"), screenWidth - (offset * 2));
+		this.text = MultiLineLabel.create(Minecraft.getInstance().font, SkinTotem.text("welcome_screen.text"), screenWidth - (offset * 2));
 
-		//? if >=1.21.9 {
 		int textHeight = (this.text.getLineCount() * 9) + 10;
-		//?} else {
-		/*int textHeight = (this.text.count() * 9) + 10;
-		*///?}
-		int textWidth = this.text.getMaxWidth() + 10;
+		int textWidth = this.text.getWidth() + 10;
 
 		this.textArea = new Area().size(textWidth, textHeight).centrolizeX(0, screenWidth).y(offset);
 
@@ -70,25 +48,27 @@ public class WelcomeScreen extends Screen {
 		int previewX = (screenWidth - (size * 2) - offset) / 2;
 
 		Area previewArea = new Area().size(size, size).pos(previewX, previewY);
-		this.firstDollArea = previewArea.copy();
+		this.firstDollArea  = previewArea.copy();
 		this.secondDollArea = previewArea.copy().x(previewX + size + offset);
 
-		this.firstDollPreviewWidget = this.addSelectableChild(createWelcomeModelPreviewWidget(this.firstDollArea, TotemDollModel.THREE_D_MODEL_id));
-		this.secondDollPreviewWidget = this.addSelectableChild(createWelcomeModelPreviewWidget(this.secondDollArea, TotemDollModel.TWO_D_MODEL_ID));
+		this.firstDollPreviewWidget  = this.addWidget(createWelcomeModelPreviewWidget(this.firstDollArea, SkinTotemModel.THREE_D_MODEL_id));
+		this.secondDollPreviewWidget = this.addWidget(createWelcomeModelPreviewWidget(this.secondDollArea, SkinTotemModel.TWO_D_MODEL_ID));
 
 		if (this.firstDollArea.getX() < this.textArea.getX()) {
 			this.textArea.x(this.firstDollArea.getX()).width((size * 2) + offset);
 		}
 	}
 
-	private @NotNull WelcomeTotemDollModelPreviewWidget createWelcomeModelPreviewWidget(Area area, Identifier modelId) {
+	private @NotNull WelcomeSkinTotemModelPreviewWidget createWelcomeModelPreviewWidget(Area area, Identifier modelId) {
 		Runnable runnable = () -> {
-			SkinTotemModConfig config = SkinTotemModConfig.getInstance();
-			config.setStandardTotemDollModelValue(modelId);
-			this.close();
+			SkinTotemConfig config = SkinTotemConfig.getInstance();
+			config.setSelectedStandardSkinTotemModelValue(modelId);
+			config.setStandardSkinTotemModelValue(modelId);
+			config.saveAsync();
+			this.onClose();
 		};
 
-		WelcomeTotemDollModelPreviewWidget widget = new WelcomeTotemDollModelPreviewWidget(area.getX(), area.getY(), area.getWidth(), runnable);
+		WelcomeSkinTotemModelPreviewWidget widget = new WelcomeSkinTotemModelPreviewWidget(area.getX(), area.getY(), area.getWidth(), runnable);
 		widget.updateModel(modelId);
 
 		PlayerSkinUtils.setupClientTextures(widget.getData());
@@ -97,38 +77,27 @@ public class WelcomeScreen extends Screen {
 	}
 
 	@Override
-	public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
-		super.render(context, mouseX, mouseY, delta);
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+		super.extractRenderState(graphics, mouseX, mouseY, delta);
 
-		//? if =1.20.1 {
-		/*this.backgroundRenderer.render(delta, 1.0F);
-		context.fill(0, 0, this.width, this.height, -1877995504);
-		*///?}
-
-		BackgroundRenderer.drawTransparencyWidgetBackground(context, this.textArea.getX(), this.textArea.getY(), this.textArea.getWidth(), this.textArea.getHeight(), true, false);
-		//? if >=1.21.11 {
-		this.text.draw(Alignment.CENTER, this.textArea.getX() + (this.textArea.getWidth() / 2), this.textArea.getY() + 5, 9, context.getTextConsumer());
-		//?} elif >=1.21.9 {
-		/*this.text.draw(context, Alignment.CENTER, this.textArea.getX() + (this.textArea.getWidth() / 2), this.textArea.getY() + 5, 9, true, -1);
-		*///?} else {
-		/*this.text.drawCenterWithShadow(context, this.textArea.getX() + (this.textArea.getWidth() / 2), this.textArea.getY() + 5, 9, -1);
-		*///?}
+		BackgroundRenderer.drawTransparencyWidgetBackground(graphics, this.textArea.getX(), this.textArea.getY(), this.textArea.getWidth(), this.textArea.getHeight(), true, false);
+		this.text.visitLines(TextAlignment.CENTER, this.textArea.getX() + (this.textArea.getWidth() / 2), this.textArea.getY() + 5, 9, graphics.textRenderer());
 
 		boolean firstOver = this.firstDollArea.over(mouseX, mouseY);
-		BackgroundRenderer.drawTransparencyWidgetBackground(context, this.firstDollArea.getX(), this.firstDollArea.getY(), this.firstDollArea.getWidth(), this.firstDollArea.getHeight(), true, firstOver);
-		this.firstDollPreviewWidget.render(context, mouseX, mouseY, delta);
+		BackgroundRenderer.drawTransparencyWidgetBackground(graphics, this.firstDollArea.getX(), this.firstDollArea.getY(), this.firstDollArea.getWidth(), this.firstDollArea.getHeight(), true, firstOver);
+		this.firstDollPreviewWidget.extractRenderState(graphics, mouseX, mouseY, delta);
 
-		DrawUtils.drawCenteredText(context, SkinTotemMod.text("welcome_screen.option.3d"), this.firstDollArea.getX() + 10, this.firstDollArea.getY() + 10, this.firstDollArea.getWidth() - 20);
+		DrawUtils.drawCenteredText(graphics, SkinTotem.text("welcome_screen.option.3d"), this.firstDollArea.getX() + 10, this.firstDollArea.getY() + 10, this.firstDollArea.getWidth() - 20);
 
 		boolean secondOver = this.secondDollArea.over(mouseX, mouseY);
-		BackgroundRenderer.drawTransparencyWidgetBackground(context, this.secondDollArea.getX(), this.secondDollArea.getY(), this.secondDollArea.getWidth(), this.secondDollArea.getHeight(), true, secondOver);
-		this.secondDollPreviewWidget.render(context, mouseX, mouseY, delta);
+		BackgroundRenderer.drawTransparencyWidgetBackground(graphics, this.secondDollArea.getX(), this.secondDollArea.getY(), this.secondDollArea.getWidth(), this.secondDollArea.getHeight(), true, secondOver);
+		this.secondDollPreviewWidget.extractRenderState(graphics, mouseX, mouseY, delta);
 
-		DrawUtils.drawCenteredText(context, SkinTotemMod.text("welcome_screen.option.2d"), this.secondDollArea.getX() + 10, this.secondDollArea.getY() + 10, this.secondDollArea.getWidth() - 20);
+		DrawUtils.drawCenteredText(graphics, SkinTotem.text("welcome_screen.option.2d"), this.secondDollArea.getX() + 10, this.secondDollArea.getY() + 10, this.secondDollArea.getWidth() - 20);
 	}
 
 	@Override
-	public void close() {
+	public void onClose() {
 		this.onClose.run();
 	}
 }

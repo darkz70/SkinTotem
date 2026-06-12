@@ -1,11 +1,10 @@
 package com.darkz.skintotem.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
-import net.minecraft.client.renderer.texture.*;
+import com.mojang.blaze3d.platform.NativeImage;
+import net.minecraft.client.renderer.texture.SpriteContents;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
-
-import java.lang.reflect.Field;
 
 @Mixin(SpriteContents.class)
 public class SpriteContentsMixin {
@@ -13,108 +12,18 @@ public class SpriteContentsMixin {
 	@Unique
 	private static final String TEXT = "Wait! This crash was caused by the \"my-totem-doll\" mod SPECIFICALLY to prevent a crash via drivers. This crash was made to make debugging this unexpected error easier. Someone (maybe \"my-totem-doll\") just pushed closed sprite to upload and this shouldn't happen! Please report this crash-report to \"my-totem-doll\" issue tracker: https://github.com/LopyMine/My-Totem-Doll/issues";
 
-	@Unique
-	private static final java.lang.reflect.Field POINTER_FIELD = resolvePointerField();
-
-	@Unique
-	private static java.lang.reflect.Field resolvePointerField() {
-		try {
-			java.lang.reflect.Field f = NativeImage.class.getDeclaredField("pointer");
-			f.setAccessible(true);
-			return f;
-		} catch (Exception e) {
-			try {
-				// obfuscated name fallback
-				for (java.lang.reflect.Field f : NativeImage.class.getDeclaredFields()) {
-					if (f.getType() == long.class) {
-						f.setAccessible(true);
-						return f;
-					}
-				}
-			} catch (Exception ignored) {}
-			return null;
-		}
-	}
-
-	@Unique
-	private static long getPointer(NativeImage image) {
-		if (POINTER_FIELD == null) return 1L; // can't check, assume valid
-		try {
-			return POINTER_FIELD.getLong(image);
-		} catch (Exception e) {
-			return 1L; // can't read, assume valid
-		}
-	}
-
-	//? if >=1.21.11 {
 	@WrapOperation(
 			at = @At(
 					value = "INVOKE",
-					target = "Lcom/mojang/blaze3d/systems/CommandEncoder;writeToTexture(Lcom/mojang/blaze3d/textures/GpuTexture;Lnet/minecraft/client/texture/NativeImage;IIIIIIII)V"),
-			method = "upload"
+					target = "Lcom/mojang/blaze3d/systems/CommandEncoder;writeToTexture(Lcom/mojang/blaze3d/textures/GpuTexture;Lcom/mojang/blaze3d/platform/NativeImage;IIIIIIII)V"),
+			method = "uploadFirstFrame"
 	)
 	private void validateImageBeforeUpload(com.mojang.blaze3d.systems.CommandEncoder instance, com.mojang.blaze3d.textures.GpuTexture target, NativeImage source, int mipLevel, int depth, int offsetX, int offsetY, int width, int height, int skipPixels, int skipRows, Operation<Void> original) {
-		if (getPointer(source) == 0L) {
+		// pixels is accessible via AW in 26.1
+		if (source.pixels == 0L) {
 			throw new IllegalArgumentException(TEXT);
 		}
 		original.call(instance, target, source, mipLevel, depth, offsetX, offsetY, width, height, skipPixels, skipRows);
 	}
-	//?} elif >=1.21.6 {
-	/*@WrapOperation(
-			at = @At(
-					value = "INVOKE",
-					target = "Lcom/mojang/blaze3d/systems/CommandEncoder;writeToTexture(Lcom/mojang/blaze3d/textures/GpuTexture;Lnet/minecraft/client/texture/NativeImage;IIIIIIII)V"
-			),
-			method = "upload(IIII[Lnet/minecraft/client/texture/NativeImage;Lcom/mojang/blaze3d/textures/GpuTexture;)V"
-	)
-	private void validateImageBeforeUpload(com.mojang.blaze3d.systems.CommandEncoder instance, com.mojang.blaze3d.textures.GpuTexture target, NativeImage source, int mipLevel, int depth, int offsetX, int offsetY, int width, int height, int skipPixels, int skipRows, Operation<Void> original) {
-		if (getPointer(source) == 0L) {
-			throw new IllegalArgumentException(TEXT);
-		}
-		original.call(instance, target, source, mipLevel, depth, offsetX, offsetY, width, height, skipPixels, skipRows);
-	}
-	*///?} elif >=1.21.5 {
-	/*@WrapOperation(
-			at = @At(
-					value = "INVOKE",
-					target = "Lcom/mojang/blaze3d/systems/CommandEncoder;writeToTexture(Lcom/mojang/blaze3d/textures/GpuTexture;Lnet/minecraft/client/texture/NativeImage;IIIIIII)V"
-			),
-			method = "upload(IIII[Lnet/minecraft/client/texture/NativeImage;Lcom/mojang/blaze3d/textures/GpuTexture;)V"
-	)
-	private void validateImageBeforeUpload(com.mojang.blaze3d.systems.CommandEncoder instance, com.mojang.blaze3d.textures.GpuTexture target, NativeImage source, int mipLevel, int intoX, int intoY, int width, int height, int x, int y, Operation<Void> original) {
-		if (getPointer(source) == 0L) {
-			throw new IllegalArgumentException(TEXT);
-		}
-		original.call(instance, target, source, mipLevel, intoX, intoY, width, height, x, y);
-	}
-	*///?} elif >=1.21.4 {
-	/*@WrapOperation(
-			at = @At(
-					value = "INVOKE",
-					target = "Lnet/minecraft/client/texture/NativeImage;upload(IIIIIIIZ)V"
-			),
-			method = "upload(IIII[Lnet/minecraft/client/texture/NativeImage;)V"
-	)
-	private void validateImageBeforeUpload(NativeImage instance, int level, int offsetX, int offsetY, int unpackSkipPixels, int unpackSkipRows, int width, int height, boolean blur, Operation<Void> original) {
-		if (getPointer(instance) == 0L) {
-			throw new IllegalArgumentException(TEXT);
-		}
-		original.call(instance, level, offsetX, offsetY, unpackSkipPixels, unpackSkipRows, width, height, blur);
-	}
-	*///?} else {
-	/*@WrapOperation(
-			at = @At(
-					value = "INVOKE",
-					target = "Lnet/minecraft/client/texture/NativeImage;upload(IIIIIIIZZ)V"
-			),
-			method = "upload(IIII[Lnet/minecraft/client/texture/NativeImage;)V"
-	)
-	private void validateImageBeforeUpload(NativeImage instance, int level, int offsetX, int offsetY, int unpackSkipPixels, int unpackSkipRows, int width, int height, boolean mipmap, boolean close, Operation<Void> original) {
-		if (getPointer(instance) == 0L) {
-			throw new IllegalArgumentException(TEXT);
-		}
-		original.call(instance, level, offsetX, offsetY, unpackSkipPixels, unpackSkipRows, width, height, mipmap, close);
-	}
-	*///?}
 
 }

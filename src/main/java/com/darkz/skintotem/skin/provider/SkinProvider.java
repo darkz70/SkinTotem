@@ -1,19 +1,18 @@
 package com.darkz.skintotem.skin.provider;
 
-import com.darkz.skintotem.doll.data.TotemDollData;
-
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import org.jetbrains.annotations.*;
+import com.darkz.skintotem.doll.data.SkinTotemData;
+import org.jetbrains.annotations.NotNull;
 
 public interface SkinProvider {
 
 	@NotNull
-	TotemDollData getOrLoadDoll(String value);
+	SkinTotemData getOrLoadDoll(String value);
 
 	Set<String> getLoadedKeys();
 
-	Collection<TotemDollData> getLoadedDolls();
+	Collection<SkinTotemData> getLoadedDolls();
 
 	CompletableFuture<Void> reloadAll();
 

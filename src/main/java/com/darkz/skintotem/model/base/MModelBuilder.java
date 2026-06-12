@@ -1,29 +1,27 @@
 package com.darkz.skintotem.model.base;
 
-import java.util.function.*;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import lombok.*;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.atlas.AtlasSprite;
-import net.minecraft.client.model.ModelPart.Rotation;
-
-
 import com.darkz.skintotem.extension.*;
 import com.darkz.skintotem.model.bb.ModelState;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.*;
 
 @SuppressWarnings("unused")
-@ExtensionMethod({ModelTransformExtension.class, CubeDeformationExtension.class, IdentifierExtension.class})
+@ExtensionMethod({ModelTransformExtension.class, DilationExtension.class, IdentifierExtension.class})
 public class MModelBuilder {
 
 	private final List<MCubeBuilder> cuboidBuilders = new ArrayList<>();
 	private final Map<String, MModelBuilder> childrenBuilders = new HashMap<>();
 	private final ModelState state;
 	@Getter
-	private ModelPart.Rotation transform = ModelPart.Rotation.NONE;
+	private PartPose transform = PartPose.ZERO;
 	@Setter(AccessLevel.PRIVATE)
 	@Getter(AccessLevel.PRIVATE)
 	@Nullable
@@ -56,8 +54,8 @@ public class MModelBuilder {
 		return this;
 	}
 
-	public MModelBuilder withTransform(ModelPart.Rotation transform) {
-		this.transform = ModelPart.Rotation.of(transform.getPivotX(), transform.getPivotY(), transform.getPivotZ(), transform.getPitch(), transform.getYaw(), transform.getRoll());
+	public MModelBuilder withTransform(PartPose transform) {
+		this.transform = PartPose.offsetAndRotation(transform.getPivotX(), transform.getPivotY(), transform.getPivotZ(), transform.getPitch(), transform.getYaw(), transform.getRoll());
 		return this;
 	}
 
@@ -73,7 +71,7 @@ public class MModelBuilder {
 	}
 
 	private MModel build(int textureWidth, int textureHeight, boolean isParentRoot, boolean isRoot) {
-		ModelPart.Rotation cuboidTransform = this.transform.getBlockBenchedModelTransform();
+		PartPose cuboidTransform = this.transform.getBlockBenchedModelTransform();
 
 		Map<String, MModel> children = this.childrenBuilders.entrySet().stream().collect(Collectors.toMap(Entry::getKey, e -> e.getValue().build(textureWidth, textureHeight, isRoot, false)));
 		List<MCuboid> cuboids = this.cuboidBuilders.stream().map(builder -> builder.build(textureWidth, textureHeight, cuboidTransform)).toList();
@@ -82,12 +80,12 @@ public class MModelBuilder {
 
 		MModel part = new MModel(cuboids, children, this.state, name, this.builtinSprite);
 
-		ModelPart.Rotation transform = this.parent == null || isParentRoot ? this.transform : this.transform.subtract(this.parent.getTransform());
+		PartPose transform = this.parent == null || isParentRoot ? this.transform : this.transform.subtract(this.parent.getTransform());
 
-		ModelPart.Rotation blockBenchedModelTransform = transform.getBlockBenchedModelTransform();
+		PartPose blockBenchedModelTransform = transform.getBlockBenchedModelTransform();
 
-		part.setTransform(blockBenchedModelTransform);
-		part.setDefaultTransform(blockBenchedModelTransform);
+		part.loadPose(blockBenchedModelTransform);
+		part.setInitialPose(blockBenchedModelTransform);
 
 		part.xScale = this.xScale;
 		part.yScale = this.yScale;
@@ -102,14 +100,14 @@ public class MModelBuilder {
 			if (name.contains(":")) {
 				String[] split = name.split(":");
 				String namespace = split[0];
-				boolean namespaceValid = Identifier.isNamespaceValid(namespace);
+				boolean namespaceValid = Identifier.isValidNamespace(namespace);
 				String path = split[1];
-				boolean pathValid = Identifier.isPathValid(path);
+				boolean pathValid = Identifier.isValidPath(path);
 				if (namespaceValid && pathValid) {
-					this.builtinSprite = AtlasSprite.of(ResourceLocation.fromNamespaceAndPath(namespace, path));
+					this.builtinSprite = AtlasSprite.of(Identifier.fromNamespaceAndPath(namespace, path));
 				}
 			} else {
-				this.builtinSprite = AtlasSprite.of(location.getFolderId().withSuffixedPath(this.getName()));
+				this.builtinSprite = AtlasSprite.of(location.getFolderId().withSuffix(this.getName()));
 			}
 		}
 	}

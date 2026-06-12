@@ -1,13 +1,11 @@
 package com.darkz.skintotem.extension;
 
 import dev.isxander.yacl3.api.controller.*;
-import net.minecraft.network.chat.Component;
+import java.util.function.Function;
 import com.darkz.skintotem.config.other.EnumWithText;
 import com.darkz.skintotem.utils.ModMenuUtils;
 import com.darkz.skintotem.yacl.custom.simple.main.SimpleOption.Builder;
-
-
-import java.util.function.Function;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
 public class SimpleOptionExtension {
@@ -23,7 +21,7 @@ public class SimpleOptionExtension {
 
 	//
 
-	public static <T extends Enum<T> & EnumWithText> Builder<T> withController(Builder<T> builder, Class<T> clazz) {
+	public static <T extends Enum<T>&EnumWithText> Builder<T> withController(Builder<T> builder, Class<T> clazz) {
 		builder.getOptionBuilder().controller((o) -> EnumControllerBuilder.create(o).enumClass(clazz).formatValue(EnumWithText::getText));
 		return builder;
 	}

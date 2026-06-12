@@ -1,72 +1,98 @@
 package com.darkz.skintotem.model.base;
 
-import lombok.*;
-import lombok.experimental.ExtensionMethod;
-import com.darkz.skintotem.atlas.*;
-import net.minecraft.client.model.*;
-import net.minecraft.client.model.ModelPart.Cuboid;
-import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.block.model.*;
-import net.minecraft.client.renderer.texture.*;
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.core.*;
-
-import com.darkz.skintotem.extension.*;
-import com.darkz.skintotem.model.bb.*;
-
+import com.mojang.blaze3d.vertex.*;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import lombok.*;
+import lombok.experimental.ExtensionMethod;
+import com.darkz.skintotem.atlas.AtlasSprite;
+import com.darkz.skintotem.extension.*;
+import com.darkz.skintotem.model.bb.*;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.resources.model.cuboid.ItemTransforms;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.texture.*;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.*;
 import org.slf4j.Logger;
 
 @Getter
 @Setter
-@ExtensionMethod({ModelTransformExtension.class, CubeDeformationExtension.class, IdentifierExtension.class})
-public class MModel extends ModelPart {
+@ExtensionMethod({ModelTransformExtension.class, DilationExtension.class, IdentifierExtension.class})
+public class MModel {
 
-	@Setter(AccessLevel.PRIVATE)
-	private ItemTransforms transformation = ItemTransforms.NONE;
+	private final ModelPart modelPart;
 	private final Map<String, MModel> mChildren;
 	private final List<MModel> mChildrenModels;
 	private final List<MCuboid> mCuboids;
 	private final ModelState state;
 	private final String name;
-
+	@Setter(AccessLevel.PRIVATE)
+	private ItemTransforms transformation = ItemTransforms.NO_TRANSFORMS;
 	private boolean skipRendering = false;
 
 	@Nullable
 	private MModel parent;
 	@Nullable
-	private ResourceLocation location;
+	private Identifier location;
 	@Nullable
 	private AtlasSprite builtinTexture;
 
+	public boolean visible = true;
+	public boolean skipDraw = false;
+	public float xScale = 1.0f;
+	public float yScale = 1.0f;
+	public float zScale = 1.0f;
+
 	public MModel(List<MCuboid> mCuboids, Map<String, MModel> mChildren, ModelState state, String name, @Nullable AtlasSprite builtinTexture) {
-		super(mCuboids.stream().map(MCuboid::asCuboid).toList(), mChildren.entrySet().stream().collect(Collectors.toMap(Entry::getKey, e -> e.getValue().asModelPart())));
-		this.state     = state;
-		this.name      = name;
-		this.mChildren = mChildren;
+		this.modelPart = new ModelPart(mCuboids.stream().map(MCuboid::asCuboid).toList(), mChildren.entrySet().stream().collect(Collectors.toMap(Entry::getKey, e -> e.getValue().asModelPart())));
+		this.state           = state;
+		this.name            = name;
+		this.mChildren       = mChildren;
 		this.mChildrenModels = new ArrayList<>(mChildren.values());
 		this.mChildrenModels.forEach((mmodel) -> mmodel.setParent(this));
-		this.mCuboids  = mCuboids;
+		this.mCuboids       = mCuboids;
 		this.builtinTexture = builtinTexture;
+	}
+
+	public void translateAndRotate(PoseStack matrices) {
+		this.modelPart.translateAndRotate(matrices);
+	}
+
+	public void compile(PoseStack.Pose pose, VertexConsumer vertices, int light, int overlay, int color) {
+		// compile might be private in 26.1, we use AW to make it accessible
+		this.modelPart.compile(pose, vertices, light, overlay, color);
+	}
+
+	public net.minecraft.client.model.geom.PartPose storePose() {
+		return this.modelPart.storePose();
+	}
+
+	public void loadPose(net.minecraft.client.model.geom.PartPose pose) {
+		this.modelPart.loadPose(pose);
+	}
+
+	public void setInitialPose(net.minecraft.client.model.geom.PartPose pose) {
+		this.modelPart.setInitialPose(pose);
 	}
 
 	public MModel initAfterBuild(BBModel model) {
 		this.setLocation(model.getLocation());
-		this.setItemTransform(model.getItemTransform());
+		this.setTransformation(model.getTransformation());
 		return this;
 	}
 
-	public void setLocation(@NotNull ResourceLocation location) {
+	public void setLocation(@NotNull Identifier location) {
 		this.location = location;
 		this.mChildren.forEach((modelName, model) -> model.setLocation(location));
 	}
 
-	@Override
-	public void render(PoseStack matrices, VertexConsumer vertices, int light, int overlay, /*? if >=1.21 {*/int color/*?} else {*//*float red, float green, float blue, float alpha *//*?}*/) {
+	// @Override // Model is not an interface we implement anymore
+	public void render(PoseStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
 		// NO-OP
 	}
 
@@ -90,10 +116,10 @@ public class MModel extends ModelPart {
 	}
 
 	public ModelPart asModelPart() {
-		return this;
+		return this.modelPart;
 	}
 
-	public void draw(PoseStack matrices, MultiBufferSource provider, TextureAtlas atlas, RenderType atlasRenderType, AtlasSprite mainSprite, Map<String, AtlasSprite> requestedParts, int light, int overlay, /*? if >=1.21 {*/int color/*?} else {*//*float red, float green, float blue, float alpha *//*?}*/) {
+	public void draw(PoseStack matrices, MultiBufferSource provider, TextureAtlas atlas, RenderType atlasRenderLayer, AtlasSprite mainSprite, Map<String, AtlasSprite> requestedParts, int light, int overlay, int color) {
 		AtlasSprite providedSprite = requestedParts.get(this.getName());
 
 		if ((this.skipRendering && providedSprite == null) || (!this.visible) || (this.mCuboids.isEmpty() && this.mChildren.isEmpty())) {
@@ -105,19 +131,19 @@ public class MModel extends ModelPart {
 			return;
 		}
 
-		matrices.push();
-		this./*? if <=1.21.4 {*//*rotate*//*?} else {*/ applyTransform /*?}*/(matrices);
-		if (!this.hidden && !this.mCuboids.isEmpty()) {
-			Sprite currentSprite = atlas.getSprite(currentSpriteId.getSpriteId());
-			VertexConsumer consumer = currentSprite.getTextureSpecificVertexConsumer(provider.getBuffer(atlasRenderType));
-			this.renderCuboids(matrices.peek(), consumer, light, overlay, /*? if >=1.21 {*/ color /*?} else {*/ /*red, green, blue, alpha *//*?}*/);
+		matrices.pushPose();
+		this.translateAndRotate(matrices);
+		if (!this.skipDraw && !this.mCuboids.isEmpty()) {
+			TextureAtlasSprite currentSprite = atlas.getSprite(currentSpriteId.getSpriteId());
+			VertexConsumer consumer = currentSprite.wrap(provider.getBuffer(atlasRenderLayer));
+			this.compile(matrices.last(), consumer, light, overlay, color);
 		}
 
 		for (MModel model : this.mChildrenModels) {
-			model.draw(matrices, provider, atlas, atlasRenderType, currentSpriteId, requestedParts, light, overlay, /*? if >=1.21 {*/ color /*?} else {*/ /*red, green, blue, alpha *//*?}*/);
+			model.draw(matrices, provider, atlas, atlasRenderLayer, currentSpriteId, requestedParts, light, overlay, color);
 		}
 
-		matrices.pop();
+		matrices.popPose();
 	}
 
 	private int getCountOfParents() {
@@ -139,7 +165,7 @@ public class MModel extends ModelPart {
 		String dataHierarchyLine = this.getHierarchyLine(countOfParents + 1);
 
 		String main = "%s %s".formatted(hierarchyLine, this.toString());
-		String transform = "%s Transform: [%s]".formatted(dataHierarchyLine, this.getTransform().asString());
+		String transform = "%s Transform: [%s]".formatted(dataHierarchyLine, this.storePose().asString());
 		String scale = "%s Scale: [%s %s %s]".formatted(dataHierarchyLine, this.xScale, this.yScale, this.zScale);
 
 		logger.info(main);
@@ -150,17 +176,17 @@ public class MModel extends ModelPart {
 		String cuboidDataHierarchyLine = this.getHierarchyLine(countOfParents + 1 + 1);
 
 		for (MCuboid value : this.mCuboids) {
-			CubeDeformation dilation = value.getCubeDeformation();
+			CubeDeformation dilation = value.getDilation();
 
 			String cuboidMain = "%s %s".formatted(cuboidHierarchyLine, this.toString());
 			String cuboidFrom = "%s From: [%s %s %s]".formatted(cuboidDataHierarchyLine, value.minX, value.minY, value.minZ);
 			String cuboidTo = "%s To: [%s %s %s]".formatted(cuboidDataHierarchyLine, value.maxX, value.maxY, value.maxZ);
-			String cuboidCubeDeformation = "%s CubeDeformation: [%s %s %s]".formatted(cuboidDataHierarchyLine, dilation.getRadiusX(), dilation.getRadiusY(), dilation.getRadiusZ());
+			String cuboidDilation = "%s Dilation: [%s %s %s]".formatted(cuboidDataHierarchyLine, dilation.getRadiusX(), dilation.getRadiusY(), dilation.getRadiusZ());
 
 			logger.info(cuboidMain);
 			logger.info(cuboidFrom);
 			logger.info(cuboidTo);
-			logger.info(cuboidCubeDeformation);
+			logger.info(cuboidDilation);
 		}
 
 		for (MModel value : this.mChildrenModels) {
@@ -169,7 +195,7 @@ public class MModel extends ModelPart {
 	}
 
 	public void logSize(Logger logger) {
-		AABB box = this.getAABB();
+		AABB box = this.getBox();
 		logger.info("Union Model Size:");
 		logger.info("Size: [{}, {}, {}]", Math.abs(box.minX - box.maxX), Math.abs(box.minY - box.maxY), Math.abs(box.minZ - box.maxZ));
 		logger.info("From: [{}, {}, {}]", box.minX, box.minY, box.minZ);
@@ -187,7 +213,7 @@ public class MModel extends ModelPart {
 		return hierarchy;
 	}
 
-	public AABB getAABB() {
+	public AABB getBox() {
 		float minX = 0F;
 		float minY = 0F;
 		float minZ = 0F;
@@ -195,7 +221,7 @@ public class MModel extends ModelPart {
 		float maxY = 0F;
 		float maxZ = 0F;
 
-		for (Cuboid cuboid : this.mCuboids) {
+		for (ModelPart.Cube cuboid : this.mCuboids) {
 			minX = Math.min(minX, cuboid.minX);
 			minY = Math.min(minY, cuboid.minY);
 			minZ = Math.min(minZ, cuboid.minZ);
@@ -208,8 +234,8 @@ public class MModel extends ModelPart {
 		AABB box = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
 
 		for (MModel value : this.mChildren.values()) {
-			AABB size = value.getAABB();
-			box = box.union(size);
+			AABB size = value.getBox();
+			box = box.minmax(size);
 		}
 
 		return box;

@@ -1,26 +1,24 @@
 package com.darkz.skintotem.gui.tooltip.wrapped;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-import net.minecraft.network.chat.*;
-import net.minecraft.util.FormattedCharSequence;
-
 import java.util.List;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.FormattedCharSequence;
 
 public class WrappedTextTooltipComponent implements ClientTooltipComponent {
 
 	private final List<FormattedCharSequence> texts;
 
 	public WrappedTextTooltipComponent(Component text) {
-		this.texts = Minecraft.getInstance().textRenderer.split(text, 200);
+		this.texts = Minecraft.getInstance().font.split(text, 100000);
 	}
 
 	public int getWidth(Font textRenderer) {
 		int max = 0;
 		for (FormattedCharSequence text : this.texts) {
-			int width = textRenderer.getWidth(text);
+			int width = textRenderer.width(text);
 			if (width > max) {
 				max = width;
 			}
@@ -29,15 +27,15 @@ public class WrappedTextTooltipComponent implements ClientTooltipComponent {
 	}
 
 	@Override
-	public int getHeight(/*? >=1.21.2 {*/Font textRenderer/*?}*/) {
+	public int getHeight(Font textRenderer) {
 		return this.texts.size() * 10;
 	}
 
 	@Override
-	public void renderImage(Font textRenderer, int x, int y, GuiGraphics context) {
+	public void extractImage(Font textRenderer, int x, int y, int w, int h, GuiGraphicsExtractor graphics) {
 		int offset = 0;
 		for (FormattedCharSequence text : this.texts) {
-			context.drawText(textRenderer, text, x, y + offset, -1, true);
+			graphics.text(textRenderer, text, x, y + offset, -1, true);
 			offset += 10;
 		}
 	}

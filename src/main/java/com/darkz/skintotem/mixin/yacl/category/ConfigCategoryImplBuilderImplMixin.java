@@ -4,20 +4,19 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.ConfigCategory.Builder;
 import dev.isxander.yacl3.impl.ConfigCategoryImpl;
-import org.spongepowered.asm.mixin.*;
-import org.spongepowered.asm.mixin.injection.At;
 import com.darkz.skintotem.utils.mixin.yacl.BetterYACLCategoryBuilder;
 import com.darkz.skintotem.yacl.custom.category.better.BetterConfigCategoryImpl;
 import com.darkz.skintotem.yacl.custom.category.rendering.RenderingConfigCategoryImpl;
+import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.injection.At;
 
-@Pseudo
 @Mixin(ConfigCategoryImpl.BuilderImpl.class)
 public class ConfigCategoryImplBuilderImplMixin implements BetterYACLCategoryBuilder {
 
 	@Unique
 	private int custom = -1;
 
-	@Dynamic
+
 	@ModifyReturnValue(at = @At("RETURN"), method = "build", remap = false)
 	private ConfigCategory swapCategory(ConfigCategory original) {
 		if (this.custom == -1) {
@@ -31,13 +30,13 @@ public class ConfigCategoryImplBuilderImplMixin implements BetterYACLCategoryBui
 	}
 
 	@Override
-	public Builder myTotemDoll$enableBetter() {
+	public Builder mySkinTotem$enableBetter() {
 		this.custom = 0;
 		return ((Builder) this);
 	}
 
 	@Override
-	public Builder myTotemDoll$enableRendering() {
+	public Builder mySkinTotem$enableRendering() {
 		this.custom = 1;
 		return ((Builder) this);
 	}

@@ -1,21 +1,17 @@
 package com.darkz.skintotem.mixin.yacl;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.isxander.yacl3.api.*;
+import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import dev.isxander.yacl3.gui.YACLScreen;
-
+import com.darkz.skintotem.yacl.YACLConfigurationScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.*;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
 
-import com.darkz.skintotem.yacl.YACLConfigurationScreen;
-
-@Pseudo
 @Mixin(YACLScreen.class)
 public abstract class YACLScreenMixin extends Screen {
 
-	@Dynamic
 	@Shadow(remap = false)
 	@Final
 	public YetAnotherConfigLib config;
@@ -25,9 +21,8 @@ public abstract class YACLScreenMixin extends Screen {
 	}
 
 	@Shadow
-	public abstract void close();
+	public abstract void onClose();
 
-	@Dynamic
 	@ModifyReturnValue(at = @At("RETURN"), method = "pendingChanges", remap = false)
 	private boolean alwaysTrueBecauseYouCannotUseSaveButtonWithInstantOptionsImVerySadThatINeedThatDoYouAgreeWithMeYeahNoYepNopeWtf(boolean original) {
 		if (YACLConfigurationScreen.notOpen(this)) {

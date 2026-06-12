@@ -1,30 +1,26 @@
 package com.darkz.skintotem.atlas;
 
-import java.io.*;
+import com.mojang.blaze3d.platform.NativeImage;
+import java.io.InputStream;
 import java.util.*;
 import lombok.*;
 import com.darkz.skintotem.atlas.stitch.OnSpriteUploaded;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.SpriteContents;
-import net.minecraft.client.renderer.texture.*;
-import com.mojang.blaze3d.platform.NativeImage;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.resources.metadata.animation.*;
+import net.minecraft.client.resources.metadata.texture.TextureMetadataSection;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.resources.ResourceMetadata;
 import org.jetbrains.annotations.*;
-
-//? if >=1.21 {
-
-//?} else {
-/*import net.minecraft.client.renderer.texture.SpriteContents;
-*///?}
 
 @Setter
 @Getter
 public class AtlasSprite {
 
-	public static final /*? if >=1.21 {*/ ResourceMetadata /*?} else {*/ /*AnimationResourceMetadata *//*?}*/ STANDARD_METADATA = /*? if >=1.21 {*/ ResourceMetadata.NONE /*?} else {*/ /*AnimationResourceMetadata.EMPTY *//*?}*/;
+	public static final ResourceMetadata STANDARD_METADATA = ResourceMetadata.EMPTY;
 
 	@NotNull
-	private ResourceLocation spriteId;
+	private Identifier spriteId;
 	@Nullable
 	private SpriteContents contents;
 
@@ -36,12 +32,25 @@ public class AtlasSprite {
 
 	private volatile boolean uploaded;
 
-	public AtlasSprite(@NotNull ResourceLocation spriteId) {
+	public Identifier getSpriteId() { return spriteId; }
+	public void setSpriteId(Identifier spriteId) { this.spriteId = spriteId; }
+	public SpriteContents getContents() { return contents; }
+	public void setContents(SpriteContents contents) { this.contents = contents; }
+	public boolean isClosable() { return closable; }
+	public void setClosable(boolean closable) { this.closable = closable; }
+	public Runnable getUnregisterAction() { return unregisterAction; }
+	public void setUnregisterAction(Runnable unregisterAction) { this.unregisterAction = unregisterAction; }
+	public long getCachedId() { return cachedId; }
+	public void setCachedId(long cachedId) { this.cachedId = cachedId; }
+	public boolean isUploaded() { return uploaded; }
+	public void setUploadAction(OnSpriteUploaded uploadAction) { this.uploadAction = uploadAction; }
+
+	public AtlasSprite(@NotNull Identifier spriteId) {
 		this.spriteId = spriteId;
 	}
 
 	@Nullable
-	public static AtlasSprite of(@Nullable ResourceLocation spriteId) {
+	public static AtlasSprite of(@Nullable Identifier spriteId) {
 		if (spriteId == null) {
 			return null;
 		}
@@ -52,53 +61,40 @@ public class AtlasSprite {
 		if (contents == null) {
 			return null;
 		}
-		AtlasSprite atlasSprite = new AtlasSprite(contents.getId());
+		AtlasSprite atlasSprite = new AtlasSprite(contents.name());
 		atlasSprite.setContents(contents);
 		return atlasSprite;
 	}
 
-	public static AtlasSprite of(ResourceLocation spriteId, NativeImage image) {
+	public static AtlasSprite of(Identifier spriteId, NativeImage image) {
 		AtlasSprite atlasSprite = new AtlasSprite(spriteId);
 		updateContents(atlasSprite, image);
 		return atlasSprite;
 	}
 
 	public static void updateContents(AtlasSprite sprite, NativeImage image) {
-		/*? if >=1.21 {*/ResourceMetadata /*?} else {*/ /*AnimationResourceMetadata *//*?}*/ metadata = getAnimationMetadataForSprite(sprite);
+		ResourceMetadata metadata = getAnimationMetadataForSprite(sprite);
 		boolean animated = metadata != STANDARD_METADATA;
 		int width = image.getWidth();
 		int height = image.getHeight();
 		int min = Math.min(width, height);
 
-		SpriteDimensions dimensions = animated ? new SpriteDimensions(min, min) : new SpriteDimensions(width, height);
-		//? if >=1.21.11 {
-		Optional<AnimationResourceMetadata> decode = metadata.decode(AnimationResourceMetadata.SERIALIZER);
-		Optional<TextureResourceMetadata> decode2 = metadata.decode(TextureResourceMetadata.SERIALIZER);
+		FrameSize dimensions = animated ? new FrameSize(min, min) : new FrameSize(width, height);
+		Optional<AnimationMetadataSection> decode = metadata.getSection(AnimationMetadataSection.TYPE);
+		Optional<TextureMetadataSection> decode2 = metadata.getSection(TextureMetadataSection.TYPE);
 		SpriteContents contents = new SpriteContents(sprite.getSpriteId(), dimensions, image, decode, List.of(), decode2);
-		//?} elif >=1.21.9 {
-		/*SpriteContents contents = new SpriteContents(sprite.getSpriteId(), dimensions, image, metadata.decode(AnimationResourceMetadata.SERIALIZER), List.of());
-		*///?} else {
-		/*SpriteContents contents = new SpriteContents(sprite.getSpriteId(), dimensions, image, metadata);
-		*///?}
 		sprite.setContents(contents);
 	}
 
-	public static /*? if >=1.21 {*/ResourceMetadata /*?} else {*/ /*AnimationResourceMetadata *//*?}*/ getAnimationMetadataForSprite(AtlasSprite sprite) {
+	public static ResourceMetadata getAnimationMetadataForSprite(AtlasSprite sprite) {
 		try {
-			ResourceLocation id = sprite.getSpriteId();
+			Identifier id = sprite.getSpriteId();
 			InputStream stream = Minecraft.getInstance()
 					.getResourceManager()
-					.getResourceOrThrow(ResourceLocation.fromNamespaceAndPath(id.getNamespace(), id.getPath() + ".mcmeta"))
-					.getInputStream();
-			//? if >=1.21 {
-			return ResourceMetadata.create(stream);
-			//?} else {
-			/*AnimationResourceMetadata metadata = net.minecraft.resource.AbstractFileResourcePack.parseMetadata(AnimationResourceMetadata.READER, stream);
-			if (metadata == null) {
-				return STANDARD_METADATA;
-			}
-			return metadata;
-			*///?}
+					.getResourceOrThrow(Identifier.fromNamespaceAndPath(id.getNamespace(), id.getPath() + ".mcmeta"))
+					.open();
+
+			return ResourceMetadata.fromJsonStream(stream);
 		} catch (Exception ignored) {
 			return STANDARD_METADATA;
 		}
@@ -109,7 +105,7 @@ public class AtlasSprite {
 
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
-				uniqueId = 31 * uniqueId + image./*? if >=1.21.2 {*/ getColorArgb /*?} else {*/ /*getColor *//*?}*/(x, y);
+				uniqueId = 31 * uniqueId + image.getPixel(x, y);
 			}
 		}
 
@@ -192,11 +188,11 @@ public class AtlasSprite {
 	}
 
 	public void copyFrom(AtlasSprite registeredSprite) {
-		this.closable = registeredSprite.isClosable();
-		this.spriteId = registeredSprite.getSpriteId();
-		this.contents = registeredSprite.getContents();
+		this.closable         = registeredSprite.isClosable();
+		this.spriteId         = registeredSprite.getSpriteId();
+		this.contents         = registeredSprite.getContents();
 		this.unregisterAction = registeredSprite.getUnregisterAction();
-		this.uploaded = registeredSprite.isUploaded();
-		this.cachedId = registeredSprite.getCachedId();
+		this.uploaded         = registeredSprite.isUploaded();
+		this.cachedId         = registeredSprite.getCachedId();
 	}
 }

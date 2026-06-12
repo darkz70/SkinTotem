@@ -1,36 +1,30 @@
 package com.darkz.skintotem.gui.tooltip.info;
 
+import com.darkz.skintotem.SkinTotem;
+import com.darkz.skintotem.utils.DrawUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
-
-import net.minecraft.network.chat.*;
-import net.minecraft.resources.ResourceLocation;
-
-import com.darkz.skintotem.SkinTotemMod;
-import com.darkz.skintotem.utils.*;
-
-//? if >=1.21.11 {
+import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.components.MultiLineLabel;
-//?}
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
 
 public class InfoTooltipComponent implements ClientTooltipComponent {
 
-	public static final ResourceLocation SEPARATOR = SkinTotemMod.id("textures/gui/info/separator.png");
+	public static final Identifier SEPARATOR = SkinTotem.id("textures/gui/info/separator.png");
 
 	private final MutableComponent title;
 	private final MultiLineLabel text;
 
 	public InfoTooltipComponent(String key, int color) {
-		this.title = SkinTotemMod.text("%s.title".formatted(key));
+		this.title = SkinTotem.text("%s.title".formatted(key));
 		this.title.setStyle(this.title.getStyle().withColor(color));
-		this.text  = MultiLineLabel.create(Minecraft.getInstance().textRenderer, SkinTotemMod.text("%s.text".formatted(key)), 140);
+		this.text = MultiLineLabel.create(Minecraft.getInstance().font, SkinTotem.text("%s.text".formatted(key)), 140);
 	}
 
 	@Override
-	public int getHeight(/*? >=1.21.2 {*/Font textRenderer/*?}*/) {
-		return (this.text./*? if >=1.21.9 {*/ getLineCount /*?} else {*/ /*count *//*?}*/() * 10) + 26 + 2 + 5 + 2 + 5;
+	public int getHeight(Font textRenderer) {
+		return (this.text.getLineCount() * 10) + 26 + 2 + 5 + 2 + 5;
 	}
 
 	@Override
@@ -39,17 +33,11 @@ public class InfoTooltipComponent implements ClientTooltipComponent {
 	}
 
 	@Override
-	public void renderImage(Font textRenderer, int x, int y, GuiGraphics context) {
+	public void extractImage(Font textRenderer, int x, int y, int w, int h, GuiGraphicsExtractor graphics) {
 		int width = this.getWidth(textRenderer);
-		int titleWidth = textRenderer.getWidth(this.title);
-		context.drawText(textRenderer, this.title, x + (((width) / 2) - (titleWidth / 2)), y + 8, -1, false);
-		DrawUtils.drawTexture(context, SEPARATOR, x, y + 24, 0, 0, 150, 5, 150, 5);
-		//? if >=1.21.11 {
-		this.text.renderLeftAligned(context, x + 5, y + 26 + 2 + 5 + 2, 10, -1);
-		//?} elif >=1.21.9 {
-		/*this.text.draw(context, Alignment.LEFT, x + 5, y + 26 + 2 + 5 + 2, 10, true, -1);
-		*///?} else {
-		/*this.text.draw(context, x + 5, y + 26 + 2 + 5 + 2, 10, -1);
-		*///?}
+		int titleWidth = textRenderer.width(this.title);
+		graphics.text(textRenderer, this.title, x + (((width) / 2) - (titleWidth / 2)), y + 8, -1, false);
+		DrawUtils.drawTexture(graphics, SEPARATOR, x, y + 24, 0, 0, 150, 5, 150, 5);
+		this.text.visitLines(TextAlignment.LEFT, x + 5, y + 26 + 2 + 5 + 2, 10, graphics.textRenderer());
 	}
 }

@@ -1,54 +1,43 @@
 package com.darkz.skintotem.mixin;
 
-//? if >=1.21.4 {
-
+import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import com.llamalad7.mixinextras.sugar.Local;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.extension.ItemStackExtension;
-import net.minecraft.client.renderer.item.properties.*;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.item.*;
+import net.minecraft.client.renderer.item.SelectItemModel.ModelSelector;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-//? if >=1.21.5 {
-
-import net.minecraft.client.renderer.item.properties.select.SelectItemModelProperty;
-
-//?}
 
 @ExtensionMethod(ItemStackExtension.class)
 @Mixin(SelectItemModel.class)
-public class SelectItemModelMixin {
+public abstract class SelectItemModelMixin<T> implements ItemModel {
 
-	//? if >=1.21.5 {
 	@Shadow
 	@Final
-	private ModelSelector<?> selector;
-	//?} else {
-	/*@Shadow
-	@Final
-	private Object2ObjectMap<?, ItemModel> cases;
-	*///?}
+	private ModelSelector<?> models;
 
-	@Inject(at = @At("TAIL"), method = "update")
-	private void markModdedIfModelChangedWithVanillaResourcePack(CallbackInfo ci, @Local ItemModel model, @Local(argsOnly = true) ItemStack stack) {
-		this.checkModel(model, stack);
+	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/item/SelectItemModel$ModelSelector;get(Ljava/lang/Object;Lnet/minecraft/client/multiplayer/ClientLevel;)Lnet/minecraft/client/renderer/item/ItemModel;"), method = "update")
+	private ItemModel markModdedIfModelChangedWithVanillaResourcePack(ModelSelector<T> instance, @Nullable T value, @Nullable ClientLevel clientLevel, Operation<ItemModel> original, @Local(argsOnly = true) ItemStack itemStack) {
+		ItemModel model = original.call(instance, value, clientLevel);
+		this.checkModel(model, itemStack, value);
+		return model;
 	}
 
 	@Unique
-	private void checkModel(ItemModel itemModel, ItemStack stack) {
-		//? if >=1.21.5 {
-		ItemModel standardModel = this.selector.get(null, null);
-		 //?} else {
-		/*ItemModel standardModel = this.cases.get(null);
-		*///?}
+	private void checkModel(ItemModel itemModel, ItemStack stack, T value) {
+		if (!(value instanceof Component)) {
+			return;
+		}
 
-		if (standardModel != itemModel) {
+		ItemModel standardModel = this.models.get(null, null);
+		if (standardModel != itemModel && stack.getRealCustomName() != null) {
 			stack.setModdedModel(true);
 		}
 	}
 
 }
-//?}

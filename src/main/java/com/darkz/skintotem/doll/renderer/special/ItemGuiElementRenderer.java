@@ -1,81 +1,71 @@
 package com.darkz.skintotem.doll.renderer.special;
 
-//? if >=1.21.6 {
-import com.darkz.skintotem.SkinTotemMod;
-import net.minecraft.client.Minecraft;
-import net.fabricmc.fabric.api.client.rendering.v1.SpecialGuiElementRenderer;
-import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.DiffuseLighting;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.item.ItemStackRenderState;
+import com.mojang.blaze3d.platform.Lighting.Entry;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.darkz.skintotem.SkinTotem;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.render.pip.PictureInPictureRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
+import net.minecraft.client.renderer.feature.FeatureRenderDispatcher;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-//? if >=1.21.9 {
-
-
-
-//?}
-
-public class ItemGuiElementRenderer extends SpecialGuiElementRenderer<ItemGuiRenderState> {
+public class ItemGuiElementRenderer extends PictureInPictureRenderer<ItemGuiRenderState> {
 
 	private final ItemStackRenderState itemRenderState = new ItemStackRenderState();
 
-	public ItemGuiElementRenderer(Immediate vertexConsumers) {
+	public ItemGuiElementRenderer(BufferSource vertexConsumers) {
 		super(vertexConsumers);
 	}
 
 	@Override
-	public Class<ItemGuiRenderState> getElementClass() {
+	public Class<ItemGuiRenderState> getRenderStateClass() {
 		return ItemGuiRenderState.class;
 	}
 
 	@Override
-	protected void render(ItemGuiRenderState state, PoseStack matrices) {
+	protected void renderToTexture(ItemGuiRenderState state, PoseStack matrices) {
 		Minecraft client = Minecraft.getInstance();
 
-		client.gameRenderer.getDiffuseLighting().setShaderLights(Type.ITEMS_FLAT);
-		matrices.multiply(state.rotation());
+		client.gameRenderer.getLighting().setupFor(Entry.ITEMS_FLAT);
+		matrices.mulPose(state.rotation());
 		float size = state.size();
 		matrices.scale(-size, -size, size);
 		this.renderItem(
 				state.stack(),
 				ItemDisplayContext.FIXED,
 				15728880,
-				OverlayTexture.DEFAULT_UV,
+				OverlayTexture.NO_OVERLAY,
 				matrices,
-				this.vertexConsumers,
-				client.world,
+				this.bufferSource,
+				client.level,
 				0
 		);
 	}
 
 	@Override
-	protected float getYOffset(int height, int windowScaleFactor) {
+	protected float getTranslateY(int height, int windowScaleFactor) {
 		return height / 2F;
 	}
 
 	@Override
-	protected String getName() {
-		return "%s-item-special-gui-renderer".formatted(SkinTotemMod.MOD_ID);
+	protected String getTextureLabel() {
+		return "%s-item-special-gui-renderer".formatted(SkinTotem.MOD_ID);
 	}
 
-	public void renderItem(ItemStack stack, ItemDisplayContext displayContext, int light, int overlay, PoseStack matrices, MultiBufferSource vertexConsumers, @Nullable World world, int seed) {
+	public void renderItem(ItemStack stack, ItemDisplayContext displayContext, int light, int overlay, PoseStack matrices, MultiBufferSource vertexConsumers, @Nullable Level world, int seed) {
 		this.renderItem(null, stack, displayContext, matrices, vertexConsumers, world, light, overlay, seed);
 	}
 
-	public void renderItem(@Nullable LivingEntity entity, ItemStack stack, ItemDisplayContext displayContext, PoseStack matrices, MultiBufferSource vertexConsumers, @Nullable World world, int light, int overlay, int seed) {
-		Minecraft.getInstance().getItemModelManager().clearAndUpdate(this.itemRenderState, stack, displayContext, world, entity, seed);
-		//? if >=1.21.9 {
-		RenderDispatcher dispatcher = Minecraft.getInstance().gameRenderer.getEntityRenderDispatcher();
-		this.itemRenderState.render(matrices, dispatcher.getQueue(), light, overlay, 0);
-		dispatcher.render();
-		//?} else {
-		/*this.itemRenderState.render(matrices, vertexConsumers, light, overlay);
-		*///?}
+	public void renderItem(@Nullable LivingEntity entity, ItemStack stack, ItemDisplayContext displayContext, PoseStack matrices, MultiBufferSource vertexConsumers, @Nullable Level world, int light, int overlay, int seed) {
+		Minecraft.getInstance().getItemModelResolver().updateForTopItem(this.itemRenderState, stack, displayContext, world, entity, seed);
+		FeatureRenderDispatcher dispatcher = Minecraft.getInstance().gameRenderer.getFeatureRenderDispatcher();
+		this.itemRenderState.submit(matrices, dispatcher.getSubmitNodeStorage(), light, overlay, 0);
+		dispatcher.renderAllFeatures();
 	}
 }
-//?}

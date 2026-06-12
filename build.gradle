@@ -1,4 +1,3 @@
-
 plugins {
 	id "net.lopymine.mossy-plugin-core" version "$mossy_plugin_version"
 }

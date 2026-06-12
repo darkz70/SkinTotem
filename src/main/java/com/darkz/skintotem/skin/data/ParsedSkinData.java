@@ -1,7 +1,6 @@
 package com.darkz.skintotem.skin.data;
 
 import lombok.*;
-
 import org.jetbrains.annotations.Nullable;
 
 @Getter

@@ -1,12 +1,10 @@
 package com.darkz.skintotem.utils;
 
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-
-import com.darkz.skintotem.SkinTotemMod;
-import com.darkz.skintotem.yacl.custom.simple.utils.SimpleContent;
-
 import java.util.function.Function;
+import com.darkz.skintotem.SkinTotem;
+import com.darkz.skintotem.yacl.custom.simple.utils.SimpleContent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 
 public final class ModMenuUtils {
 
@@ -27,30 +25,30 @@ public final class ModMenuUtils {
 	}
 
 	public static Component getName(String key) {
-		return SkinTotemMod.text(key + ".name");
+		return SkinTotem.text(key + ".name");
 	}
 
 	public static Component getDescription(String key) {
-		return SkinTotemMod.text(key + ".description");
+		return SkinTotem.text(key + ".description");
 	}
 
 	public static Identifier getContentId(SimpleContent content, String contentId) {
-		return SkinTotemMod.id(String.format("textures/config/%s.%s", contentId, content.getFileExtension()));
+		return SkinTotem.id(String.format("textures/config/%s.%s", contentId, content.getFileExtension()));
 	}
 
 	public static Component getModTitle() {
-		return SkinTotemMod.text("modmenu.title");
+		return SkinTotem.text("modmenu.title");
 	}
 
 	public static Function<Boolean, Component> getEnabledOrDisabledFormatter() {
-		return state -> SkinTotemMod.text("modmenu.formatter.enabled_or_disabled." + state);
+		return state -> SkinTotem.text("modmenu.formatter.enabled_or_disabled." + state);
 	}
 
 	public static Component getNoConfigScreenMessage() {
-		return SkinTotemMod.text("modmenu.no_config_library_screen.message");
+		return SkinTotem.text("modmenu.no_config_library_screen.message");
 	}
 
 	public static Component getOldConfigScreenMessage(String version) {
-		return SkinTotemMod.text("modmenu.old_config_library_screen.message", version, SkinTotemMod.YACL_DEPEND_VERSION);
+		return SkinTotem.text("modmenu.old_config_library_screen.message", version, SkinTotem.YACL_DEPEND_VERSION);
 	}
 }

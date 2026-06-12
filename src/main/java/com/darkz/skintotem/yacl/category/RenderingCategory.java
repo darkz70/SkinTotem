@@ -4,8 +4,7 @@ import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.utils.OptionUtils;
 import lombok.Getter;
 import lombok.experimental.ExtensionMethod;
-
-import com.darkz.skintotem.config.SkinTotemModConfig;
+import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.config.rendering.*;
 import com.darkz.skintotem.extension.SimpleOptionExtension;
 import com.darkz.skintotem.yacl.custom.simple.custom.SimpleRenderingCategory;
@@ -14,22 +13,22 @@ import com.darkz.skintotem.yacl.custom.simple.main.*;
 @ExtensionMethod(SimpleOptionExtension.class)
 public class RenderingCategory {
 
-	public static ConfigCategory get(SkinTotemModConfig defConfig, SkinTotemModConfig config) {
+	public static ConfigCategory get(SkinTotemConfig defConfig, SkinTotemConfig config) {
 		return SimpleRenderingCategory.startBuilder().groups(
 				getRenderingRightHandGroup(defConfig, config),
 				getRenderingLeftHandGroup(defConfig, config)
 		).build();
 	}
 
-	private static OptionGroup getRenderingRightHandGroup(SkinTotemModConfig defConfig, SkinTotemModConfig config) {
+	private static OptionGroup getRenderingRightHandGroup(SkinTotemConfig defConfig, SkinTotemConfig config) {
 		return getRenderingHandGroup(HandGroup.RIGHT_HAND, defConfig, config);
 	}
 
-	private static OptionGroup getRenderingLeftHandGroup(SkinTotemModConfig defConfig, SkinTotemModConfig config) {
+	private static OptionGroup getRenderingLeftHandGroup(SkinTotemConfig defConfig, SkinTotemConfig config) {
 		return getRenderingHandGroup(HandGroup.LEFT_HAND, defConfig, config);
 	}
 
-	private static OptionGroup getRenderingHandGroup(HandGroup handGroup, SkinTotemModConfig defConfig, SkinTotemModConfig config) {
+	private static OptionGroup getRenderingHandGroup(HandGroup handGroup, SkinTotemConfig defConfig, SkinTotemConfig config) {
 		RenderingConfig defRenderingConfig = defConfig.getRenderingConfig();
 		RenderingConfig renderingConfig = config.getRenderingConfig();
 
@@ -75,7 +74,6 @@ public class RenderingCategory {
 									} else {
 										leftHandConfig.copy(rightHandConfig);
 									}
-									OptionUtils.forEachOptions(yaclScreen.config, Option::forgetPendingValue);
 								}))
 						.build()
 		).build();

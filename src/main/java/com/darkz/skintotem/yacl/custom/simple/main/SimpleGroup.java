@@ -1,23 +1,20 @@
 package com.darkz.skintotem.yacl.custom.simple.main;
 
 import dev.isxander.yacl3.api.*;
-import net.minecraft.network.chat.Component;
-
 import com.darkz.skintotem.utils.ModMenuUtils;
-import com.darkz.skintotem.yacl.custom.renderer.TotemDollPreviewRenderer;
+import com.darkz.skintotem.yacl.custom.renderer.SkinTotemPreviewRenderer;
+import net.minecraft.network.chat.Component;
 
 public class SimpleGroup {
 
 	private final OptionGroup.Builder groupBuilder;
-	private final OptionDescription.Builder description;
+	private OptionDescription builtDescription = null;
 
 	public SimpleGroup(String groupId) {
 		String groupKey = ModMenuUtils.getGroupKey(groupId);
 		Component groupName = ModMenuUtils.getName(groupKey);
-		Component description = ModMenuUtils.getDescription(groupKey);
 
 		this.groupBuilder = OptionGroup.createBuilder().name(groupName);
-		this.description  = OptionDescription.createBuilder().text(description);
 	}
 
 	public static SimpleGroup startBuilder(String groupId) {
@@ -34,12 +31,15 @@ public class SimpleGroup {
 		return this;
 	}
 
-	public SimpleGroup withCustomDescription(TotemDollPreviewRenderer renderer) {
-		this.description.customImage(renderer);
+	public SimpleGroup withCustomDescription(SkinTotemPreviewRenderer renderer) {
+		this.builtDescription = OptionDescription.createBuilder().customImage(renderer).build();
 		return this;
 	}
 
 	public OptionGroup build() {
-		return this.groupBuilder.description(this.description.build()).build();
+		if (this.builtDescription != null) {
+			this.groupBuilder.description(this.builtDescription);
+		}
+		return this.groupBuilder.build();
 	}
 }

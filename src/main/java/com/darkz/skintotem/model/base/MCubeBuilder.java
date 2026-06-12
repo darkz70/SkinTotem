@@ -1,18 +1,17 @@
 package com.darkz.skintotem.model.base;
 
+import java.util.*;
 import lombok.Getter;
 import lombok.experimental.ExtensionMethod;
-import net.minecraft.client.model.*;
-import net.minecraft.client.model.ModelPart.Quad;
+import com.darkz.skintotem.extension.ModelTransformExtension;
+import net.minecraft.client.model.geom.ModelPart.Polygon;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.core.Direction;
 import org.joml.Vector3f;
 
-import com.darkz.skintotem.extension.ModelPart.RotationExtension;
-
-import java.util.*;
-
 @SuppressWarnings("unused")
-@ExtensionMethod(ModelPart.RotationExtension.class)
+@ExtensionMethod(ModelTransformExtension.class)
 @Getter
 public class MCubeBuilder {
 
@@ -76,11 +75,11 @@ public class MCubeBuilder {
 		return this.withSide(n, q, o, r, Direction.SOUTH);
 	}
 
-	public MCubeBuilder withCubeDeformation(float radius) {
-		return this.withCubeDeformation(new CubeDeformation(radius));
+	public MCubeBuilder withDilation(float radius) {
+		return this.withDilation(new CubeDeformation(radius));
 	}
 
-	public MCubeBuilder withCubeDeformation(CubeDeformation dilation) {
+	public MCubeBuilder withDilation(CubeDeformation dilation) {
 		this.dilation = dilation;
 		return this;
 	}
@@ -90,12 +89,12 @@ public class MCubeBuilder {
 		return this;
 	}
 
-	public MCuboid build(int textureWidth, int textureHeight, ModelPart.Rotation rootTransform) {
+	public MCuboid build(int textureWidth, int textureHeight, PartPose rootTransform) {
 		Vector3f pos = new Vector3f(this.x - rootTransform.getPivotX(), this.y - rootTransform.getPivotY(), this.z - rootTransform.getPivotZ());
 		Vector3f size = new Vector3f(this.xSize, this.ySize, this.zSize);
 		CubeDeformation dilation = this.dilation;
 
-		Quad[] quads = this.sideBuilders.values().stream().map(sideBuilder -> sideBuilder.build(textureWidth, textureHeight, pos, size, dilation)).toList().toArray(new Quad[0]);
+		Polygon[] quads = this.sideBuilders.values().stream().map(sideBuilder -> sideBuilder.build(textureWidth, textureHeight, pos, size, dilation)).toList().toArray(new Polygon[0]);
 
 		return new MCuboid(pos, size, quads, dilation);
 	}

@@ -1,41 +1,39 @@
 package com.darkz.skintotem.mixin;
 
-import net.minecraft.client.gui.Font;
+import com.darkz.skintotem.utils.tooltip.*;
 import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.events.AbstractContainerEventHandler;
 import net.minecraft.client.gui.screens.Screen;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-
-import com.darkz.skintotem.utils.tooltip.TooltipRequest;
-import com.darkz.skintotem.utils.tooltip.IRequestableTooltipScreen;
-
 @Mixin(Screen.class)
-public abstract class ScreenMixin extends AbstractParentElement implements Drawable, IRequestableTooltipScreen {
+public abstract class ScreenMixin extends AbstractContainerEventHandler implements Renderable, IRequestableTooltipScreen {
 
-	@Shadow public Font textRenderer;
+	@Final
+	@Shadow
+	public Font font;
 	@Unique
 	private TooltipRequest tooltipRequest;
 
-	@Inject(at = @At("TAIL"), method = "renderWithTooltip")
-	private void renderWithTooltip(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+	@Inject(at = @At("TAIL"), method = "extractRenderStateWithTooltipAndSubtitles")
+	private void renderWithTooltip(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 		if (this.tooltipRequest != null) {
-			//? if >=1.21.6 {
-			context.createNewRootLayer();
-			//?}
-			this.tooltipRequest.render(context, mouseX, mouseY, delta);
+			context.nextStratum();
+			this.tooltipRequest.renderRenderState(context, mouseX, mouseY, delta);
 			this.tooltipRequest = null;
 		}
 	}
 
 	@Override
-	public void myTotemDoll$requestTooltip(TooltipRequest tooltipRequest) {
+	public void mySkinTotem$requestTooltip(TooltipRequest tooltipRequest) {
 		this.tooltipRequest = tooltipRequest;
 	}
 
 	@Override
-	public TooltipRequest myTotemDoll$getCurrentRequest() {
+	public TooltipRequest mySkinTotem$getCurrentRequest() {
 		return this.tooltipRequest;
 	}
 }

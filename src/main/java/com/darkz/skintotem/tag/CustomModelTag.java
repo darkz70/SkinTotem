@@ -1,18 +1,21 @@
 package com.darkz.skintotem.tag;
 
 import lombok.Getter;
-import net.minecraft.resources.ResourceLocation;
-
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.*;
 
 @Getter
 public class CustomModelTag extends Tag {
 
-	private final ResourceLocation modelId;
+	private final Identifier modelId;
 
-	protected CustomModelTag(char tag, @Nullable TagAction action, ResourceLocation modelId) {
+	protected CustomModelTag(char tag, @Nullable TagAction action, Identifier modelId) {
 		super(tag, action);
 		this.modelId = modelId;
+	}
+
+	public static Builder startBuilder(char tag, Identifier modelId) {
+		return new Builder(tag, modelId);
 	}
 
 	public @NotNull String getModelName() {
@@ -24,18 +27,14 @@ public class CustomModelTag extends Tag {
 		return path;
 	}
 
-	public static Builder startBuilder(char tag, ResourceLocation modelId) {
-		return new Builder(tag, modelId);
-	}
-
 	public static class Builder {
 
 		private final char tag;
-		private final ResourceLocation modelId;
+		private final Identifier modelId;
 		private TagAction action;
 
-		public Builder(char tag, ResourceLocation modelId) {
-			this.tag = tag;
+		public Builder(char tag, Identifier modelId) {
+			this.tag     = tag;
 			this.modelId = modelId;
 		}
 

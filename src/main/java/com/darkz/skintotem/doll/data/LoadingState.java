@@ -1,9 +1,9 @@
 package com.darkz.skintotem.doll.data;
 
+import java.util.Locale;
 import lombok.Getter;
+import com.darkz.skintotem.SkinTotem;
 import net.minecraft.network.chat.Component;
-
-import com.darkz.skintotem.SkinTotemMod;
 
 @Getter
 public enum LoadingState {
@@ -19,6 +19,6 @@ public enum LoadingState {
 	DOWNLOADED; // X
 
 	public Component getText() {
-		return SkinTotemMod.text("modmenu.option.standard_doll_skin_type.result.%s".formatted(this.name().toLowerCase()));
+		return SkinTotem.text("modmenu.option.standard_doll_skin_type.result.%s".formatted(this.name().toLowerCase(Locale.ROOT)));
 	}
 }

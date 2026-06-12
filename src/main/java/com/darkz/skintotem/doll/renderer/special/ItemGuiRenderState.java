@@ -1,9 +1,7 @@
 package com.darkz.skintotem.doll.renderer.special;
 
-//? if >=1.21.6 {
-
-import net.minecraft.client.gui.navigation.ScreenRectangleangle;
-import net.fabricmc.fabric.api.client.rendering.v1.SpecialGuiElementRenderState;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.renderer.state.gui.pip.PictureInPictureRenderState;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
@@ -19,7 +17,7 @@ public record ItemGuiRenderState(
 		Quaternionf rotation,
 		@Nullable ScreenRectangle scissorArea,
 		@Nullable ScreenRectangle bounds
-) implements SpecialGuiElementRenderState {
+) implements PictureInPictureRenderState {
 
 	public ItemGuiRenderState(
 			@Nullable
@@ -32,27 +30,27 @@ public record ItemGuiRenderState(
 			Quaternionf rotation,
 			@Nullable ScreenRectangle scissorArea
 	) {
-		this(stack, x, y, width, height, size, rotation, scissorArea, SpecialGuiElementRenderState.createBounds(x, y, x + width, y + height, scissorArea));
+		this(stack, x, y, width, height, size, rotation, scissorArea, PictureInPictureRenderState.getBounds(x, y, x + width, y + height, scissorArea));
 	}
 
 	@Override
-	public int x1() {
+	public int x0() {
 		return this.x();
 	}
 
 	@Override
-	public int x2() {
-		return this.x1() + this.width();
+	public int x1() {
+		return this.x0() + this.width();
 	}
 
 	@Override
-	public int y1() {
+	public int y0() {
 		return this.y();
 	}
 
 	@Override
-	public int y2() {
-		return this.y1() + this.height();
+	public int y1() {
+		return this.y0() + this.height();
 	}
 
 	@Override
@@ -60,4 +58,3 @@ public record ItemGuiRenderState(
 		return 1.0F;
 	}
 }
-//?}

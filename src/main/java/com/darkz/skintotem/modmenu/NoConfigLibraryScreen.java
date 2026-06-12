@@ -1,15 +1,15 @@
 package com.darkz.skintotem.modmenu;
 
 import com.google.common.collect.Sets;
+import java.net.*;
+import java.util.*;
+import com.darkz.skintotem.client.SkinTotemClient;
+import com.darkz.skintotem.utils.ModMenuUtils;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.*;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.util.Util;
-import com.darkz.skintotem.client.SkinTotemModClient;
-import com.darkz.skintotem.utils.ModMenuUtils;
-import java.net.*;
-import java.util.*;
 import org.jetbrains.annotations.*;
 
 public class NoConfigLibraryScreen {
@@ -23,13 +23,13 @@ public class NoConfigLibraryScreen {
 
 	@Contract("_ -> new")
 	public static @NotNull Screen createScreen(Screen parent) {
-		return new ConfirmScreen((open) -> NoConfigLibraryScreen.onConfirm(open, parent), ModMenuUtils.getModTitle(), ModMenuUtils.getNoConfigScreenMessage(), CommonComponents.CONTINUE, CommonComponents.BACK);
+		return new ConfirmScreen((open) -> NoConfigLibraryScreen.onConfirm(open, parent), ModMenuUtils.getModTitle(), ModMenuUtils.getNoConfigScreenMessage(), CommonComponents.GUI_CONTINUE, CommonComponents.GUI_BACK);
 	}
 
 	private static void onConfirm(boolean open, Screen parent) {
 		if (open) {
 			try {
-				String url = NoConfigLibraryScreen.YACL_MODRINTH_LINK + SharedConstants.getGameVersion()./*? if >=1.21.6 {*/ name() /*?} else {*//*getName()*//*?}*/;
+				String url = NoConfigLibraryScreen.YACL_MODRINTH_LINK + SharedConstants.getCurrentVersion().name();
 				URI link = new URI(url);
 				String string = link.getScheme();
 				if (string == null) {
@@ -38,9 +38,9 @@ public class NoConfigLibraryScreen {
 				if (!NoConfigLibraryScreen.ALLOWED_PROTOCOLS.contains(string.toLowerCase(Locale.ROOT))) {
 					throw new URISyntaxException(url, "Unsupported protocol: " + string.toLowerCase(Locale.ROOT));
 				}
-				Util.getOperatingSystem().open(link);
+				Util.getPlatform().openUri(link);
 			} catch (URISyntaxException e) {
-				SkinTotemModClient.LOGGER.error("Can't open YACL Modrinth page:", e);
+				SkinTotemClient.LOGGER.error("Can't open YACL Modrinth page:", e);
 			}
 		} else {
 			Minecraft.getInstance().setScreen(parent);
@@ -48,6 +48,6 @@ public class NoConfigLibraryScreen {
 	}
 
 	public static Screen createScreenAboutOldVersion(Screen parent, String version) {
-		return new ConfirmScreen((open) -> NoConfigLibraryScreen.onConfirm(open, parent), ModMenuUtils.getModTitle(), ModMenuUtils.getOldConfigScreenMessage(version), CommonComponents.CONTINUE, CommonComponents.BACK);
+		return new ConfirmScreen((open) -> NoConfigLibraryScreen.onConfirm(open, parent), ModMenuUtils.getModTitle(), ModMenuUtils.getOldConfigScreenMessage(version), CommonComponents.GUI_CONTINUE, CommonComponents.GUI_BACK);
 	}
 }

@@ -1,6 +1,6 @@
 package com.darkz.skintotem.extension;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class IdentifierExtension {
 
@@ -25,7 +25,7 @@ public class IdentifierExtension {
 		if (i + 1 >= path.length()) {
 			return identifier;
 		}
-		return identifier.withPath(path.substring(0, i+1));
+		return identifier.withPath(path.substring(0, i + 1));
 	}
 
 }

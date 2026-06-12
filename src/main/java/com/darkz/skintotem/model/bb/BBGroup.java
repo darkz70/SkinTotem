@@ -1,18 +1,14 @@
 package com.darkz.skintotem.model.bb;
 
-import lombok.*;
-import net.minecraft.client.model.ModelPart.Rotation;
-
-
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
+import java.util.*;
+import lombok.*;
 import com.darkz.skintotem.config.other.vector.Vec3f;
 import com.darkz.skintotem.utils.CodecUtils;
-
-import java.util.*;
-
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.core.UUIDUtil;
 import static com.darkz.skintotem.utils.CodecUtils.option;
 
 @Setter
@@ -28,8 +24,8 @@ public class BBGroup {
 							option("rotation", new Vec3f(), Vec3f.CODEC, BBGroup::getRotation),
 							option("autouv", Codec.INT, BBGroup::getAutoUV),
 							option("visibility", true, Codec.BOOL, BBGroup::isVisible),
-							option("uuid", Uuids.CODEC, BBGroup::getUuid),
-							option("children", Codec.either(codec, Uuids.CODEC).listOf(), BBGroup::getChildren)
+							option("uuid", UUIDUtil.AUTHLIB_CODEC, BBGroup::getUuid),
+							option("children", Codec.either(codec, UUIDUtil.AUTHLIB_CODEC).listOf(), BBGroup::getChildren)
 					).apply(inst, BBGroup::new))
 	);
 
@@ -41,8 +37,8 @@ public class BBGroup {
 	private UUID uuid;
 	private List<Either<BBGroup, UUID>> children;
 
-	public ModelPart.Rotation getItemTransform() {
-		return ModelPart.Rotation.of(this.origin.x(), this.origin.y(), this.origin.z(), (float) -Math.toRadians(this.rotation.x()), (float) -Math.toRadians(this.rotation.y()), (float) Math.toRadians(this.rotation.z()));
+	public PartPose getTransformation() {
+		return PartPose.offsetAndRotation(this.origin.x(), this.origin.y(), this.origin.z(), (float) -Math.toRadians(this.rotation.x()), (float) -Math.toRadians(this.rotation.y()), (float) Math.toRadians(this.rotation.z()));
 	}
 
 

@@ -1,49 +1,38 @@
 package com.darkz.skintotem.gui.widget.tag;
 
+import java.util.List;
 import lombok.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.*;
-import net.minecraft.client.gui.screens.inventory.tooltip.*;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.resources.ResourceLocation;
-
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.tag.Tag;
 import com.darkz.skintotem.tag.manager.TagsManager;
 import com.darkz.skintotem.utils.DrawUtils;
 import com.darkz.skintotem.utils.tooltip.IRequestableTooltipScreen;
-
-import java.util.List;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.*;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.input.InputWithModifiers;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
-//? if >=1.21 {
-
-//?} else {
-/*import com.darkz.skintotem.utils.ButtonTextures;
-*///?}
-
-//? if >=1.21.9 {
-import net.minecraft.client.KeyMapping;
-import com.mojang.blaze3d.platform.InputConstants;
- //?}
 
 @Getter
 @Setter
 public class TagButtonWidget extends Button {
 
-	public static final ResourceLocation INACTIVE_TEXTURE = SkinTotemMod.id("textures/gui/tag_menu/button_inactive.png");
+	public static final Identifier INACTIVE_TEXTURE = SkinTotem.id("textures/gui/tag_menu/button_inactive.png");
 
-	public static final ButtonTextures TEXTURES = new ButtonTextures(
-			SkinTotemMod.id("textures/gui/tag_menu/button_pressed.png"),
-			SkinTotemMod.id("textures/gui/tag_menu/button_unpressed.png"),
-			SkinTotemMod.id("textures/gui/tag_menu/button_pressed_hovered.png"),
-			SkinTotemMod.id("textures/gui/tag_menu/button_unpressed_hovered.png")
+	public static final WidgetSprites TEXTURES = new WidgetSprites(
+			SkinTotem.id("textures/gui/tag_menu/button_pressed.png"),
+			SkinTotem.id("textures/gui/tag_menu/button_unpressed.png"),
+			SkinTotem.id("textures/gui/tag_menu/button_pressed_hovered.png"),
+			SkinTotem.id("textures/gui/tag_menu/button_unpressed_hovered.png")
 	);
 
 	private Tag tag;
 	private String text;
-	private ResourceLocation icon;
+	private Identifier icon;
 
 	private boolean pressed;
 	@Nullable
@@ -51,16 +40,16 @@ public class TagButtonWidget extends Button {
 	private boolean canBeHovered = true;
 
 	public TagButtonWidget(Tag tag, int x, int y, TagPressAction pressAction) {
-		super(x, y, 14, 14, net.minecraft.network.chat.Component.literal(""), (widget) -> pressAction.onPress((TagButtonWidget) widget), Button.DEFAULT_NARRATION_SUPPLIER);
-		this.tag          = tag;
-		this.text         = String.valueOf(tag.getTag());
-		this.icon         = TagsManager.getTagIcon(this.text.charAt(0));
+		super(x, y, 14, 14, net.minecraft.network.chat.Component.nullToEmpty(""), (widget) -> pressAction.onPress((TagButtonWidget) widget), Button.DEFAULT_NARRATION);
+		this.tag  = tag;
+		this.text = String.valueOf(tag.getTag());
+		this.icon = TagsManager.getTagIcon(this.text.charAt(0));
 	}
 
 	@Override
-	public void onPress(/*? if >=1.21.9 {*/ InputConstants input /*?}*/) {
+	public void onPress(InputWithModifiers input) {
 		this.pressed = !this.pressed;
-		super.onPress(/*? if >=1.21.9 {*/ input /*?}*/);
+		super.onPress(input);
 	}
 
 	public void setPressed(boolean pressed) {
@@ -78,46 +67,39 @@ public class TagButtonWidget extends Button {
 		this.tooltipText = text;
 	}
 
-	//? if >=1.21.11 {
 	@Override
-	protected void drawIcon(GuiGraphics context, int mouseX, int mouseY, float deltaTicks) {
+	protected void extractContents(GuiGraphicsExtractor context, int mouseX, int mouseY, float deltaTicks) {
 		this.renderPlease(context);
 	}
-	//?} else {
-	/*@Override
-	public void /^? if >=1.21 {^/renderWidget/^?} else {^//^renderButton^//^?}^/(GuiGraphics context, int mouseX, int mouseY, float delta) {
-		this.renderPlease(context);
-	}
-	*///?}
 
-	private void renderPlease(GuiGraphics context) {
+	private void renderPlease(GuiGraphicsExtractor context) {
 		this.renderButton(context, this.getX(), this.getY());
 		this.requestTooltip();
 	}
 
-	protected void renderButton(GuiGraphics context, int x, int y) {
+	protected void renderButton(GuiGraphicsExtractor context, int x, int y) {
 		this.renderBackground(context, x, y);
 		this.renderIcon(context, x, y);
 	}
 
-	protected void renderIcon(GuiGraphics context, int x, int y) {
+	protected void renderIcon(GuiGraphicsExtractor context, int x, int y) {
 		DrawUtils.drawTexture(context, this.icon, x + (this.getWidth() / 2) - 5, y + (this.getHeight() / 2) - 5, 0, 0, 10, 10, 10, 10);
 	}
 
-	protected void renderBackground(GuiGraphics context, int x, int y) {
-		ResourceLocation texture = !this.active ? INACTIVE_TEXTURE : TEXTURES.get(this.isPressed(), this.isHovered());
+	protected void renderBackground(GuiGraphicsExtractor context, int x, int y) {
+		Identifier texture = !this.active ? INACTIVE_TEXTURE : TEXTURES.get(this.isPressed(), this.isHovered());
 		DrawUtils.drawTexture(context, texture, x, y, 0, 0, this.width, this.height, this.width, this.height);
 	}
 
 	public void requestTooltip() {
 		Minecraft client = Minecraft.getInstance();
-		Screen screen = client.currentScreen;
+		Screen screen = client.screen;
 
 		if (!this.isHovered()) {
 			return;
 		}
 
-		TooltipComponent component = this.getTooltipComponent();
+		ClientTooltipComponent component = this.getTooltipComponent();
 		if (component == null) {
 			return;
 		}
@@ -126,12 +108,12 @@ public class TagButtonWidget extends Button {
 			return;
 		}
 
-		tooltipScreen.myTotemDoll$requestTooltip(((c, x, y, d) -> {
+		tooltipScreen.mySkinTotem$requestTooltip(((c, x, y, d) -> {
 			DrawUtils.drawTooltip(c, List.of(component), x, y);
 		}));
 	}
 
-	protected @Nullable TooltipComponent getTooltipComponent() {
+	protected @Nullable ClientTooltipComponent getTooltipComponent() {
 		if (this.tooltipText == null) {
 			return null;
 		}
@@ -141,10 +123,10 @@ public class TagButtonWidget extends Button {
 	public boolean over(double mouseX, double mouseY) {
 		return this.active
 				&& this.visible
-				&& mouseX >= (double)this.getX()
-				&& mouseY >= (double)this.getY()
-				&& mouseX < (double)(this.getX() + this.getWidth())
-				&& mouseY < (double)(this.getY() + this.getHeight());
+				&& mouseX >= (double) this.getX()
+				&& mouseY >= (double) this.getY()
+				&& mouseX < (double) (this.getX() + this.getWidth())
+				&& mouseY < (double) (this.getY() + this.getHeight());
 	}
 
 	@Override

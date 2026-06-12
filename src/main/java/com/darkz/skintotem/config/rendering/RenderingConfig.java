@@ -1,10 +1,9 @@
 package com.darkz.skintotem.config.rendering;
 
-import java.util.function.Supplier;
-import lombok.*;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.util.function.Supplier;
+import lombok.*;
 import com.darkz.skintotem.utils.CodecUtils;
 import static com.darkz.skintotem.utils.CodecUtils.option;
 
