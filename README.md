@@ -6,7 +6,7 @@
 
 Replaces the Totem of Undying with a 3D doll using your Minecraft skin
 
-![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1--26.1.2green?style=for-the-badge)
+![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1--26.1.2-green?style=for-the-badge)
 [![Fabric](https://img.shields.io/badge/Loader-Fabric-blue?style=for-the-badge)](https://fabricmc.net)
 ![Version](https://img.shields.io/badge/Version-1.0.0-orange?style=for-the-badge)
 
@@ -42,7 +42,7 @@ Replaces the Totem of Undying with a 3D doll using your Minecraft skin
 
 ## 📦 Installation
 
-1. Install [Fabric Loader](https://fabricmc.net) for Minecraft 1.20.1 — 1.21.11
+1. Install [Fabric Loader](https://fabricmc.net) for Minecraft 1.20.1 — 26.1.2
 2. Install [Fabric API](https://modrinth.com/mod/fabric-api)
 3. Download `skintotem-1.0.0.jar` and place it in your `mods/` folder
 4. **Optional:** Install [ModMenu](https://modrinth.com/mod/modmenu) and [Cloth Config](https://modrinth.com/mod/cloth-config) for an in-game configuration GUI
