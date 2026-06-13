@@ -14,7 +14,7 @@ Replaces the Totem of Undying with a 3D doll using your Minecraft skin
 
 ---
 
-## 📥 Download
+## 📥 Link
 
 <div align="center">
 
@@ -69,7 +69,7 @@ Place a Totem of Undying into an anvil and rename it using one of the formats be
 | `@Notch` | Ely.by | `@Notch` |
 | `NameMC\|Notch` | NameMC | `NameMC\|Notch` |
 
-### Commands
+### Commands (SkinTotem 1.20.1-1.21.11
 
 ```
 /skintotem                     — Show help
@@ -84,7 +84,15 @@ Place a Totem of Undying into an anvil and rename it using one of the formats be
 /totem model <model_id>        — Change the default doll model
 /totem refresh                 — Force Mojang API fallback refresh
 ```
-
+🛠 Commands (SkinTotem 26.1 – 26.1.2)
+```
+"/skintotem <nickname>" — load a Mojang skin
+"/skintotem tl <nickname>" — load a TLauncher skin
+"/skintotem ely <nickname>" — load an Ely.by skin
+"/skintotem url <link>" — load a skin from a direct image URL
+"/skintotem model <model_id>" — change the doll model
+"/skintotem refresh" — refresh the skin cache
+```
 ---
 
 ## ⚙️ Configuration (ModMenu)
