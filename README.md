@@ -18,9 +18,10 @@ Replaces the Totem of Undying with a 3D doll using your Minecraft skin
 
 <div align="center">
 
-![](https://cdn.modrinth.com/data/cached_images/e867d37a2f6ad224258b75aacf6477e777427717.png)
-![](https://cdn.modrinth.com/data/cached_images/ae65154a7b076cd508f14975a27d1e75e3449a1d.png)
-![](https://cdn.modrinth.com/data/cached_images/b9c43eaea7fc523285ae0981829b84e206672b48.png)
+[![CurseForge Link-Banner](https://cdn.modrinth.com/data/cached_images/e867d37a2f6ad224258b75aacf6477e777427717.png)](https://www.curseforge.com/minecraft/mc-mods/skin-totem)
+[![GitHub Link-Banner](https://cdn.modrinth.com/data/cached_images/ae65154a7b076cd508f14975a27d1e75e3449a1d.png)](https://github.com/darkz70/SkinTotem)
+[![Modrinth Link-Banner](https://cdn.modrinth.com/data/cached_images/b9c43eaea7fc523285ae0981829b84e206672b48.png)](https://modrinth.com/mod/skintotemmod)
+[![Telegram Link-Banner](https://i.ibb.co/LhRwY0DQ/images.png)](https://t.me/darkz42i69k)
 
 </div>
 
