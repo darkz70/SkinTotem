@@ -211,9 +211,60 @@ public class TotemDollRenderer {
 			drawer.requestDrawingPartWithSprite("elytra", elytraSprite);
 		}
 
+		applyHeadLookAtCursor(totemDollData, model);
 		drawer.draw(matrices, provider, skinSprite, light, overlay, /*? if >=1.21 {*/ -1 /*?} else {*/ /*1.0F, 1.0F, 1.0F, 1.0F *//*?}*/);
+		restoreHeadRotation(model);
 
 		matrices.pop();
+	}
+
+	private static void applyHeadLookAtCursor(TotemDollData totemDollData, TotemDollModel model) {
+		DollRenderContext ctx = totemDollData.getRenderProperties().getRenderContext();
+		if (ctx != DollRenderContext.D_GUI && ctx != DollRenderContext.D_TOOLTIP) return;
+
+		net.minecraft.client.MinecraftClient mc = net.minecraft.client.MinecraftClient.getInstance();
+		if (mc.currentScreen == null) return;
+
+		net.minecraft.client.util.Window window = mc.getWindow();
+		double scaleFactor = window.getScaleFactor();
+		double mouseX = mc.mouse.getX() / scaleFactor;
+		double mouseY = mc.mouse.getY() / scaleFactor;
+		double centerX = window.getScaledWidth() / 2.0;
+		double centerY = window.getScaledHeight() / 2.0;
+
+		float maxYaw   = 30.0F;
+		float maxPitch = 20.0F;
+		float yaw   = (float) MathHelper.clamp((mouseX - centerX) / centerX * maxYaw,   -maxYaw,   maxYaw);
+		float pitch = (float) MathHelper.clamp((mouseY - centerY) / centerY * maxPitch, -maxPitch, maxPitch);
+
+		for (com.darkz.skintotem.model.base.MModel headModel : model.getHead().getModels()) {
+			headModel.yaw   += (float) Math.toRadians(yaw);
+			headModel.pitch += (float) Math.toRadians(pitch);
+		}
+	}
+
+	private static void restoreHeadRotation(TotemDollModel model) {
+		// Re-fetch context; simply undo what we added
+		// We don't store saved values, so recalculate and subtract
+		net.minecraft.client.MinecraftClient mc = net.minecraft.client.MinecraftClient.getInstance();
+		if (mc.currentScreen == null) return;
+
+		net.minecraft.client.util.Window window = mc.getWindow();
+		double scaleFactor = window.getScaleFactor();
+		double mouseX = mc.mouse.getX() / scaleFactor;
+		double mouseY = mc.mouse.getY() / scaleFactor;
+		double centerX = window.getScaledWidth() / 2.0;
+		double centerY = window.getScaledHeight() / 2.0;
+
+		float maxYaw   = 30.0F;
+		float maxPitch = 20.0F;
+		float yaw   = (float) MathHelper.clamp((mouseX - centerX) / centerX * maxYaw,   -maxYaw,   maxYaw);
+		float pitch = (float) MathHelper.clamp((mouseY - centerY) / centerY * maxPitch, -maxPitch, maxPitch);
+
+		for (com.darkz.skintotem.model.base.MModel headModel : model.getHead().getModels()) {
+			headModel.yaw   -= (float) Math.toRadians(yaw);
+			headModel.pitch -= (float) Math.toRadians(pitch);
+		}
 	}
 
 	private static void beforeDollRendered(@Nullable DollRenderContext context, AbstractClientPlayerEntity playerEntity, TotemDollData totemDollData) {
