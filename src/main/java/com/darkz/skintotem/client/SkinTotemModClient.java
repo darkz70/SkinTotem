@@ -17,6 +17,7 @@ import com.darkz.skintotem.config.SkinTotemModConfig;
 import com.darkz.skintotem.pack.*;
 import com.darkz.skintotem.tag.manager.*;
 import com.darkz.skintotem.utils.plugin.TotemDollPlugin;
+import com.darkz.skintotem.refresh.SkinAutoRefresher;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -34,6 +35,7 @@ public class SkinTotemModClient implements ClientModInitializer {
 		SkinTotemModReloadListener.register();
 		TotemDollPlugin.register();
 		KnownPlayerUUIDsConfigManager.start();
+		SkinAutoRefresher.start();
 		//? if >=1.21.6 {
 		net.fabricmc.fabric.api.client.rendering.v1.SpecialGuiElementRegistry.register(
 				context -> new com.darkz.skintotem.doll.renderer.special.ItemGuiElementRenderer(context.vertexConsumers()));
