@@ -54,8 +54,12 @@ public class SkinTotemModConfig {
 	public void setFirstRun(boolean firstRun) { this.firstRun = firstRun; }
 	public boolean isSupportOtherModsTotems() { return supportOtherModsTotems; }
 	public void setSupportOtherModsTotems(boolean supportOtherModsTotems) { this.supportOtherModsTotems = supportOtherModsTotems; }
+	public boolean isAutoRefreshEnabled() { return autoRefreshEnabled; }
+	public void setAutoRefreshEnabled(boolean autoRefreshEnabled) { this.autoRefreshEnabled = autoRefreshEnabled; }
+	public int getAutoRefreshIntervalMinutes() { return autoRefreshIntervalMinutes; }
+	public void setAutoRefreshIntervalMinutes(int autoRefreshIntervalMinutes) { this.autoRefreshIntervalMinutes = autoRefreshIntervalMinutes; }
 
-	public SkinTotemModConfig(boolean modEnabled, boolean debugLogEnabled, RenderingConfig renderingConfig, String standardTotemDollSkinValue, TotemDollSkinType standardTotemDollSkinType, Identifier standardTotemDollModelValue, TotemDollArmsType standardTotemDollArmsType, Vec2i tagButtonPos, boolean useVanillaTotemModel, int betterTagMenuTooltipSize, float tagMenuTooltipModelScale, int parallelTasksCount, boolean firstRun, boolean supportOtherModsTotems) {
+	public SkinTotemModConfig(boolean modEnabled, boolean debugLogEnabled, RenderingConfig renderingConfig, String standardTotemDollSkinValue, TotemDollSkinType standardTotemDollSkinType, Identifier standardTotemDollModelValue, TotemDollArmsType standardTotemDollArmsType, Vec2i tagButtonPos, boolean useVanillaTotemModel, int betterTagMenuTooltipSize, float tagMenuTooltipModelScale, int parallelTasksCount, boolean firstRun, boolean supportOtherModsTotems, boolean autoRefreshEnabled, int autoRefreshIntervalMinutes) {
 		this.modEnabled = modEnabled;
 		this.debugLogEnabled = debugLogEnabled;
 		this.renderingConfig = renderingConfig;
@@ -70,6 +74,8 @@ public class SkinTotemModConfig {
 		this.parallelTasksCount = parallelTasksCount;
 		this.firstRun = firstRun;
 		this.supportOtherModsTotems = supportOtherModsTotems;
+		this.autoRefreshEnabled = autoRefreshEnabled;
+		this.autoRefreshIntervalMinutes = autoRefreshIntervalMinutes;
 	}
 
 	public static final Codec<SkinTotemModConfig> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -88,7 +94,9 @@ public class SkinTotemModConfig {
 			option("tag_menu_tooltip_model_scale", 1.0F, Codec.FLOAT, SkinTotemModConfig::getTagMenuTooltipModelScale),
 			option("executor_threads_count", 6, Codec.INT, SkinTotemModConfig::getParallelTasksCount),
 			option("first_run", true, Codec.BOOL, SkinTotemModConfig::isFirstRun),
-			option("support_other_mods_totems", true, Codec.BOOL, SkinTotemModConfig::isSupportOtherModsTotems)
+			option("support_other_mods_totems", true, Codec.BOOL, SkinTotemModConfig::isSupportOtherModsTotems),
+			option("auto_refresh_enabled", false, Codec.BOOL, SkinTotemModConfig::isAutoRefreshEnabled),
+			option("auto_refresh_interval_minutes", 5, Codec.INT, SkinTotemModConfig::getAutoRefreshIntervalMinutes)
 	).apply(instance, SkinTotemModConfig::new));
 
 	private static final File CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve(SkinTotemMod.MOD_ID + ".json5").toFile();
@@ -109,6 +117,8 @@ public class SkinTotemModConfig {
 	private int parallelTasksCount;
 	private boolean firstRun;
 	private boolean supportOtherModsTotems;
+	private boolean autoRefreshEnabled;
+	private int autoRefreshIntervalMinutes;
 
 	private SkinTotemModConfig() {
 		// throw new IllegalArgumentException();
