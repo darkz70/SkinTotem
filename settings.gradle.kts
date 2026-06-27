@@ -1,8 +1,8 @@
 pluginManagement {
     repositories {
-        maven { name = "NeoForge"; url = uri("https://maven.neoforged.net/releases") }
-        maven { name = "Kikugie Snapshots"; url = uri("https://maven.kikugie.dev/snapshots") }
-        maven { name = "Kikugie Releases"; url = uri("https://maven.kikugie.dev/releases") }
+        maven { name = "NeoForge"; url = "https://maven.neoforged.net/releases" }
+        maven { name = "Kikugie Snapshots"; url = "https://maven.kikugie.dev/snapshots" }
+        maven { name = "Kikugie Releases"; url = "https://maven.kikugie.dev/releases" }
         gradlePluginPortal()
         mavenCentral()
         mavenLocal()
@@ -10,8 +10,8 @@ pluginManagement {
 }
 
 plugins {
-    id("dev.kikugie.stonecutter") version "0.7.1"
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+    id "dev.kikugie.stonecutter" version "0.7.1"
+    id "org.gradle.toolchains.foojay-resolver-convention" version "0.8.0"
 }
 
 stonecutter {
@@ -25,8 +25,8 @@ stonecutter {
         vers("1.21.7", "versions/1.21.7")
         vers("1.21.8", "versions/1.21.8")
         vers("1.21.9", "versions/1.21.9")
-        vers("1.21.10","versions/1.21.10")
-        vers("1.21.11","versions/1.21.11")
+        vers("1.21.10", "versions/1.21.10")
+        vers("1.21.11", "versions/1.21.11")
     }
     centralScript = "build.gradle"
 }
