@@ -12,24 +12,113 @@ jobs:
         with:
           ref: Neoforge
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create build.gradle in each version
+      - name: Write full build.gradle to each version
         run: |
-          for v in 1.20.1 1.21 1.21.1 1.21.4 1.21.5 1.21.6 1.21.7 1.21.8 1.21.9 1.21.10 1.21.11; do
-            cat > versions/$v/build.gradle << 'EOF'
+          cat > /tmp/version_build.gradle << 'BUILDEOF'
           plugins {
               id "java"
-              id "net.neoforged.moddev"
+              id "net.neoforged.moddev" version "2.0.80"
               id "dev.kikugie.stonecutter"
-              id "io.freefair.lombok"
+              id "io.freefair.lombok" version "8.6"
           }
-          EOF
+
+          def mc = stonecutter.current.version
+          def isLegacy = mc == "1.20.1"
+
+          version = "${prop("data.mod_version")}+${mc}-neoforge"
+          group   = prop("data.mod_group")
+
+          base {
+              archivesName = "${prop("data.mod_id")}-neoforge-${mc}"
+          }
+
+          java {
+              toolchain.languageVersion = JavaLanguageVersion.of(21)
+              withSourcesJar()
+          }
+
+          neoForge {
+              version = prop("build.neoforge")
+              if (isLegacy) {
+                  neoFormVersion = null
+              }
+              parchment {
+                  mappingsVersion = prop("build.parchment")
+                  minecraftVersion = mc
+              }
+              mods {
+                  skintotem {
+                      sourceSet(sourceSets.main)
+                  }
+              }
+              runs {
+                  client {
+                      client()
+                  }
+              }
+          }
+
+          stonecutter {
+              consts {
+                  value("fabric",   false)
+                  value("neoforge", true)
+              }
+          }
+
+          repositories {
+              mavenCentral()
+              maven { name = "NeoForge";    url = "https://maven.neoforged.net/releases" }
+              maven { name = "ParchmentMC"; url = "https://maven.parchmentmc.org" }
+              maven { name = "Mixin2";      url = "https://maven.bawnorton.com/releases" }
+              maven { name = "YACL";        url = "https://maven.isxander.dev/releases" }
+              maven { name = "Modrinth";    url = "https://api.modrinth.com/maven" }
+          }
+
+          dependencies {
+              compileOnly     "org.projectlombok:lombok:${prop("base.lombok_version")}"
+              annotationProcessor "org.projectlombok:lombok:${prop("base.lombok_version")}"
+              jarJar(implementation(annotationProcessor(
+                  "com.github.bawnorton.mixinsquared:mixinsquared-forge:${prop("build.mixin_squared")}"
+              )))
+              implementation "dev.isxander:yet-another-config-lib:${prop("dep.yacl")}"
+              def emb = prop("dep.embeddium")
+              if (emb != "unknown") {
+                  compileOnly "maven.modrinth:embeddium:${emb}"
+              }
+          }
+
+          processResources {
+              def replaceProperties = [
+                  mod_id         : prop("data.mod_id"),
+                  mod_name       : prop("data.mod_name"),
+                  mod_version    : version,
+                  mod_description: prop("data.mod_description"),
+                  neoforge_version: prop("build.neoforge"),
+                  minecraft_version: mc,
+              ]
+              inputs.properties replaceProperties
+              filesMatching(["META-INF/neoforge.mods.toml", "META-INF/mods.toml"]) {
+                  expand replaceProperties
+              }
+          }
+
+          tasks.withType(JavaCompile).configureEach {
+              options.encoding = "UTF-8"
+              options.release  = 21
+          }
+
+          String prop(String key) {
+              return findProperty(key)?.toString() ?: ""
+          }
+          BUILDEOF
+
+          for v in 1.20.1 1.21 1.21.1 1.21.4 1.21.5 1.21.6 1.21.7 1.21.8 1.21.9 1.21.10 1.21.11; do
+            cp /tmp/version_build.gradle versions/$v/build.gradle
           done
       - name: Commit
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add -f versions/
-          git status
-          git diff --cached --name-only
-          git commit -m "fix: add build.gradle to version subprojects" || echo "Nothing to commit"
+          git add versions/
+          git commit -m "fix: full build.gradle in version subprojects" || echo "Nothing to commit"
           git push origin Neoforge
