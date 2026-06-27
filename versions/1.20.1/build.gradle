@@ -25,15 +25,18 @@ neoForge {
     if (isLegacy) {
         neoFormVersion = null
     }
+
     parchment {
         mappingsVersion = prop("build.parchment")
         minecraftVersion = mc
     }
+
     mods {
         skintotem {
             sourceSet(sourceSets.main)
         }
     }
+
     runs {
         client {
             client()
@@ -60,10 +63,13 @@ repositories {
 dependencies {
     compileOnly     "org.projectlombok:lombok:${prop("base.lombok_version")}"
     annotationProcessor "org.projectlombok:lombok:${prop("base.lombok_version")}"
+
     jarJar(implementation(annotationProcessor(
         "com.github.bawnorton.mixinsquared:mixinsquared-forge:${prop("build.mixin_squared")}"
     )))
+
     implementation "dev.isxander:yet-another-config-lib:${prop("dep.yacl")}"
+
     def emb = prop("dep.embeddium")
     if (emb != "unknown") {
         compileOnly "maven.modrinth:embeddium:${emb}"
@@ -72,10 +78,10 @@ dependencies {
 
 processResources {
     def replaceProperties = [
-        mod_id         : prop("data.mod_id"),
-        mod_name       : prop("data.mod_name"),
-        mod_version    : version,
-        mod_description: prop("data.mod_description"),
+        mod_id          : prop("data.mod_id"),
+        mod_name        : prop("data.mod_name"),
+        mod_version     : version,
+        mod_description : prop("data.mod_description"),
         neoforge_version: prop("build.neoforge"),
         minecraft_version: mc,
     ]
