@@ -16,21 +16,17 @@ plugins {
 
 stonecutter {
     shared {
-        fun mc(version: String, vararg paths: String) =
-            vers(version, *paths)
-
-        mc("1.20.1", "versions/1.20.1")
-        mc("1.21",   "versions/1.21")
-        mc("1.21.1", "versions/1.21.1")
-        mc("1.21.4", "versions/1.21.4")
-        mc("1.21.5", "versions/1.21.5")
-        mc("1.21.6", "versions/1.21.6")
-        mc("1.21.7", "versions/1.21.7")
-        mc("1.21.8", "versions/1.21.8")
-        mc("1.21.9", "versions/1.21.9")
-        mc("1.21.10","versions/1.21.10")
-        mc("1.21.11","versions/1.21.11")
+        vers("1.20.1", "versions/1.20.1")
+        vers("1.21",   "versions/1.21")
+        vers("1.21.1", "versions/1.21.1")
+        vers("1.21.4", "versions/1.21.4")
+        vers("1.21.5", "versions/1.21.5")
+        vers("1.21.6", "versions/1.21.6")
+        vers("1.21.7", "versions/1.21.7")
+        vers("1.21.8", "versions/1.21.8")
+        vers("1.21.9", "versions/1.21.9")
+        vers("1.21.10","versions/1.21.10")
+        vers("1.21.11","versions/1.21.11")
     }
     centralScript = "build.gradle"
-    automaticPlatformConstants = true
 }
