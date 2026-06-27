@@ -15,7 +15,7 @@ plugins {
 }
 
 stonecutter {
-    shared {
+    create(rootProject) {
         vers("1.20.1", "versions/1.20.1")
         vers("1.21",   "versions/1.21")
         vers("1.21.1", "versions/1.21.1")
@@ -25,8 +25,8 @@ stonecutter {
         vers("1.21.7", "versions/1.21.7")
         vers("1.21.8", "versions/1.21.8")
         vers("1.21.9", "versions/1.21.9")
-        vers("1.21.10", "versions/1.21.10")
-        vers("1.21.11", "versions/1.21.11")
+        vers("1.21.10","versions/1.21.10")
+        vers("1.21.11","versions/1.21.11")
     }
     centralScript = "build.gradle"
 }
