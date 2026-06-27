@@ -1,47 +1,109 @@
 plugins {
-    id "net.lopymine.mossy-plugin-core" version "$mossy_plugin_version"
+    id "java"
+    id "net.neoforged.moddev" version "2.0.80"
+    id "dev.kikugie.stonecutter"
+    id "io.freefair.lombok" version "8.6"
 }
 
-mossyDependencies {
-    minecraft = stonecutter.current.version.toString()
-    lombok = prop("base.lombok_version")
+def mc     = stonecutter.current.version
+def isLegacy = mc == "1.20.1"
 
-    // NeoForge вместо Fabric
-    neoforge = prop("build.neoforge")
-    neoforgeArtifact = prop("build.neoforge_artifact")
+version = "${prop("data.mod_version")}+${mc}-neoforge"
+group   = prop("data.mod_group")
 
-    additional {
-        disable("embeddium")
+base {
+    archivesName = "${prop("data.mod_id")}-neoforge-${mc}"
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    withSourcesJar()
+}
+
+neoForge {
+    if (isLegacy) {
+        // 1.20.1 использует старый artifact net.neoforged:forge
+        version = prop("build.neoforge")
+        // Для 1.20.1 нужен NeoGradle, но MDG тоже работает через:
+        neoFormVersion = null
+    } else {
+        version = prop("build.neoforge")
+    }
+
+    parchment {
+        mappingsVersion = prop("build.parchment")
+        minecraftVersion = mc
+    }
+
+    mods {
+        skintotem {
+            sourceSet(sourceSets.main)
+        }
+    }
+
+    runs {
+        client {
+            client()
+        }
     }
 }
 
-mossyResources {
-    // expandFiles = [...]
+stonecutter {
+    consts {
+        value("fabric",   false)
+        value("neoforge", true)
+    }
 }
 
 repositories {
     mavenCentral()
-    maven { name = "NeoForge"; url = "https://maven.neoforged.net/releases" }
-    maven { name = "Mixin Squared"; url = "https://maven.bawnorton.com/releases" }
-    maven { name = "YACL"; url = "https://maven.isxander.dev/releases" }
-    maven { name = "Modrinth Maven"; url = "https://api.modrinth.com/maven" }
+    maven { name = "NeoForge";    url = "https://maven.neoforged.net/releases" }
+    maven { name = "ParchmentMC"; url = "https://maven.parchmentmc.org" }
+    maven { name = "Mixin2";      url = "https://maven.bawnorton.com/releases" }
+    maven { name = "YACL";        url = "https://maven.isxander.dev/releases" }
+    maven { name = "Modrinth";    url = "https://api.modrinth.com/maven" }
 }
 
 dependencies {
     // Lombok
-    compileOnly "org.projectlombok:lombok:${prop("base.lombok_version")}"
+    compileOnly     "org.projectlombok:lombok:${prop("base.lombok_version")}"
     annotationProcessor "org.projectlombok:lombok:${prop("base.lombok_version")}"
 
-    // MixinSquared (NeoForge build)
-    jarJar(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-forge:${prop("build.mixin_squared")}")))
+    // MixinSquared
+    jarJar(implementation(annotationProcessor(
+        "com.github.bawnorton.mixinsquared:mixinsquared-forge:${prop("build.mixin_squared")}"
+    )))
 
-    // Embeddium (опциональный compat)
+    // YACL
+    implementation "dev.isxander:yet-another-config-lib:${prop("dep.yacl")}"
+
+    // Embeddium (опциональный)
     def emb = prop("dep.embeddium")
     if (emb != "unknown") {
-        modCompileOnly "maven.modrinth:embeddium:${emb}"
+        compileOnly "maven.modrinth:embeddium:${emb}"
     }
 }
 
+processResources {
+    def replaceProperties = [
+        mod_id         : prop("data.mod_id"),
+        mod_name       : prop("data.mod_name"),
+        mod_version    : version,
+        mod_description: prop("data.mod_description"),
+        neoforge_version: prop("build.neoforge"),
+        minecraft_version: mc,
+    ]
+    inputs.properties replaceProperties
+    filesMatching(["META-INF/neoforge.mods.toml", "META-INF/mods.toml"]) {
+        expand replaceProperties
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+    options.release  = 21
+}
+
 String prop(String key) {
-    return findProperty(key).toString()
+    return findProperty(key)?.toString() ?: ""
 }

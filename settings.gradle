@@ -1,10 +1,8 @@
 pluginManagement {
     repositories {
-        maven { name "Fabric"; url "https://maven.fabricmc.net/" }
-        maven { name "NeoForge"; url "https://maven.neoforged.net/releases" }
-        maven { name "Kiku Snapshots"; url "https://maven.kikugie.dev/snapshots" }
-        maven { name "Kiku Releases"; url "https://maven.kikugie.dev/releases" }
-        maven { name "Mossy Projects"; url "https://maven.lopymine.net/releases" }
+        maven { name = "NeoForge"; url = "https://maven.neoforged.net/releases" }
+        maven { name = "Kikugie Snapshots"; url = "https://maven.kikugie.dev/snapshots" }
+        maven { name = "Kikugie Releases"; url = "https://maven.kikugie.dev/releases" }
         gradlePluginPortal()
         mavenCentral()
         mavenLocal()
@@ -13,5 +11,26 @@ pluginManagement {
 
 plugins {
     id "dev.kikugie.stonecutter" version "0.7.1"
-    id "net.lopymine.mossy-plugin-settings" version "$mossy_plugin_version"
+    id "org.gradle.toolchains.foojay-resolver-convention" version "0.8.0"
+}
+
+stonecutter {
+    shared {
+        fun mc(version: String, vararg paths: String) =
+            vers(version, *paths)
+
+        mc("1.20.1", "versions/1.20.1")
+        mc("1.21",   "versions/1.21")
+        mc("1.21.1", "versions/1.21.1")
+        mc("1.21.4", "versions/1.21.4")
+        mc("1.21.5", "versions/1.21.5")
+        mc("1.21.6", "versions/1.21.6")
+        mc("1.21.7", "versions/1.21.7")
+        mc("1.21.8", "versions/1.21.8")
+        mc("1.21.9", "versions/1.21.9")
+        mc("1.21.10","versions/1.21.10")
+        mc("1.21.11","versions/1.21.11")
+    }
+    centralScript = "build.gradle"
+    automaticPlatformConstants = true
 }
