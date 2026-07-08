@@ -173,32 +173,31 @@ public class SkinTotemRenderer {
 
 	private static final java.util.List<net.minecraft.client.model.geom.PartPose> savedHeadPoses = new java.util.ArrayList<>();
 
+	private static boolean skinTotemDebugDumped = false;
+
 	private static void applyHeadLookAtCursor(SkinTotemData skinTotemData, SkinTotemModel model) {
 		savedHeadPoses.clear();
+
+		if (!skinTotemDebugDumped) {
+			skinTotemDebugDumped = true;
+			net.minecraft.client.Minecraft dbgMc = net.minecraft.client.Minecraft.getInstance();
+			System.out.println("[SkinTotemDebug] ===== Minecraft class members containing 'screen' (case-insensitive) =====");
+			for (java.lang.reflect.Field f : dbgMc.getClass().getDeclaredFields()) {
+				if (f.getName().toLowerCase().contains("screen")) {
+					System.out.println("[SkinTotemDebug] FIELD: " + f.getType().getName() + " " + f.getName() + " (modifiers=" + java.lang.reflect.Modifier.toString(f.getModifiers()) + ")");
+				}
+			}
+			for (java.lang.reflect.Method m : dbgMc.getClass().getDeclaredMethods()) {
+				if (m.getName().toLowerCase().contains("screen") && m.getParameterCount() == 0) {
+					System.out.println("[SkinTotemDebug] METHOD: " + m.getReturnType().getName() + " " + m.getName() + "() (modifiers=" + java.lang.reflect.Modifier.toString(m.getModifiers()) + ")");
+				}
+			}
+			System.out.println("[SkinTotemDebug] ===== end dump =====");
+		}
+
 		DollRenderContext ctx = skinTotemData.getRenderProperties().getRenderContext();
 		if (ctx != DollRenderContext.D_GUI && ctx != DollRenderContext.D_TOOLTIP) return;
-
-		net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getInstance();
-		if (mc.currentScreen == null) return;
-
-		com.mojang.blaze3d.platform.Window window = mc.getWindow();
-		double scaleFactor = window.getGuiScale();
-		double mouseX = mc.mouseHandler.xpos() / scaleFactor;
-		double mouseY = mc.mouseHandler.ypos() / scaleFactor;
-		double centerX = window.getGuiScaledWidth() / 2.0;
-		double centerY = window.getGuiScaledHeight() / 2.0;
-
-		float maxYaw   = 30.0F;
-		float maxPitch = 20.0F;
-		float yaw   = (float) net.minecraft.util.Mth.clamp((mouseX - centerX) / centerX * maxYaw,   -maxYaw,   maxYaw);
-		float pitch = (float) net.minecraft.util.Mth.clamp((mouseY - centerY) / centerY * maxPitch, -maxPitch, maxPitch);
-
-		for (com.darkz.skintotem.model.base.MModel headModel : model.getHead().getModels()) {
-			net.minecraft.client.model.geom.ModelPart mp = headModel.getModelPart();
-			savedHeadPoses.add(mp.storePose());
-			mp.xRot += (float) Math.toRadians(pitch);
-			mp.yRot += (float) Math.toRadians(yaw);
-		}
+		// head-look-at-cursor temporarily disabled until we confirm the real screen accessor from the debug dump above
 	}
 
 
@@ -252,5 +251,4 @@ public class SkinTotemRenderer {
 		}
 		return !SkinTotemPlugin.work(realCustomName);
 	}
-				}
-			
+}
