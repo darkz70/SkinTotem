@@ -179,17 +179,7 @@ public class SkinTotemRenderer {
 		if (ctx != DollRenderContext.D_GUI && ctx != DollRenderContext.D_TOOLTIP) return;
 
 		net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getInstance();
-		for (java.lang.reflect.Field f : mc.getClass().getDeclaredFields()) {
-			if (f.getName().toLowerCase().contains("screen")) {
-				System.out.println("[SkinTotemDebug] field: " + f.getType().getName() + " " + f.getName() + " (modifiers=" + f.getModifiers() + ")");
-			}
-		}
-		for (java.lang.reflect.Method m : mc.getClass().getDeclaredMethods()) {
-			if (m.getName().toLowerCase().contains("screen") && m.getParameterCount() == 0) {
-				System.out.println("[SkinTotemDebug] method: " + m.getReturnType().getName() + " " + m.getName() + "() (modifiers=" + m.getModifiers() + ")");
-			}
-		}
-		return;
+		if (mc.currentScreen == null) return;
 
 		com.mojang.blaze3d.platform.Window window = mc.getWindow();
 		double scaleFactor = window.getGuiScale();
@@ -210,6 +200,7 @@ public class SkinTotemRenderer {
 			mp.yRot += (float) Math.toRadians(yaw);
 		}
 	}
+
 
 	private static void restoreHeadRotation(SkinTotemData skinTotemData, SkinTotemModel model) {
 		if (savedHeadPoses.isEmpty()) return;
@@ -261,4 +252,5 @@ public class SkinTotemRenderer {
 		}
 		return !SkinTotemPlugin.work(realCustomName);
 	}
-									}
+				}
+			
