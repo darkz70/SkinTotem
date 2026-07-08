@@ -8,7 +8,7 @@
         "${mod_authors}"
     ],
     "contact": {
-        "homepage": "https://github.com/darkz70/SkinTotem",
+        "homepage": "https://modrinth.com/mod/${modrinth_id}",
         "issues": "https://github.com/darkz70/SkinTotem/issues"
     },
     "license": "${mod_license}",
