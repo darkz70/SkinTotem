@@ -211,19 +211,19 @@ public class TotemDollRenderer {
 			drawer.requestDrawingPartWithSprite("elytra", elytraSprite);
 		}
 
-		applyHeadLookAtCursor(totemDollData, model);
+		java.util.Map<com.darkz.skintotem.model.base.MModel, float[]> savedHeadRotations = applyHeadLookAtCursor(totemDollData, model);
 		drawer.draw(matrices, provider, skinSprite, light, overlay, /*? if >=1.21 {*/ -1 /*?} else {*/ /*1.0F, 1.0F, 1.0F, 1.0F *//*?}*/);
-		restoreHeadRotation(model);
+		restoreHeadRotation(savedHeadRotations);
 
 		matrices.pop();
 	}
 
-	private static void applyHeadLookAtCursor(TotemDollData totemDollData, TotemDollModel model) {
+	private static java.util.Map<com.darkz.skintotem.model.base.MModel, float[]> applyHeadLookAtCursor(TotemDollData totemDollData, TotemDollModel model) {
 		DollRenderContext ctx = totemDollData.getRenderProperties().getRenderContext();
-		if (ctx != DollRenderContext.D_GUI && ctx != DollRenderContext.D_TOOLTIP) return;
+		if (ctx != DollRenderContext.D_GUI && ctx != DollRenderContext.D_TOOLTIP) return java.util.Collections.emptyMap();
 
 		net.minecraft.client.MinecraftClient mc = net.minecraft.client.MinecraftClient.getInstance();
-		if (mc.currentScreen == null) return;
+		if (mc.currentScreen == null) return java.util.Collections.emptyMap();
 
 		net.minecraft.client.util.Window window = mc.getWindow();
 		double scaleFactor = window.getScaleFactor();
@@ -237,33 +237,28 @@ public class TotemDollRenderer {
 		float yaw   = (float) MathHelper.clamp((mouseX - centerX) / centerX * maxYaw,   -maxYaw,   maxYaw);
 		float pitch = (float) MathHelper.clamp((mouseY - centerY) / centerY * maxPitch, -maxPitch, maxPitch);
 
+		// Save the exact original values before mutating the (shared, reused-across-frames)
+		// head model, so we can restore them exactly afterwards. Previously restoreHeadRotation
+		// re-read the mouse position independently and subtracted a freshly recomputed offset -
+		// any tiny mismatch between the two reads (rounding, mouse moving mid-frame, the same
+		// shared MModel being touched by more than one doll render in the same frame) never
+		// cancelled out perfectly and left a small residual error on the model every frame,
+		// which is what showed up as the head jittering/twitching.
+		java.util.Map<com.darkz.skintotem.model.base.MModel, float[]> saved = new java.util.HashMap<>();
 		for (com.darkz.skintotem.model.base.MModel headModel : model.getHead().getModels()) {
+			saved.put(headModel, new float[]{headModel.yaw, headModel.pitch});
 			headModel.yaw   += (float) Math.toRadians(yaw);
 			headModel.pitch += (float) Math.toRadians(pitch);
 		}
+		return saved;
 	}
 
-	private static void restoreHeadRotation(TotemDollModel model) {
-		// Re-fetch context; simply undo what we added
-		// We don't store saved values, so recalculate and subtract
-		net.minecraft.client.MinecraftClient mc = net.minecraft.client.MinecraftClient.getInstance();
-		if (mc.currentScreen == null) return;
-
-		net.minecraft.client.util.Window window = mc.getWindow();
-		double scaleFactor = window.getScaleFactor();
-		double mouseX = mc.mouse.getX() / scaleFactor;
-		double mouseY = mc.mouse.getY() / scaleFactor;
-		double centerX = window.getScaledWidth() / 2.0;
-		double centerY = window.getScaledHeight() / 2.0;
-
-		float maxYaw   = 30.0F;
-		float maxPitch = 20.0F;
-		float yaw   = (float) MathHelper.clamp((mouseX - centerX) / centerX * maxYaw,   -maxYaw,   maxYaw);
-		float pitch = (float) MathHelper.clamp((mouseY - centerY) / centerY * maxPitch, -maxPitch, maxPitch);
-
-		for (com.darkz.skintotem.model.base.MModel headModel : model.getHead().getModels()) {
-			headModel.yaw   -= (float) Math.toRadians(yaw);
-			headModel.pitch -= (float) Math.toRadians(pitch);
+	private static void restoreHeadRotation(java.util.Map<com.darkz.skintotem.model.base.MModel, float[]> savedRotations) {
+		for (java.util.Map.Entry<com.darkz.skintotem.model.base.MModel, float[]> entry : savedRotations.entrySet()) {
+			com.darkz.skintotem.model.base.MModel headModel = entry.getKey();
+			float[] original = entry.getValue();
+			headModel.yaw   = original[0];
+			headModel.pitch = original[1];
 		}
 	}
 
@@ -308,4 +303,4 @@ public class TotemDollRenderer {
 		}
 		return !TotemDollPlugin.work(realCustomName);
 	}
-}
+	}
