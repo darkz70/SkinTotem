@@ -1,14 +1,50 @@
 package com.darkz.skintotem.extension;
 
 import net.minecraft.client.model.ModelTransform;
+import net.minecraft.util.math.Vec3d;
 
 public class ModelTransformExtension {
 
+	/**
+	 * Computes the pivot of {@code root} relative to {@code parent}.
+	 * <p>
+	 * BlockBench stores every group's "origin" in absolute model space, so the naive
+	 * component-wise difference of two pivots only gives the correct relative pivot
+	 * when the parent has no rotation. If the parent bone is rotated (e.g. a bent arm,
+	 * a bent leg, a tilted head/body on a custom doll), the raw world-space delta must
+	 * first be rotated into the parent's own (rotated) local space - otherwise the
+	 * child part ends up rendered in the wrong place, appearing detached/misaligned
+	 * from the part it should be attached to.
+	 * <p>
+	 * Minecraft applies a ModelPart's own rotation in the order roll (Z) -> yaw (Y) ->
+	 * pitch (X), so to go the other way (world-space delta -> parent-local space) we
+	 * undo that in reverse: -roll, then -yaw, then -pitch.
+	 */
 	public static ModelTransform subtract(ModelTransform root, ModelTransform parent) {
-		return ModelTransform.of(
+		Vec3d delta = new Vec3d(
 				getPivotX(root) - getPivotX(parent),
 				getPivotY(root) - getPivotY(parent),
-				getPivotZ(root) - getPivotZ(parent),
+				getPivotZ(root) - getPivotZ(parent)
+		);
+
+		float parentRoll  = (float) Math.toRadians(getRoll(parent));
+		float parentYaw   = (float) Math.toRadians(getYaw(parent));
+		float parentPitch = (float) Math.toRadians(getPitch(parent));
+
+		if (parentRoll != 0.0F) {
+			delta = delta.rotateZ(-parentRoll);
+		}
+		if (parentYaw != 0.0F) {
+			delta = delta.rotateY(-parentYaw);
+		}
+		if (parentPitch != 0.0F) {
+			delta = delta.rotateX(-parentPitch);
+		}
+
+		return ModelTransform.of(
+				(float) delta.x,
+				(float) delta.y,
+				(float) delta.z,
 				getPitch(root),
 				getYaw(root),
 				getRoll(root)
