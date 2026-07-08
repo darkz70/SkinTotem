@@ -80,7 +80,16 @@ public class SkinTotemRenderer {
 			long currentTime = Util.getMillis();
 			float rotationSpeed = 0.05f;
 			float rotation = (currentTime * rotationSpeed) % 360;
-			context.guiRenderState.addPicturesInPictureState(new com.darkz.skintotem.doll.renderer.special.ItemGuiRenderState(Items.TOTEM_OF_UNDYING.getDefaultInstance(), x, y, width, height, size, Axis.YP.rotationDegrees(rotation), context.scissorStack.peek()));
+			ItemStack previewStack;
+			try {
+				previewStack = Items.TOTEM_OF_UNDYING.getDefaultInstance();
+			} catch (NullPointerException e) {
+				// Item registry components aren't bound yet (e.g. this screen was opened
+				// before a world/server finished loading). Skip this frame instead of crashing;
+				// it will render fine once the registry is ready.
+				return;
+			}
+			context.guiRenderState.addPicturesInPictureState(new com.darkz.skintotem.doll.renderer.special.ItemGuiRenderState(previewStack, x, y, width, height, size, Axis.YP.rotationDegrees(rotation), context.scissorStack.peek()));
 		} else {
 			data.getRenderProperties().setRenderContext(renderContext);
 			context.guiRenderState.addPicturesInPictureState(com.darkz.skintotem.doll.renderer.special.SkinTotemRenderState.getPreview(data, x, y, width, height, size, context.scissorStack.peek()));
@@ -165,9 +174,50 @@ public class SkinTotemRenderer {
 			drawer.requestDrawingPartWithSprite("elytra", elytraSprite);
 		}
 
+		applyHeadLookAtCursor(skinTotemData, model);
 		drawer.draw(matrices, provider, skinSprite, light, overlay, -1);
+		restoreHeadRotation(skinTotemData, model);
 
 		matrices.popPose();
+	}
+
+	private static final java.util.List<net.minecraft.client.model.geom.PartPose> savedHeadPoses = new java.util.ArrayList<>();
+
+	private static void applyHeadLookAtCursor(SkinTotemData skinTotemData, SkinTotemModel model) {
+		savedHeadPoses.clear();
+		DollRenderContext ctx = skinTotemData.getRenderProperties().getRenderContext();
+		if (ctx != DollRenderContext.D_GUI && ctx != DollRenderContext.D_TOOLTIP) return;
+
+		net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getInstance();
+		if (mc.screen == null) return;
+
+		com.mojang.blaze3d.platform.Window window = mc.getWindow();
+		double scaleFactor = window.getGuiScale();
+		double mouseX = mc.mouseHandler.xpos() / scaleFactor;
+		double mouseY = mc.mouseHandler.ypos() / scaleFactor;
+		double centerX = window.getGuiScaledWidth() / 2.0;
+		double centerY = window.getGuiScaledHeight() / 2.0;
+
+		float maxYaw   = 30.0F;
+		float maxPitch = 20.0F;
+		float yaw   = (float) net.minecraft.util.Mth.clamp((mouseX - centerX) / centerX * maxYaw,   -maxYaw,   maxYaw);
+		float pitch = (float) net.minecraft.util.Mth.clamp((mouseY - centerY) / centerY * maxPitch, -maxPitch, maxPitch);
+
+		for (com.darkz.skintotem.model.base.MModel headModel : model.getHead().getModels()) {
+			net.minecraft.client.model.geom.ModelPart mp = headModel.getModelPart();
+			savedHeadPoses.add(mp.storePose());
+			mp.xRot += (float) Math.toRadians(pitch);
+			mp.yRot += (float) Math.toRadians(yaw);
+		}
+	}
+
+	private static void restoreHeadRotation(SkinTotemData skinTotemData, SkinTotemModel model) {
+		if (savedHeadPoses.isEmpty()) return;
+		java.util.List<com.darkz.skintotem.model.base.MModel> headModels = model.getHead().getModels();
+		for (int i = 0; i < Math.min(headModels.size(), savedHeadPoses.size()); i++) {
+			headModels.get(i).getModelPart().loadPose(savedHeadPoses.get(i));
+		}
+		savedHeadPoses.clear();
 	}
 
 	private static void beforeDollRendered(@Nullable DollRenderContext context, AbstractClientPlayer playerEntity, SkinTotemData skinTotemData) {
@@ -211,4 +261,4 @@ public class SkinTotemRenderer {
 		}
 		return !SkinTotemPlugin.work(realCustomName);
 	}
-}
+			}
