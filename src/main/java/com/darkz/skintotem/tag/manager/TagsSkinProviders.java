@@ -6,6 +6,7 @@ import com.darkz.skintotem.skin.provider.SkinProvider;
 import com.darkz.skintotem.skin.provider.extended.ElyBySkinProvider;
 import com.darkz.skintotem.skin.provider.extended.NameMCSkinProvider;
 import com.darkz.skintotem.skin.provider.extended.TLauncherSkinProvider;
+import com.darkz.skintotem.skin.provider.extended.UrlSkinProvider;
 
 import java.util.*;
 import org.jetbrains.annotations.Nullable;
@@ -18,13 +19,15 @@ import org.jetbrains.annotations.Nullable;
  *   NameMC     — "NameMC|nickname"            → NameMC API
  *   ElyBy      — "@nickname"                  → Ely.by skinsystem
  *   TLauncher  — "#nickname"                  → TLauncher skin server
+ *   Url        — "url:https://..."            → прямая ссылка на PNG
  *
  * Использование в тотеме:
  *   Положить тотем в наковальню и написать:
- *     Notch          → Mojang скин
- *     @Notch         → Ely.by скин
- *     #Notch         → TLauncher скин
- *     NameMC|Notch   → NameMC скин
+ *     Notch                        → Mojang скин
+ *     @Notch                       → Ely.by скин
+ *     #Notch                       → TLauncher скин
+ *     NameMC|Notch                 → NameMC скин
+ *     url:https://example.com/x.png → прямая ссылка на скин
  */
 public class TagsSkinProviders {
 
@@ -50,9 +53,10 @@ public class TagsSkinProviders {
     public static boolean isProvider(String o) {
         if (o == null) return false;
 
-        // Префиксные провайдеры: @nick (ElyBy), #nick (TLauncher)
+        // Префиксные провайдеры: @nick (ElyBy), #nick (TLauncher), url:... (Url)
         if (o.startsWith(ElyBySkinProvider.PREFIX)     && ElyBySkinProvider.getInstance().canProcess(o))     return true;
         if (o.startsWith(TLauncherSkinProvider.PREFIX) && TLauncherSkinProvider.getInstance().canProcess(o)) return true;
+        if (o.startsWith(UrlSkinProvider.PREFIX)       && UrlSkinProvider.getInstance().canProcess(o))       return true;
 
         // Формат "ProviderName|nickname"
         int b = o.lastIndexOf("|");
@@ -70,6 +74,8 @@ public class TagsSkinProviders {
             return ElyBySkinProvider.getInstance();
         if (o.startsWith(TLauncherSkinProvider.PREFIX) && TLauncherSkinProvider.getInstance().canProcess(o))
             return TLauncherSkinProvider.getInstance();
+        if (o.startsWith(UrlSkinProvider.PREFIX)       && UrlSkinProvider.getInstance().canProcess(o))
+            return UrlSkinProvider.getInstance();
 
         // Формат "ProviderName|nickname"
         if (o.contains("|")) {
@@ -85,6 +91,8 @@ public class TagsSkinProviders {
             return ElyBySkinProvider.getInstance().getOrLoadDoll(o);
         if (o.startsWith(TLauncherSkinProvider.PREFIX) && TLauncherSkinProvider.getInstance().canProcess(o))
             return TLauncherSkinProvider.getInstance().getOrLoadDoll(o);
+        if (o.startsWith(UrlSkinProvider.PREFIX) && UrlSkinProvider.getInstance().canProcess(o))
+            return UrlSkinProvider.getInstance().getOrLoadDoll(o);
 
         // Формат "ProviderName|nickname"
         if (!o.contains("|")) return StandardTotemDollManager.getStandardDoll();
