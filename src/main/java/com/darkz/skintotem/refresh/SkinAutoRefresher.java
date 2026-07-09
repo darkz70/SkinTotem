@@ -13,7 +13,7 @@ public class SkinAutoRefresher {
 	public static void start() {
 		synchronized (LOCK) {
 			stop();
-			SkinTotemModConfig config = SkinTotemConfig.getInstance();
+			SkinTotemConfig config = SkinTotemConfig.getInstance();
 			if (!config.isAutoRefreshEnabled()) {
 				return;
 			}
