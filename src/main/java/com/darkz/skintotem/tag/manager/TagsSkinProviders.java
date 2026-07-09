@@ -7,7 +7,7 @@ import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.api.*;
 import com.darkz.skintotem.doll.data.SkinTotemData;
 import com.darkz.skintotem.skin.data.ParsedSkinData;
-import com.darkz.skintotem.skin.provider.StandardSkinTotemProvider;
+import com.darkz.skintotem.skin.provider.StandardSkinProvider;
 import net.minecraft.resources.Identifier;
 
 /**
