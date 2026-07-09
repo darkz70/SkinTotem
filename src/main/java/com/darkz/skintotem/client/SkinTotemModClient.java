@@ -9,7 +9,7 @@ import org.slf4j.*;
 import net.fabricmc.api.ClientModInitializer;
 
 import com.darkz.skintotem.*;
-import com.darkz.skintotem.client.command.SkinTotemModCommandManager;
+import com.darkz.skintotem.client.command.SkinTotemCommandManager;
 import com.darkz.skintotem.client.event.SkinTotemModEvents;
 
 
@@ -30,7 +30,7 @@ public class SkinTotemModClient implements ClientModInitializer {
 		LOGGER.info("{} Client Initialized", SkinTotemMod.MOD_NAME);
 		TagsManager.register();
 		TagsSkinProviders.register();
-		SkinTotemModCommandManager.register();
+		SkinTotemCommandManager.register();
 		SkinTotemModEvents.register();
 		SkinTotemModReloadListener.register();
 		TotemDollPlugin.register();
