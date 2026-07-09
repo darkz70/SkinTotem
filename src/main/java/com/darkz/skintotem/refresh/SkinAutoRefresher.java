@@ -8,34 +8,43 @@ import java.util.concurrent.*;
 public class SkinAutoRefresher {
 
 	private static ScheduledExecutorService scheduler;
+	private static final Object LOCK = new Object();
 
 	public static void start() {
-		stop();
-		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
-		if (!config.isAutoRefreshEnabled()) {
-			return;
-		}
-		int intervalMinutes = Math.max(1, config.getAutoRefreshIntervalMinutes());
-		scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
-			Thread t = new Thread(r, "SkinTotem-AutoRefresh");
-			t.setDaemon(true);
-			return t;
-		});
-		scheduler.scheduleAtFixedRate(() -> {
-			try {
-				SkinTotemModClient.LOGGER.info("[SkinTotem] Auto-refreshing skin...");
-				StandardTotemDollManager.initializeStandardDollData();
-			} catch (Exception e) {
-				SkinTotemModClient.LOGGER.error("[SkinTotem] Auto-refresh failed:", e);
+		synchronized (LOCK) {
+			stop();
+			SkinTotemModConfig config = SkinTotemModConfig.getInstance();
+			if (!config.isAutoRefreshEnabled()) {
+				return;
 			}
-		}, intervalMinutes, intervalMinutes, TimeUnit.MINUTES);
-		SkinTotemModClient.LOGGER.info("[SkinTotem] Auto-refresh started, interval: {} min", intervalMinutes);
+			int intervalMinutes = Math.max(1, config.getAutoRefreshIntervalMinutes());
+			scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
+				Thread t = new Thread(r, "SkinTotem-AutoRefresh");
+				t.setDaemon(true);
+				return t;
+			});
+			scheduler.scheduleAtFixedRate(() -> {
+				long startedAt = System.currentTimeMillis();
+				try {
+					SkinTotemModClient.LOGGER.info("[SkinTotem] Auto-refreshing skin...");
+					StandardTotemDollManager.initializeStandardDollData();
+					long elapsedMs = System.currentTimeMillis() - startedAt;
+					SkinTotemModClient.LOGGER.info("[SkinTotem] Auto-refresh SUCCESS ({} ms)", elapsedMs);
+				} catch (Exception e) {
+					long elapsedMs = System.currentTimeMillis() - startedAt;
+					SkinTotemModClient.LOGGER.error("[SkinTotem] Auto-refresh FAILED after {} ms:", elapsedMs, e);
+				}
+			}, intervalMinutes, intervalMinutes, TimeUnit.MINUTES);
+			SkinTotemModClient.LOGGER.info("[SkinTotem] Auto-refresh started, interval: {} min", intervalMinutes);
+		}
 	}
 
 	public static void stop() {
-		if (scheduler != null && !scheduler.isShutdown()) {
-			scheduler.shutdownNow();
-			scheduler = null;
+		synchronized (LOCK) {
+			if (scheduler != null && !scheduler.isShutdown()) {
+				scheduler.shutdownNow();
+				scheduler = null;
+			}
 		}
 	}
 
