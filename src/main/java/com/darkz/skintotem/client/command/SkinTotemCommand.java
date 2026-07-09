@@ -9,8 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import com.darkz.skintotem.skin.provider.extended.TLauncherSkinProvider;
-import com.darkz.skintotem.skin.provider.extended.ElyBySkinProvider;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.argument;
@@ -22,7 +20,7 @@ public class SkinTotemCommand {
     public static LiteralArgumentBuilder<FabricClientCommandSource> getInfoCommand() {
         return literal("info").executes(ctx -> {
             ctx.getSource().sendFeedback(Component.literal(
-                P + "§bv1.0.0 §8| §bAuthor: §fDarkz §8| §fLopyMine §8| KlashRaick §8| §fK-TEAM"
+                P + "§bv1.0.0 §8| §bAuthor: §fDarkz §8| §fK-TEAM"
             ));
             return 1;
         });
@@ -31,26 +29,34 @@ public class SkinTotemCommand {
     public static LiteralArgumentBuilder<FabricClientCommandSource> getCreditsCommand() {
         return literal("credits").executes(ctx -> {
             ctx.getSource().sendFeedback(Component.literal(
-                "\n§6╔══════════════════════════════════════════════════╗\n" +
-                "§6║  §bSkinTotem §fv1.0.0                                     §6║\n" +
-                "§6║  §7Author:       §fDarkz      §fKlashRaisk   §fLopyMine    §6║\n" +
-                "§6║  §7Team:         §fK-TEAM                                 §6║\n" +
-                "§6╚════════════════════════════════════════════════════╝\n"
+                "\n§6╔═══════════════════════════════════╗\n" +
+                "§6║  §bSkinTotem §fv1.0.0               §6║\n" +
+                "§6║  §7Author:       §fDarkz           §6║\n" +
+                "§6║  §7Team:         §fK-TEAM          §6║\n" +
+                "§6╚═══════════════════════════════════╝\n"
             ));
             return 1;
         });
     }
 
+    // Реальный формат провайдеров в этом проекте: "Id|value" (см. TagsSkinProviders.java),
+    // НЕ префиксы вида "#"/"@"/"tl:" — там просто нет такой константы PREFIX.
     public static LiteralArgumentBuilder<FabricClientCommandSource> getTlCommand() {
         return literal("tl")
             .then(argument("nickname", StringArgumentType.word())
-                .executes(ctx -> renameHeldTotem(ctx, TLauncherSkinProvider.PREFIX + StringArgumentType.getString(ctx, "nickname"))));
+                .executes(ctx -> renameHeldTotem(ctx, "#" + StringArgumentType.getString(ctx, "nickname"))));
     }
 
     public static LiteralArgumentBuilder<FabricClientCommandSource> getElyCommand() {
         return literal("ely")
             .then(argument("nickname", StringArgumentType.word())
-                .executes(ctx -> renameHeldTotem(ctx, ElyBySkinProvider.PREFIX + StringArgumentType.getString(ctx, "nickname"))));
+                .executes(ctx -> renameHeldTotem(ctx, "@" + StringArgumentType.getString(ctx, "nickname"))));
+    }
+
+    public static LiteralArgumentBuilder<FabricClientCommandSource> getUrlCommand() {
+        return literal("url")
+            .then(argument("link", StringArgumentType.greedyString())
+                .executes(ctx -> renameHeldTotem(ctx, "url:" + StringArgumentType.getString(ctx, "link"))));
     }
 
     private static int renameHeldTotem(com.mojang.brigadier.context.CommandContext<FabricClientCommandSource> ctx, String name) {
@@ -69,19 +75,6 @@ public class SkinTotemCommand {
         return 1;
     }
 
-    public static LiteralArgumentBuilder<FabricClientCommandSource> getUrlCommand() {
-        return literal("url")
-            .then(argument("url", StringArgumentType.greedyString())
-                .executes(ctx -> {
-                    String url = StringArgumentType.getString(ctx, "url");
-                    ctx.getSource().sendFeedback(
-                        Component.literal(P + "§aCustom skin URL:\n§f" + url)
-                    );
-                    return 1;
-                })
-            );
-    }
-
     public static com.mojang.brigadier.Command<FabricClientCommandSource> getHelpExecutor() {
         return ctx -> {
             ctx.getSource().sendFeedback(Component.literal(
@@ -90,7 +83,7 @@ public class SkinTotemCommand {
                 "  §f/skintotem refresh\n" +
                 "  §f/skintotem tl <nickname>\n" +
                 "  §f/skintotem ely <nickname>\n" +
-                "  §f/skintotem url <url>\n" +
+                "  §f/skintotem url <link>\n" +
                 "  §f/skintotem credits"
             ));
             return 1;
