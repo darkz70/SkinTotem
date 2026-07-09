@@ -4,15 +4,14 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.MinecraftClient;
+//? if >=1.20.5 {
 import net.minecraft.component.DataComponentTypes;
+//?}
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import com.darkz.skintotem.api.MojangAPI;
-import com.darkz.skintotem.skin.provider.extended.TLauncherSkinProvider;
-import com.darkz.skintotem.skin.provider.extended.ElyBySkinProvider;
-import com.darkz.skintotem.skin.provider.extended.UrlSkinProvider;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
@@ -43,22 +42,24 @@ public class SkinTotemCommand {
         });
     }
 
+    // Реальный формат провайдеров: короткие префиксы "#"/"@"/"url:", раскрываются
+    // в TagsSkinProviders.expandShorthand() в "TLauncher|..." / "ElyBy|..." / "Url|...".
     public static LiteralArgumentBuilder<FabricClientCommandSource> getTlCommand() {
         return literal("tl")
             .then(argument("nickname", StringArgumentType.word())
-                .executes(ctx -> renameHeldTotem(ctx, TLauncherSkinProvider.PREFIX + StringArgumentType.getString(ctx, "nickname"))));
+                .executes(ctx -> renameHeldTotem(ctx, "#" + StringArgumentType.getString(ctx, "nickname"))));
     }
 
     public static LiteralArgumentBuilder<FabricClientCommandSource> getElyCommand() {
         return literal("ely")
             .then(argument("nickname", StringArgumentType.word())
-                .executes(ctx -> renameHeldTotem(ctx, ElyBySkinProvider.PREFIX + StringArgumentType.getString(ctx, "nickname"))));
+                .executes(ctx -> renameHeldTotem(ctx, "@" + StringArgumentType.getString(ctx, "nickname"))));
     }
 
     public static LiteralArgumentBuilder<FabricClientCommandSource> getUrlCommand() {
         return literal("url")
             .then(argument("link", StringArgumentType.greedyString())
-                .executes(ctx -> renameHeldTotem(ctx, UrlSkinProvider.PREFIX + StringArgumentType.getString(ctx, "link"))));
+                .executes(ctx -> renameHeldTotem(ctx, "url:" + StringArgumentType.getString(ctx, "link"))));
     }
 
     public static LiteralArgumentBuilder<FabricClientCommandSource> getMojangCommand() {
@@ -97,7 +98,12 @@ public class SkinTotemCommand {
             return 0;
         }
 
+        //? if >=1.20.5 {
         stack.set(DataComponentTypes.CUSTOM_NAME, Text.literal(name));
+        //?} else {
+        /*stack.setCustomName(Text.literal(name));
+        *///?}
+
         ctx.getSource().sendFeedback(Text.literal(P + "§aSkin totem set to: §f" + name));
         return 1;
     }
