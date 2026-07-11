@@ -3,6 +3,11 @@ package com.darkz.skintotem.client.command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.darkz.skintotem.api.MojangAPI;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.network.chat.Component;
 
 import static com.darkz.skintotem.utils.CommandUtils.literal;
 import static com.darkz.skintotem.utils.CommandUtils.argument;
@@ -10,14 +15,6 @@ import static com.darkz.skintotem.utils.CommandUtils.argument;
 //? if fabric {
 
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.client.MinecraftClient;
-//? if >=1.20.5 {
-import net.minecraft.component.DataComponentTypes;
-//?}
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.text.Text;
 
 public class SkinTotemCommand {
 
@@ -25,7 +22,7 @@ public class SkinTotemCommand {
 
 	public static LiteralArgumentBuilder<FabricClientCommandSource> getInfoCommand() {
 		return literal("info").executes(ctx -> {
-			ctx.getSource().sendFeedback(Text.literal(
+			ctx.getSource().sendFeedback(Component.literal(
 				P + "§bv1.0.0 §8| §bAuthor: §fDarkz §8| §fK-TEAM"
 			));
 			return 1;
@@ -34,7 +31,7 @@ public class SkinTotemCommand {
 
 	public static LiteralArgumentBuilder<FabricClientCommandSource> getCreditsCommand() {
 		return literal("credits").executes(ctx -> {
-			ctx.getSource().sendFeedback(Text.literal(
+			ctx.getSource().sendFeedback(Component.literal(
 				"\n§6╔═══════════════════════════════════╗\n" +
 				"§6║  §bSkinTotem §fv1.0.0               §6║\n" +
 				"§6║  §7Author:       §fDarkz           §6║\n" +
@@ -45,8 +42,6 @@ public class SkinTotemCommand {
 		});
 	}
 
-	// Реальный формат провайдеров: короткие префиксы "#"/"@"/"url:", раскрываются
-	// в TagsSkinProviders через ElyBySkinProvider.PREFIX / TLauncherSkinProvider.PREFIX / UrlSkinProvider.PREFIX.
 	public static LiteralArgumentBuilder<FabricClientCommandSource> getTlCommand() {
 		return literal("tl")
 			.then(argument("nickname", StringArgumentType.word())
@@ -68,7 +63,7 @@ public class SkinTotemCommand {
 	public static LiteralArgumentBuilder<FabricClientCommandSource> getMojangCommand() {
 		return literal("mojang").executes(ctx -> {
 			MojangAPI.useFallbackAPI = true;
-			ctx.getSource().sendFeedback(Text.literal(P + "§aMojang refresh enabled (using fallback API)"));
+			ctx.getSource().sendFeedback(Component.literal(P + "§aMojang refresh enabled (using fallback API)"));
 			return 1;
 		});
 	}
@@ -85,35 +80,31 @@ public class SkinTotemCommand {
 					String modelId = StringArgumentType.getString(ctx, "model_id");
 					com.darkz.skintotem.config.SkinTotemConfig.getInstance().setStandardTotemDollModelValue(com.darkz.skintotem.SkinTotem.id("dolls/" + modelId + ".bbmodel"));
 					com.darkz.skintotem.config.SkinTotemConfig.getInstance().save();
-					ctx.getSource().sendFeedback(Text.literal(P + "§aDefault model set to: §f" + modelId));
+					ctx.getSource().sendFeedback(Component.literal(P + "§aDefault model set to: §f" + modelId));
 					return 1;
 				}));
 	}
 
 	private static int renameHeldTotem(com.mojang.brigadier.context.CommandContext<FabricClientCommandSource> ctx, String name) {
-		MinecraftClient mc = MinecraftClient.getInstance();
-		PlayerEntity player = mc.player;
+		Minecraft mc = Minecraft.getInstance();
+		Player player = mc.player;
 		if (player == null) return 0;
 
-		ItemStack stack = player.getMainHandStack();
-		if (stack.isEmpty() || !stack.isOf(Items.TOTEM_OF_UNDYING)) {
-			ctx.getSource().sendError(Text.literal("§cHold a Totem of Undying in your main hand!"));
+		ItemStack stack = player.getMainHandItem();
+		if (stack.isEmpty() || stack.getItem() != Items.TOTEM_OF_UNDYING) {
+			ctx.getSource().sendError(Component.literal("§cHold a Totem of Undying in your main hand!"));
 			return 0;
 		}
 
-		//? if >=1.20.5 {
-		stack.set(DataComponentTypes.CUSTOM_NAME, Text.literal(name));
-		//?} else {
-		/*stack.setCustomName(Text.literal(name));
-		*///?}
+		stack.setHoverName(Component.literal(name));
 
-		ctx.getSource().sendFeedback(Text.literal(P + "§aSkin totem set to: §f" + name));
+		ctx.getSource().sendFeedback(Component.literal(P + "§aSkin totem set to: §f" + name));
 		return 1;
 	}
 
 	public static com.mojang.brigadier.Command<FabricClientCommandSource> getHelpExecutor() {
 		return ctx -> {
-			ctx.getSource().sendFeedback(Text.literal(
+			ctx.getSource().sendFeedback(Component.literal(
 				P + "§7Commands:\n" +
 				"  §f/skintotem info\n" +
 				"  §f/skintotem refresh\n" +
@@ -132,11 +123,6 @@ public class SkinTotemCommand {
 //?} elif forge {
 
 /*import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.network.chat.Component;
 
 public class SkinTotemCommand {
 
