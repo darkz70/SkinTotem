@@ -1,7 +1,7 @@
 package com.darkz.skintotem.api;
 
 import com.google.gson.*;
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.skin.data.ParsedSkinData;
 import org.jetbrains.annotations.Nullable;
 
