@@ -1,25 +1,22 @@
 package com.darkz.skintotem.doll.manager;
 
-import com.darkz.skintotem.atlas.manager.SkinTotemModAtlasSpriteManager;
-import net.minecraft.client.texture.*;
-import net.minecraft.util.Identifier;
-import com.darkz.skintotem.SkinTotemMod;
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.mojang.blaze3d.platform.NativeImage;
+import com.darkz.skintotem.atlas.manager.SkinTotemAtlasSpriteManager;
+import net.minecraft.client.renderer.texture.*;
+import net.minecraft.resources.ResourceLocation;
+import com.darkz.skintotem.SkinTotem;
+import com.darkz.skintotem.client.SkinTotemClient;
 
 
-import com.darkz.skintotem.config.SkinTotemModConfig;
+import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.config.totem.*;
 import com.darkz.skintotem.doll.data.*;
 import com.darkz.skintotem.skin.provider.extended.MojangSkinProvider;
-import com.darkz.skintotem.skin.provider.extended.TLauncherSkinProvider;
-import com.darkz.skintotem.skin.provider.extended.ElyBySkinProvider;
 import com.darkz.skintotem.utils.texture.*;
 
 
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
-import java.security.MessageDigest;
 import java.util.concurrent.CompletableFuture;
 import org.jetbrains.annotations.*;
 
@@ -49,14 +46,14 @@ public class StandardTotemDollManager {
 	}
 
 	public static TotemDollData overrideWithConfigValues(TotemDollData data) {
-		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
+		SkinTotemConfig config = SkinTotemConfig.getInstance();
 		data.getStandardSprites().setStandardArmsType(config.getStandardTotemDollArmsType());
 		return data;
 	}
 
 	@NotNull
 	public static TotemDollData loadStandardDoll() {
-		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
+		SkinTotemConfig config = SkinTotemConfig.getInstance();
 		TotemDollSkinType totemDollSkin = config.getStandardTotemDollSkinType();
 		String data = config.getStandardTotemDollSkinValue();
 
@@ -68,9 +65,7 @@ public class StandardTotemDollManager {
 			case PLAYER -> loadPlayerSkin(data);
 			case URL_SKIN -> loadUrlSkin(data);
 			case FILE_SKIN -> loadFileSkin(data);
-			case TLAUNCHER -> TLauncherSkinProvider.getInstance().getOrLoadDoll(TLauncherSkinProvider.PREFIX + data);
-			case ELY_BY -> ElyBySkinProvider.getInstance().getOrLoadDoll(ElyBySkinProvider.PREFIX + data);
-			case STEVE, HOLDING_PLAYER -> getSteveDoll();
+			default -> getSteveDoll();
 		};
 	}
 
@@ -86,12 +81,13 @@ public class StandardTotemDollManager {
 		textures.setState(LoadingState.DOWNLOADING);
 
 		CompletableFuture.runAsync(() -> {
-			Identifier id = SkinTotemMod.getDollTextureId("file/%s".formatted(sha1(data)));
+			ResourceLocation id = SkinTotem.getDollTextureId("file/%s".formatted(Math.abs(data.hashCode())));
+			String path = data.endsWith("\"") && data.startsWith("\"") ? data.substring(1, data.length()-1) : data;
 
-			try (InputStream inputStream = Files.newInputStream(Path.of(data))) {
+			try (InputStream inputStream = Files.newInputStream(Path.of(path))) {
 				NativeImage nativeImage = NativeImage.read(inputStream);
 
-				SkinTotemModAtlasSpriteManager.registerSpecialSkinSprite(id, nativeImage, true, (sprite) -> {
+				SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(id, nativeImage, true, (sprite) -> {
 					textures.setSkinSprite(sprite);
 					textures.setState(LoadingState.DOWNLOADED);
 				});
@@ -99,7 +95,7 @@ public class StandardTotemDollManager {
 			} catch (NoSuchFileException e) {
 				textures.setState(LoadingState.CRITICAL_ERROR);
 			} catch (Exception e) {
-				SkinTotemModClient.LOGGER.error("Failed to load skin from file at \"{}\":", data, e);
+				SkinTotemClient.LOGGER.error("Failed to load skin from file at \"{}\":", data, e);
 				textures.setState(LoadingState.CRITICAL_ERROR);
 			}
 		});
@@ -113,11 +109,11 @@ public class StandardTotemDollManager {
 		textures.setState(LoadingState.DOWNLOADING);
 
 		CompletableFuture.runAsync(() -> {
-			Identifier id = SkinTotemMod.getDollTextureId("url/%s".formatted(sha1(data)));
+			ResourceLocation id = SkinTotem.getDollTextureId("url/%s".formatted(Math.abs(data.hashCode())));
 
 			FailedAction onFailed = (throwable) -> {
 				textures.setState(LoadingState.CRITICAL_ERROR);
-				SkinTotemModClient.LOGGER.warn("Failed to download standard doll url skin:", throwable);
+				SkinTotemClient.LOGGER.warn("Failed to download standard doll url skin:", throwable);
 			};
 
 			SuccessAction onSuccess = (sprite) -> {
@@ -138,19 +134,5 @@ public class StandardTotemDollManager {
 			return totemDollData;
 		}
 		return getSteveDoll();
-	}
-
-	/** Возвращает первые 16 символов SHA-1 хэша строки для использования в Identifier. */
-	private static String sha1(@NotNull String input) {
-		try {
-			MessageDigest digest = MessageDigest.getInstance("SHA-1");
-			byte[] bytes = digest.digest(input.getBytes(StandardCharsets.UTF_8));
-			StringBuilder sb = new StringBuilder();
-			for (byte b : bytes) sb.append(String.format("%02x", b));
-			return sb.substring(0, 16);
-		} catch (Exception e) {
-			// SHA-1 всегда доступен в JVM, но на крайний случай — fallback
-			return String.valueOf(Math.abs(input.hashCode()));
-		}
 	}
 }

@@ -9,17 +9,16 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import com.darkz.skintotem.utils.mixin.yacl.*;
 
-@Pseudo
+@SuppressWarnings("UnstableApiUsage")
 @Mixin(YetAnotherConfigLibImpl.BuilderImpl.class)
 public class YetAnotherConfigLibImplBuilderMixin implements BetterYACLScreenBuilder {
 
 	@Unique
-	private boolean enabled;
+	private boolean myTotemDoll$enabled;
 
-	@Dynamic
 	@ModifyReturnValue(at = @At("RETURN"), method = "build", remap = false)
 	private YetAnotherConfigLib swapScreen(YetAnotherConfigLib original) {
-		if (!enabled) {
+		if (!this.myTotemDoll$enabled) {
 			return original;
 		}
 		return ((BetterYACLScreenConfig) original).myTotemDoll$enable();
@@ -27,7 +26,7 @@ public class YetAnotherConfigLibImplBuilderMixin implements BetterYACLScreenBuil
 
 	@Override
 	public Builder myTotemDoll$enable() {
-		this.enabled = true;
+		this.myTotemDoll$enabled = true;
 		return ((Builder) this);
 	}
 }

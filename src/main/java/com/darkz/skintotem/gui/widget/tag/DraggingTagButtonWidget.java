@@ -3,10 +3,11 @@ package com.darkz.skintotem.gui.widget.tag;
 import lombok.*;
 import net.minecraft.client.gui.*;
 
-import com.darkz.skintotem.client.SkinTotemModClient;
-import com.darkz.skintotem.config.SkinTotemModConfig;
+import com.darkz.skintotem.client.SkinTotemClient;
+import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.config.other.vector.Vec2i;
 import com.darkz.skintotem.tag.Tag;
+import net.minecraft.client.gui.GuiGraphics;
 
 @Getter
 @Setter
@@ -26,42 +27,7 @@ public class DraggingTagButtonWidget extends TagButtonWidget {
 		this.originalY = originalY;
 	}
 
-	//? if >=1.21.9 {
 	@Override
-	public boolean mouseClicked(Click button, boolean doubled) {
-		if (!this.over(button.x(), button.y())) {
-			return false;
-		}
-		if (this.isResetPosButton(button.button())) {
-			this.resetPosition();
-			return true;
-		}
-		if (this.isDraggingButton(button.button())) {
-			this.setDragging(true);
-			return true;
-		}
-		return super.mouseClicked(button, doubled);
-	}
-
-	@Override
-	public boolean mouseDragged(Click button, double deltaX, double deltaY) {
-		if (this.isDragging() && this.isDraggingButton(button.button())) {
-			return true;
-		}
-		return super.mouseDragged(button, deltaX, deltaY);
-	}
-
-	@Override
-	public boolean mouseReleased(Click button) {
-		if (this.isDragging()) {
-			this.setDragging(false);
-			this.setDraggingPosition((int) button.x(), (int) button.y());
-			return true;
-		}
-		return false;
-	}
-	//?} else {
-	/*@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
 		if (!this.over(mouseX, mouseY)) {
 			return false;
@@ -94,21 +60,13 @@ public class DraggingTagButtonWidget extends TagButtonWidget {
 		}
 		return false;
 	}
-	*///?}
 
-	//? if >=1.21.11 {
 	@Override
-	protected void drawIcon(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+	public void renderWidget(GuiGraphics context, int mouseX, int mouseY, float delta) {
 		this.renderPlease(context, mouseX, mouseY);
 	}
-	//?} else {
-	/*@Override
-	public void /^? if >=1.21 {^/ renderWidget /^?} else {^//^renderButton ^//^?}^/(DrawContext context, int mouseX, int mouseY, float delta) {
-		this.renderPlease(context, mouseX, mouseY);
-	}
-	*///?}
 
-	private void renderPlease(DrawContext context, int mouseX, int mouseY) {
+	private void renderPlease(GuiGraphics context, int mouseX, int mouseY) {
 		int x = this.isDragging() ? mouseX - (this.getWidth() / 2) : this.getX();
 		int y = this.isDragging() ? mouseY - (this.getHeight() / 2): this.getY();
 		super.renderButton(context, x, y);
@@ -122,7 +80,7 @@ public class DraggingTagButtonWidget extends TagButtonWidget {
 	}
 
 	private void setDraggingPosition(int draggingX, int draggingY) {
-		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
+		SkinTotemConfig config = SkinTotemConfig.getInstance();
 		Vec2i pos = config.getTagButtonPos();
 
 		pos.setX((draggingX - (this.getWidth() / 2)) - this.originX);

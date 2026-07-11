@@ -1,7 +1,7 @@
 package com.darkz.skintotem.yacl.custom.simple.main;
 
 import dev.isxander.yacl3.api.*;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 import com.darkz.skintotem.utils.ModMenuUtils;
 import com.darkz.skintotem.yacl.custom.renderer.TotemDollPreviewRenderer;
@@ -13,8 +13,8 @@ public class SimpleGroup {
 
 	public SimpleGroup(String groupId) {
 		String groupKey = ModMenuUtils.getGroupKey(groupId);
-		Text groupName = ModMenuUtils.getName(groupKey);
-		Text description = ModMenuUtils.getDescription(groupKey);
+		Component groupName = ModMenuUtils.getName(groupKey);
+		Component description = ModMenuUtils.getDescription(groupKey);
 
 		this.groupBuilder = OptionGroup.createBuilder().name(groupName);
 		this.description  = OptionDescription.createBuilder().text(description);

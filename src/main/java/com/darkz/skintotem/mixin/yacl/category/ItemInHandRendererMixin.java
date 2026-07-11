@@ -1,0 +1,124 @@
+package com.darkz.skintotem.mixin.yacl.category;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.*;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
+import dev.isxander.yacl3.gui.YACLScreen;
+import java.util.function.*;
+import com.darkz.skintotem.client.SkinTotemClient;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.multiplayer.*;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.ItemInHandRenderer;
+
+import net.minecraft.client.renderer.ItemInHandRenderer.HandRenderSelection;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.item.*;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import org.spongepowered.asm.mixin.*;
+import com.darkz.skintotem.yacl.YACLConfigurationScreen;
+import com.darkz.skintotem.yacl.custom.category.rendering.RenderingCategoryTab;
+
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(ItemInHandRenderer.class)
+public class ItemInHandRendererMixin {
+
+	@Inject(
+			at = @At("HEAD"),
+			method = "renderHandsWithItems(FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;Lnet/minecraft/client/player/LocalPlayer;I)V"
+	)
+	private void createBoolean(CallbackInfo ci, @Share("mtd_bl") LocalBooleanRef ref) {
+		createBoolean(ref);
+	}
+
+	@WrapOperation(
+			at = @At(
+					value = "FIELD",
+					target = "Lnet/minecraft/client/renderer/ItemInHandRenderer$HandRenderSelection;renderMainHand:Z"
+			),
+			method = "renderHandsWithItems(FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;Lnet/minecraft/client/player/LocalPlayer;I)V"
+	)
+	private boolean swapRenderValue1(HandRenderSelection instance, Operation<Boolean> original, @Share("mtd_bl") LocalBooleanRef ref) {
+		if (ref.get()) {
+			return true;
+		}
+		return original.call(instance);
+	}
+
+	@WrapOperation(
+			at = @At(
+					value = "FIELD",
+					target = "Lnet/minecraft/client/renderer/ItemInHandRenderer$HandRenderSelection;renderOffHand:Z"
+			),
+			method = "renderHandsWithItems(FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;Lnet/minecraft/client/player/LocalPlayer;I)V"
+	)
+	private boolean swapRenderValue2(HandRenderSelection instance, Operation<Boolean> original, @Share("mtd_bl") LocalBooleanRef ref) {
+		if (ref.get()) {
+			return true;
+		}
+		return original.call(instance);
+	}
+
+	@WrapOperation(
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;renderArmWithItem(Lnet/minecraft/client/player/AbstractClientPlayer;FFLnet/minecraft/world/InteractionHand;FLnet/minecraft/world/item/ItemStack;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V"
+			),
+			method = "renderHandsWithItems(FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;Lnet/minecraft/client/player/LocalPlayer;I)V"
+	)
+	private void swapRenderingStack(ItemInHandRenderer instance, AbstractClientPlayer player, float tickProgress, float pitch, InteractionHand hand, float swingProgress, ItemStack stack, float equipProgress, PoseStack matrices, MultiBufferSource vertexConsumers, int light, Operation<Void> original, @Share("mtd_bl") LocalBooleanRef ref) {
+		Consumer<ItemStack> consumer = (itemStack) -> original.call(instance, player, tickProgress, pitch, hand, swingProgress, itemStack, equipProgress, matrices, vertexConsumers, light);
+		if (ref.get()) {
+			renderDoll(stack, consumer);
+		} else {
+			consumer.accept(stack);
+		}
+	}
+
+	@Unique
+	private static void createBoolean(LocalBooleanRef ref) {
+		Minecraft client = Minecraft.getInstance();
+		Screen currentScreen = client.screen;
+
+		ref.set(false);
+		if (YACLConfigurationScreen.notOpen(currentScreen)) {
+			return;
+		}
+		if (!(currentScreen instanceof YACLScreen yaclScreen)) {
+			return;
+		}
+		if (!(yaclScreen.tabManager.getCurrentTab() instanceof RenderingCategoryTab)) {
+			return;
+		}
+		LocalPlayer player = Minecraft.getInstance().player;
+		if (player == null) {
+			return;
+		}
+		ref.set(true);
+	}
+
+	@Unique
+	private static void renderDoll(ItemStack original, Consumer<ItemStack> draw) {
+		LocalPlayer player = Minecraft.getInstance().player;
+		if (player == null) {
+			draw.accept(original);
+			return;
+		}
+		if (original.isEmpty() || !SkinTotemClient.canProcess(original)) {
+			ItemStack totem = Items.TOTEM_OF_UNDYING.getDefaultInstance();
+
+			totem.setHoverName(player.getName());
+
+			draw.accept(totem);
+			return;
+		}
+		draw.accept(original);
+	}
+}

@@ -1,28 +1,30 @@
 package com.darkz.skintotem.client.command.builder;
 
-import net.minecraft.text.*;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.*;
 
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 
 public class CommandTextBuilder {
 
-	private static final MutableText MOD_ID_TEXT = SkinTotemMod.text("command.id");
+	private static final MutableComponent MOD_ID_TEXT = SkinTotem.text("command.id");
 
-	private final MutableText text;
+	private final MutableComponent text;
 
 	private CommandTextBuilder(String key, Object... args) {
 		this.text = CommandTextBuilder.translatable(key, args);
 	}
 
-	private static MutableText translatable(String key, Object... args) {
+	private static MutableComponent translatable(String key, Object... args) {
 		for (int i = 0; i < args.length; ++i) {
 			Object object = args[i];
-			if (!isPrimitive(object) && !(object instanceof Text)) {
+			if (!isPrimitive(object) && !(object instanceof Component)) {
 				args[i] = String.valueOf(object);
 			}
 		}
 
-		return SkinTotemMod.text(key, args);
+		return SkinTotem.text(key, args);
 	}
 
 	private static boolean isPrimitive(Object object) {
@@ -33,7 +35,7 @@ public class CommandTextBuilder {
 		return new CommandTextBuilder(key, args);
 	}
 
-	public Text build() {
+	public Component build() {
 		return MOD_ID_TEXT.copy().append(" ").append(this.text);
 	}
 }

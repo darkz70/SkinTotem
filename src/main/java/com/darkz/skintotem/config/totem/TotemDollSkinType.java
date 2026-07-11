@@ -3,24 +3,23 @@ package com.darkz.skintotem.config.totem;
 import lombok.Getter;
 
 
-import net.minecraft.text.Text;
-import net.minecraft.util.StringIdentifiable;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.StringRepresentable;
 import com.mojang.serialization.Codec;
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.config.other.EnumWithText;
+import net.minecraft.util.StringRepresentable.EnumCodec;
 
 @Getter
-public enum TotemDollSkinType implements StringIdentifiable, EnumWithText {
+public enum TotemDollSkinType implements StringRepresentable, EnumWithText {
 
 	STEVE(false),
 	PLAYER(true),
 	HOLDING_PLAYER(false),
 	URL_SKIN(true),
-	FILE_SKIN(true),
-	TLAUNCHER(true),
-	ELY_BY(true);
+	FILE_SKIN(true);
 
-	public static final Codec<TotemDollSkinType> CODEC = StringIdentifiable.createCodec(TotemDollSkinType::values);
+	public static final EnumCodec<TotemDollSkinType> CODEC = StringRepresentable.fromEnum(TotemDollSkinType::values);
 
 	private final boolean needData;
 
@@ -28,16 +27,16 @@ public enum TotemDollSkinType implements StringIdentifiable, EnumWithText {
 		this.needData = needData;
 	}
 
-	public Text getText() {
-		return SkinTotemMod.text("modmenu.option.standard_doll_skin_type.%s".formatted(this.asString()));
+	public Component getText() {
+		return SkinTotem.text("modmenu.option.standard_doll_skin_type.%s".formatted(this.getSerializedName()));
 	}
 
-	public Text getSuggestionText() {
-		return SkinTotemMod.text("modmenu.option.standard_doll_skin_type.%s.suggestion".formatted(this.asString()));
+	public Component getSuggestionText() {
+		return SkinTotem.text("modmenu.option.standard_doll_skin_type.%s.suggestion".formatted(this.getSerializedName()));
 	}
 
 	@Override
-	public String asString() {
+	public String getSerializedName() {
 		return this.name().toLowerCase();
 	}
 }

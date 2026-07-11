@@ -1,7 +1,7 @@
 package com.darkz.skintotem.skin.provider.extended;
 
-import net.minecraft.util.Identifier;
-import com.darkz.skintotem.SkinTotemMod;
+import net.minecraft.resources.ResourceLocation;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.api.Response;
 import com.darkz.skintotem.doll.data.TotemDollData;
 import com.darkz.skintotem.skin.data.ParsedSkinData;
@@ -66,8 +66,8 @@ public class UrlSkinProvider extends StandardSkinProvider {
     }
 
     @Override
-    protected Identifier getId(String value, String type) {
-        return SkinTotemMod.getDollTextureId("url/%s/%s".formatted(type, hash(value)));
+    protected ResourceLocation getId(String value, String type) {
+        return SkinTotem.getDollTextureId("url/%s/%s".formatted(type, hash(value)));
     }
 
     /**
@@ -90,7 +90,7 @@ public class UrlSkinProvider extends StandardSkinProvider {
         return stripPrefix(value).toLowerCase();
     }
 
-    /** Ссылки могут содержать символы, недопустимые в Identifier — сводим к безопасному хэшу. */
+    /** Ссылки могут содержать символы, недопустимые в ResourceLocation — сводим к безопасному хэшу. */
     private static String hash(String value) {
         return UUID.nameUUIDFromBytes(normalise(value).getBytes(StandardCharsets.UTF_8)).toString();
     }

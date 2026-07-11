@@ -1,8 +1,8 @@
 package com.darkz.skintotem.extension;
 
-import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
 import com.darkz.skintotem.doll.data.*;
 import com.darkz.skintotem.doll.manager.*;
 import com.darkz.skintotem.tag.manager.TagsManager;
@@ -13,17 +13,11 @@ import org.jetbrains.annotations.Nullable;
 public class ItemStackExtension {
 
 	@Nullable
-	public static Text getRealCustomName(ItemStack itemStack) {
-		//? if >=1.21 {
-		if (itemStack.components == null) {
-			return null;
-		}
-		return itemStack.components.get(net.minecraft.component.DataComponentTypes.CUSTOM_NAME);
-		//?} else {
-		/*net.minecraft.nbt.NbtCompound nbtCompound = itemStack.getSubNbt("display");
+	public static Component getRealCustomName(ItemStack itemStack) {
+		net.minecraft.nbt.CompoundTag nbtCompound = itemStack.getTagElement("display");
 		if (nbtCompound != null && nbtCompound.contains("Name", 8)) {
 			try {
-				Text text = net.minecraft.text.Text.Serializer.fromJson(nbtCompound.getString("Name"));
+				Component text = net.minecraft.network.chat.Component.Serializer.fromJson(nbtCompound.getString("Name"));
 				if (text != null) {
 					return text;
 				}
@@ -35,7 +29,6 @@ public class ItemStackExtension {
 		}
 
 		return null;
-		*///?}
 	}
 
 	public static TotemDollData getTotemDollData(ItemStack stack) {
@@ -43,7 +36,7 @@ public class ItemStackExtension {
 	}
 
 	public static TotemDollData getTotemDollData(ItemStack stack, boolean applyRenderProperties) {
-		Text name = getRealCustomName(stack);
+		Component name = getRealCustomName(stack);
 
 		if (name != null) {
 			String o = TagsManager.getNicknameOrSkinProviderFromName(name.getString());
@@ -73,11 +66,11 @@ public class ItemStackExtension {
 		return ((ItemStackWithModdedBakedModel) itemStack).myTotemDoll$isModdedModel();
 	}
 
-	public static void setPlayerEntity(ItemStack itemStack, AbstractClientPlayerEntity playerEntity) {
+	public static void setPlayerEntity(ItemStack itemStack, AbstractClientPlayer playerEntity) {
 		((ItemStackWithPlayerEntity) itemStack).myTotemDoll$setPlayerEntity(playerEntity);
 	}
 
-	public static AbstractClientPlayerEntity getPlayerEntity(ItemStack itemStack) {
+	public static AbstractClientPlayer getPlayerEntity(ItemStack itemStack) {
 		return ((ItemStackWithPlayerEntity) itemStack).myTotemDoll$getPlayerEntity();
 	}
 

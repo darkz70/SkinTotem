@@ -2,18 +2,9 @@ package com.darkz.skintotem.doll.data;
 
 import lombok.*;
 import com.darkz.skintotem.model.bb.manager.BlockBenchModelManager;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.player.AbstractClientPlayer;
 
-//? if >=1.21.9 {
-import net.minecraft.entity.player.SkinTextures;
-import net.minecraft.entity.player.PlayerSkinType;
-import net.minecraft.util.AssetInfo.TextureAsset;
-import java.util.Optional;
-//?} elif >=1.21 {
-/*import net.minecraft.client.util.SkinTextures;
-import net.minecraft.client.util.SkinTextures.*;
-*///?}
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.doll.model.TotemDollModel;
 import com.darkz.skintotem.model.base.MModel;
@@ -35,7 +26,6 @@ public class TotemDollData {
 	private TotemDollRenderProperties renderProperties = new TotemDollRenderProperties();
 
 	public TotemDollData(@Nullable String nickname, @NotNull TotemDollSprites sprites) {
-		this.renderProperties = new TotemDollRenderProperties();
 		this.renderProperties.refresh(sprites);
 		this.renderProperties.setNickname(nickname);
 	}
@@ -57,7 +47,7 @@ public class TotemDollData {
 		return this.renderProperties.getNickname();
 	}
 
-	public void setStandardMModel(@NotNull Identifier modelId) {
+	public void setStandardMModel(@NotNull ResourceLocation modelId) {
 		BlockBenchModelManager.consumeModelById(modelId, this::setStandardMModel);
 	}
 
@@ -69,7 +59,7 @@ public class TotemDollData {
 		this.standardModel = this.renderProperties.createStandardModel();
 	}
 
-	public void setFrameMModel(@NotNull Identifier id) {
+	public void setFrameMModel(@NotNull ResourceLocation id) {
 		this.renderProperties.consumeFrameMModel(id, this::setFrameMModel);
 	}
 
@@ -79,14 +69,12 @@ public class TotemDollData {
 
 	@Nullable
 	private TotemDollModel getFrameModelBasedOnFrameMModel() {
-		//? if >=1.21 {
 		if (this.renderProperties.getFrameMModel() != null) {
 			if (this.frameModel == null || !this.frameModel.getMain().equals(this.renderProperties.getFrameMModel())) {
 				return this.frameModel = this.renderProperties.createFrameModel();
 			}
 			return this.frameModel;
 		}
-		//?}
 		return null;
 	}
 
@@ -117,11 +105,7 @@ public class TotemDollData {
 			return this.standardModel;
 		}
 
-		//? if >=1.21 {
 		this.setStandardMModel(TotemDollModel.createDollModel());
-		//?} else {
-		/*this.setStandardMModel(TotemDollModel.createDollModel());
-		*///?}
 
 		if (this.shouldRecreateStandardModel) {
 			this.shouldRecreateStandardModel = false;
@@ -144,33 +128,17 @@ public class TotemDollData {
 		this.renderProperties.setFrameSprites(frameSprites);
 	}
 
-	public void setFrameSprites(@Nullable AbstractClientPlayerEntity playerEntity) {
+	public void setFrameSprites(@Nullable AbstractClientPlayer playerEntity) {
 		if (playerEntity == null) {
 			return;
 		}
 
-		//? if >=1.21.9 {
-		SkinTextures skinTextures = playerEntity.getSkin();
-		Identifier skinTexture = skinTextures.body().texturePath();
-		Identifier capeTexture = Optional.of(skinTextures).map(SkinTextures::cape).map(TextureAsset::texturePath).orElse(null);
-		Identifier elytraTexture = Optional.of(skinTextures).map(SkinTextures::cape).map(TextureAsset::texturePath).orElse(null);
-		boolean slim = skinTextures.model() == PlayerSkinType.SLIM;
-		//?} elif >=1.21 {
-		/*SkinTextures skinTextures = playerEntity.getSkinTextures();
-		Identifier skinTexture = skinTextures.texture();
-		Identifier capeTexture = skinTextures.capeTexture();
-		Identifier elytraTexture = skinTextures.elytraTexture();
-		boolean slim = skinTextures.model() == SkinTextures.Model.SLIM;
-		*///?} else {
-		/*Identifier skinTexture = playerEntity.getSkinTexture();
-		Identifier capeTexture = playerEntity.getCapeTexture();
-		Identifier elytraTexture = playerEntity.getElytraTexture();
-		boolean slim = playerEntity.getModel().equalsIgnoreCase("slim");
-		*///?}
+		ResourceLocation skinTexture = playerEntity.getSkinTextureLocation();
+		ResourceLocation capeTexture = playerEntity.getCloakTextureLocation();
+		ResourceLocation elytraTexture = playerEntity.getElytraTextureLocation();
+		boolean slim = playerEntity.getModelName().equalsIgnoreCase("slim");
 
-		//? if >=1.21 {
 		this.renderProperties.setFrameSprites(skinTexture, capeTexture, elytraTexture, slim, true);
-		//?}
 	}
 
 	@NotNull
@@ -188,27 +156,15 @@ public class TotemDollData {
 		// Make sure it's cleared
 		this.clearFrameModel();
 		this.clearFrameSprites();
-		TotemDollModel model = this.getModelToRender();
-		if (model != null) {
-			model.resetPartsVisibility();
-		}
+		this.getModelToRender().resetPartsVisibility();
 		this.renderProperties.refresh();
 		return this;
 	}
 
 	@NotNull
 	public TotemDollData applyRenderProperties() {
-		TotemDollModel modelToApply = this.getModelToRender();
-		if (modelToApply != null) {
-			this.renderProperties.applyToModel(modelToApply);
-		}
+		this.renderProperties.applyToModel(this.getModelToRender());
 		return this;
 	}
 
-	//? if >=1.21.6 {
-	@NotNull
-	public com.darkz.skintotem.doll.renderer.special.TotemDollGuiElementRenderer getGuiRenderer(net.minecraft.client.render.VertexConsumerProvider.Immediate immediate) {
-		return com.darkz.skintotem.doll.renderer.special.TotemDollGuiElementRenderer.getRenderer(this.renderProperties, immediate);
-	}
-	//?}
 }

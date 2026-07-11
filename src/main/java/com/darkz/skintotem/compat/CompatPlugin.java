@@ -3,7 +3,7 @@ package com.darkz.skintotem.compat;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.*;
 
-import net.fabricmc.loader.api.FabricLoader;
+import com.darkz.skintotem.loader.SkinTotemLoader;
 
 import java.util.*;
 
@@ -23,7 +23,7 @@ public abstract class CompatPlugin implements IMixinConfigPlugin {
 
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-		return FabricLoader.getInstance().isModLoaded(this.getCompatModId());
+		return SkinTotemLoader.isModLoaded(this.getCompatModId(), true);
 	}
 
 	@Override

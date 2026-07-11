@@ -1,18 +1,18 @@
 package com.darkz.skintotem.skin.provider;
 
 import lombok.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 
 import com.darkz.skintotem.api.Response;
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.config.totem.TotemDollArmsType;
 import com.darkz.skintotem.doll.data.*;
 import com.darkz.skintotem.doll.manager.StandardTotemDollManager;
 import com.darkz.skintotem.skin.data.ParsedSkinData;
 
 
-import com.darkz.skintotem.thread.SkinTotemModTaskExecutor;
+import com.darkz.skintotem.thread.SkinTotemTaskExecutor;
 import com.darkz.skintotem.utils.texture.*;
 
 import java.util.*;
@@ -67,7 +67,7 @@ public abstract class StandardSkinProvider implements SkinProvider {
 
 		totemDollData.getStandardSprites().setState(LoadingState.WAITING_DOWNLOADING);
 
-		return SkinTotemModTaskExecutor.execute(() -> {
+		return SkinTotemTaskExecutor.execute(() -> {
 			int waitTime = 0;
 
 			while (true) {
@@ -108,11 +108,11 @@ public abstract class StandardSkinProvider implements SkinProvider {
 				TotemDollArmsType armsType = TotemDollArmsType.of(parsedSkinData.isSlim());
 				textures.setStandardArmsType(armsType);
 
-				Identifier skinId = this.getSkinId(value);
+				ResourceLocation skinId = this.getSkinId(value);
 
 				FailedAction onFailed = (throwable) -> {
 					textures.setState(LoadingState.CRITICAL_ERROR);
-					SkinTotemModClient.LOGGER.warn("Failed to download doll skin:", throwable);
+					SkinTotemClient.LOGGER.warn("Failed to download doll skin:", throwable);
 				};
 
 				SuccessAction onSuccess = (sprite) -> {
@@ -123,12 +123,12 @@ public abstract class StandardSkinProvider implements SkinProvider {
 				PlayerSkinUtils.downloadSkin(parsedSkinData.getSkinUrl(), skinId, onSuccess, onFailed, true);
 
 				if (parsedSkinData.getCapeUrl() != null) {
-					Identifier capeId = this.getCapeId(value);
+					ResourceLocation capeId = this.getCapeId(value);
 					PlayerSkinUtils.downloadSkin(parsedSkinData.getCapeUrl(), capeId, textures::setCapeSprite, null, false);
 				}
 
 				if (parsedSkinData.getElytraUrl() != null) {
-					Identifier elytraId = this.getElytraId(value);
+					ResourceLocation elytraId = this.getElytraId(value);
 					PlayerSkinUtils.downloadSkin(parsedSkinData.getElytraUrl(), elytraId, textures::setElytraSprite, null, false);
 				}
 
@@ -199,7 +199,7 @@ public abstract class StandardSkinProvider implements SkinProvider {
 				.whenComplete((r, e) -> {
 					this.reloadingFutures.remove(value);
 					if (e != null) {
-						SkinTotemModClient.LOGGER.error("Failed to reload doll data for \"{}\": ", value, e);
+						SkinTotemClient.LOGGER.error("Failed to reload doll data for \"{}\": ", value, e);
 					}
 				});
 		this.reloadingFutures.put(value, future);
@@ -219,17 +219,17 @@ public abstract class StandardSkinProvider implements SkinProvider {
 		this.cache.put(value, data);
 	}
 
-	protected Identifier getSkinId(String value) {
+	protected ResourceLocation getSkinId(String value) {
 		return this.getId(value, "skin");
 	}
 
-	protected Identifier getCapeId(String value) {
+	protected ResourceLocation getCapeId(String value) {
 		return this.getId(value, "cape");
 	}
 
-	protected Identifier getElytraId(String value) {
+	protected ResourceLocation getElytraId(String value) {
 		return this.getId(value, "elytra");
 	}
 
-	protected abstract Identifier getId(String value, String type);
+	protected abstract ResourceLocation getId(String value, String type);
 }

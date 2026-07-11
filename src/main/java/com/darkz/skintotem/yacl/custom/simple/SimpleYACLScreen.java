@@ -3,7 +3,7 @@ package com.darkz.skintotem.yacl.custom.simple;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.YetAnotherConfigLib.Builder;
 import dev.isxander.yacl3.gui.YACLScreen;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screens.Screen;
 import com.darkz.skintotem.utils.ModMenuUtils;
 import com.darkz.skintotem.utils.mixin.yacl.BetterYACLScreenBuilder;
 import java.util.function.Consumer;

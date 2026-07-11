@@ -1,6 +1,6 @@
 package com.darkz.skintotem.cache;
 
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.config.cache.KnownPlayerUUIDsConfig;
 
 public class KnownPlayerUUIDsConfigManager {
@@ -11,6 +11,7 @@ public class KnownPlayerUUIDsConfigManager {
 		Thread thread = new Thread(() -> {
 			while (true) {
 				try {
+					Thread.sleep(5000);
 					if (!requestedSave) {
 						continue;
 					}
@@ -22,7 +23,7 @@ public class KnownPlayerUUIDsConfigManager {
 					config.setDirty(false);
 					requestedSave = false;
 				} catch (Exception e) {
-					SkinTotemModClient.LOGGER.error("Failed to save config:", e);
+					SkinTotemClient.LOGGER.error("Failed to save config:", e);
 				}
 			}
 		});

@@ -5,10 +5,10 @@ import java.io.File;
 import java.util.*;
 import java.util.concurrent.*;
 import lombok.*;
-import net.fabricmc.loader.api.FabricLoader;
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.loader.SkinTotemLoader;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.utils.*;
-import net.minecraft.util.Uuids;
+import net.minecraft.core.UUIDUtil;
 import org.slf4j.*;
 import static com.mojang.serialization.codecs.RecordCodecBuilder.create;
 import static com.darkz.skintotem.utils.CodecUtils.option;
@@ -21,7 +21,7 @@ public class KnownPlayerUUIDsConfig {
 	private transient boolean dirty;
 
 	public static final Codec<KnownPlayerUUIDsConfig> CODEC = create((instance) -> instance.group(
-			option("cache", new HashMap<>(), Codec.unboundedMap(Codec.STRING, Uuids.CODEC), KnownPlayerUUIDsConfig::getCache)
+			option("cache", new HashMap<>(), Codec.unboundedMap(Codec.STRING, UUIDUtil.AUTHLIB_CODEC), KnownPlayerUUIDsConfig::getCache)
 	).apply(instance, (map) -> {
 		return new KnownPlayerUUIDsConfig(new ConcurrentHashMap<>(map));
 	}));
@@ -30,8 +30,8 @@ public class KnownPlayerUUIDsConfig {
 		this.cache = cache;
 	}
 
-	private static final File CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve(SkinTotemMod.MOD_ID + "-known-player-uuids" + ".json5").toFile();
-	private static final Logger LOGGER = LoggerFactory.getLogger(SkinTotemMod.MOD_NAME + "/KnownPlayerUUIDsConfig");
+	private static final File CONFIG_FILE = SkinTotemLoader.getConfigDir().resolve(SkinTotem.MOD_ID + "-known-player-uuids" + ".json5").toFile();
+	private static final Logger LOGGER = LoggerFactory.getLogger(SkinTotem.MOD_NAME + "/KnownPlayerUUIDsConfig");
 	private static KnownPlayerUUIDsConfig INSTANCE;
 
 	private KnownPlayerUUIDsConfig() {

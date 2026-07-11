@@ -1,14 +1,16 @@
 package com.darkz.skintotem.gui.widget.tag;
 
 import lombok.*;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.*;
-import net.minecraft.client.gui.tooltip.*;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.*;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.gui.screens.inventory.tooltip.*;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.resources.ResourceLocation;
 
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.tag.Tag;
 import com.darkz.skintotem.tag.manager.TagsManager;
 import com.darkz.skintotem.utils.DrawUtils;
@@ -17,49 +19,42 @@ import com.darkz.skintotem.utils.tooltip.IRequestableTooltipScreen;
 import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
-//? if >=1.21 {
-import net.minecraft.client.gui.screen.ButtonTextures;
-//?} else {
-/*import com.darkz.skintotem.utils.ButtonTextures;
-*///?}
+import com.darkz.skintotem.utils.ButtonTextures;
 
-//? if >=1.21.9 {
-import net.minecraft.client.input.AbstractInput;
- //?}
 
 @Getter
 @Setter
-public class TagButtonWidget extends ButtonWidget {
+public class TagButtonWidget extends Button {
 
-	public static final Identifier INACTIVE_TEXTURE = SkinTotemMod.id("textures/gui/tag_menu/button_inactive.png");
+	public static final ResourceLocation INACTIVE_TEXTURE = SkinTotem.id("textures/gui/tag_menu/button_inactive.png");
 
 	public static final ButtonTextures TEXTURES = new ButtonTextures(
-			SkinTotemMod.id("textures/gui/tag_menu/button_pressed.png"),
-			SkinTotemMod.id("textures/gui/tag_menu/button_unpressed.png"),
-			SkinTotemMod.id("textures/gui/tag_menu/button_pressed_hovered.png"),
-			SkinTotemMod.id("textures/gui/tag_menu/button_unpressed_hovered.png")
+			SkinTotem.id("textures/gui/tag_menu/button_pressed.png"),
+			SkinTotem.id("textures/gui/tag_menu/button_unpressed.png"),
+			SkinTotem.id("textures/gui/tag_menu/button_pressed_hovered.png"),
+			SkinTotem.id("textures/gui/tag_menu/button_unpressed_hovered.png")
 	);
 
 	private Tag tag;
 	private String text;
-	private Identifier icon;
+	private ResourceLocation icon;
 
 	private boolean pressed;
 	@Nullable
-	private net.minecraft.text.Text tooltipText;
+	private net.minecraft.network.chat.Component tooltipText;
 	private boolean canBeHovered = true;
 
 	public TagButtonWidget(Tag tag, int x, int y, TagPressAction pressAction) {
-		super(x, y, 14, 14, net.minecraft.text.Text.of(""), (widget) -> pressAction.onPress((TagButtonWidget) widget), ButtonWidget.DEFAULT_NARRATION_SUPPLIER);
+		super(x, y, 14, 14, net.minecraft.network.chat.Component.nullToEmpty(""), (widget) -> pressAction.onPress((TagButtonWidget) widget), Button.DEFAULT_NARRATION);
 		this.tag          = tag;
 		this.text         = String.valueOf(tag.getTag());
 		this.icon         = TagsManager.getTagIcon(this.text.charAt(0));
 	}
 
 	@Override
-	public void onPress(/*? if >=1.21.9 {*/ AbstractInput input /*?}*/) {
+	public void onPress() {
 		this.pressed = !this.pressed;
-		super.onPress(/*? if >=1.21.9 {*/ input /*?}*/);
+		super.onPress();
 	}
 
 	public void setPressed(boolean pressed) {
@@ -73,50 +68,43 @@ public class TagButtonWidget extends ButtonWidget {
 		}
 	}
 
-	public void setTooltip(@Nullable net.minecraft.text.Text text) {
+	public void setTooltip(@Nullable net.minecraft.network.chat.Component text) {
 		this.tooltipText = text;
 	}
 
-	//? if >=1.21.11 {
 	@Override
-	protected void drawIcon(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+	public void renderWidget(GuiGraphics context, int mouseX, int mouseY, float delta) {
 		this.renderPlease(context);
 	}
-	//?} else {
-	/*@Override
-	public void /^? if >=1.21 {^/renderWidget/^?} else {^//^renderButton^//^?}^/(DrawContext context, int mouseX, int mouseY, float delta) {
-		this.renderPlease(context);
-	}
-	*///?}
 
-	private void renderPlease(DrawContext context) {
+	private void renderPlease(GuiGraphics context) {
 		this.renderButton(context, this.getX(), this.getY());
 		this.requestTooltip();
 	}
 
-	protected void renderButton(DrawContext context, int x, int y) {
+	protected void renderButton(GuiGraphics context, int x, int y) {
 		this.renderBackground(context, x, y);
 		this.renderIcon(context, x, y);
 	}
 
-	protected void renderIcon(DrawContext context, int x, int y) {
+	protected void renderIcon(GuiGraphics context, int x, int y) {
 		DrawUtils.drawTexture(context, this.icon, x + (this.getWidth() / 2) - 5, y + (this.getHeight() / 2) - 5, 0, 0, 10, 10, 10, 10);
 	}
 
-	protected void renderBackground(DrawContext context, int x, int y) {
-		Identifier texture = !this.active ? INACTIVE_TEXTURE : TEXTURES.get(this.isPressed(), this.isHovered());
+	protected void renderBackground(GuiGraphics context, int x, int y) {
+		ResourceLocation texture = !this.active ? INACTIVE_TEXTURE : TEXTURES.get(this.isPressed(), this.isHovered());
 		DrawUtils.drawTexture(context, texture, x, y, 0, 0, this.width, this.height, this.width, this.height);
 	}
 
 	public void requestTooltip() {
-		MinecraftClient client = MinecraftClient.getInstance();
-		Screen screen = client.currentScreen;
+		Minecraft client = Minecraft.getInstance();
+		Screen screen = client.screen;
 
 		if (!this.isHovered()) {
 			return;
 		}
 
-		TooltipComponent component = this.getTooltipComponent();
+		ClientTooltipComponent component = this.getTooltipComponent();
 		if (component == null) {
 			return;
 		}
@@ -130,11 +118,11 @@ public class TagButtonWidget extends ButtonWidget {
 		}));
 	}
 
-	protected @Nullable TooltipComponent getTooltipComponent() {
+	protected @Nullable ClientTooltipComponent getTooltipComponent() {
 		if (this.tooltipText == null) {
 			return null;
 		}
-		return TooltipComponent.of(this.tooltipText.asOrderedText());
+		return ClientTooltipComponent.create(this.tooltipText.getVisualOrderText());
 	}
 
 	public boolean over(double mouseX, double mouseY) {

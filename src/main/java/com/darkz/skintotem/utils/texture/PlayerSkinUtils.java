@@ -1,39 +1,40 @@
 package com.darkz.skintotem.utils.texture;
 
+import com.mojang.blaze3d.platform.NativeImage;
 import java.net.*;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.atlas.RemappedAtlasSprite;
 import com.darkz.skintotem.atlas.manager.*;
 import com.darkz.skintotem.doll.data.*;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.texture.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.*;
+import net.minecraft.resources.ResourceLocation;
 
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.client.SkinTotemClient;
 
 import java.io.*;
 import java.nio.file.*;
-import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.FastColor;
 import org.jetbrains.annotations.*;
 
 import com.darkz.skintotem.atlas.manager.*;
 import com.darkz.skintotem.config.totem.TotemDollArmsType;
 import com.darkz.skintotem.doll.data.*;
-import com.darkz.skintotem.thread.SkinTotemModTaskExecutor;
+import com.darkz.skintotem.thread.SkinTotemTaskExecutor;
 
 public class PlayerSkinUtils {
 
-	public static void downloadSkin(@NotNull String textureUrl, @NotNull Identifier textureId, @Nullable SuccessAction onSuccessRegistration, @Nullable FailedAction onFailedRegistration, boolean skin) {
+	public static void downloadSkin(@NotNull String textureUrl, @NotNull ResourceLocation textureId, @Nullable SuccessAction onSuccessRegistration, @Nullable FailedAction onFailedRegistration, boolean skin) {
 		try {
 			NativeImage nativeImage = download(textureUrl);
 			NativeImage image = skin ? remapSkinTexture(nativeImage) : remapTextureToStandardSize(nativeImage, true);
-			SkinTotemModAtlasSpriteManager.registerSpecialSkinSprite(textureId, image, true, (sprite) -> {
+			SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(textureId, image, true, (sprite) -> {
 				if (onSuccessRegistration != null) {
 					onSuccessRegistration.onSuccess(sprite);
 				}
 			});
 		} catch (Exception e) {
-			SkinTotemModClient.LOGGER.error("Failed to download skin texture with id \"{}\": ", textureId, e);
+			SkinTotemClient.LOGGER.error("Failed to download skin texture with id \"{}\": ", textureId, e);
 			if (onFailedRegistration != null) {
 				onFailedRegistration.onFailed(e);
 			}
@@ -42,12 +43,12 @@ public class PlayerSkinUtils {
 
 	public static NativeImage download(String uri) throws IOException {
 		HttpURLConnection connection = null;
-		SkinTotemModClient.LOGGER.debug("Downloading HTTP texture from {}", uri);
+		SkinTotemClient.LOGGER.debug("Downloading HTTP texture from {}", uri);
 		URI currentUri = URI.create(uri);
 
 		NativeImage image;
 		try {
-			connection = (HttpURLConnection) currentUri.toURL().openConnection(MinecraftClient.getInstance().getNetworkProxy());
+			connection = (HttpURLConnection) currentUri.toURL().openConnection(Minecraft.getInstance().getProxy());
 			connection.setDoInput(true);
 			connection.setDoOutput(false);
 			connection.connect();
@@ -112,39 +113,11 @@ public class PlayerSkinUtils {
 		return image;
 	}
 
-	//? if >=1.21.2 {
 	@SuppressWarnings("all")
-	private static void stripColor(NativeImage image, int x1, int y1, int x2, int y2) {
-		for (int i = x1; i < x2; ++i) {
-			for (int j = y1; j < y2; ++j) {
-				int k = image.getColorArgb(i, j);
-				if (ColorHelper.getAlpha(k) < 128) {
-					return;
-				}
-			}
-		}
-
-		for (int i = x1; i < x2; ++i) {
-			for (int j = y1; j < y2; ++j) {
-				image.setColorArgb(i, j, image.getColorArgb(i, j) & 16777215);
-			}
-		}
-	}
-
-	@SuppressWarnings("all")
-	private static void stripAlpha(NativeImage image, int x1, int y1, int x2, int y2) {
-		for (int i = x1; i < x2; ++i) {
-			for (int j = y1; j < y2; ++j) {
-				image.setColorArgb(i, j, ColorHelper.fullAlpha(image.getColorArgb(i, j)));
-			}
-		}
-	}
-	//?} else {
-	/*@SuppressWarnings("all")
 	private static void stripColor(NativeImage image, int x1, int y1, int x2, int y2) {
 		for(int i = x1; i < x2; ++i) {
 			for(int j = y1; j < y2; ++j) {
-				int k = image.getColor(i, j);
+				int k = image.getPixelRGBA(i, j);
 				if ((k >> 24 & 255) < 128) {
 					return;
 				}
@@ -153,7 +126,7 @@ public class PlayerSkinUtils {
 
 		for(int i = x1; i < x2; ++i) {
 			for(int j = y1; j < y2; ++j) {
-				image.setColor(i, j, image.getColor(i, j) & 16777215);
+				image.setPixelRGBA(i, j, image.getPixelRGBA(i, j) & 16777215);
 			}
 		}
 
@@ -163,54 +136,36 @@ public class PlayerSkinUtils {
 	private static void stripAlpha(NativeImage image, int x1, int y1, int x2, int y2) {
 		for(int i = x1; i < x2; ++i) {
 			for(int j = y1; j < y2; ++j) {
-				image.setColor(i, j, image.getColor(i, j) | -16777216);
+				image.setPixelRGBA(i, j, image.getPixelRGBA(i, j) | -16777216);
 			}
 		}
 
 	}
-	*///?}
 
 	public static void setupClientTextures(TotemDollData data) {
-		//? if >=1.21 {
-		MinecraftClient.getInstance().getSkinProvider().fetchSkinTextures(MinecraftClient.getInstance().getGameProfile()).thenAccept((/*? if >=1.21.4 {*/ optional /*?} else {*/ /*skinTextures *//*?}*/) -> {
-			//? if >=1.21.4 {
-			if (optional.isEmpty()) {
-				return;
-			}
-			//? if >=1.21.9 {
-			net.minecraft.entity.player.SkinTextures skinTextures = optional.get();
-			//?} else {
-			/*net.minecraft.client.util.SkinTextures skinTextures = optional.get();
-			*///?}
-
-			//?}
-			data.setSprites(TotemDollSprites.of(skinTextures));
-		});
-		//?} else {
-		/*MinecraftClient.getInstance().getSkinProvider().loadSkin(MinecraftClient.getInstance().getSession().getProfile(), (type, id, texture) -> {
-			SkinTotemModTaskExecutor.execute(() -> {
-				MinecraftClient.getInstance().execute(() -> {
+		Minecraft.getInstance().getSkinManager().registerSkins(Minecraft.getInstance().getUser().getGameProfile(), (type, id, texture) -> {
+			SkinTotemTaskExecutor.execute(() -> {
+				Minecraft.getInstance().execute(() -> {
 					TotemDollSprites textures = data.getStandardSprites();
 
 					switch (type) {
 						case SKIN -> {
-							SkinTotemModAtlasSpriteManager.registerSpecialSkinSprite(id, false, textures::setSkinSprite);
+							SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(id, false, textures::setSkinSprite);
 							if (texture != null) {
 								textures.setArmsType(TotemDollArmsType.of(texture.getMetadata("model")));
 							}
 						}
 						case CAPE -> {
 							RemappedAtlasSprite capeSprite = RemappedAtlasSprite.ofResource(id);
-							SkinTotemModAtlasSpriteManager.registerSpecialRemappedSprite(capeSprite);
+							SkinTotemAtlasSpriteManager.registerSpecialRemappedSprite(capeSprite);
 							textures.setCapeSprite(capeSprite);
 						}
-						case ELYTRA -> SkinTotemModAtlasSpriteManager.registerSpecialSkinSprite(id, false, textures::setElytraSprite);
+						case ELYTRA -> SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(id, false, textures::setElytraSprite);
 					}
 
-					SkinTotemModAtlasManager.stitchAndUpdate(SkinTotemModAtlasSpriteManager.getSprites(), null);
+					SkinTotemAtlasManager.stitchAndUpdate(SkinTotemAtlasSpriteManager.getSprites(), null);
 				});
 			});
 		}, false);
-		*///?}
 	}
 }

@@ -1,24 +1,21 @@
 package com.darkz.skintotem.utils.plugin;
 
 import lombok.experimental.ExtensionMethod;
-import com.darkz.skintotem.config.SkinTotemModConfig;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import com.darkz.skintotem.config.SkinTotemConfig;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
-import net.fabricmc.fabric.api.resource.*;
-import net.fabricmc.loader.api.FabricLoader;
-
-import com.darkz.skintotem.SkinTotemMod;
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.extension.ItemStackExtension;
+import com.darkz.skintotem.loader.SkinTotemLoader;
 import org.jetbrains.annotations.Nullable;
 
 @ExtensionMethod(ItemStackExtension.class)
 public class TotemDollPlugin {
 
-	public static final Identifier ID = /*? >=1.21.3 {*/SkinTotemMod.id("icon"); /*?} else {*/ /*SkinTotemMod.id("item/icon"); *//*?}*/
+	public static final ResourceLocation ID =  SkinTotem.id("item/icon");
 	@SuppressWarnings("all")
 	public static final String STRING_ID = new String("\u041a\u0443\u0437\u044c\u043c\u0438\u0447\u0451\u0432".toCharArray());
 
@@ -26,9 +23,9 @@ public class TotemDollPlugin {
 		return work(stack.getRealCustomName());
 	}
 
-	public static boolean work(@Nullable Text realCustomName) {
+	public static boolean work(@Nullable Component realCustomName) {
 		boolean standardDollWithoutName = realCustomName == null;
-		if (standardDollWithoutName && TotemDollPlugin.isGoodStick(SkinTotemModConfig.getInstance().getStandardTotemDollSkinValue())) {
+		if (standardDollWithoutName && TotemDollPlugin.isGoodStick(SkinTotemConfig.getInstance().getStandardTotemDollSkinValue())) {
 			return true;
 		}
 		if (!standardDollWithoutName && TotemDollPlugin.isGoodStick(realCustomName.getString())) {
@@ -42,11 +39,7 @@ public class TotemDollPlugin {
 	}
 
 	public static void register() {
-		//? if <=1.21.4 {
-		/*net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin.register(context -> {
-			context.addModels(ID);
-		});
-		*///?}
+		SkinTotemLoader.registerAdditionalModel(ID);
 	}
 
 }
