@@ -68,8 +68,8 @@ public class TLauncherAPI {
             return new Response<>(statusCode, data);
         } catch (InterruptedException ignored) {
         } catch (Exception e) {
-            SkinTotemModClient.LOGGER.error("[TLauncherAPI] Ошибка загрузки скина {}: ", nickname, e);
-            SkinTotemModClient.LOGGER.error("[TLauncherAPI] Response: {}", responseBody);
+            SkinTotemClient.LOGGER.error("[TLauncherAPI] Ошибка загрузки скина {}: ", nickname, e);
+            SkinTotemClient.LOGGER.error("[TLauncherAPI] Response: {}", responseBody);
         }
         return Response.empty(statusCode);
     }
@@ -145,7 +145,7 @@ public class TLauncherAPI {
 
             return null;
         } catch (Exception e) {
-            SkinTotemModClient.LOGGER.error("[TLauncherAPI] Ошибка парсинга ответа для {}: ", nickname, e);
+            SkinTotemClient.LOGGER.error("[TLauncherAPI] Ошибка парсинга ответа для {}: ", nickname, e);
             return null;
         }
     }
