@@ -3,23 +3,38 @@ plugins {
 }
 
 mossyDependencies {
-	minecraft = stonecutter.current.project.substring(stonecutter.current.project.indexOf("-") + 1)
+	minecraft = stonecutter.current.version.toString()
+	mappings = prop("build.yarn")
 	lombok = prop("base.lombok_version")
-
 	fabricApi = prop("build.fabric_api")
 	fabricLoader = prop("build.fabric_loader")
-
 	forge = prop("build.forge")
 	parchment = prop("build.parchment")
 
 	additional {
-		//override("modCompileOnly", "yacl")
-		override("mossyCompileOnly", "iris")
-		override("mossyCompileOnly", "sodium")
+		// - By default, every additional project dependency ("dep.modId" from gradle.properties) will use
+		// - Modrinth Maven and "modImplementation" configuration name
+		// - If you want to override mod configuration name, you can do this:
+
+		//override("modCompileOnly", "just_mod_id")
+
+		// - It will do this:
+		// - modImplementation("maven.modrinth:modId:version") -> modCompileOnly("maven.modrinth:modId:version")
+
+		// - Or if you want to disable it and handle by yourself, just disable it auto handling:
+
+		//disable("just_mod_id")
+
+		disable("cit-resewn")
 	}
 }
 
+mossyResources {
+	//expandFiles = ["custom", "file", "patterns", "here"]
+}
+
 repositories {
+	mavenCentral()
 	// Mixin^2
 	maven {
 		name = "Mixin Squared"
@@ -28,6 +43,10 @@ repositories {
 }
 
 dependencies {
+	// Lombok
+	compileOnly "org.projectlombok:lombok:${prop("base.lombok_version")}"
+	annotationProcessor "org.projectlombok:lombok:${prop("base.lombok_version")}"
+
 	// Mixin^2
 	if (sc.current.project.contains("fabric")) {
 		include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:${prop("build.mixin_squared")}")))
@@ -35,6 +54,17 @@ dependencies {
 		compileOnly(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:${prop("build.mixin_squared")}"))
 		implementation(jarJar("com.github.bawnorton.mixinsquared:mixinsquared-neoforge:${prop("build.mixin_squared")}"))
 	}
+
+	// CIT Resewn
+	def cit = prop("dep.cit-resewn")
+	if (cit != "unknown") {
+		modImplementation "maven.modrinth:cit-resewn:${cit}"
+		modImplementation "maven.modrinth:cit-resewn-defaults:${cit}"
+	}
+}
+
+tasks.named('compileJava') {
+	dependsOn 'stonecutterProcessSources'
 }
 
 String prop(String key) {
