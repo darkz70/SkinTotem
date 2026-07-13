@@ -232,4 +232,4 @@ public abstract class StandardSkinProvider implements SkinProvider {
 	}
 
 	protected abstract ResourceLocation getId(String value, String type);
-													 }
+}
