@@ -10,10 +10,10 @@
   "skintotem.modmenu.option.debug_log_enabled.description": "Кушылса, төзәтү өчен өстәмә мәгълүмат консольгә язылачак; сүндерелсә, язылмаячак.",
   "skintotem.modmenu.group.auto_refresh.name": "§lАвтоматик яңарту",
   "skintotem.modmenu.group.auto_refresh.description": "Кэшләнгән скиннарны автоматик яңарту көйләүләре.",
-  "skintotem.modmenu.option.auto_refresh_enabled.name": "Автоматик яңарту кушылган",
-  "skintotem.modmenu.option.auto_refresh_enabled.description": "Кушылса, кэшләнгән скиннар сайланган интервал буенча автоматик рәвештә яңартылачак; сүндерелсә, яңартылмаячак.",
-  "skintotem.modmenu.option.auto_refresh_interval_minutes.name": "Автоматик яңарту интервалы (минутлар)",
-  "skintotem.modmenu.option.auto_refresh_interval_minutes.description": "Кэшләнгән скиннар никадәр ешлык белән (минутларда) автоматик рәвештә яңартылырга тиешлеген билгели.",
+  "skintotem.modmenu.option.auto_refresh_enabled.name": "Автоюртэлеш скины",
+  "skintotem.modmenu.option.auto_refresh_enabled.description": "Стандарт скинны фонда даими рәвештэ яңарту.",
+  "skintotem.modmenu.option.auto_refresh_interval_minutes.name": "Автояңарту аралыгы (мин)",
+  "skintotem.modmenu.option.auto_refresh_interval_minutes.description": "Скинны ничектер еш яңарту, минутларда.",
   "skintotem.modmenu.category.rendering.name": "§lКүрсәтелү",
   "skintotem.modmenu.group.right_hand.name": "§lУң кул",
   "skintotem.modmenu.group.left_hand.name": "§lСул кул",
@@ -44,7 +44,7 @@
   "modmenu.option.standard_doll_skin_type.ely_by": "Ely.by",
   "modmenu.option.standard_doll_skin_type.ely_by.suggestion": "Ely.by никнамын кертегез",
   "skintotem.modmenu.option.standard_doll_skin_type.ely_by": "Ely.by",
-  "skintotem.modmenu.option.standard_doll_skin_type.ely_by.suggestion": "Ely.by никнамын «Скин кыйммәте» кырына кертегез.",
+  "skintotem.modmenu.option.standard_doll_skin_type.ely_by.suggestion": "\"Скин кыйммэте\" кырында Ely.by никын языгыз.",
   "skintotem.modmenu.option.standard_doll_skin_type.tlauncher": "TLauncher",
-  "skintotem.modmenu.option.standard_doll_skin_type.tlauncher.suggestion": "TLauncher никнамын «Скин кыйммәте» кырына кертегез."
+  "skintotem.modmenu.option.standard_doll_skin_type.tlauncher.suggestion": "\"Скин кыйммэте\" кырында TLauncher никын языгыз."
 }

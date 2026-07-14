@@ -17,7 +17,9 @@ public enum TotemDollSkinType implements StringRepresentable, EnumWithText {
 	PLAYER(true),
 	HOLDING_PLAYER(false),
 	URL_SKIN(true),
-	FILE_SKIN(true);
+	FILE_SKIN(true),
+	ELY_BY(true),
+	TLAUNCHER(true);
 
 	public static final EnumCodec<TotemDollSkinType> CODEC = StringRepresentable.fromEnum(TotemDollSkinType::values);
 

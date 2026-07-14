@@ -41,6 +41,23 @@ public class GeneralCategory {
 				.build();
 	}
 
+	public static OptionGroup getAutoRefreshGroup(SkinTotemConfig defConfig, SkinTotemConfig config) {
+		return SimpleGroup.startBuilder("auto_refresh")
+				.options(
+						SimpleOption.<Boolean>startBuilder("auto_refresh_enabled")
+								.withBinding(defConfig.isAutoRefreshEnabled(), config::isAutoRefreshEnabled, config::setAutoRefreshEnabled, true)
+								.withDescription(SimpleContent.NONE)
+								.withController()
+								.build(),
+						SimpleOption.<Integer>startBuilder("auto_refresh_interval_minutes")
+								.withBinding(defConfig.getAutoRefreshIntervalMinutes(), config::getAutoRefreshIntervalMinutes, config::setAutoRefreshIntervalMinutes, false)
+								.withDescription(SimpleContent.NONE)
+								.withController(1, 180, 1)
+								.build()
+				)
+				.build();
+	}
+
 	public static OptionGroup getThreadGroup(SkinTotemConfig defConfig, SkinTotemConfig config) {
 		return SimpleGroup.startBuilder("parallel_tasks")
 				.options(
