@@ -8,7 +8,6 @@
 		"${mod_authors}"
 	],
 	"contact": {
-		"homepage":
 		"issues": "https://github.com/${github_mod_author}/${mod_id}/issues"
 	},
 	"license": "${mod_license}",
