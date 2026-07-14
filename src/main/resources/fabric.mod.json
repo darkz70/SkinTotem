@@ -8,7 +8,7 @@
 		"${mod_authors}"
 	],
 	"contact": {
-		"homepage": "https://modrinth.com/mod/${mod_id}",
+		"homepage":
 		"issues": "https://github.com/${github_mod_author}/${mod_id}/issues"
 	},
 	"license": "${mod_license}",
