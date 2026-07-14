@@ -35,6 +35,7 @@ public class SkinTotemClient {
 		SkinTotemReloadListener.register();
 		TotemDollPlugin.register();
 		KnownPlayerUUIDsConfigManager.start();
+		com.darkz.skintotem.refresh.SkinAutoRefresher.start();
 	}
 
 	public static boolean canProcess(@Nullable ItemStack stack) {

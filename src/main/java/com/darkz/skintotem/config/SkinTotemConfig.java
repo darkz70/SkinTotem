@@ -45,7 +45,9 @@ public class SkinTotemConfig {
 			option("tag_menu_tooltip_model_scale", 1.0F, Codec.FLOAT, SkinTotemConfig::getTagMenuTooltipModelScale),
 			option("executor_threads_count", 6, Codec.INT, SkinTotemConfig::getParallelTasksCount),
 			option("first_run", true, Codec.BOOL, SkinTotemConfig::isFirstRun),
-			option("support_other_mods_totems", true, Codec.BOOL, SkinTotemConfig::isSupportOtherModsTotems)
+			option("support_other_mods_totems", true, Codec.BOOL, SkinTotemConfig::isSupportOtherModsTotems),
+			option("auto_refresh_enabled", false, Codec.BOOL, SkinTotemConfig::isAutoRefreshEnabled),
+			option("auto_refresh_interval_minutes", 30, Codec.INT, SkinTotemConfig::getAutoRefreshIntervalMinutes)
 	).apply(instance, SkinTotemConfig::new));
 
 	private static final File CONFIG_FILE = SkinTotemLoader.getConfigDir().resolve(SkinTotem.MOD_ID + ".json5").toFile();
@@ -66,6 +68,8 @@ public class SkinTotemConfig {
 	private int parallelTasksCount;
 	private boolean firstRun;
 	private boolean supportOtherModsTotems;
+	private boolean autoRefreshEnabled;
+	private int autoRefreshIntervalMinutes;
 
 	private SkinTotemConfig() {
 		throw new IllegalArgumentException();
@@ -93,5 +97,6 @@ public class SkinTotemConfig {
 
 	public void save() {
 		ConfigUtils.saveConfig(this, CODEC, CONFIG_FILE, LOGGER);
+		com.darkz.skintotem.refresh.SkinAutoRefresher.restart();
 	}
 }
