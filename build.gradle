@@ -56,7 +56,7 @@ dependencies {
 }
 
 tasks.named('compileJava') {
-	dependsOn 'stonecutterProcessSources'
+	dependsOn 'stonecutterGenerate'
 }
 
 String prop(String key) {
