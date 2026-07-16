@@ -1,6 +1,6 @@
 package com.darkz.skintotem.mixin.yacl.category;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.ifyReturnValue;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.ConfigCategory.Builder;
 import dev.isxander.yacl3.impl.ConfigCategoryImpl;
@@ -18,7 +18,7 @@ public class ConfigCategoryImplBuilderImplMixin implements BetterYACLCategoryBui
 	private int custom = -1;
 
 	@Dynamic
-	@ModifyReturnValue(at = @At("RETURN"), method = "build", remap = false)
+	@ifyReturnValue(at = @At("RETURN"), method = "build", remap = false)
 	private ConfigCategory swapCategory(ConfigCategory original) {
 		if (this.custom == -1) {
 			return original;
@@ -31,13 +31,13 @@ public class ConfigCategoryImplBuilderImplMixin implements BetterYACLCategoryBui
 	}
 
 	@Override
-	public Builder myTotemDoll$enableBetter() {
+	public Builder skinTotem$enableBetter() {
 		this.custom = 0;
 		return ((Builder) this);
 	}
 
 	@Override
-	public Builder myTotemDoll$enableRendering() {
+	public Builder skinTotem$enableRendering() {
 		this.custom = 1;
 		return ((Builder) this);
 	}

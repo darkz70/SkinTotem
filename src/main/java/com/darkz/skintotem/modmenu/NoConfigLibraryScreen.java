@@ -6,8 +6,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.*;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.util.Util;
-import com.darkz.skintotem.client.SkinTotemModClient;
-import com.darkz.skintotem.utils.ModMenuUtils;
+import com.darkz.skintotem.client.SkinTotemClient;
+import com.darkz.skintotem.utils.MenuUtils;
 import java.net.*;
 import java.util.*;
 import org.jetbrains.annotations.*;
@@ -23,7 +23,7 @@ public class NoConfigLibraryScreen {
 
 	@Contract("_ -> new")
 	public static @NotNull Screen createScreen(Screen parent) {
-		return new ConfirmScreen((open) -> NoConfigLibraryScreen.onConfirm(open, parent), ModMenuUtils.getModTitle(), ModMenuUtils.getNoConfigScreenMessage(), ScreenTexts.CONTINUE, ScreenTexts.BACK);
+		return new ConfirmScreen((open) -> NoConfigLibraryScreen.onConfirm(open, parent), MenuUtils.getTitle(), MenuUtils.getNoConfigScreenMessage(), ScreenTexts.CONTINUE, ScreenTexts.BACK);
 	}
 
 	private static void onConfirm(boolean open, Screen parent) {
@@ -40,7 +40,7 @@ public class NoConfigLibraryScreen {
 				}
 				Util.getOperatingSystem().open(link);
 			} catch (URISyntaxException e) {
-				SkinTotemModClient.LOGGER.error("Can't open YACL Modrinth page:", e);
+				SkinTotemClient.LOGGER.error("Can't open YACL rinth page:", e);
 			}
 		} else {
 			MinecraftClient.getInstance().setScreen(parent);
@@ -48,6 +48,6 @@ public class NoConfigLibraryScreen {
 	}
 
 	public static Screen createScreenAboutOldVersion(Screen parent, String version) {
-		return new ConfirmScreen((open) -> NoConfigLibraryScreen.onConfirm(open, parent), ModMenuUtils.getModTitle(), ModMenuUtils.getOldConfigScreenMessage(version), ScreenTexts.CONTINUE, ScreenTexts.BACK);
+		return new ConfirmScreen((open) -> NoConfigLibraryScreen.onConfirm(open, parent), MenuUtils.getTitle(), MenuUtils.getOldConfigScreenMessage(version), ScreenTexts.CONTINUE, ScreenTexts.BACK);
 	}
 }

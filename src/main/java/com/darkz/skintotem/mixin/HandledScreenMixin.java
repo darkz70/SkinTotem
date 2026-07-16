@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.darkz.skintotem.gui.widget.tag.*;
-import com.darkz.skintotem.utils.mixin.MTDAnvilScreen;
+import com.darkz.skintotem.utils.mixin.SkinTotemAnvilScreen;
 
 //? if >=1.21.9 {
 import net.minecraft.client.gui.Click;
@@ -77,17 +77,17 @@ public class HandledScreenMixin {
 
 	@Unique
 	private @Nullable TagMenuWidget getTagMenuWidget() {
-		if (!(this instanceof MTDAnvilScreen anvilScreen)) {
+		if (!(this instanceof SkinTotemAnvilScreen anvilScreen)) {
 			return null;
 		}
-		return anvilScreen.myTotemDoll$getTagMenuWidget();
+		return anvilScreen.skinTotem$getTagMenuWidget();
 	}
 
 	@Unique
 	private @Nullable TagButtonWidget getTagButtonWidget() {
-		if (!(this instanceof MTDAnvilScreen anvilScreen)) {
+		if (!(this instanceof SkinTotemAnvilScreen anvilScreen)) {
 			return null;
 		}
-		return anvilScreen.myTotemDoll$getTagButtonWidget();
+		return anvilScreen.skinTotem$getTagButtonWidget();
 	}
 }

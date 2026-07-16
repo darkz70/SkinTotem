@@ -44,7 +44,7 @@
 	    "ScreenMixin",
 	    "EntryListWidgetMixin",
 	    "ForgingScreenMixin",
-	    "ItemStackWithModdedBakedModelMixin",
+	    "ItemStackWithdedBakedModelMixin",
 	    "ItemStackWithPlayerEntityMixin",
 	    "ItemStackMixin",
 	    "HandledScreenMixin",

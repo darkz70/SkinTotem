@@ -21,7 +21,7 @@ public class TextureManagerMixin {
 			),
 			method = "loadTexture"
 	)
-	private void suppressMTDWarning(Logger instance, String s, Object a, Object o, Operation<Void> original) {
+	private void suppressSTWarning(Logger instance, String s, Object a, Object o, Operation<Void> original) {
 		if (!(a instanceof Identifier id)) {
 			original.call(instance, s, a, o);
 			return;
@@ -40,7 +40,7 @@ public class TextureManagerMixin {
 			),
 			method = "loadTexture(Lnet/minecraft/util/Identifier;Lnet/minecraft/client/texture/ReloadableTexture;)Lnet/minecraft/client/texture/TextureContents;"
 	)
-	private void suppressMTDWarning(Logger instance, String s, Object[] objects, Operation<Void> original, @Local(argsOnly = true) Identifier id) {
+	private void suppressSTWarning(Logger instance, String s, Object[] objects, Operation<Void> original, @Local(argsOnly = true) Identifier id) {
 		if (id == null) {
 			return;
 		}

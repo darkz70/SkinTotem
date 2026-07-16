@@ -16,13 +16,13 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "com.darkz.skintotem.SkinTotemMod"
+            "com.darkz.skintotem.SkinTotem"
         ],
         "client": [
-            "com.darkz.skintotem.client.SkinTotemModClient"
+            "com.darkz.skintotem.client.SkinTotemClient"
         ],
         "modmenu": [
-            "com.darkz.skintotem.modmenu.ModMenuIntegration"
+            "com.darkz.skintotem.modmenu.MenuIntegration"
         ]
     },
     "depends": {

@@ -2,7 +2,7 @@ package com.darkz.skintotem.refresh;
 
 import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.config.SkinTotemModConfig;
-import com.darkz.skintotem.doll.manager.StandardTotemDollManager;
+import com.darkz.skintotem.doll.manager.StandardSkinTotemManager;
 import java.util.concurrent.*;
 
 public class SkinAutoRefresher {
@@ -27,7 +27,7 @@ public class SkinAutoRefresher {
 				long startedAt = System.currentTimeMillis();
 				try {
 					SkinTotemModClient.LOGGER.info("[SkinTotem] Auto-refreshing skin...");
-					StandardTotemDollManager.initializeStandardDollData();
+					StandardSkinTotemManager.initializeStandardDollData();
 					long elapsedMs = System.currentTimeMillis() - startedAt;
 					SkinTotemModClient.LOGGER.info("[SkinTotem] Auto-refresh SUCCESS ({} ms)", elapsedMs);
 				} catch (Exception e) {

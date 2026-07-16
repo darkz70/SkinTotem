@@ -80,7 +80,7 @@ public class SkinTotemCommand {
                 })
                 .executes(ctx -> {
                     String modelId = StringArgumentType.getString(ctx, "model_id");
-                    com.darkz.skintotem.config.SkinTotemModConfig.getInstance().setStandardTotemDollModelValue(com.darkz.skintotem.SkinTotemMod.id("dolls/" + modelId + ".bbmodel"));
+                    com.darkz.skintotem.config.SkinTotemModConfig.getInstance().setStandardSkinTotemModelValue(com.darkz.skintotem.SkinTotemMod.id("dolls/" + modelId + ".bbmodel"));
                     com.darkz.skintotem.config.SkinTotemModConfig.getInstance().save();
                     ctx.getSource().sendFeedback(Text.literal(P + "§aDefault model set to: §f" + modelId));
                     return 1;

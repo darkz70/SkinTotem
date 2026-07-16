@@ -5,7 +5,7 @@ import com.darkz.skintotem.compat.CompatPlugin;
 public class YACLCompatPlugin extends CompatPlugin {
 
 	@Override
-	protected String getCompatModId() {
+	protected String getCompatId() {
 		return "yet_another_config_lib_v3";
 	}
 }

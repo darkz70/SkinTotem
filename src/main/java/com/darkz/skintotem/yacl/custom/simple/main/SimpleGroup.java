@@ -3,8 +3,8 @@ package com.darkz.skintotem.yacl.custom.simple.main;
 import dev.isxander.yacl3.api.*;
 import net.minecraft.text.Text;
 
-import com.darkz.skintotem.utils.ModMenuUtils;
-import com.darkz.skintotem.yacl.custom.renderer.TotemDollPreviewRenderer;
+import com.darkz.skintotem.utils.MenuUtils;
+import com.darkz.skintotem.yacl.custom.renderer.SkinTotemPreviewRenderer;
 
 public class SimpleGroup {
 
@@ -12,9 +12,9 @@ public class SimpleGroup {
 	private final OptionDescription.Builder description;
 
 	public SimpleGroup(String groupId) {
-		String groupKey = ModMenuUtils.getGroupKey(groupId);
-		Text groupName = ModMenuUtils.getName(groupKey);
-		Text description = ModMenuUtils.getDescription(groupKey);
+		String groupKey = MenuUtils.getGroupKey(groupId);
+		Text groupName = MenuUtils.getName(groupKey);
+		Text description = MenuUtils.getDescription(groupKey);
 
 		this.groupBuilder = OptionGroup.createBuilder().name(groupName);
 		this.description  = OptionDescription.createBuilder().text(description);
@@ -34,7 +34,7 @@ public class SimpleGroup {
 		return this;
 	}
 
-	public SimpleGroup withCustomDescription(TotemDollPreviewRenderer renderer) {
+	public SimpleGroup withCustomDescription(SkinTotemPreviewRenderer renderer) {
 		this.description.customImage(renderer);
 		return this;
 	}

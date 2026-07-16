@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.experimental.ExtensionMethod;
 
 import com.darkz.skintotem.extension.YACLAPIExtension;
-import com.darkz.skintotem.utils.ModMenuUtils;
+import com.darkz.skintotem.utils.MenuUtils;
 import com.darkz.skintotem.yacl.custom.simple.utils.SimpleContent;
 
 import java.util.List;
@@ -45,9 +45,9 @@ public class SimpleOption {
 
 		public Builder(String optionId) {
 			this.optionId = optionId;
-			this.optionKey     = ModMenuUtils.getOptionKey(optionId);
+			this.optionKey     = MenuUtils.getOptionKey(optionId);
 			this.optionBuilder = Option.<T>createBuilder()
-					.name(ModMenuUtils.getName(this.optionKey));
+					.name(MenuUtils.getName(this.optionKey));
 		}
 
 		public Builder<T> withCustomDescription(ImageRenderer renderer) {
@@ -57,12 +57,12 @@ public class SimpleOption {
 		}
 
 		public Builder<T> withDescription(SimpleContent content) {
-			OptionDescription.Builder builder = OptionDescription.createBuilder().text(ModMenuUtils.getDescription(this.optionKey));
+			OptionDescription.Builder builder = OptionDescription.createBuilder().text(MenuUtils.getDescription(this.optionKey));
 			if (content == SimpleContent.IMAGE) {
-				builder.image(ModMenuUtils.getContentId(content, this.optionId), 500, 500);
+				builder.image(MenuUtils.getContentId(content, this.optionId), 500, 500);
 			}
 			if (content == SimpleContent.WEBP) {
-				builder.webpImage(ModMenuUtils.getContentId(content, this.optionId));
+				builder.webpImage(MenuUtils.getContentId(content, this.optionId));
 			}
 			this.optionBuilder.description(builder.build());
 			return this;
@@ -92,9 +92,9 @@ public class SimpleOption {
 
 		public ButtonBuilder(String optionId, BiConsumer<YACLScreen, ButtonOption> biConsumer) {
 			this.optionId = optionId;
-			this.optionKey     = ModMenuUtils.getOptionKey(optionId);
+			this.optionKey     = MenuUtils.getOptionKey(optionId);
 			this.optionBuilder = ButtonOption.createBuilder()
-					.name(ModMenuUtils.getName(this.optionKey))
+					.name(MenuUtils.getName(this.optionKey))
 					.action(biConsumer);
 		}
 
@@ -105,12 +105,12 @@ public class SimpleOption {
 		}
 
 		public ButtonBuilder withDescription(SimpleContent content) {
-			OptionDescription.Builder builder = OptionDescription.createBuilder().text(ModMenuUtils.getDescription(this.optionKey));
+			OptionDescription.Builder builder = OptionDescription.createBuilder().text(MenuUtils.getDescription(this.optionKey));
 			if (content == SimpleContent.IMAGE) {
-				builder.image(ModMenuUtils.getContentId(content, this.optionId), 500, 500);
+				builder.image(MenuUtils.getContentId(content, this.optionId), 500, 500);
 			}
 			if (content == SimpleContent.WEBP) {
-				builder.webpImage(ModMenuUtils.getContentId(content, this.optionId));
+				builder.webpImage(MenuUtils.getContentId(content, this.optionId));
 			}
 			this.optionBuilder.description(builder.build());
 			return this;
@@ -130,9 +130,9 @@ public class SimpleOption {
 
 		public ListOptionBuilder(String optionId) {
 			this.optionId = optionId;
-			this.optionKey     = ModMenuUtils.getGroupKey(optionId);
+			this.optionKey     = MenuUtils.getGroupKey(optionId);
 			this.optionBuilder = ListOption.<T>createBuilder()
-					.name(ModMenuUtils.getName(this.optionKey));
+					.name(MenuUtils.getName(this.optionKey));
 		}
 
 		public ListOptionBuilder<T> withCustomDescription(ImageRenderer renderer) {
@@ -142,12 +142,12 @@ public class SimpleOption {
 		}
 
 		public ListOptionBuilder<T> withDescription(SimpleContent content) {
-			OptionDescription.Builder builder = OptionDescription.createBuilder().text(ModMenuUtils.getDescription(this.optionKey));
+			OptionDescription.Builder builder = OptionDescription.createBuilder().text(MenuUtils.getDescription(this.optionKey));
 			if (content == SimpleContent.IMAGE) {
-				builder.image(ModMenuUtils.getContentId(content, this.optionId), 500, 500);
+				builder.image(MenuUtils.getContentId(content, this.optionId), 500, 500);
 			}
 			if (content == SimpleContent.WEBP) {
-				builder.webpImage(ModMenuUtils.getContentId(content, this.optionId));
+				builder.webpImage(MenuUtils.getContentId(content, this.optionId));
 			}
 			this.optionBuilder.description(builder.build());
 			return this;

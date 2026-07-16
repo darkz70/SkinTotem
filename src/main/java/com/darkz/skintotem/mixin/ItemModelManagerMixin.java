@@ -17,10 +17,10 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.extension.ItemStackExtension;
 import com.darkz.skintotem.utils.mixin.ItemRenderStateWithStack;
-import com.darkz.skintotem.utils.plugin.TotemDollPlugin;
+import com.darkz.skintotem.utils.plugin.SkinTotemPlugin;
 
 import java.util.function.Supplier;
 
@@ -57,9 +57,9 @@ public class ItemModelManagerMixin {
 	//?} else {
 	/*@Inject(
 			at = @At("HEAD"),
-			method = "update(Lnet/minecraft/client/render/item/ItemRenderState;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ModelTransformationMode;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;I)V"
+			method = "update(Lnet/minecraft/client/render/item/ItemRenderState;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ModelTransformatione;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;I)V"
 	)
-	private void captureEntityForDoll(ItemRenderState renderState, ItemStack stack, ModelTransformationMode transformationMode, World world, LivingEntity entity, int seed, CallbackInfo ci) {
+	private void captureEntityForDoll(ItemRenderState renderState, ItemStack stack, ModelTransformatione transformatione, World world, LivingEntity entity, int seed, CallbackInfo ci) {
 		this.captureEntity(stack, entity, renderState);
 	}
 
@@ -68,7 +68,7 @@ public class ItemModelManagerMixin {
 					value = "INVOKE",
 					target = "Lnet/minecraft/item/ItemStack;get(Lnet/minecraft/component/ComponentType;)Ljava/lang/Object;"
 			),
-			method = "update(Lnet/minecraft/client/render/item/ItemRenderState;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ModelTransformationMode;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;I)V"
+			method = "update(Lnet/minecraft/client/render/item/ItemRenderState;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ModelTransformatione;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;I)V"
 	)
 	private Object swapItemModel(ItemStack stack, ComponentType<?> componentType, Operation<?> original) {
 		return this.changeModel(stack, () -> original.call(stack, componentType));
@@ -77,16 +77,16 @@ public class ItemModelManagerMixin {
 
 	@Unique
 	private Object changeModel(ItemStack stack, Supplier<Object> supplier) {
-		if (!SkinTotemModClient.canProcess(stack)) {
+		if (!SkinTotemClient.canProcess(stack)) {
 			return supplier.get();
 		}
 
-		if (TotemDollPlugin.work(stack)) {
-			stack.setModdedModel(true);
-			return TotemDollPlugin.ID;
+		if (SkinTotemPlugin.work(stack)) {
+			stack.setdedModel(true);
+			return SkinTotemPlugin.ID;
 		}
 
-		stack.setModdedModel(false);
+		stack.setdedModel(false);
 		return supplier.get();
 	}
 
@@ -97,7 +97,7 @@ public class ItemModelManagerMixin {
 			stack.setPlayerEntity(player);
 		}
 		if (renderState instanceof ItemRenderStateWithStack itemRenderStateWithStack) {
-			itemRenderStateWithStack.myTotemDoll$setStack(stack);
+			itemRenderStateWithStack.skinTotem$setStack(stack);
 		}
 	}
 

@@ -9,10 +9,10 @@ import net.minecraft.util.Identifier;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.config.SkinTotemModConfig;
-import com.darkz.skintotem.doll.model.TotemDollModel;
+import com.darkz.skintotem.doll.model.SkinTotemModel;
 import com.darkz.skintotem.gui.*;
-import com.darkz.skintotem.gui.widget.TotemDollModelPreviewWidget;
-import com.darkz.skintotem.gui.widget.preview.WelcomeTotemDollModelPreviewWidget;
+import com.darkz.skintotem.gui.widget.SkinTotemModelPreviewWidget;
+import com.darkz.skintotem.gui.widget.preview.WelcomeSkinTotemModelPreviewWidget;
 import com.darkz.skintotem.utils.DrawUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -33,8 +33,8 @@ public class WelcomeScreen extends Screen {
 	private Area textArea;
 	private Area firstDollArea;
 	private Area secondDollArea;
-	private TotemDollModelPreviewWidget firstDollPreviewWidget;
-	private TotemDollModelPreviewWidget secondDollPreviewWidget;
+	private SkinTotemModelPreviewWidget firstDollPreviewWidget;
+	private SkinTotemModelPreviewWidget secondDollPreviewWidget;
 	private MultilineText text;
 
 	//? if =1.20.1 {
@@ -73,22 +73,22 @@ public class WelcomeScreen extends Screen {
 		this.firstDollArea = previewArea.copy();
 		this.secondDollArea = previewArea.copy().x(previewX + size + offset);
 
-		this.firstDollPreviewWidget = this.addSelectableChild(createWelcomeModelPreviewWidget(this.firstDollArea, TotemDollModel.THREE_D_MODEL_id));
-		this.secondDollPreviewWidget = this.addSelectableChild(createWelcomeModelPreviewWidget(this.secondDollArea, TotemDollModel.TWO_D_MODEL_ID));
+		this.firstDollPreviewWidget = this.addSelectableChild(createWelcomeModelPreviewWidget(this.firstDollArea, SkinTotemModel.THREE_D_MODEL_id));
+		this.secondDollPreviewWidget = this.addSelectableChild(createWelcomeModelPreviewWidget(this.secondDollArea, SkinTotemModel.TWO_D_MODEL_ID));
 
 		if (this.firstDollArea.getX() < this.textArea.getX()) {
 			this.textArea.x(this.firstDollArea.getX()).width((size * 2) + offset);
 		}
 	}
 
-	private @NotNull WelcomeTotemDollModelPreviewWidget createWelcomeModelPreviewWidget(Area area, Identifier modelId) {
+	private @NotNull WelcomeSkinTotemModelPreviewWidget createWelcomeModelPreviewWidget(Area area, Identifier modelId) {
 		Runnable runnable = () -> {
 			SkinTotemModConfig config = SkinTotemModConfig.getInstance();
-			config.setStandardTotemDollModelValue(modelId);
+			config.setStandardSkinTotemModelValue(modelId);
 			this.close();
 		};
 
-		WelcomeTotemDollModelPreviewWidget widget = new WelcomeTotemDollModelPreviewWidget(area.getX(), area.getY(), area.getWidth(), runnable);
+		WelcomeSkinTotemModelPreviewWidget widget = new WelcomeSkinTotemModelPreviewWidget(area.getX(), area.getY(), area.getWidth(), runnable);
 		widget.updateModel(modelId);
 
 		PlayerSkinUtils.setupClientTextures(widget.getData());

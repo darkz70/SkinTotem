@@ -23,7 +23,7 @@ public class ItemEntityRendererMixin {
 	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;getModel(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;I)Lnet/minecraft/client/render/model/BakedModel;"), method = "updateRenderState(Lnet/minecraft/entity/ItemEntity;Lnet/minecraft/client/render/entity/state/ItemEntityRenderState;F)V")
 	private BakedModel fixStacks(ItemRenderer instance, ItemStack stack, World world, LivingEntity entity, int seed, Operation<BakedModel> original, @Local(argsOnly = true) ItemEntityRenderState renderState) {
 		BakedModel call = original.call(instance, stack, world, entity, seed);
-		renderState.stack.setModdedModel(stack.hasModdedModel());
+		renderState.stack.setdedModel(stack.hasdedModel());
 		return call;
 	}
 

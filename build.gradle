@@ -1,8 +1,8 @@
 plugins {
-	id "net.lopymine.mossy-plugin-core" version "$mossy_plugin_version"
+	id "net.darkz70.figurestone-plugin-core" version "$figurestone_plugin_version"
 }
 
-mossyDependencies {
+figurestoneDependencies {
 	minecraft = stonecutter.current.version.toString()
 	mappings = prop("build.yarn")
 	lombok = prop("base.lombok_version")
@@ -11,7 +11,7 @@ mossyDependencies {
 
 	additional {
 		// - By default, every additional project dependency ("dep.modId" from gradle.properties) will use
-		// - Modrinth Maven and "modImplementation" configuration name
+		// - rinth Maven and "modImplementation" configuration name
 		// - If you want to override mod configuration name, you can do this:
 
 		//override("modCompileOnly", "just_mod_id")
@@ -27,7 +27,7 @@ mossyDependencies {
 	}
 }
 
-mossyResources {
+figurestoneResources {
 	//expandFiles = ["custom", "file", "patterns", "here"]
 }
 

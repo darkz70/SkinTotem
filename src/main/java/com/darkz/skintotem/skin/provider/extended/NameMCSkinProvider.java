@@ -4,7 +4,7 @@ import net.minecraft.util.Identifier;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.api.*;
-import com.darkz.skintotem.doll.data.TotemDollData;
+import com.darkz.skintotem.doll.data.SkinTotemData;
 import com.darkz.skintotem.skin.data.ParsedSkinData;
 import com.darkz.skintotem.skin.provider.StandardSkinProvider;
 
@@ -26,8 +26,8 @@ public class NameMCSkinProvider extends StandardSkinProvider {
 	}
 
 	@Override
-	public TotemDollData createNewDoll(String value) {
-		return TotemDollData.create("NameMC");
+	public SkinTotemData createNewDoll(String value) {
+		return SkinTotemData.create("NameMC");
 	}
 
 	@Override

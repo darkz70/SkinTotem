@@ -1,7 +1,7 @@
 package com.darkz.skintotem.gui.widget.tag;
 
 import lombok.experimental.ExtensionMethod;
-import com.darkz.skintotem.doll.data.TotemDollData;
+import com.darkz.skintotem.doll.data.SkinTotemData;
 import com.darkz.skintotem.gui.widget.list.AbstractVersionedEntryListWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -109,9 +109,9 @@ public class TagMenuWidget extends AbstractVersionedEntryListWidget<TagRow> {
 	}
 
 	private void updateCustomModelTagButtonsData(ItemStack stack) {
-		TotemDollData totemDollData = stack.getTotemDollData();
+		SkinTotemData skinTotemData = stack.getSkinTotemData();
 		for (CustomModelTagButtonWidget widget : this.getCustomModelTagButtons()) {
-			widget.updateData(totemDollData);
+			widget.updateData(skinTotemData);
 		}
 	}
 
@@ -300,7 +300,7 @@ public class TagMenuWidget extends AbstractVersionedEntryListWidget<TagRow> {
 					return;
 				}
 
-				tooltipScreen.myTotemDoll$requestTooltip(((c, mx, my, d) -> {
+				tooltipScreen.skinTotem$requestTooltip(((c, mx, my, d) -> {
 					DrawUtils.drawTooltip(context, textRenderer.wrapLines(this.text, 10000).stream().map(TooltipComponent::of).collect(Collectors.toList()), mx, my);
 				}));
 			}

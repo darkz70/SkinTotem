@@ -20,7 +20,7 @@ Replaces the Totem of Undying with a 3D doll using your Minecraft skin
 
 [![CurseForge Link-Banner](https://cdn.modrinth.com/data/cached_images/e867d37a2f6ad224258b75aacf6477e777427717.png)](https://www.curseforge.com/minecraft/mc-mods/skin-totem)
 [![GitHub Link-Banner](https://cdn.modrinth.com/data/cached_images/ae65154a7b076cd508f14975a27d1e75e3449a1d.png)](https://github.com/darkz70/SkinTotem)
-[![Modrinth Link-Banner](https://cdn.modrinth.com/data/cached_images/b9c43eaea7fc523285ae0981829b84e206672b48.png)](https://modrinth.com/mod/skin-totem)
+[![rinth Link-Banner](https://cdn.modrinth.com/data/cached_images/b9c43eaea7fc523285ae0981829b84e206672b48.png)](https://modrinth.com/mod/skin-totem)
 <a href="https://t.me/darkz42i69k">
   <img src="https://i.ibb.co/LhRwY0DQ/images.png" width="48">
 </a>
@@ -37,7 +37,7 @@ Replaces the Totem of Undying with a 3D doll using your Minecraft skin
 | 💾 Caching | Skins are cached for 10 minutes to reduce API requests |
 | 🎨 Slim / Classic Support | Supports both Alex and Steve player models |
 | 🌐 Multiplayer Compatible | Works on any server without requiring a server-side mod |
-| ⚙️ Configurable | Fully configurable through ModMenu + Cloth Config |
+| ⚙️ Configurable | Fully configurable through Menu + Cloth Config |
 | 🔧 NBT Customization | Customize individual totems via an anvil |
 | 🎬 Activation Animation | Smooth and immersive totem activation animation |
 
@@ -48,13 +48,13 @@ Replaces the Totem of Undying with a 3D doll using your Minecraft skin
 1. Install [Fabric Loader](https://fabricmc.net) for Minecraft 1.20.1 — 26..2
 2. Install [Fabric API](https://modrinth.com/mod/fabric-api)
 3. Download `skintotem-1.1.1.jar` and place it in your `mods/` folder
-4. **Optional:** Install [ModMenu](https://modrinth.com/mod/modmenu) and [Cloth Config](https://modrinth.com/mod/cloth-config) for an in-game configuration GUI
+4. **Optional:** Install [Menu](https://modrinth.com/mod/modmenu) and [Cloth Config](https://modrinth.com/mod/cloth-config) for an in-game configuration GUI
 
 ---
 
 ## 🎮 Usage
 
-### Automatic Mode
+### Automatic e
 
 Simply hold a Totem of Undying in your hand — it will automatically display your skin.
 
@@ -81,7 +81,7 @@ Place a Totem of Undying into an anvil and rename it using one of the formats be
 ```
 ---
 
-## ⚙️ Configuration (ModMenu)
+## ⚙️ Configuration (Menu)
 
 | Setting | Default | Description |
 |---------|---------|-------------|
@@ -97,10 +97,10 @@ Place a Totem of Undying into an anvil and rename it using one of the formats be
 
 ## 📋 Dependencies
 
-| Mod | Required | Description |
+|  | Required | Description |
 |-----|----------|-------------|
 | Fabric API | ✅ | Core Fabric API dependency |
-| ModMenu | ❌ | Adds a settings button to the mod list |
+| Menu | ❌ | Adds a settings button to the mod list |
 | Cloth Config | ❌ | Configuration GUI library |
 | YetAnotherConfigLib (YACL) | ❌ | Alternative configuration GUI library |
 
@@ -110,16 +110,14 @@ Place a Totem of Undying into an anvil and rename it using one of the formats be
 
 | Role | Contributor |
 |------|-------------|
-| 👨‍💻 Mod Author | Darkz, KlashRaick, LopyMine |
+| 👨‍💻  Author | Darkz, KlashRaick |
 | 🏆 Team | K-TEAM |
 | 💛 Special Thanks | KlashRaick |
-
-Inspired by the [SkinTotem](https://github.com/darkz70/SkinTotem) and [My-Totem-Doll](https://github.com/LopyMine/my-totem-doll) projects.
 
 ---
 
 <div align="center">
 
-Made with ❤️ by Darkz | K-TEAM | KlashRaick | LopyMine
+Made with ❤️ by Darkz | K-TEAM | KlashRaick
 
 </div>

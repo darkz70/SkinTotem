@@ -3,7 +3,7 @@ package com.darkz.skintotem.mixin;
 //? if >=1.21.6 {
 
 import com.darkz.skintotem.doll.renderer.*;
-import com.darkz.skintotem.doll.renderer.special.TotemDollRenderState;
+import com.darkz.skintotem.doll.renderer.special.SkinTotemRenderState;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.DrawContext.ScissorStack;
 import net.minecraft.client.gui.render.state.GuiRenderState;
@@ -54,10 +54,10 @@ public class DrawContextMixin {
 
 	@Unique
 	private void renderDoll(ItemStack stack, int x, int y, CallbackInfo ci) {
-		if (!TotemDollRenderer.canRender(stack)) {
+		if (!SkinTotemRenderer.canRender(stack)) {
 			return;
 		}
-		this.state.addSpecialElement(TotemDollRenderState.getGui(stack, x, y, new Matrix3x2f(this.matrices), this.scissorStack.peekLast()));
+		this.state.addSpecialElement(SkinTotemRenderState.getGui(stack, x, y, new Matrix3x2f(this.matrices), this.scissorStack.peekLast()));
 		ci.cancel();
 	}
 

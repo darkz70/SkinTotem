@@ -38,16 +38,16 @@ public class ItemStackExtension {
 		*///?}
 	}
 
-	public static TotemDollData getTotemDollData(ItemStack stack) {
-		return getTotemDollData(stack, true);
+	public static SkinTotemData getSkinTotemData(ItemStack stack) {
+		return getSkinTotemData(stack, true);
 	}
 
-	public static TotemDollData getTotemDollData(ItemStack stack, boolean applyRenderProperties) {
+	public static SkinTotemData getSkinTotemData(ItemStack stack, boolean applyRenderProperties) {
 		Text name = getRealCustomName(stack);
 
 		if (name != null) {
 			String o = TagsManager.getNicknameOrSkinProviderFromName(name.getString());
-			TotemDollData data = TotemDollManager.getDoll(o);
+			SkinTotemData data = SkinTotemManager.getDoll(o);
 
 			// refresh render properties
 			data.refreshRenderProperties();
@@ -61,24 +61,24 @@ public class ItemStackExtension {
 			return applyRenderProperties ? data.applyRenderProperties() : data; // apply render properties
 		}
 
-		TotemDollData data = StandardTotemDollManager.getStandardDoll().refreshRenderProperties();
+		SkinTotemData data = StandardSkinTotemManager.getStandardDoll().refreshRenderProperties();
 		return applyRenderProperties ? data.applyRenderProperties() : data;
 	}
 
-	public static void setModdedModel(ItemStack itemStack, boolean modded) {
-		((ItemStackWithModdedBakedModel) itemStack).myTotemDoll$setModdedModel(modded);
+	public static void setdedModel(ItemStack itemStack, boolean modded) {
+		((ItemStackWithdedBakedModel) itemStack).skinTotem$setdedModel(modded);
 	}
 
-	public static boolean hasModdedModel(ItemStack itemStack) {
-		return ((ItemStackWithModdedBakedModel) itemStack).myTotemDoll$isModdedModel();
+	public static boolean hasdedModel(ItemStack itemStack) {
+		return ((ItemStackWithdedBakedModel) itemStack).skinTotem$isdedModel();
 	}
 
 	public static void setPlayerEntity(ItemStack itemStack, AbstractClientPlayerEntity playerEntity) {
-		((ItemStackWithPlayerEntity) itemStack).myTotemDoll$setPlayerEntity(playerEntity);
+		((ItemStackWithPlayerEntity) itemStack).skinTotem$setPlayerEntity(playerEntity);
 	}
 
 	public static AbstractClientPlayerEntity getPlayerEntity(ItemStack itemStack) {
-		return ((ItemStackWithPlayerEntity) itemStack).myTotemDoll$getPlayerEntity();
+		return ((ItemStackWithPlayerEntity) itemStack).skinTotem$getPlayerEntity();
 	}
 
 }

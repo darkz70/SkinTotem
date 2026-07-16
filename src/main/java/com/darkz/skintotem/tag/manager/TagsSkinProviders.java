@@ -1,7 +1,7 @@
 package com.darkz.skintotem.tag.manager;
 
-import com.darkz.skintotem.doll.data.TotemDollData;
-import com.darkz.skintotem.doll.manager.StandardTotemDollManager;
+import com.darkz.skintotem.doll.data.SkinTotemData;
+import com.darkz.skintotem.doll.manager.StandardSkinTotemManager;
 import com.darkz.skintotem.skin.provider.SkinProvider;
 import com.darkz.skintotem.skin.provider.extended.ElyBySkinProvider;
 import com.darkz.skintotem.skin.provider.extended.NameMCSkinProvider;
@@ -85,7 +85,7 @@ public class TagsSkinProviders {
         return SKIN_PROVIDERS_IDS.get(o);
     }
 
-    public static TotemDollData loadDollFromProvider(String o) {
+    public static SkinTotemData loadDollFromProvider(String o) {
         // Префиксные провайдеры
         if (o.startsWith(ElyBySkinProvider.PREFIX) && ElyBySkinProvider.getInstance().canProcess(o))
             return ElyBySkinProvider.getInstance().getOrLoadDoll(o);
@@ -95,11 +95,11 @@ public class TagsSkinProviders {
             return UrlSkinProvider.getInstance().getOrLoadDoll(o);
 
         // Формат "ProviderName|nickname"
-        if (!o.contains("|")) return StandardTotemDollManager.getStandardDoll();
+        if (!o.contains("|")) return StandardSkinTotemManager.getStandardDoll();
         String[] split = o.split("\\|");
         String id = split[0].trim();
         SkinProvider skinProvider = SKIN_PROVIDERS_IDS.get(id);
-        if (skinProvider == null || split.length < 2) return StandardTotemDollManager.getStandardDoll();
+        if (skinProvider == null || split.length < 2) return StandardSkinTotemManager.getStandardDoll();
         return skinProvider.getOrLoadDoll(split[1].trim());
     }
 }

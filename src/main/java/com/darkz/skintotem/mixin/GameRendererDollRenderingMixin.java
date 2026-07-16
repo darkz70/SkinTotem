@@ -1,6 +1,6 @@
 package com.darkz.skintotem.mixin;
 
-import com.darkz.skintotem.optimization.TotemDollRenderRequestsCollector;
+import com.darkz.skintotem.optimization.SkinTotemRenderRequestsCollector;
 import com.darkz.skintotem.thing.ThingMarks;
 import net.minecraft.client.render.*;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,7 +18,7 @@ public class GameRendererDollRenderingMixin {
 
 	@Inject(at = @At("TAIL"), method = "fillEntityRenderStates")
 	private void afterDollRendering(CallbackInfo ci) {
-		TotemDollRenderRequestsCollector.getInstance().render();
+		SkinTotemRenderRequestsCollector.getInstance().render();
 		ThingMarks.WORLD_RENDERING.get().setMarked(false);
 	}
 	//?} elif >=1.21.2 && <=1.21.8 {
@@ -29,7 +29,7 @@ public class GameRendererDollRenderingMixin {
 
 	@Inject(at = @At("TAIL"), method = "renderEntities")
 	private void afterDollRendering(CallbackInfo ci) {
-		TotemDollRenderRequestsCollector.getInstance().render();
+		SkinTotemRenderRequestsCollector.getInstance().render();
 		ThingMarks.WORLD_RENDERING.get().setMarked(false);
 	}
 	*///?} else {
@@ -40,7 +40,7 @@ public class GameRendererDollRenderingMixin {
 
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;drawCurrentLayer()V", ordinal = 0), method = "render")
 	private void afterDollRendering(CallbackInfo ci) {
-		TotemDollRenderRequestsCollector.getInstance().render();
+		SkinTotemRenderRequestsCollector.getInstance().render();
 		ThingMarks.WORLD_RENDERING.get().setMarked(false);
 	}
 	*///?}

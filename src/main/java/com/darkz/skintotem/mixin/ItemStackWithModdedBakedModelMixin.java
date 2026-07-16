@@ -5,28 +5,28 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.darkz.skintotem.utils.mixin.ItemStackWithModdedBakedModel;
+import com.darkz.skintotem.utils.mixin.ItemStackWithdedBakedModel;
 
 @Mixin(ItemStack.class)
-public class ItemStackWithModdedBakedModelMixin implements ItemStackWithModdedBakedModel {
+public class ItemStackWithdedBakedModelMixin implements ItemStackWithdedBakedModel {
 
 	@Unique
 	private boolean modded = false;
 
 	@Override
-	public void myTotemDoll$setModdedModel(boolean modded) {
+	public void skinTotem$setdedModel(boolean modded) {
 		this.modded = modded;
 	}
 
 	@Override
-	public boolean myTotemDoll$isModdedModel() {
+	public boolean skinTotem$isdedModel() {
 		return modded;
 	}
 
 	//? if <=1.21.5 {
 	/*@Inject(at = @At("RETURN"), method = /^? if <=1.21.4 {^/ /^"copy" ^//^?} else {^/ "copy()Lnet/minecraft/item/ItemStack;" /^?}^/)
 	private void markItemStack(CallbackInfoReturnable<ItemStack> cir) {
-		((ItemStackWithModdedBakedModel) cir.getReturnValue()).myTotemDoll$setModdedModel(this.myTotemDoll$isModdedModel());
+		((ItemStackWithdedBakedModel) cir.getReturnValue()).skinTotem$setdedModel(this.skinTotem$isdedModel());
 		this.modded = false;
 	}
 	*///?}

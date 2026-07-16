@@ -3,11 +3,11 @@
     "package": "com.darkz.skintotem.mixin.modmenu",
     "refmap": "${mod_id}.refmap.json",
     "compatibilityLevel": "JAVA_${java}",
-	"plugin": "com.darkz.skintotem.compat.modmenu.ModMenuCompatPlugin",
+	"plugin": "com.darkz.skintotem.compat.modmenu.MenuCompatPlugin",
     "mixins": [
     ],
 	"client": [
-		"FabricModMixin"
+		"FabricMixin"
 	],
     "injectors": {
         "defaultRequire": 1

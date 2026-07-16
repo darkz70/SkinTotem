@@ -8,7 +8,7 @@ import org.spongepowered.asm.service.MixinService;
 public class SodiumCompatPlugin extends CompatPlugin {
 
 	@Override
-	protected String getCompatModId() {
+	protected String getCompatId() {
 		return "sodium";
 	}
 
@@ -34,7 +34,7 @@ public class SodiumCompatPlugin extends CompatPlugin {
 
 	private boolean isCurrentVersionOlderThanHot(String mixinName) {
 		FabricLoader fabricLoader = FabricLoader.getInstance();
-		ModContainer modContainer = fabricLoader.getModContainer(this.getCompatModId()).orElseThrow();
+		Container modContainer = fabricLoader.getContainer(this.getCompatId()).orElseThrow();
 
 		Version currentVersion = modContainer.getMetadata().getVersion();
 		Version hotVersion = this.getHotSodiumVersion();
@@ -46,7 +46,7 @@ public class SodiumCompatPlugin extends CompatPlugin {
 		// CubeMixin
 
 		boolean bl = currentVersion.compareTo(hotVersion) < 0;
-		MixinService.getService().getLogger("[SkinTotemMod: SodiumCompatPlugin]").info("[{}] Detected Sodium, current version older than hot: {}", mixinName, bl);
+		MixinService.getService().getLogger("[SkinTotem: SodiumCompatPlugin]").info("[{}] Detected Sodium, current version older than hot: {}", mixinName, bl);
 		return bl;
 	}
 

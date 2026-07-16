@@ -3,7 +3,7 @@ package com.darkz.skintotem.extension;
 import dev.isxander.yacl3.api.controller.*;
 import net.minecraft.text.Text;
 import com.darkz.skintotem.config.other.EnumWithText;
-import com.darkz.skintotem.utils.ModMenuUtils;
+import com.darkz.skintotem.utils.MenuUtils;
 import com.darkz.skintotem.yacl.custom.simple.main.SimpleOption.Builder;
 
 
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class SimpleOptionExtension {
 
-	public static final Function<Boolean, Text> ENABLED_OR_DISABLED_FORMATTER = ModMenuUtils.getEnabledOrDisabledFormatter();
+	public static final Function<Boolean, Text> ENABLED_OR_DISABLED_FORMATTER = MenuUtils.getEnabledOrDisabledFormatter();
 
 	//
 

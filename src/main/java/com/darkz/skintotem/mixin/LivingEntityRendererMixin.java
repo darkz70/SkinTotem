@@ -19,24 +19,24 @@ import com.darkz.skintotem.extension.ItemStackExtension;
 @Mixin(LivingEntityRenderer.class)
 public class LivingEntityRendererMixin {
 
-	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;getModel(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ModelTransformationMode;)Lnet/minecraft/client/render/model/BakedModel;", ordinal = 0), method = "updateRenderState(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;F)V")
-	private BakedModel fixHeadStack(ItemRenderer instance, ItemStack stack, LivingEntity entity, ModelTransformationMode transformationMode, Operation<BakedModel> original, @Local(argsOnly = true) LivingEntityRenderState renderState) {
-		BakedModel call = original.call(instance, stack, entity, transformationMode);
-		renderState.equippedHeadStack.setModdedModel(stack.hasModdedModel());
+	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;getModel(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ModelTransformatione;)Lnet/minecraft/client/render/model/BakedModel;", ordinal = 0), method = "updateRenderState(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;F)V")
+	private BakedModel fixHeadStack(ItemRenderer instance, ItemStack stack, LivingEntity entity, ModelTransformatione transformatione, Operation<BakedModel> original, @Local(argsOnly = true) LivingEntityRenderState renderState) {
+		BakedModel call = original.call(instance, stack, entity, transformatione);
+		renderState.equippedHeadStack.setdedModel(stack.hasdedModel());
 		return call;
 	}
 
-	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;getModel(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ModelTransformationMode;)Lnet/minecraft/client/render/model/BakedModel;", ordinal = 1), method = "updateRenderState(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;F)V")
-	private BakedModel fixRightHandStack(ItemRenderer instance, ItemStack stack, LivingEntity entity, ModelTransformationMode transformationMode, Operation<BakedModel> original, @Local(argsOnly = true) LivingEntityRenderState renderState) {
-		BakedModel call = original.call(instance, stack, entity, transformationMode);
-		renderState.rightHandStack.setModdedModel(stack.hasModdedModel());
+	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;getModel(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ModelTransformatione;)Lnet/minecraft/client/render/model/BakedModel;", ordinal = 1), method = "updateRenderState(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;F)V")
+	private BakedModel fixRightHandStack(ItemRenderer instance, ItemStack stack, LivingEntity entity, ModelTransformatione transformatione, Operation<BakedModel> original, @Local(argsOnly = true) LivingEntityRenderState renderState) {
+		BakedModel call = original.call(instance, stack, entity, transformatione);
+		renderState.rightHandStack.setdedModel(stack.hasdedModel());
 		return call;
 	}
 
-	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;getModel(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ModelTransformationMode;)Lnet/minecraft/client/render/model/BakedModel;", ordinal = 2), method = "updateRenderState(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;F)V")
-	private BakedModel fixLeftHandStack(ItemRenderer instance, ItemStack stack, LivingEntity entity, ModelTransformationMode transformationMode, Operation<BakedModel> original, @Local(argsOnly = true) LivingEntityRenderState renderState) {
-		BakedModel call = original.call(instance, stack, entity, transformationMode);
-		renderState.leftHandStack.setModdedModel(stack.hasModdedModel());
+	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;getModel(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ModelTransformatione;)Lnet/minecraft/client/render/model/BakedModel;", ordinal = 2), method = "updateRenderState(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;F)V")
+	private BakedModel fixLeftHandStack(ItemRenderer instance, ItemStack stack, LivingEntity entity, ModelTransformatione transformatione, Operation<BakedModel> original, @Local(argsOnly = true) LivingEntityRenderState renderState) {
+		BakedModel call = original.call(instance, stack, entity, transformatione);
+		renderState.leftHandStack.setdedModel(stack.hasdedModel());
 		return call;
 	}
 

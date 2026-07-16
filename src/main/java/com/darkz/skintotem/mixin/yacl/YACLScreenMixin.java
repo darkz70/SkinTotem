@@ -1,6 +1,6 @@
 package com.darkz.skintotem.mixin.yacl;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.ifyReturnValue;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.gui.YACLScreen;
 
@@ -28,7 +28,7 @@ public abstract class YACLScreenMixin extends Screen {
 	public abstract void close();
 
 	@Dynamic
-	@ModifyReturnValue(at = @At("RETURN"), method = "pendingChanges", remap = false)
+	@ifyReturnValue(at = @At("RETURN"), method = "pendingChanges", remap = false)
 	private boolean alwaysTrueBecauseYouCannotUseSaveButtonWithInstantOptionsImVerySadThatINeedThatDoYouAgreeWithMeYeahNoYepNopeWtf(boolean original) {
 		if (YACLConfigurationScreen.notOpen(this)) {
 			return original;

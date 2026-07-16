@@ -27,7 +27,7 @@ public class ItemRenderStateMixin implements ItemRenderStateWithStack {
 
 	//? if <=1.21.4 {
 	/*@Shadow
-	ModelTransformationMode modelTransformationMode;
+	ModelTransformatione modelTransformatione;
 	@Shadow
 	boolean leftHand;
 	*///?} else {
@@ -55,29 +55,29 @@ public class ItemRenderStateMixin implements ItemRenderStateWithStack {
 
 	@Unique
 	private void renderDoll(MatrixStack matrices, int light, int overlay, @SuppressWarnings("all") int outlineColor, @Nullable VertexConsumerProvider provider, CallbackInfo ci) {
-		DollRenderContext context = DollRenderContext.of(/*? if <=1.21.4 {*//*this.modelTransformationMode*//*?} else {*/ this.displayContext /*?}*/);
+		DollRenderContext context = DollRenderContext.of(/*? if <=1.21.4 {*//*this.modelTransformatione*//*?} else {*/ this.displayContext /*?}*/);
 
 		if (this.stack != null) {
-			if (TotemDollRenderer.sentRenderRequest(matrices, this.stack, context, light, overlay, outlineColor, provider)) {
+			if (SkinTotemRenderer.sentRenderRequest(matrices, this.stack, context, light, overlay, outlineColor, provider)) {
 				ci.cancel();
 			}
 		}
 
 		if (this.shouldClear) {
-			if (this.stack != null && this.stack.hasModdedModel()) {
-				this.stack.setModdedModel(false);
+			if (this.stack != null && this.stack.hasdedModel()) {
+				this.stack.setdedModel(false);
 			}
 			this.stack = null;
 		}
 	}
 
 	@Override
-	public void myTotemDoll$setStack(ItemStack stack) {
+	public void skinTotem$setStack(ItemStack stack) {
 		this.stack = stack;
 	}
 
 	@Override
-	public void myTotemDoll$shouldClear(boolean bl) {
+	public void skinTotem$shouldClear(boolean bl) {
 		this.shouldClear = bl;
 	}
 }

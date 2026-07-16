@@ -30,12 +30,12 @@ public abstract class ScreenMixin extends AbstractParentElement implements Drawa
 	}
 
 	@Override
-	public void myTotemDoll$requestTooltip(TooltipRequest tooltipRequest) {
+	public void skinTotem$requestTooltip(TooltipRequest tooltipRequest) {
 		this.tooltipRequest = tooltipRequest;
 	}
 
 	@Override
-	public TooltipRequest myTotemDoll$getCurrentRequest() {
+	public TooltipRequest skinTotem$getCurrentRequest() {
 		return this.tooltipRequest;
 	}
 }

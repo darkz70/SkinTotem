@@ -33,7 +33,7 @@ public class SelectItemModelMixin {
 	*///?}
 
 	@Inject(at = @At("TAIL"), method = "update")
-	private void markModdedIfModelChangedWithVanillaResourcePack(CallbackInfo ci, @Local ItemModel model, @Local(argsOnly = true) ItemStack stack) {
+	private void markdedIfModelChangedWithVanillaResourcePack(CallbackInfo ci, @Local ItemModel model, @Local(argsOnly = true) ItemStack stack) {
 		this.checkModel(model, stack);
 	}
 
@@ -46,7 +46,7 @@ public class SelectItemModelMixin {
 		*///?}
 
 		if (standardModel != itemModel) {
-			stack.setModdedModel(true);
+			stack.setdedModel(true);
 		}
 	}
 

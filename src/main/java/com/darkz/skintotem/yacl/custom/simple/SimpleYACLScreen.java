@@ -4,7 +4,7 @@ import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.YetAnotherConfigLib.Builder;
 import dev.isxander.yacl3.gui.YACLScreen;
 import net.minecraft.client.gui.screen.Screen;
-import com.darkz.skintotem.utils.ModMenuUtils;
+import com.darkz.skintotem.utils.MenuUtils;
 import com.darkz.skintotem.utils.mixin.yacl.BetterYACLScreenBuilder;
 import java.util.function.Consumer;
 
@@ -15,7 +15,7 @@ public class SimpleYACLScreen {
 
 	public SimpleYACLScreen(Screen parent, Runnable onSave, Consumer<YACLScreen> onInit) {
 		this.builder = BetterYACLScreenBuilder.startBuilder()
-				.title(ModMenuUtils.getModTitle())
+				.title(MenuUtils.getTitle())
 				.save(onSave)
 				.screenInit(onInit);
 		this.parent  = parent;

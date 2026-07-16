@@ -1,8 +1,8 @@
 {
   "modmenu.descriptionTranslation.skintotem": "Простенький мод для Fabric, що замінює тотеми на ляльки, які якщо перейменувати на ім'я гравця зміняться на нього!",
   "skintotem.modmenu.title": "&lSkinTotem",
-  "skintotem.modmenu.no_config_library_screen.message": "Ви маєте установити &6&lYet Another Config Lib [YACL]&f, щоб відкрити меню налаштувань мода.\n\n&a&lВідкрити Modrinth-сторінку &6&lYACL&a&l?",
-  "skintotem.modmenu.old_config_library_screen.message": "Версія %s &6&lYet Another Config Lib [YACL]&f застаріла для SkinTotem. Будь ласка оновіть&6\n&lYACL&f до версії %s або вище.\n\n&a&lВідкрити Modrinth-сторінку &6&lYACL&a&l?",
+  "skintotem.modmenu.no_config_library_screen.message": "Ви маєте установити &6&lYet Another Config Lib [YACL]&f, щоб відкрити меню налаштувань мода.\n\n&a&lВідкрити rinth-сторінку &6&lYACL&a&l?",
+  "skintotem.modmenu.old_config_library_screen.message": "Версія %s &6&lYet Another Config Lib [YACL]&f застаріла для SkinTotem. Будь ласка оновіть&6\n&lYACL&f до версії %s або вище.\n\n&a&lВідкрити rinth-сторінку &6&lYACL&a&l?",
   "skintotem.modmenu.category.general.name": "&lЗагальні",
   "skintotem.modmenu.group.main.name": "&lГоловна",
   "skintotem.modmenu.group.main.description": "Головні налаштування мода SkinTotem.",

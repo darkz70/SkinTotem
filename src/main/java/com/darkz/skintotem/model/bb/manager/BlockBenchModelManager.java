@@ -19,9 +19,9 @@ import com.mojang.serialization.*;
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.api.Response;
 import com.darkz.skintotem.config.other.vector.Vec3f;
-import com.darkz.skintotem.doll.data.TotemDollData;
+import com.darkz.skintotem.doll.data.SkinTotemData;
 import com.darkz.skintotem.doll.manager.*;
-import com.darkz.skintotem.doll.model.TotemDollModel;
+import com.darkz.skintotem.doll.model.SkinTotemModel;
 import com.darkz.skintotem.model.base.*;
 import com.darkz.skintotem.model.bb.*;
 import com.darkz.skintotem.model.bb.BBCube.*;
@@ -394,11 +394,11 @@ public class BlockBenchModelManager {
 	public static void reload(ResourceManager resourceManager) {
 		currentResourceManager = resourceManager;
 		LOADED_MODELS.clear();
-		for (TotemDollData data : TotemDollManager.getAllLoadedDolls()) {
+		for (SkinTotemData data : SkinTotemManager.getAllLoadedDolls()) {
 			data.clearAllFrameModelsCompletely();
 			data.setShouldRecreateStandardModel(true);
 		}
-		TotemDollModel.createDollModel(); // Reloading doll at resource reloading while we can
-		StandardTotemDollManager.initializeStandardDollData();
+		SkinTotemModel.createDollModel(); // Reloading doll at resource reloading while we can
+		StandardSkinTotemManager.initializeStandardDollData();
 	}
 }

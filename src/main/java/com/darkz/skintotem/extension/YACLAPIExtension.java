@@ -38,7 +38,7 @@ public class YACLAPIExtension {
 	}
 
 	private static Version getCurrentYACLVersion() {
-		return FabricLoader.getInstance().getModContainer("yet_another_config_lib_v3").orElseThrow(
+		return FabricLoader.getInstance().getContainer("yet_another_config_lib_v3").orElseThrow(
 				() -> new NoSuchElementException(
 						"Failed to find Yet Another Config Lib [YACL], this shouldn't happen! Please report this crash to discord server of Skin Totem mod!"
 				)

@@ -76,7 +76,7 @@ public class InfoWidget implements Drawable {
 		}
 
 		TooltipComponent component = TooltipComponent.of(this.tooltipData);
-		tooltipScreen.myTotemDoll$requestTooltip(((c, x, y, d) -> {
+		tooltipScreen.skinTotem$requestTooltip(((c, x, y, d) -> {
 			DrawUtils.drawTooltip(c, List.of(component), x, y);
 		}));
 	}

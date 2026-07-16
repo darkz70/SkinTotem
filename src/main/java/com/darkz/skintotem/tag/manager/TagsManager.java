@@ -5,8 +5,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.*;
 
 import com.darkz.skintotem.SkinTotemMod;
-import com.darkz.skintotem.doll.data.TotemDollData;
-import com.darkz.skintotem.pack.TotemDollModelFinder;
+import com.darkz.skintotem.doll.data.SkinTotemData;
+import com.darkz.skintotem.pack.SkinTotemModelFinder;
 import com.darkz.skintotem.tag.*;
 
 import java.util.*;
@@ -63,7 +63,7 @@ public class TagsManager {
 	}
 
 	public static void reloadCustomModelIdsTags() {
-		Collection<Set<Identifier>> values = TotemDollModelFinder.getFoundedTotemModels().values();
+		Collection<Set<Identifier>> values = SkinTotemModelFinder.getFoundedTotemModels().values();
 		Set<Character> characters = getRegisteredTags().keySet();
 		TagsGenerator generator = new TagsGenerator();
 
@@ -115,7 +115,7 @@ public class TagsManager {
 				.setAction((data) -> data.setFrameMModel(modelId))
 				.build();
 		CUSTOM_MODEL_IDS_TAGS.put(ch, tag);
-		TotemDollModelFinder.getBuiltinTotemModels().add(modelId); // todo make it work in proper way
+		SkinTotemModelFinder.getBuiltinTotemModels().add(modelId); // todo make it work in proper way
 	}
 
 	public static void registerPostprocessorTag(Tag tag) {
@@ -149,25 +149,25 @@ public class TagsManager {
 		return new String[]{o, tags};
 	}
 
-	public static void processTags(String tags, @NotNull TotemDollData data) {
+	public static void processTags(String tags, @NotNull SkinTotemData data) {
 		processCustomModelIdsTags(tags, data);
 		processPreTags(tags, data);
 		processPostTags(tags, data);
 	}
 
-	public static void processCustomModelIdsTags(String tags, TotemDollData data) {
+	public static void processCustomModelIdsTags(String tags, SkinTotemData data) {
 		processTags(tags, data, CUSTOM_MODEL_IDS_TAGS);
 	}
 
-	public static void processPreTags(String tags, @NotNull TotemDollData data) {
+	public static void processPreTags(String tags, @NotNull SkinTotemData data) {
 		processTags(tags, data, PREPROCESSOR_TAGS);
 	}
 
-	public static void processPostTags(String tags, @NotNull TotemDollData data) {
+	public static void processPostTags(String tags, @NotNull SkinTotemData data) {
 		processTags(tags, data, POSTPROCESSOR_TAGS);
 	}
 
-	public static <E extends Tag> void processTags(String tags, @NotNull TotemDollData data, Char2ObjectMap<E> map) {
+	public static <E extends Tag> void processTags(String tags, @NotNull SkinTotemData data, Char2ObjectMap<E> map) {
 		getTags(tags).forEach((i) -> {
 			Tag tag = map.get((char) i);
 			if (tag == null) {

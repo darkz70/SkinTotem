@@ -5,7 +5,7 @@ import net.minecraft.util.Identifier;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.api.*;
-import com.darkz.skintotem.doll.data.TotemDollData;
+import com.darkz.skintotem.doll.data.SkinTotemData;
 import com.darkz.skintotem.skin.data.ParsedSkinData;
 import com.darkz.skintotem.skin.provider.StandardSkinProvider;
 
@@ -31,23 +31,23 @@ public class MojangSkinProvider extends StandardSkinProvider {
 	}
 
 	@Override
-	public TotemDollData createNewDoll(String value) {
-		return TotemDollData.create(value);
+	public SkinTotemData createNewDoll(String value) {
+		return SkinTotemData.create(value);
 	}
 
 	@Override
-	protected @Nullable TotemDollData getFromCache(String value) {
+	protected @Nullable SkinTotemData getFromCache(String value) {
 		return super.getFromCache(value.toLowerCase());
 	}
 
 	@Override
-	protected void putToCache(String value, TotemDollData data) {
+	protected void putToCache(String value, SkinTotemData data) {
 		super.putToCache(value.toLowerCase(), data);
 	}
 
 	@Override
 	public Set<String> getLoadedKeys() {
-		return this.getCache().values().stream().map(TotemDollData::getNickname).filter(Objects::nonNull).collect(Collectors.toSet());
+		return this.getCache().values().stream().map(SkinTotemData::getNickname).filter(Objects::nonNull).collect(Collectors.toSet());
 	}
 
 	@Override

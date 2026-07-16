@@ -1,8 +1,8 @@
 package com.darkz.skintotem.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.ifyReturnValue;
 import lombok.experimental.ExtensionMethod;
-import com.darkz.skintotem.config.SkinTotemModConfig;
+import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.utils.ScreenUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -19,11 +19,11 @@ import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 
-import com.darkz.skintotem.SkinTotemMod;
-import com.darkz.skintotem.client.SkinTotemModClient;
-import com.darkz.skintotem.doll.data.TotemDollData;
-import com.darkz.skintotem.doll.manager.TotemDollManager;
-import com.darkz.skintotem.doll.renderer.TotemDollRenderer;
+import com.darkz.skintotem.SkinTotem;
+import com.darkz.skintotem.client.SkinTotemClient;
+import com.darkz.skintotem.doll.data.SkinTotemData;
+import com.darkz.skintotem.doll.manager.SkinTotemManager;
+import com.darkz.skintotem.doll.renderer.SkinTotemRenderer;
 import com.darkz.skintotem.extension.ItemStackExtension;
 import com.darkz.skintotem.gui.tooltip.combined.CombinedTooltipData;
 import com.darkz.skintotem.gui.tooltip.state.LoadingStateTooltipData;
@@ -41,9 +41,9 @@ public abstract class ItemStackMixin {
 	@Shadow
 	public abstract boolean isOf(Item item);
 
-	@ModifyReturnValue(at = @At("RETURN"), method = "getName")
+	@ifyReturnValue(at = @At("RETURN"), method = "getName")
 	private Text getName(Text original) {
-		if (!SkinTotemModConfig.getInstance().isModEnabled() || !this.isOf(Items.TOTEM_OF_UNDYING)) {
+		if (!SkinTotemConfig.getInstance().isEnabled() || !this.isOf(Items.TOTEM_OF_UNDYING)) {
 			return original;
 		}
 		String string = original.getString();
@@ -59,11 +59,11 @@ public abstract class ItemStackMixin {
 		return Text.literal(name).setStyle(original.getStyle());
 	}
 
-	@ModifyReturnValue(at = @At("RETURN"), method = "getTooltipData")
+	@ifyReturnValue(at = @At("RETURN"), method = "getTooltipData")
 	private Optional<TooltipData> getTooltipData(Optional<TooltipData> original) {
 		ItemStack itemStack = (ItemStack) (Object) this;
 
-		if (!TotemDollRenderer.canRender(itemStack)) {
+		if (!SkinTotemRenderer.canRender(itemStack)) {
 			return original;
 		}
 
@@ -95,8 +95,8 @@ public abstract class ItemStackMixin {
 			return Optional.empty();
 		}
 		String o = data[0];
-		TotemDollData totemDollData = TotemDollManager.getDoll(o);
-		return Optional.of(new LoadingStateTooltipData(totemDollData.getStandardSprites().getState()));
+		SkinTotemData skinTotemData = SkinTotemManager.getDoll(o);
+		return Optional.of(new LoadingStateTooltipData(skinTotemData.getStandardSprites().getState()));
 	}
 
 	@Unique
@@ -109,7 +109,7 @@ public abstract class ItemStackMixin {
 			return Optional.empty();
 		}
 		return Optional.of(new CombinedTooltipData(
-					new WrappedTextTooltipData(SkinTotemMod.text("tags.title").formatted(Formatting.GRAY)),
+					new WrappedTextTooltipData(SkinTotem.text("tags.title").formatted(Formatting.GRAY)),
 					new TagsTooltipData(tags)
 				)
 		);

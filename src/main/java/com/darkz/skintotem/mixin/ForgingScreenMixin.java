@@ -2,14 +2,14 @@ package com.darkz.skintotem.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import java.util.function.*;
-import com.darkz.skintotem.config.SkinTotemModConfig;
+import com.darkz.skintotem.config.SkinTotemConfig;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.ForgingScreen;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 
-import com.darkz.skintotem.utils.mixin.MTDAnvilScreen;
+import com.darkz.skintotem.utils.mixin.SkinTotemAnvilScreen;
 
 //? if >=1.21.6 {
 
@@ -54,7 +54,7 @@ public class ForgingScreenMixin {
 
 	@Unique
 	private void drawBackground(int width, Consumer<Integer> draw) {
-		if (this instanceof MTDAnvilScreen && SkinTotemModConfig.getInstance().isModEnabled()) {
+		if (this instanceof SkinTotemAnvilScreen && SkinTotemConfig.getInstance().isEnabled()) {
 			draw.accept(176);
 			return;
 		}

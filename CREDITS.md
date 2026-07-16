@@ -8,21 +8,14 @@
 
 **KlashRaick** — Автор мода
 
-**LopyMine** — Автор мода, архитектура, рендер, логика загрузки скинов
-
 ## Особая благодарность
 
 💛 **KlashRaick** — автор мода за идею.
 Этот мод не вышел бы без тебя.
-
-## Вдохновение
-
-Проект вдохновлён работой [LopyMine/My-Totem-Doll](https://github.com/LopyMine/My-Totem-Doll),
-однако написан с нуля в собственном стиле с оригинальной архитектурой.
 
 ## Инструменты
 
 - [Fabric](https://fabricmc.net) — загрузчик модов
 - [Mojang API](https://wiki.vg/Mojang_API) — загрузка скинов
 - [Cloth Config](https://github.com/shedaniel/cloth-config) — GUI конфига
-- [ModMenu](https://github.com/TerraformersMC/ModMenu) — интеграция меню модов
+- [Menu](https://github.com/TerraformersMC/Menu) — интеграция меню модов

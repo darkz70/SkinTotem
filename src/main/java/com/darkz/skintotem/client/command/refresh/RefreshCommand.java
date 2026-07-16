@@ -14,7 +14,7 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
 import com.darkz.skintotem.api.MojangAPI;
 import com.darkz.skintotem.client.command.builder.CommandTextBuilder;
-import com.darkz.skintotem.doll.manager.TotemDollManager;
+import com.darkz.skintotem.doll.manager.SkinTotemManager;
 import org.jetbrains.annotations.Nullable;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
@@ -33,7 +33,7 @@ public class RefreshCommand {
 				.then(literal("player")
 						.then(argument("nickname", StringArgumentType.word())
 								.suggests((context, builder) ->
-										CommandSource.suggestMatching(TotemDollManager.getAllLoadedKeys(), builder))
+										CommandSource.suggestMatching(SkinTotemManager.getAllLoadedKeys(), builder))
 								.executes(RefreshCommand::reloadForPlayer)
 						));
 	}
@@ -46,7 +46,7 @@ public class RefreshCommand {
 		Text startFeedback = CommandTextBuilder.startBuilder("command.refresh.all.start").build();
 		context.getSource().sendFeedback(startFeedback);
 
-		RELOADING_ALL_FUTURE = TotemDollManager.reloadData((seconds) -> {
+		RELOADING_ALL_FUTURE = SkinTotemManager.reloadData((seconds) -> {
 			Text endFeedback = CommandTextBuilder.startBuilder("command.refresh.all.end", seconds).build();
 			MinecraftClient.getInstance().execute(() -> context.getSource().sendFeedback(endFeedback));
 		}).whenComplete((r, e) -> {
@@ -72,7 +72,7 @@ public class RefreshCommand {
 		Text startFeedback = CommandTextBuilder.startBuilder("command.refresh.player.start", nickname).build();
 		context.getSource().sendFeedback(startFeedback);
 
-		CompletableFuture<Float> f = TotemDollManager.reloadData(nickname, (seconds) -> {
+		CompletableFuture<Float> f = SkinTotemManager.reloadData(nickname, (seconds) -> {
 			Text endFeedback = CommandTextBuilder.startBuilder("command.refresh.player.end", nickname, seconds).build();
 			MinecraftClient.getInstance().execute(() -> context.getSource().sendFeedback(endFeedback));
 		});

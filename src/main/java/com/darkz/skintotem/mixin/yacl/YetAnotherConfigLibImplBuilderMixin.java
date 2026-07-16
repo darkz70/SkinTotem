@@ -1,6 +1,6 @@
 package com.darkz.skintotem.mixin.yacl;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.ifyReturnValue;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import dev.isxander.yacl3.api.YetAnotherConfigLib.Builder;
 import dev.isxander.yacl3.impl.YetAnotherConfigLibImpl;
@@ -17,16 +17,16 @@ public class YetAnotherConfigLibImplBuilderMixin implements BetterYACLScreenBuil
 	private boolean enabled;
 
 	@Dynamic
-	@ModifyReturnValue(at = @At("RETURN"), method = "build", remap = false)
+	@ifyReturnValue(at = @At("RETURN"), method = "build", remap = false)
 	private YetAnotherConfigLib swapScreen(YetAnotherConfigLib original) {
 		if (!enabled) {
 			return original;
 		}
-		return ((BetterYACLScreenConfig) original).myTotemDoll$enable();
+		return ((BetterYACLScreenConfig) original).skinTotem$enable();
 	}
 
 	@Override
-	public Builder myTotemDoll$enable() {
+	public Builder skinTotem$enable() {
 		this.enabled = true;
 		return ((Builder) this);
 	}

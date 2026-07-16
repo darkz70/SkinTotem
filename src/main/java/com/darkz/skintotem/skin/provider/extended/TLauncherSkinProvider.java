@@ -4,7 +4,7 @@ import net.minecraft.util.Identifier;
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.api.Response;
 import com.darkz.skintotem.api.TLauncherAPI;
-import com.darkz.skintotem.doll.data.TotemDollData;
+import com.darkz.skintotem.doll.data.SkinTotemData;
 import com.darkz.skintotem.skin.data.ParsedSkinData;
 import com.darkz.skintotem.skin.provider.StandardSkinProvider;
 
@@ -42,24 +42,24 @@ public class TLauncherSkinProvider extends StandardSkinProvider {
     }
 
     @Override
-    public TotemDollData createNewDoll(String value) {
-        return TotemDollData.create(stripPrefix(value));
+    public SkinTotemData createNewDoll(String value) {
+        return SkinTotemData.create(stripPrefix(value));
     }
 
     @Override
-    protected TotemDollData getFromCache(String value) {
+    protected SkinTotemData getFromCache(String value) {
         return super.getFromCache(normalise(value));
     }
 
     @Override
-    protected void putToCache(String value, TotemDollData data) {
+    protected void putToCache(String value, SkinTotemData data) {
         super.putToCache(normalise(value), data);
     }
 
     @Override
     public Set<String> getLoadedKeys() {
         return this.getCache().values().stream()
-                .map(TotemDollData::getNickname)
+                .map(SkinTotemData::getNickname)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
     }

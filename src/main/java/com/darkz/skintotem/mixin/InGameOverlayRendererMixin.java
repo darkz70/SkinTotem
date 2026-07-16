@@ -35,7 +35,7 @@ public class InGameOverlayRendererMixin {
 			method = "renderFloatingItem"
 	)
 	private void renderFloatingDoll(ItemRenderState instance, MatrixStack matrices, OrderedRenderCommandQueue orderedRenderCommandQueue, int light, int uv, int i, Operation<Void> original) {
-		if (!TotemDollRenderer.sentRenderRequest(matrices, this.floatingItem, DollRenderContext.D_FLOATING, light, uv, 0, null)) {
+		if (!SkinTotemRenderer.sentRenderRequest(matrices, this.floatingItem, DollRenderContext.D_FLOATING, light, uv, 0, null)) {
 			original.call(instance, matrices, orderedRenderCommandQueue, light, uv, i);
 		}
 	}
@@ -43,7 +43,7 @@ public class InGameOverlayRendererMixin {
 	//?} else {
 	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemDisplayContext;IILnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;I)V"), method = "renderFloatingItem")
 	private void renderFloatingDoll(ItemRenderer instance, ItemStack stack, ItemDisplayContext displayContext, int light, int overlay, MatrixStack matrices, VertexConsumerProvider vertexConsumers, World world, int seed, Operation<Void> original) {
-		if (!TotemDollRenderer.sentRenderRequest(matrices, stack, DollRenderContext.D_FLOATING, light, overlay, 0, vertexConsumers)) {
+		if (!SkinTotemRenderer.sentRenderRequest(matrices, stack, DollRenderContext.D_FLOATING, light, overlay, 0, vertexConsumers)) {
 			original.call(instance, stack, displayContext, light, overlay, matrices, vertexConsumers, world, seed);
 		}
 	}

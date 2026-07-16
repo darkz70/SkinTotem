@@ -17,7 +17,7 @@ import net.minecraft.util.math.ColorHelper;
 import org.jetbrains.annotations.*;
 
 import com.darkz.skintotem.atlas.manager.*;
-import com.darkz.skintotem.config.totem.TotemDollArmsType;
+import com.darkz.skintotem.config.totem.SkinTotemArmsType;
 import com.darkz.skintotem.doll.data.*;
 import com.darkz.skintotem.thread.SkinTotemModTaskExecutor;
 
@@ -170,7 +170,7 @@ public class PlayerSkinUtils {
 	}
 	*///?}
 
-	public static void setupClientTextures(TotemDollData data) {
+	public static void setupClientTextures(SkinTotemData data) {
 		//? if >=1.21 {
 		MinecraftClient.getInstance().getSkinProvider().fetchSkinTextures(MinecraftClient.getInstance().getGameProfile()).thenAccept((/*? if >=1.21.4 {*/ optional /*?} else {*/ /*skinTextures *//*?}*/) -> {
 			//? if >=1.21.4 {
@@ -184,19 +184,19 @@ public class PlayerSkinUtils {
 			*///?}
 
 			//?}
-			data.setSprites(TotemDollSprites.of(skinTextures));
+			data.setSprites(SkinTotemSprites.of(skinTextures));
 		});
 		//?} else {
 		/*MinecraftClient.getInstance().getSkinProvider().loadSkin(MinecraftClient.getInstance().getSession().getProfile(), (type, id, texture) -> {
 			SkinTotemModTaskExecutor.execute(() -> {
 				MinecraftClient.getInstance().execute(() -> {
-					TotemDollSprites textures = data.getStandardSprites();
+					SkinTotemSprites textures = data.getStandardSprites();
 
 					switch (type) {
 						case SKIN -> {
 							SkinTotemModAtlasSpriteManager.registerSpecialSkinSprite(id, false, textures::setSkinSprite);
 							if (texture != null) {
-								textures.setArmsType(TotemDollArmsType.of(texture.getMetadata("model")));
+								textures.setArmsType(SkinTotemArmsType.of(texture.getMetadata("model")));
 							}
 						}
 						case CAPE -> {

@@ -31,7 +31,7 @@ public abstract class ScreenMixin {
 		return YACLConfigurationScreen.notOpen(((Screen) (Object) this));
 	}
 
-	@ModifyArg(method = "renderDarkening(Lnet/minecraft/client/gui/DrawContext;IIII)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;renderBackgroundTexture(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/util/Identifier;IIFFII)V"), index = 1)
+	@ifyArg(method = "renderDarkening(Lnet/minecraft/client/gui/DrawContext;IIII)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;renderBackgroundTexture(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/util/Identifier;IIFFII)V"), index = 1)
 	private Identifier swapBackgroundTexture(Identifier original) {
 		if (YACLConfigurationScreen.notOpen(((Screen) (Object) this))) {
 			return original;
