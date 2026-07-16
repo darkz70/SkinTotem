@@ -66,7 +66,7 @@ public class SkinTotemModReloadListener implements /*? if >=1.21.9 {*/ ResourceR
 	private void reloadStuff(Synchronizer synchronizer, ResourceManager resourceManager, Executor prepareExecutor, Executor applyExecutor) {
 		this.reloadAtlas(synchronizer, prepareExecutor, applyExecutor);
 		BlockBenchModelManager.reload(resourceManager);
-		SkinTotemModelFinder.reload(resourceManager);
+		SkinTotemModModelFinder.reload(resourceManager);
 		TagsManager.reloadCustomModelIdsTags();
 	}
 

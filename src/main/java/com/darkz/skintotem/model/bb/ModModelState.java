@@ -1,6 +1,6 @@
 package com.darkz.skintotem.model.bb;
 
-public enum ModelState {
+public enum ModModelState {
 
 	ROOT,
 	GROUP,

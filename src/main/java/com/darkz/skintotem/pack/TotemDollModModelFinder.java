@@ -7,7 +7,7 @@ import com.darkz.skintotem.SkinTotemMod;
 
 import java.util.*;
 
-public class TotemDollModelFinder {
+public class TotemDollModModelFinder {
 
 	private static final Set<Identifier> BUILTIN_TOTEM_MODELS = new LinkedHashSet<>();
 	private static final Map<String, Set<Identifier>> FOUNDED_TOTEM_MODELS = new LinkedHashMap<>();

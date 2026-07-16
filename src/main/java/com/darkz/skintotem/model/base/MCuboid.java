@@ -2,14 +2,14 @@ package com.darkz.skintotem.model.base;
 
 import lombok.Getter;
 import net.minecraft.client.model.*;
-import net.minecraft.client.model.ModelPart.*;
+import net.minecraft.client.model.ModModelPart.*;
 import net.minecraft.util.math.Direction;
 import org.joml.Vector3f;
 
 import java.util.Set;
 
 @Getter
-public class MCuboid extends ModelPart.Cuboid {
+public class MCuboid extends ModModelPart.Cuboid {
 
 	private static final Set<Direction> EMPTY_SET = Set.of();
 	private final Dilation dilation;

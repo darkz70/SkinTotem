@@ -63,8 +63,8 @@ public class BBCube {
 		this.visible  = visible;
 	}
 
-	public ModelTransform getTransformation() {
-		return ModelTransform.of(this.origin.x(), this.origin.y(), this.origin.z(), (float) -Math.toRadians(this.rotation.x()), (float) -Math.toRadians(this.rotation.y()), (float) Math.toRadians(this.rotation.z()));
+	public ModModelTransform getTransformation() {
+		return ModModelTransform.of(this.origin.x(), this.origin.y(), this.origin.z(), (float) -Math.toRadians(this.rotation.x()), (float) -Math.toRadians(this.rotation.y()), (float) Math.toRadians(this.rotation.z()));
 	}
 
 	@Getter

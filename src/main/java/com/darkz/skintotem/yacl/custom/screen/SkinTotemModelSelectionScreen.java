@@ -19,7 +19,7 @@ import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.gui.BackgroundRenderer;
 import com.darkz.skintotem.gui.widget.SkinTotemModelPreviewWidget;
 import com.darkz.skintotem.gui.widget.button.*;
-import com.darkz.skintotem.pack.SkinTotemModelFinder;
+import com.darkz.skintotem.pack.SkinTotemModModelFinder;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -91,8 +91,8 @@ public class SkinTotemModelSelectionScreen extends Screen {
 
 		Identifier standardModelId = SkinTotemModConfig.getInstance().getStandardSkinTotemModelValue();
 
-		Set<Entry<String, Set<Identifier>>> entries = new HashSet<>(SkinTotemModelFinder.getFoundedTotemModels().entrySet());
-		entries.add(Map.entry(SkinTotemMod.MOD_ID, SkinTotemModelFinder.getBuiltinTotemModels()));
+		Set<Entry<String, Set<Identifier>>> entries = new HashSet<>(SkinTotemModModelFinder.getFoundedTotemModels().entrySet());
+		entries.add(Map.entry(SkinTotemMod.MOD_ID, SkinTotemModModelFinder.getBuiltinTotemModels()));
 
 		for (Entry<String, Set<Identifier>> entry : entries) {
 			for (Identifier id : entry.getValue()) {

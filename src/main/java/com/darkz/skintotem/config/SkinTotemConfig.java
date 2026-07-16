@@ -15,7 +15,7 @@ import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.config.rendering.*;
 import com.darkz.skintotem.config.totem.*;
 import com.darkz.skintotem.config.other.vector.Vec2i;
-import com.darkz.skintotem.doll.model.SkinTotemel;
+import com.darkz.skintotem.doll.model.SkinTotemModel;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
@@ -36,8 +36,8 @@ public class SkinTotemConfig {
 	public void setStandardSkinTotemSkinValue(String standardSkinTotemSkinValue) { this.standardSkinTotemSkinValue = standardSkinTotemSkinValue; }
 	public SkinTotemSkinType getStandardSkinTotemSkinType() { return standardSkinTotemSkinType; }
 	public void setStandardSkinTotemSkinType(SkinTotemSkinType standardSkinTotemSkinType) { this.standardSkinTotemSkinType = standardSkinTotemSkinType; }
-	public Identifier getStandardSkinTotemelValue() { return standardSkinTotemelValue; }
-	public void setStandardSkinTotemelValue(Identifier standardSkinTotemelValue) { this.standardSkinTotemelValue = standardSkinTotemelValue; }
+	public Identifier getStandardSkinTotemModelValue() { return standardSkinTotemModelValue; }
+	public void setStandardSkinTotemModelValue(Identifier standardSkinTotemModelValue) { this.standardSkinTotemModelValue = standardSkinTotemModelValue; }
 	public SkinTotemArmsType getStandardSkinTotemArmsType() { return standardSkinTotemArmsType; }
 	public void setStandardSkinTotemArmsType(SkinTotemArmsType standardSkinTotemArmsType) { this.standardSkinTotemArmsType = standardSkinTotemArmsType; }
 	public Vec2i getTagButtonPos() { return tagButtonPos; }
@@ -59,13 +59,13 @@ public class SkinTotemConfig {
 	public int getAutoRefreshIntervalMinutes() { return autoRefreshIntervalMinutes; }
 	public void setAutoRefreshIntervalMinutes(int autoRefreshIntervalMinutes) { this.autoRefreshIntervalMinutes = autoRefreshIntervalMinutes; }
 
-	public SkinTotemConfig(boolean modEnabled, boolean debugLogEnabled, RenderingConfig renderingConfig, String standardSkinTotemSkinValue, SkinTotemSkinType standardSkinTotemSkinType, Identifier standardSkinTotemelValue, SkinTotemArmsType standardSkinTotemArmsType, Vec2i tagButtonPos, boolean useVanillaTotemModel, int betterTagMenuTooltipSize, float tagMenuTooltipModelScale, int parallelTasksCount, boolean firstRun, boolean supportOthersTotems, boolean autoRefreshEnabled, int autoRefreshIntervalMinutes) {
+	public SkinTotemConfig(boolean modEnabled, boolean debugLogEnabled, RenderingConfig renderingConfig, String standardSkinTotemSkinValue, SkinTotemSkinType standardSkinTotemSkinType, Identifier standardSkinTotemModelValue, SkinTotemArmsType standardSkinTotemArmsType, Vec2i tagButtonPos, boolean useVanillaTotemModel, int betterTagMenuTooltipSize, float tagMenuTooltipModelScale, int parallelTasksCount, boolean firstRun, boolean supportOthersTotems, boolean autoRefreshEnabled, int autoRefreshIntervalMinutes) {
 		this.modEnabled = modEnabled;
 		this.debugLogEnabled = debugLogEnabled;
 		this.renderingConfig = renderingConfig;
 		this.standardSkinTotemSkinValue = standardSkinTotemSkinValue;
 		this.standardSkinTotemSkinType = standardSkinTotemSkinType;
-		this.standardSkinTotemelValue = standardSkinTotemelValue;
+		this.standardSkinTotemModelValue = standardSkinTotemModelValue;
 		this.standardSkinTotemArmsType = standardSkinTotemArmsType;
 		this.tagButtonPos = tagButtonPos;
 		this.useVanillaTotemModel = useVanillaTotemModel;
@@ -84,7 +84,7 @@ public class SkinTotemConfig {
 			option("rendering_config", RenderingConfig.getNewInstance(), RenderingConfig.CODEC, SkinTotemConfig::getRenderingConfig),
 			option("standard_doll_skin_data", "", Codec.STRING, SkinTotemConfig::getStandardSkinTotemSkinValue),
 			option("standard_doll_skin_type", SkinTotemSkinType.STEVE, SkinTotemSkinType.CODEC, SkinTotemConfig::getStandardSkinTotemSkinType),
-			option("standard_doll_model_data", SkinTotemel.TWO_D_MODEL_ID, Identifier.CODEC, SkinTotemConfig::getStandardSkinTotemelValue),
+			option("standard_doll_model_data", SkinTotemModel.TWO_D_MODEL_ID, Identifier.CODEC, SkinTotemConfig::getStandardSkinTotemModelValue),
 			option("standard_doll_model_arms_type", SkinTotemArmsType.WIDE, SkinTotemArmsType.CODEC, SkinTotemConfig::getStandardSkinTotemArmsType),
 			option("tag_button_pos", new Vec2i(155, 48), Vec2i.CODEC, SkinTotemConfig::getTagButtonPos),
 			option("use_vanilla_totem_model", false, Codec.BOOL, SkinTotemConfig::isUseVanillaTotemModel),
@@ -108,7 +108,7 @@ public class SkinTotemConfig {
 	private RenderingConfig renderingConfig;
 	private String standardSkinTotemSkinValue;
 	private SkinTotemSkinType standardSkinTotemSkinType;
-	private Identifier standardSkinTotemelValue;
+	private Identifier standardSkinTotemModelValue;
 	private SkinTotemArmsType standardSkinTotemArmsType;
 	private Vec2i tagButtonPos;
 	private boolean useVanillaTotemModel;

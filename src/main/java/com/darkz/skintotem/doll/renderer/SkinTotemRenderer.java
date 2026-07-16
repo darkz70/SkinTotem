@@ -21,8 +21,8 @@ import com.darkz.skintotem.config.rendering.*;
 import com.darkz.skintotem.config.totem.SkinTotemSkinType;
 import com.darkz.skintotem.doll.data.*;
 import com.darkz.skintotem.doll.manager.StandardSkinTotemManager;
-import com.darkz.skintotem.doll.model.SkinTotemel;
-import com.darkz.skintotem.doll.model.SkinTotemel.Drawer;
+import com.darkz.skintotem.doll.model.SkinTotemModel;
+import com.darkz.skintotem.doll.model.SkinTotemModel.Drawer;
 import com.darkz.skintotem.utils.plugin.SkinTotemPlugin;
 
 import net.minecraft.text.Text;
@@ -181,7 +181,7 @@ public class SkinTotemRenderer {
 		AtlasSprite skinSprite = textures.getSkinSprite();
 		AtlasSprite capeSprite = textures.getCapeSprite();
 		AtlasSprite elytraSprite = textures.getElytraSprite();
-		SkinTotemel model = skinTotemData.getModelToRender();
+		SkinTotemModel model = skinTotemData.getModelToRender();
 		if (model == null) return;
 
 		String nickname = skinTotemData.getNickname();
@@ -218,7 +218,7 @@ public class SkinTotemRenderer {
 		matrices.pop();
 	}
 
-	private static java.util.Map<com.darkz.skintotem.model.base.MModel, float[]> applyHeadLookAtCursor(SkinTotemData skinTotemData, SkinTotemel model) {
+	private static java.util.Map<com.darkz.skintotem.model.base.MModel, float[]> applyHeadLookAtCursor(SkinTotemData skinTotemData, SkinTotemModel model) {
 		DollRenderContext ctx = skinTotemData.getRenderProperties().getRenderContext();
 		if (ctx != DollRenderContext.D_GUI && ctx != DollRenderContext.D_TOOLTIP) return java.util.Collections.emptyMap();
 

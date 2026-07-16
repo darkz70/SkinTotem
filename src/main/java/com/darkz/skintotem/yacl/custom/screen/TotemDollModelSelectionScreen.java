@@ -19,7 +19,7 @@ import com.darkz.skintotem.client.SkinTotemModClient;
 import com.darkz.skintotem.gui.BackgroundRenderer;
 import com.darkz.skintotem.gui.widget.TotemDollModelPreviewWidget;
 import com.darkz.skintotem.gui.widget.button.*;
-import com.darkz.skintotem.pack.TotemDollModelFinder;
+import com.darkz.skintotem.pack.TotemDollModModelFinder;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -91,8 +91,8 @@ public class TotemDollModelSelectionScreen extends Screen {
 
 		Identifier standardModelId = SkinTotemModConfig.getInstance().getStandardTotemDollModelValue();
 
-		Set<Entry<String, Set<Identifier>>> entries = new HashSet<>(TotemDollModelFinder.getFoundedTotemModels().entrySet());
-		entries.add(Map.entry(SkinTotemMod.MOD_ID, TotemDollModelFinder.getBuiltinTotemModels()));
+		Set<Entry<String, Set<Identifier>>> entries = new HashSet<>(TotemDollModModelFinder.getFoundedTotemModels().entrySet());
+		entries.add(Map.entry(SkinTotemMod.MOD_ID, TotemDollModModelFinder.getBuiltinTotemModels()));
 
 		for (Entry<String, Set<Identifier>> entry : entries) {
 			for (Identifier id : entry.getValue()) {

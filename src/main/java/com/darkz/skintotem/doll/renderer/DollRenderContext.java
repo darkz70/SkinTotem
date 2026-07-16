@@ -7,11 +7,11 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.MatrixStack.Entry;
 
 import com.darkz.skintotem.client.SkinTotemClient;
-import com.darkz.skintotem.extension.ModelTransformationExtension;
+import com.darkz.skintotem.extension.ModModelTransformationExtension;
 import com.darkz.skintotem.model.base.MModel;
 
 @Getter
-@ExtensionMethod(ModelTransformationExtension.class)
+@ExtensionMethod(ModModelTransformationExtension.class)
 public enum DollRenderContext {
 
 	D_NONE("none"),
@@ -42,9 +42,9 @@ public enum DollRenderContext {
 		//? if <=1.21.4 {
 		/*if (object instanceof
 				//? if >=1.21.2 {
-				net.minecraft.item.ModelTransformatione
+				net.minecraft.item.ModModelTransformatione
 				//?} else {
-				/^net.minecraft.client.render.model.json.ModelTransformatione
+				/^net.minecraft.client.render.model.json.ModModelTransformatione
 				^///?}
 						mode) {
 			return switch (mode) {
@@ -81,7 +81,7 @@ public enum DollRenderContext {
 		return D_NONE;
 	}
 
-	public Transformation get(ModelTransformation transformation) {
+	public Transformation get(ModModelTransformation transformation) {
 		return switch (this) {
 			case D_THIRD_PERSON_LEFT_HAND -> transformation.getTl();
 			case D_THIRD_PERSON_RIGHT_HAND -> transformation.getTr();

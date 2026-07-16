@@ -22,15 +22,15 @@ import org.slf4j.Logger;
 
 @Getter
 @Setter
-@ExtensionMethod({ModelTransformExtension.class, DilationExtension.class, IdentifierExtension.class})
-public class MModel extends ModelPart {
+@ExtensionMethod({ModModelTransformExtension.class, DilationExtension.class, IdentifierExtension.class})
+public class MModel extends ModModelPart {
 
 	@Setter(AccessLevel.PRIVATE)
-	private ModelTransformation transformation = ModelTransformation.NONE;
+	private ModModelTransformation transformation = ModModelTransformation.NONE;
 	private final Map<String, MModel> mChildren;
 	private final List<MModel> mChildrenModels;
 	private final List<MCuboid> mCuboids;
-	private final ModelState state;
+	private final ModModelState state;
 	private final String name;
 
 	private boolean skipRendering = false;
@@ -42,8 +42,8 @@ public class MModel extends ModelPart {
 	@Nullable
 	private AtlasSprite builtinTexture;
 
-	public MModel(List<MCuboid> mCuboids, Map<String, MModel> mChildren, ModelState state, String name, @Nullable AtlasSprite builtinTexture) {
-		super(mCuboids.stream().map(MCuboid::asCuboid).toList(), mChildren.entrySet().stream().collect(Collectors.toMap(Entry::getKey, e -> e.getValue().asModelPart())));
+	public MModel(List<MCuboid> mCuboids, Map<String, MModel> mChildren, ModModelState state, String name, @Nullable AtlasSprite builtinTexture) {
+		super(mCuboids.stream().map(MCuboid::asCuboid).toList(), mChildren.entrySet().stream().collect(Collectors.toMap(Entry::getKey, e -> e.getValue().asModModelPart())));
 		this.state     = state;
 		this.name      = name;
 		this.mChildren = mChildren;
@@ -75,7 +75,7 @@ public class MModel extends ModelPart {
 		for (Entry<String, MModel> entry : this.mChildren.entrySet()) {
 			String key = entry.getKey();
 			MModel model = entry.getValue();
-			if (!key.endsWith(suffix) || model == null || model.getState() != ModelState.GROUP) {
+			if (!key.endsWith(suffix) || model == null || model.getState() != ModModelState.GROUP) {
 				continue;
 			}
 			list.add(model);
@@ -88,7 +88,7 @@ public class MModel extends ModelPart {
 		return new MModelCollection(list, suffix);
 	}
 
-	public ModelPart asModelPart() {
+	public ModModelPart asModModelPart() {
 		return this;
 	}
 

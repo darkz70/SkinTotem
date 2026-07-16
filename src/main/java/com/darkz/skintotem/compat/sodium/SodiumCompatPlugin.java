@@ -18,7 +18,7 @@ public class SodiumCompatPlugin extends CompatPlugin {
 			return false;
 		}
 
-		boolean oldMixin = mixinClassName.equals("com.darkz.skintotem.mixin.sodium.ModelPartMixinMixin");
+		boolean oldMixin = mixinClassName.equals("com.darkz.skintotem.mixin.sodium.ModModelPartMixinMixin");
 		boolean hotMixin = mixinClassName.equals("com.darkz.skintotem.mixin.sodium.CubeMixinMixin");
 
 		if (hotMixin) {
@@ -40,7 +40,7 @@ public class SodiumCompatPlugin extends CompatPlugin {
 		Version hotVersion = this.getHotSodiumVersion();
 
 		// <6.0.0 (currentOlder == true)
-		// ModelPartMixinMixin
+		// ModModelPartMixinMixin
 
 		// >=6.0.0 (currentOlder == false)
 		// CubeMixin

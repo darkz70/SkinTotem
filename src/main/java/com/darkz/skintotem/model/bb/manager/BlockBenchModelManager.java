@@ -6,7 +6,7 @@ import net.fabricmc.loader.api.*;
 import com.darkz.skintotem.atlas.manager.*;
 import com.darkz.skintotem.model.bb.BBOutliner;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.model.ModelTransform;
+import net.minecraft.client.model.ModModelTransform;
 import net.minecraft.client.render.model.json.*;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.*;
@@ -298,7 +298,7 @@ public class BlockBenchModelManager {
 		);
 		groups.add(0, rootGroup);
 
-		ModelTransformation display = CodecUtils.decode("display", ModelTransformation.NONE, Transformations.MODEL_TRANSFORMATION_CODEC, jsonObject);
+		ModModelTransformation display = CodecUtils.decode("display", ModModelTransformation.NONE, Transformations.MODEL_TRANSFORMATION_CODEC, jsonObject);
 		Boolean frontGuiLight = CodecUtils.decode("front_gui_light", false, Codec.BOOL, jsonObject);
 		return new BBModel(id, name, meta, resolution, cubes, groups, frontGuiLight, display);
 	}
@@ -312,7 +312,7 @@ public class BlockBenchModelManager {
 	}
 
 	private static MModelFactory createMModelFactory(@NotNull BBModel model) {
-		MModelBuilder builder = MModelBuilder.builder(ModelState.ROOT);
+		MModelBuilder builder = MModelBuilder.builder(ModModelState.ROOT);
 
 		for (BBGroup group : model.getGroups()) {
 			builder.addChild(group.getName(), transformGroupsAndCubes(group, model), model.getLocation());
@@ -327,13 +327,13 @@ public class BlockBenchModelManager {
 		SkinTotemModAtlasManager.stitchAndUpdate(SkinTotemModAtlasSpriteManager.getSprites(), null);
 
 		return () -> builder
-				.withTransform(ModelTransform./*? if <=1.21.4 {*/ /*pivot *//*?} else {*/ origin /*?}*/(-16.0F, -8.0F, 0.0F))
+				.withTransform(ModModelTransform./*? if <=1.21.4 {*/ /*pivot *//*?} else {*/ origin /*?}*/(-16.0F, -8.0F, 0.0F))
 				.build(resolution.getWidth(), resolution.getHeight())
 				.initAfterBuild(model);
 	}
 
 	private static MModelBuilder transformGroupsAndCubes(BBGroup group, BBModel model) {
-		MModelBuilder builder = MModelBuilder.builder(ModelState.GROUP);
+		MModelBuilder builder = MModelBuilder.builder(ModModelState.GROUP);
 
 		for (Either<BBGroup, UUID> either : group.getChildren()) {
 			Optional<BBGroup> left = either.left();
@@ -386,7 +386,7 @@ public class BlockBenchModelManager {
 			}
 		}
 
-		return MModelBuilder.builder(ModelState.CUBE)
+		return MModelBuilder.builder(ModModelState.CUBE)
 				.addCube(cubeBuilder)
 				.withTransform(cube.getTransformation());
 	}

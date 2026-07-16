@@ -24,7 +24,7 @@ public class YACLConfigurationScreen {
 	}
 
 	public static boolean notOpen(Screen currentScreen) {
-		return !(currentScreen instanceof SkinTotemYACLScreen || currentScreen instanceof SkinTotemelSelectionScreen);
+		return !(currentScreen instanceof SkinTotemYACLScreen || currentScreen instanceof SkinTotemModelSelectionScreen);
 	}
 
 	public static Text getRenderingCategoryTitle() {

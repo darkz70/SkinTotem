@@ -9,7 +9,7 @@
 	    //? if >=1.21 {
 	    "CubeMixinMixin",
 	    //?}
-	    "ModelPartMixinMixin"
+	    "ModModelPartMixinMixin"
     ],
     "injectors": {
         "defaultRequire": 1

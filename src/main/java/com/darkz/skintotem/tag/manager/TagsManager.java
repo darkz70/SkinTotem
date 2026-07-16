@@ -6,7 +6,7 @@ import net.minecraft.util.*;
 
 import com.darkz.skintotem.SkinTotemMod;
 import com.darkz.skintotem.doll.data.SkinTotemData;
-import com.darkz.skintotem.pack.SkinTotemModelFinder;
+import com.darkz.skintotem.pack.SkinTotemModModelFinder;
 import com.darkz.skintotem.tag.*;
 
 import java.util.*;
@@ -63,7 +63,7 @@ public class TagsManager {
 	}
 
 	public static void reloadCustomModelIdsTags() {
-		Collection<Set<Identifier>> values = SkinTotemModelFinder.getFoundedTotemModels().values();
+		Collection<Set<Identifier>> values = SkinTotemModModelFinder.getFoundedTotemModels().values();
 		Set<Character> characters = getRegisteredTags().keySet();
 		TagsGenerator generator = new TagsGenerator();
 
@@ -115,7 +115,7 @@ public class TagsManager {
 				.setAction((data) -> data.setFrameMModel(modelId))
 				.build();
 		CUSTOM_MODEL_IDS_TAGS.put(ch, tag);
-		SkinTotemModelFinder.getBuiltinTotemModels().add(modelId); // todo make it work in proper way
+		SkinTotemModModelFinder.getBuiltinTotemModels().add(modelId); // todo make it work in proper way
 	}
 
 	public static void registerPostprocessorTag(Tag tag) {

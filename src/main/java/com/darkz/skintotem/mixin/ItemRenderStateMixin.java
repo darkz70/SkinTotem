@@ -27,7 +27,7 @@ public class ItemRenderStateMixin implements ItemRenderStateWithStack {
 
 	//? if <=1.21.4 {
 	/*@Shadow
-	ModelTransformatione modelTransformatione;
+	ModModelTransformatione modModelTransformatione;
 	@Shadow
 	boolean leftHand;
 	*///?} else {
@@ -55,7 +55,7 @@ public class ItemRenderStateMixin implements ItemRenderStateWithStack {
 
 	@Unique
 	private void renderDoll(MatrixStack matrices, int light, int overlay, @SuppressWarnings("all") int outlineColor, @Nullable VertexConsumerProvider provider, CallbackInfo ci) {
-		DollRenderContext context = DollRenderContext.of(/*? if <=1.21.4 {*//*this.modelTransformatione*//*?} else {*/ this.displayContext /*?}*/);
+		DollRenderContext context = DollRenderContext.of(/*? if <=1.21.4 {*//*this.modModelTransformatione*//*?} else {*/ this.displayContext /*?}*/);
 
 		if (this.stack != null) {
 			if (SkinTotemRenderer.sentRenderRequest(matrices, this.stack, context, light, overlay, outlineColor, provider)) {

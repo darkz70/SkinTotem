@@ -57,9 +57,9 @@ public class ItemModelManagerMixin {
 	//?} else {
 	/*@Inject(
 			at = @At("HEAD"),
-			method = "update(Lnet/minecraft/client/render/item/ItemRenderState;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ModelTransformatione;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;I)V"
+			method = "update(Lnet/minecraft/client/render/item/ItemRenderState;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ModModelTransformatione;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;I)V"
 	)
-	private void captureEntityForDoll(ItemRenderState renderState, ItemStack stack, ModelTransformatione transformatione, World world, LivingEntity entity, int seed, CallbackInfo ci) {
+	private void captureEntityForDoll(ItemRenderState renderState, ItemStack stack, ModModelTransformatione transformatione, World world, LivingEntity entity, int seed, CallbackInfo ci) {
 		this.captureEntity(stack, entity, renderState);
 	}
 
@@ -68,7 +68,7 @@ public class ItemModelManagerMixin {
 					value = "INVOKE",
 					target = "Lnet/minecraft/item/ItemStack;get(Lnet/minecraft/component/ComponentType;)Ljava/lang/Object;"
 			),
-			method = "update(Lnet/minecraft/client/render/item/ItemRenderState;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ModelTransformatione;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;I)V"
+			method = "update(Lnet/minecraft/client/render/item/ItemRenderState;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ModModelTransformatione;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;I)V"
 	)
 	private Object swapItemModel(ItemStack stack, ComponentType<?> componentType, Operation<?> original) {
 		return this.changeModel(stack, () -> original.call(stack, componentType));
