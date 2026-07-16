@@ -2,4 +2,3 @@ plugins {
 	id "dev.kikugie.stonecutter"
     id "net.darkz70.figurestone-plugin-stonecutter" version "$figurestone_plugin_version"
 }
-stonecutter.active "1.21.11" /* [SC] DO NOT EDIT */
