@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.*;
 
 @SuppressWarnings("unused")
-@ExtensionMethod({ModModelTransformExtension.class, DilationExtension.class, IdentifierExtension.class})
+@ExtensionMethod({ModModelTransformExtension.class, DilationExtension.class, IdExtension.class})
 public class MModelBuilder {
 
 	private final List<MCubeBuilder> cuboidBuilders = new ArrayList<>();

@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 
 @Getter
 @Setter
-@ExtensionMethod({ModModelTransformExtension.class, DilationExtension.class, IdentifierExtension.class})
+@ExtensionMethod({ModModelTransformExtension.class, DilationExtension.class, IdExtension.class})
 public class MModel extends ModModelPart {
 
 	@Setter(AccessLevel.PRIVATE)

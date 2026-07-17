@@ -13,9 +13,9 @@ import net.minecraft.util.Identifier;
 import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.doll.data.SkinTotemData;
-import com.darkz.skintotem.extension.IdentifierExtension;
+import com.darkz.skintotem.extension.IdExtension;
 
-@ExtensionMethod(IdentifierExtension.class)
+@ExtensionMethod(IdExtension.class)
 public class SkinTotemPreviewTooltipComponent implements TooltipComponent {
 
 	private final SkinTotemData data;
