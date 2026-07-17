@@ -46,7 +46,7 @@ public class ItemRendererMixin {
 		}
 		if (SkinTotemPlugin.work(stack)) {
 			BakedModel model = this.models/^? <=1.21.1 {^/ /^.getModelManager() ^//^?}^/.getModel(SkinTotemPlugin.ID);
-			stack.setdedModel(true);
+			stack.setModdedModel(true);
 			cir.setReturnValue(model);
 		}
 	}
@@ -66,9 +66,9 @@ public class ItemRendererMixin {
 	}
 
 	@Inject(at = @At(value = "TAIL"), method = "renderItem*")
-	private void disablededModel(CallbackInfo ci, @Local(argsOnly = true) ItemStack stack) {
-		if (stack.hasdedModel()) {
-			stack.setdedModel(false);
+	private void disableModdedModel(CallbackInfo ci, @Local(argsOnly = true) ItemStack stack) {
+		if (stack.hasModdedModel()) {
+			stack.setModdedModel(false);
 		}
 	}
 

@@ -2,14 +2,14 @@ package com.darkz.skintotem.thread;
 
 import java.util.*;
 import java.util.concurrent.*;
-import com.darkz.skintotem.config.SkinTotemModConfig;
+import com.darkz.skintotem.config.SkinTotemConfig;
 
-public class SkinTotemModTaskExecutor {
+public class SkinTotemTaskExecutor {
 
-	public static ExecutorService MAIN_EXECUTOR = Executors.newFixedThreadPool(SkinTotemModConfig.getInstance().getParallelTasksCount());
+	public static ExecutorService MAIN_EXECUTOR = Executors.newFixedThreadPool(SkinTotemConfig.getInstance().getParallelTasksCount());
 
 	public static void reload() {
-		int threadsCount = SkinTotemModConfig.getInstance().getParallelTasksCount();
+		int threadsCount = SkinTotemConfig.getInstance().getParallelTasksCount();
 		List<Runnable> runnables = MAIN_EXECUTOR.shutdownNow();
 		MAIN_EXECUTOR = Executors.newFixedThreadPool(threadsCount);
 		for (Runnable runnable : runnables) {

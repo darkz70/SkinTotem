@@ -10,7 +10,7 @@ import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
 
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.doll.data.SkinTotemData;
 import com.darkz.skintotem.doll.renderer.SkinTotemRenderer;
 import com.darkz.skintotem.doll.manager.StandardSkinTotemManager;
@@ -76,15 +76,15 @@ public class SkinTotemModelPreviewWidget extends ClickableWidget {
 
 	private Text getLoadingText(long tick) {
 		if (this.failedLoadingStatusCode == 100) {
-			return SkinTotemMod.text("text.loading.failed.to_load");
+			return SkinTotem.text("text.loading.failed.to_load");
 		} else if (this.failedLoadingStatusCode == 102){
-			return SkinTotemMod.text("text.loading.failed.unsupported_format");
+			return SkinTotem.text("text.loading.failed.unsupported_format");
 		}  else if (this.failedLoadingStatusCode > 101 && this.failedLoadingStatusCode < 104){
-			return SkinTotemMod.text("text.loading.failed.wrong_metadata");
+			return SkinTotem.text("text.loading.failed.wrong_metadata");
 		}
 
 		int i = (int) (tick / 300L % 4L);
-		return SkinTotemMod.text("text.loading.%s".formatted(i));
+		return SkinTotem.text("text.loading.%s".formatted(i));
 	}
 
 	@Override

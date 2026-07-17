@@ -9,7 +9,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.*;
 import net.minecraft.util.Identifier;
 
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.client.SkinTotemClient;
 
 import java.io.*;
 import java.nio.file.*;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.*;
 import com.darkz.skintotem.atlas.manager.*;
 import com.darkz.skintotem.config.totem.SkinTotemArmsType;
 import com.darkz.skintotem.doll.data.*;
-import com.darkz.skintotem.thread.SkinTotemModTaskExecutor;
+import com.darkz.skintotem.thread.SkinTotemTaskExecutor;
 
 public class PlayerSkinUtils {
 
@@ -27,13 +27,13 @@ public class PlayerSkinUtils {
 		try {
 			NativeImage nativeImage = download(textureUrl);
 			NativeImage image = skin ? remapSkinTexture(nativeImage) : remapTextureToStandardSize(nativeImage, true);
-			SkinTotemModAtlasSpriteManager.registerSpecialSkinSprite(textureId, image, true, (sprite) -> {
+			SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(textureId, image, true, (sprite) -> {
 				if (onSuccessRegistration != null) {
 					onSuccessRegistration.onSuccess(sprite);
 				}
 			});
 		} catch (Exception e) {
-			SkinTotemModClient.LOGGER.error("Failed to download skin texture with id \"{}\": ", textureId, e);
+			SkinTotemClient.LOGGER.error("Failed to download skin texture with id \"{}\": ", textureId, e);
 			if (onFailedRegistration != null) {
 				onFailedRegistration.onFailed(e);
 			}
@@ -42,7 +42,7 @@ public class PlayerSkinUtils {
 
 	public static NativeImage download(String uri) throws IOException {
 		HttpURLConnection connection = null;
-		SkinTotemModClient.LOGGER.debug("Downloading HTTP texture from {}", uri);
+		SkinTotemClient.LOGGER.debug("Downloading HTTP texture from {}", uri);
 		URI currentUri = URI.create(uri);
 
 		NativeImage image;
@@ -188,26 +188,26 @@ public class PlayerSkinUtils {
 		});
 		//?} else {
 		/*MinecraftClient.getInstance().getSkinProvider().loadSkin(MinecraftClient.getInstance().getSession().getProfile(), (type, id, texture) -> {
-			SkinTotemModTaskExecutor.execute(() -> {
+			SkinTotemTaskExecutor.execute(() -> {
 				MinecraftClient.getInstance().execute(() -> {
 					SkinTotemSprites textures = data.getStandardSprites();
 
 					switch (type) {
 						case SKIN -> {
-							SkinTotemModAtlasSpriteManager.registerSpecialSkinSprite(id, false, textures::setSkinSprite);
+							SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(id, false, textures::setSkinSprite);
 							if (texture != null) {
 								textures.setArmsType(SkinTotemArmsType.of(texture.getMetadata("model")));
 							}
 						}
 						case CAPE -> {
 							RemappedAtlasSprite capeSprite = RemappedAtlasSprite.ofResource(id);
-							SkinTotemModAtlasSpriteManager.registerSpecialRemappedSprite(capeSprite);
+							SkinTotemAtlasSpriteManager.registerSpecialRemappedSprite(capeSprite);
 							textures.setCapeSprite(capeSprite);
 						}
-						case ELYTRA -> SkinTotemModAtlasSpriteManager.registerSpecialSkinSprite(id, false, textures::setElytraSprite);
+						case ELYTRA -> SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(id, false, textures::setElytraSprite);
 					}
 
-					SkinTotemModAtlasManager.stitchAndUpdate(SkinTotemModAtlasSpriteManager.getSprites(), null);
+					SkinTotemAtlasManager.stitchAndUpdate(SkinTotemAtlasSpriteManager.getSprites(), null);
 				});
 			});
 		}, false);

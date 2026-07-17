@@ -1,7 +1,7 @@
 package com.darkz.skintotem.skin.provider.extended;
 
 import net.minecraft.util.Identifier;
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.api.Response;
 import com.darkz.skintotem.doll.data.SkinTotemData;
 import com.darkz.skintotem.skin.data.ParsedSkinData;
@@ -67,7 +67,7 @@ public class UrlSkinProvider extends StandardSkinProvider {
 
     @Override
     protected Identifier getId(String value, String type) {
-        return SkinTotemMod.getDollTextureId("url/%s/%s".formatted(type, hash(value)));
+        return SkinTotem.getDollTextureId("url/%s/%s".formatted(type, hash(value)));
     }
 
     /**

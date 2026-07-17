@@ -2,14 +2,14 @@ package com.darkz.skintotem.doll.model;
 
 import lombok.*;
 import com.darkz.skintotem.atlas.*;
-import com.darkz.skintotem.atlas.manager.SkinTotemModAtlasManager;
-import com.darkz.skintotem.config.SkinTotemModConfig;
+import com.darkz.skintotem.atlas.manager.SkinTotemAtlasManager;
+import com.darkz.skintotem.config.SkinTotemConfig;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import com.darkz.skintotem.SkinTotemMod;
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.SkinTotem;
+import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.doll.data.SkinTotemSprites;
 import com.darkz.skintotem.model.base.*;
 import com.darkz.skintotem.model.bb.manager.BlockBenchModelManager;
@@ -20,8 +20,8 @@ import org.jetbrains.annotations.Nullable;
 @Setter
 public class SkinTotemModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else {*/ /*Model *//*?}*/ {
 
-	public static final Identifier TWO_D_MODEL_ID = SkinTotemMod.id("dolls/2d_doll.bbmodel");
-	public static final Identifier THREE_D_MODEL_id = SkinTotemMod.id("dolls/3d_doll.bbmodel");
+	public static final Identifier TWO_D_MODEL_ID = SkinTotem.id("dolls/2d_doll.bbmodel");
+	public static final Identifier THREE_D_MODEL_id = SkinTotem.id("dolls/3d_doll.bbmodel");
 
 	private final MModel main;
 
@@ -102,7 +102,7 @@ public class SkinTotemModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 	}
 
 	public static MModel createDollModel() {
-		MModel model = BlockBenchModelManager.getModel(SkinTotemModConfig.getInstance().getStandardSkinTotemModelValue());
+		MModel model = BlockBenchModelManager.getModel(SkinTotemConfig.getInstance().getStandardSkinTotemModelValue());
 		MModel mmodel = model == null ? BlockBenchModelManager.getModel(THREE_D_MODEL_id) : model;
 		if (mmodel == null) {
 			throw new IllegalArgumentException("Failed to find standard doll model! [SkinTotemModel.class]");
@@ -187,9 +187,9 @@ public class SkinTotemModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 		}
 
 		public void draw(MatrixStack matrices, VertexConsumerProvider provider, AtlasSprite mainTexture, int light, int overlay, /*? if >=1.21 {*/int color/*?} else {*//*float red, float green, float blue, float alpha *//*?}*/) {
-			LockableAtlasTexture atlasTexture = SkinTotemModAtlasManager.getNullableAtlasTexture();
+			LockableAtlasTexture atlasTexture = SkinTotemAtlasManager.getNullableAtlasTexture();
 			if (atlasTexture == null) {
-				SkinTotemModClient.LOGGER.error("Game tried to render doll model, but atlas not initialized yet!");
+				SkinTotemClient.LOGGER.error("Game tried to render doll model, but atlas not initialized yet!");
 				return;
 			}
 
@@ -199,7 +199,7 @@ public class SkinTotemModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 			enableIfPresent(leftArm);
 			enableIfPresent(rightArm);
 
-			RenderLayer renderLayer = SkinTotemModAtlasManager.getRenderLayer();
+			RenderLayer renderLayer = SkinTotemAtlasManager.getRenderLayer();
 
 			boolean wasLocked = atlasTexture.isLocked();
 			if (!wasLocked) {

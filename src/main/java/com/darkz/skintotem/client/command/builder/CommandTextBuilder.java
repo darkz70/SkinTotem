@@ -2,11 +2,11 @@ package com.darkz.skintotem.client.command.builder;
 
 import net.minecraft.text.*;
 
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 
 public class CommandTextBuilder {
 
-	private static final MutableText MOD_ID_TEXT = SkinTotemMod.text("command.id");
+	private static final MutableText MOD_ID_TEXT = SkinTotem.text("command.id");
 
 	private final MutableText text;
 
@@ -22,7 +22,7 @@ public class CommandTextBuilder {
 			}
 		}
 
-		return SkinTotemMod.text(key, args);
+		return SkinTotem.text(key, args);
 	}
 
 	private static boolean isPrimitive(Object object) {

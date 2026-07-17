@@ -3,8 +3,8 @@ package com.darkz.skintotem.optimization;
 import java.util.*;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.atlas.LockableAtlasTexture;
-import com.darkz.skintotem.atlas.manager.SkinTotemModAtlasManager;
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.atlas.manager.SkinTotemAtlasManager;
+import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.doll.data.*;
 import com.darkz.skintotem.doll.model.SkinTotemModel;
 import com.darkz.skintotem.doll.renderer.*;
@@ -41,9 +41,9 @@ public class SkinTotemRenderRequestsCollector {
 	}
 
 	public void render() {
-		LockableAtlasTexture atlasTexture = SkinTotemModAtlasManager.getNullableAtlasTexture();
+		LockableAtlasTexture atlasTexture = SkinTotemAtlasManager.getNullableAtlasTexture();
 		if (atlasTexture == null) {
-			SkinTotemModClient.LOGGER.error("Game tried to render doll model requests, but atlas not initialized yet!");
+			SkinTotemClient.LOGGER.error("Game tried to render doll model requests, but atlas not initialized yet!");
 			return;
 		}
 		atlasTexture.setLocked(true);

@@ -2,7 +2,7 @@ package com.darkz.skintotem.client.command.refresh;
 
 import java.util.Map;
 import java.util.concurrent.*;
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.client.SkinTotemClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.CommandSource;
 import net.minecraft.text.Text;
@@ -52,7 +52,7 @@ public class RefreshCommand {
 		}).whenComplete((r, e) -> {
 			RELOADING_ALL_FUTURE = null;
 			if (e != null) {
-				SkinTotemModClient.LOGGER.error("Failed to refresh all doll data: ", e);
+				SkinTotemClient.LOGGER.error("Failed to refresh all doll data: ", e);
 			}
 		});
 
@@ -81,7 +81,7 @@ public class RefreshCommand {
 			CompletableFuture<Float> fc = f.whenComplete((r, e) -> {
 				RELOADING_FUTURES.remove(nickname);
 				if (e != null) {
-					SkinTotemModClient.LOGGER.error("Failed to refresh doll data for \"{}\": ", nickname, e);
+					SkinTotemClient.LOGGER.error("Failed to refresh doll data for \"{}\": ", nickname, e);
 				}
 			});
 			RELOADING_FUTURES.put(nickname, fc);

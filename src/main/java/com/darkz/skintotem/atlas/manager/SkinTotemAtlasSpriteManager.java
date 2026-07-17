@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.*;
 import com.darkz.skintotem.atlas.*;
 import com.darkz.skintotem.atlas.stitch.*;
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.utils.texture.PlayerSkinUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.*;
@@ -15,7 +15,7 @@ import net.minecraft.resource.Resource;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.*;
 
-public class SkinTotemModAtlasSpriteManager {
+public class SkinTotemAtlasSpriteManager {
 
 	private static final AtlasSprite MISSING_SPRITE = AtlasSprite.of(MissingSprite.createSpriteContents());
 
@@ -111,7 +111,7 @@ public class SkinTotemModAtlasSpriteManager {
 
 	private static void uploadSprite(boolean stitchAndUpdate, @Nullable OnSpriteUploaded onSpriteUploaded, AtlasSprite createdSprite) {
 		if (stitchAndUpdate && onSpriteUploaded != null) {
-			SkinTotemModAtlasManager.stitchAndUpdate(getSprites(), () -> onSpriteUploaded.onUploaded(createdSprite));
+			SkinTotemAtlasManager.stitchAndUpdate(getSprites(), () -> onSpriteUploaded.onUploaded(createdSprite));
 		} else {
 			createdSprite.setUploadAction(onSpriteUploaded);
 		}
@@ -139,12 +139,12 @@ public class SkinTotemModAtlasSpriteManager {
 			AbstractTexture texture = MinecraftClient.getInstance().getTextureManager().textures.get(id);
 			//? if >=1.21.4 {
 			if (!(texture instanceof NativeImageBackedTexture backedTexture)) {
-				SkinTotemModClient.LOGGER.error("Failed to register mod's texture as a sprite in atlas! Failed to find texture even from TextureManager! Id: \"{}\", Texture Class: \"{}\"", id, texture == null ? "null" : texture.getClass().getSimpleName());
+				SkinTotemClient.LOGGER.error("Failed to register mod's texture as a sprite in atlas! Failed to find texture even from TextureManager! Id: \"{}\", Texture Class: \"{}\"", id, texture == null ? "null" : texture.getClass().getSimpleName());
 				return;
 			}
 			NativeImage image = backedTexture.getImage();
 			if (image == null) {
-				SkinTotemModClient.LOGGER.error("Failed to register mod's texture as a sprite in atlas! Found image in TextureManager, but it's null somehow!? Id: \"{}\"", id);
+				SkinTotemClient.LOGGER.error("Failed to register mod's texture as a sprite in atlas! Found image in TextureManager, but it's null somehow!? Id: \"{}\"", id);
 				return;
 			}
 			//?} else {
@@ -156,20 +156,20 @@ public class SkinTotemModAtlasSpriteManager {
 					try (FileInputStream stream = new FileInputStream(cacheFile)) {
 						image = NativeImage.read(stream);
 					} catch (Exception e) {
-						SkinTotemModClient.LOGGER.error("Failed to register mod's texture as a sprite in atlas! Failed to read player skin texture from cache, id: \"{}\", folder: \"{}\"", id, cacheFile);
+						SkinTotemClient.LOGGER.error("Failed to register mod's texture as a sprite in atlas! Failed to read player skin texture from cache, id: \"{}\", folder: \"{}\"", id, cacheFile);
 					}
 				} else {
 					String url = playerSkinTexture.url;
 					try {
 						image = PlayerSkinUtils.remapSkinTexture(PlayerSkinUtils.download(url));
 					} catch (Exception e) {
-						SkinTotemModClient.LOGGER.error("Failed to register mod's texture as a sprite in atlas! Failed to download player skin texture from url, id: \"{}\", url: \"{}\"", id, url);
+						SkinTotemClient.LOGGER.error("Failed to register mod's texture as a sprite in atlas! Failed to download player skin texture from url, id: \"{}\", url: \"{}\"", id, url);
 					}
 				}
 			}
 
 			if (image == null) {
-				SkinTotemModClient.LOGGER.error("Failed to register mod's texture as a sprite in atlas! Failed to find texture even from TextureManager! Id: \"{}\", Texture Class: \"{}\"", id, texture == null ? "null" : texture.getClass().getSimpleName());
+				SkinTotemClient.LOGGER.error("Failed to register mod's texture as a sprite in atlas! Failed to find texture even from TextureManager! Id: \"{}\", Texture Class: \"{}\"", id, texture == null ? "null" : texture.getClass().getSimpleName());
 				return;
 			}
 			*///?}
@@ -182,7 +182,7 @@ public class SkinTotemModAtlasSpriteManager {
 		try {
 			consumer.accept(NativeImage.read(resource.getInputStream()));
 		} catch (IOException e) {
-			SkinTotemModClient.LOGGER.error("Failed to load resource for mod's atlas:", e);
+			SkinTotemClient.LOGGER.error("Failed to load resource for mod's atlas:", e);
 		}
 	}
 

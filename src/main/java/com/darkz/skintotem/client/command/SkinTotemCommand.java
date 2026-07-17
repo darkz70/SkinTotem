@@ -32,11 +32,11 @@ public class SkinTotemCommand {
     public static LiteralArgumentBuilder<FabricClientCommandSource> getCreditsCommand() {
         return literal("credits").executes(ctx -> {
             ctx.getSource().sendFeedback(Text.literal(
-                "\n§6╔═══════════════════════════════════╗\n" +
-                "§6║  §bSkinTotem §fv1.0.0               §6║\n" +
-                "§6║  §7Author:       §fDarkz           §6║\n" +
-                "§6║  §7Team:         §fK-TEAM          §6║\n" +
-                "§6╚═══════════════════════════════════╝\n"
+                "\n§6╔════════════════════════════════════╗\n" +
+                "§6║  §bSkinTotem §fv2.0.0                     §6║\n" +
+                "§6║  §7Author:       §fDarkz                  §6║\n" +
+                "§6║  §7Team:         §fFigureStone Team       §6║\n" +
+                "§6╚═════════════════════════════════════╝\n"
             ));
             return 1;
         });
@@ -80,8 +80,8 @@ public class SkinTotemCommand {
                 })
                 .executes(ctx -> {
                     String modelId = StringArgumentType.getString(ctx, "model_id");
-                    com.darkz.skintotem.config.SkinTotemModConfig.getInstance().setStandardSkinTotemModelValue(com.darkz.skintotem.SkinTotemMod.id("dolls/" + modelId + ".bbmodel"));
-                    com.darkz.skintotem.config.SkinTotemModConfig.getInstance().save();
+                    com.darkz.skintotem.config.SkinTotemConfig.getInstance().setStandardSkinTotemModelValue(com.darkz.skintotem.SkinTotem.id("dolls/" + modelId + ".bbmodel"));
+                    com.darkz.skintotem.config.SkinTotemConfig.getInstance().save();
                     ctx.getSource().sendFeedback(Text.literal(P + "§aDefault model set to: §f" + modelId));
                     return 1;
                 }));

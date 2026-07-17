@@ -5,14 +5,14 @@ import net.minecraft.util.Identifier;
 
 
 import com.darkz.skintotem.api.Response;
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.config.totem.SkinTotemArmsType;
 import com.darkz.skintotem.doll.data.*;
 import com.darkz.skintotem.doll.manager.StandardSkinTotemManager;
 import com.darkz.skintotem.skin.data.ParsedSkinData;
 
 
-import com.darkz.skintotem.thread.SkinTotemModTaskExecutor;
+import com.darkz.skintotem.thread.SkinTotemTaskExecutor;
 import com.darkz.skintotem.utils.texture.*;
 
 import java.util.*;
@@ -67,7 +67,7 @@ public abstract class StandardSkinProvider implements SkinProvider {
 
 		skinTotemData.getStandardSprites().setState(LoadingState.WAITING_DOWNLOADING);
 
-		return SkinTotemModTaskExecutor.execute(() -> {
+		return SkinTotemTaskExecutor.execute(() -> {
 			int waitTime = 0;
 
 			while (true) {
@@ -112,7 +112,7 @@ public abstract class StandardSkinProvider implements SkinProvider {
 
 				FailedAction onFailed = (throwable) -> {
 					textures.setState(LoadingState.CRITICAL_ERROR);
-					SkinTotemModClient.LOGGER.warn("Failed to download doll skin:", throwable);
+					SkinTotemClient.LOGGER.warn("Failed to download doll skin:", throwable);
 				};
 
 				SuccessAction onSuccess = (sprite) -> {
@@ -199,7 +199,7 @@ public abstract class StandardSkinProvider implements SkinProvider {
 				.whenComplete((r, e) -> {
 					this.reloadingFutures.remove(value);
 					if (e != null) {
-						SkinTotemModClient.LOGGER.error("Failed to reload doll data for \"{}\": ", value, e);
+						SkinTotemClient.LOGGER.error("Failed to reload doll data for \"{}\": ", value, e);
 					}
 				});
 		this.reloadingFutures.put(value, future);

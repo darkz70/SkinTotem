@@ -1,7 +1,7 @@
 package com.darkz.skintotem.doll.renderer.special;
 
 //? if >=1.21.6 {
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.render.SpecialGuiElementRenderer;
 import net.minecraft.client.render.*;
@@ -60,7 +60,7 @@ public class ItemGuiElementRenderer extends SpecialGuiElementRenderer<ItemGuiRen
 
 	@Override
 	protected String getName() {
-		return "%s-item-special-gui-renderer".formatted(SkinTotemMod.MOD_ID);
+		return "%s-item-special-gui-renderer".formatted(SkinTotem.MOD_ID);
 	}
 
 	public void renderItem(ItemStack stack, ItemDisplayContext displayContext, int light, int overlay, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int seed) {

@@ -82,11 +82,11 @@ public class ItemModelManagerMixin {
 		}
 
 		if (SkinTotemPlugin.work(stack)) {
-			stack.setdedModel(true);
+			stack.setModdedModel(true);
 			return SkinTotemPlugin.ID;
 		}
 
-		stack.setdedModel(false);
+		stack.setModdedModel(false);
 		return supplier.get();
 	}
 

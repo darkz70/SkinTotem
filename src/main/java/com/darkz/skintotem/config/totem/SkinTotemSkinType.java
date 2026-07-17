@@ -6,7 +6,7 @@ import lombok.Getter;
 import net.minecraft.text.Text;
 import net.minecraft.util.StringIdentifiable;
 import com.mojang.serialization.Codec;
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.config.other.EnumWithText;
 
 @Getter
@@ -29,11 +29,11 @@ public enum SkinTotemSkinType implements StringIdentifiable, EnumWithText {
 	}
 
 	public Text getText() {
-		return SkinTotemMod.text("modmenu.option.standard_doll_skin_type.%s".formatted(this.asString()));
+		return SkinTotem.text("modmenu.option.standard_doll_skin_type.%s".formatted(this.asString()));
 	}
 
 	public Text getSuggestionText() {
-		return SkinTotemMod.text("modmenu.option.standard_doll_skin_type.%s.suggestion".formatted(this.asString()));
+		return SkinTotem.text("modmenu.option.standard_doll_skin_type.%s.suggestion".formatted(this.asString()));
 	}
 
 	@Override

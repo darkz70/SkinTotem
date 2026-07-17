@@ -16,7 +16,7 @@ import org.slf4j.*;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.*;
 
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.api.Response;
 import com.darkz.skintotem.config.other.vector.Vec3f;
 import com.darkz.skintotem.doll.data.SkinTotemData;
@@ -40,7 +40,7 @@ import org.jetbrains.annotations.*;
 // 99 - loading
 public class BlockBenchModelManager {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("%s/BlockBenchModelManager".formatted(SkinTotemMod.MOD_NAME));
+	private static final Logger LOGGER = LoggerFactory.getLogger("%s/BlockBenchModelManager".formatted(SkinTotem.MOD_NAME));
 
 	private static final Map<Identifier, CompletableFuture<Response<MModelFactory>>> LOADED_MODELS = new ConcurrentHashMap<>();
 
@@ -321,10 +321,10 @@ public class BlockBenchModelManager {
 		BBModelResolution resolution = model.getResolution();
 
 		builder.collectAllBuiltinTextures().forEach((id, updateConsumer) -> {
-			SkinTotemModAtlasSpriteManager.registerDynamicSprite(id, false, updateConsumer::accept);
+			SkinTotemAtlasSpriteManager.registerDynamicSprite(id, false, updateConsumer::accept);
 		});
 
-		SkinTotemModAtlasManager.stitchAndUpdate(SkinTotemModAtlasSpriteManager.getSprites(), null);
+		SkinTotemAtlasManager.stitchAndUpdate(SkinTotemAtlasSpriteManager.getSprites(), null);
 
 		return () -> builder
 				.withTransform(ModModelTransform./*? if <=1.21.4 {*/ /*pivot *//*?} else {*/ origin /*?}*/(-16.0F, -8.0F, 0.0F))

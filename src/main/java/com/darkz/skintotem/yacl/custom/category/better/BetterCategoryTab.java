@@ -17,7 +17,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import com.darkz.skintotem.utils.*;
 import com.darkz.skintotem.yacl.custom.TransparencySprites;
-import com.darkz.skintotem.yacl.custom.screen.SkinTotemModYACLScreen;
+import com.darkz.skintotem.yacl.custom.screen.SkinTotemYACLScreen;
 
 @ExtensionMethod(DrawContextExtension.class)
 public class BetterCategoryTab extends CategoryTab {

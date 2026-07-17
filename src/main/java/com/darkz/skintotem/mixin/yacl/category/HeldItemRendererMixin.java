@@ -5,7 +5,7 @@ import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import dev.isxander.yacl3.gui.YACLScreen;
 import java.util.function.*;
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.client.SkinTotemClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.*;
@@ -163,7 +163,7 @@ public class HeldItemRendererMixin {
 			draw.accept(original);
 			return;
 		}
-		if (original.isEmpty() || !SkinTotemModClient.canProcess(original)) {
+		if (original.isEmpty() || !SkinTotemClient.canProcess(original)) {
 			ItemStack totem = Items.TOTEM_OF_UNDYING.getDefaultStack();
 
 			//? if >=1.20.5 {

@@ -7,9 +7,9 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import java.util.*;
 import java.util.function.*;
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 
-import static com.darkz.skintotem.client.SkinTotemModClient.LOGGER;
+import static com.darkz.skintotem.client.SkinTotemClient.LOGGER;
 
 @SuppressWarnings("unused")
 public final class CodecUtils {
@@ -24,9 +24,9 @@ public final class CodecUtils {
 
 	public static <A> A parseNewInstanceHacky(Codec<A> codec) {
 		try {
-			return codec.decode(JsonOps.INSTANCE, /*? <=1.17.1 {*//*new JsonParser().parse("{}")*//*?} else {*/JsonParser.parseString("{}")/*?}*/)/*? if >=1.20.5 {*/.getOrThrow()/*?} else {*//*.getOrThrow(false, SkinTotemMod.LOGGER::error)*//*?}*/.getFirst();
+			return codec.decode(JsonOps.INSTANCE, /*? <=1.17.1 {*//*new JsonParser().parse("{}")*//*?} else {*/JsonParser.parseString("{}")/*?}*/)/*? if >=1.20.5 {*/.getOrThrow()/*?} else {*//*.getOrThrow(false, SkinTotem.LOGGER::error)*//*?}*/.getFirst();
 		} catch (Exception e) {
-			throw new IllegalArgumentException("Failed to create new instance of config in the %s mod".formatted(SkinTotemMod.MOD_NAME), e);
+			throw new IllegalArgumentException("Failed to create new instance of config in the %s mod".formatted(SkinTotem.MOD_NAME), e);
 		}
 	}
 
@@ -56,7 +56,7 @@ public final class CodecUtils {
 			T value = codec.decode(JsonOps.INSTANCE, o)/*? if >=1.20.5 {*/.getOrThrow()/*?} else {*//*.getOrThrow(false, LOGGER::error)*//*?}*/.getFirst();
 			consumer.accept(value);
 		} catch (Exception e) {
-			SkinTotemMod.LOGGER.warn("Failed to decode JsonElement:", e);
+			SkinTotem.LOGGER.warn("Failed to decode JsonElement:", e);
 		}
 	}
 
@@ -65,7 +65,7 @@ public final class CodecUtils {
 			try {
 				return codec.decode(JsonOps.INSTANCE, o.get(id))/*? if >=1.20.5 {*/.getOrThrow()/*?} else {*//*.getOrThrow(false, LOGGER::error)*//*?}*/.getFirst();
 			} catch (Exception e) {
-				SkinTotemMod.LOGGER.warn("Failed to decode \"%s\" from JsonObject:".formatted(id), e);
+				SkinTotem.LOGGER.warn("Failed to decode \"%s\" from JsonObject:".formatted(id), e);
 			}
 		}
 		return null;
@@ -76,7 +76,7 @@ public final class CodecUtils {
 			try {
 				return codec.decode(JsonOps.INSTANCE, o.get(id))/*? if >=1.20.5 {*/.getOrThrow()/*?} else {*//*.getOrThrow(false, LOGGER::error)*//*?}*/.getFirst();
 			} catch (Exception e) {
-				SkinTotemMod.LOGGER.warn("Failed to decode \"%s\" from JsonObject:".formatted(id), e);
+				SkinTotem.LOGGER.warn("Failed to decode \"%s\" from JsonObject:".formatted(id), e);
 			}
 		}
 		return fallback;

@@ -2,7 +2,7 @@ package com.darkz.skintotem.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class TextureManagerMixin {
 			original.call(instance, s, a, o);
 			return;
 		}
-		if (SkinTotemMod.MOD_ID.equals(id.getNamespace()) && id.getPath().startsWith("remapped_textures")) {
+		if (SkinTotem.MOD_ID.equals(id.getNamespace()) && id.getPath().startsWith("remapped_textures")) {
 			return;
 		}
 		original.call(instance, s, a, o);
@@ -44,7 +44,7 @@ public class TextureManagerMixin {
 		if (id == null) {
 			return;
 		}
-		if (SkinTotemMod.MOD_ID.equals(id.getNamespace()) && id.getPath().startsWith("remapped_textures")) {
+		if (SkinTotem.MOD_ID.equals(id.getNamespace()) && id.getPath().startsWith("remapped_textures")) {
 			return;
 		}
 		original.call(instance, s, objects);

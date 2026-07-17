@@ -293,7 +293,7 @@ public class SkinTotemRenderer {
 		if (!SkinTotemClient.canProcess(stack)) {
 			return false;
 		}
-		if (stack.hasdedModel()) {
+		if (stack.hasModdedModel()) {
 			return false;
 		}
 		Text realCustomName = stack.getRealCustomName();

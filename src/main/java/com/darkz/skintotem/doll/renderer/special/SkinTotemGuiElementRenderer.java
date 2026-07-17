@@ -79,8 +79,8 @@ public class SkinTotemGuiElementRenderer extends SpecialGuiElementRenderer<SkinT
 			this.vertexConsumers.draw();
 			LightningUtils.enable3dLighting();
 
-			if (state.stack().hasdedModel()) {
-				state.stack().setdedModel(false);
+			if (state.stack().hasModdedModel()) {
+				state.stack().setModdedModel(false);
 			}
 		}
 	}

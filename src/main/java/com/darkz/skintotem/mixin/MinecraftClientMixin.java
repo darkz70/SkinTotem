@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.*;
 
 import net.fabricmc.loader.api.FabricLoader;
 
-import com.darkz.skintotem.client.SkinTotemModClient;
-import com.darkz.skintotem.config.SkinTotemModConfig;
+import com.darkz.skintotem.client.SkinTotemClient;
+import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.gui.screen.WelcomeScreen;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class MinecraftClientMixin {
 	//? if >=1.21 {
 	@Inject(at = @At("HEAD"), method = "createInitScreens")
 	private void addSTHelloScreen(List<Function<Runnable, Screen>> list, /*? if >=1.21.6 {*/ CallbackInfoReturnable<Boolean> /*?} else {*/ /*CallbackInfo *//*?}*/ ci) {
-		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
+		SkinTotemConfig config = SkinTotemConfig.getInstance();
 		if (config.isFirstRun()) {
 			list.add(WelcomeScreen::new);
 			if (!FabricLoader.getInstance().isDevelopmentEnvironment()) {
@@ -39,7 +39,7 @@ public class MinecraftClientMixin {
 	private void addSTHelloScreen(MinecraftClient client, RealmsClient realmsClient, ResourceReload resourceReload, QuickPlay quickPlay, Operation<Void> original) {
 		Runnable runnable = () -> original.call(client, realmsClient, resourceReload, quickPlay);
 
-		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
+		SkinTotemConfig config = SkinTotemConfig.getInstance();
 		if (config.isFirstRun()) {
 			client.setScreen(new WelcomeScreen(runnable));
 			if (!FabricLoader.getInstance().isDevelopmentEnvironment()) {

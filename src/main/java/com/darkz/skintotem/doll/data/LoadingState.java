@@ -3,7 +3,7 @@ package com.darkz.skintotem.doll.data;
 import lombok.Getter;
 import net.minecraft.text.Text;
 
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 
 @Getter
 public enum LoadingState {
@@ -19,6 +19,6 @@ public enum LoadingState {
 	DOWNLOADED; // X
 
 	public Text getText() {
-		return SkinTotemMod.text("modmenu.option.standard_doll_skin_type.result.%s".formatted(this.name().toLowerCase()));
+		return SkinTotem.text("modmenu.option.standard_doll_skin_type.result.%s".formatted(this.name().toLowerCase()));
 	}
 }

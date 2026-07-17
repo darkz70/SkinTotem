@@ -3,11 +3,11 @@ package com.darkz.skintotem.atlas.manager;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.atlas.*;
 import com.darkz.skintotem.atlas.stitch.*;
-import com.darkz.skintotem.client.SkinTotemModClient;
-import com.darkz.skintotem.thread.SkinTotemModTaskExecutor;
+import com.darkz.skintotem.client.SkinTotemClient;
+import com.darkz.skintotem.thread.SkinTotemTaskExecutor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.texture.*;
@@ -16,11 +16,11 @@ import net.minecraft.resource.*;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.*;
 
-public class SkinTotemModAtlasManager {
+public class SkinTotemAtlasManager {
 
 	private static final StitchHooksManager STITCH_HOOKS_MANAGER = new StitchHooksManager();
 	private static final AtomicInteger LATEST_ATLAS_VERSION = new AtomicInteger();
-	public static final Identifier ATLAS_ID = SkinTotemMod.id("main_atlas.png");
+	public static final Identifier ATLAS_ID = SkinTotem.id("main_atlas.png");
 	//? if >=1.21.11 {
 	public static final RenderLayer ATLAS_RENDER_LAYER = RenderLayers.entityTranslucent(ATLAS_ID);
 	//?} else {
@@ -60,7 +60,7 @@ public class SkinTotemModAtlasManager {
 	}
 
 	public static void stitchAndUpdate(Set<AtlasSprite> sprites, @Nullable OnAtlasStitched onAtlasStitched) {
-		stitchAndUpdate(sprites, SkinTotemModTaskExecutor.MAIN_EXECUTOR, onAtlasStitched);
+		stitchAndUpdate(sprites, SkinTotemTaskExecutor.MAIN_EXECUTOR, onAtlasStitched);
 	}
 
 	public static void stitchAndUpdate(Set<AtlasSprite> sprites, Executor executor, @Nullable OnAtlasStitched onAtlasStitched) {
@@ -71,7 +71,7 @@ public class SkinTotemModAtlasManager {
 		int currentId = LATEST_ATLAS_VERSION.incrementAndGet();
 		STITCH_HOOKS_MANAGER.addHook(onAtlasStitched);
 
-		SpriteAtlasTexture atlasTexture = SkinTotemModAtlasManager.createNotRegisteredInstance();
+		SpriteAtlasTexture atlasTexture = SkinTotemAtlasManager.createNotRegisteredInstance();
 
 		List<SpriteContents> contents = sprites.stream().map(AtlasSprite::getContents).filter(Objects::nonNull).toList();
 		//? if >=1.21.9 {
@@ -104,7 +104,7 @@ public class SkinTotemModAtlasManager {
 		public void upload(StitchResult result) {
 			int latestAtlasVersion = LATEST_ATLAS_VERSION.get();
 			if (this.version != latestAtlasVersion) {
-				SkinTotemModClient.LOGGER.warn("Skipped atlas stitching, waiting \"{}\"", latestAtlasVersion);
+				SkinTotemClient.LOGGER.warn("Skipped atlas stitching, waiting \"{}\"", latestAtlasVersion);
 				return;
 			}
 			//? if >=1.21.11 {
@@ -113,7 +113,7 @@ public class SkinTotemModAtlasManager {
 			/*this.atlas.upload(result);
 			*///?}
 			this.atlasSprites.forEach(AtlasSprite::markUploaded);
-			SkinTotemModAtlasManager.setAtlas(this.atlas);
+			SkinTotemAtlasManager.setAtlas(this.atlas);
 			STITCH_HOOKS_MANAGER.runAllHooks();
  		}
 

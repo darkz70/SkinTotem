@@ -1,8 +1,8 @@
 package com.darkz.skintotem.utils.mixin;
 
-public interface ItemStackWithdedBakedModel {
+public interface ItemStackWithModdedBakedModel {
 
-	void skinTotem$setdedModel(boolean modded);
+	void skinTotem$setModdedModel(boolean modded);
 
-	boolean skinTotem$isdedModel();
+	boolean skinTotem$isModdedModel();
 }

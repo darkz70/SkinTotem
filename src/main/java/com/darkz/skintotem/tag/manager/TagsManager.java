@@ -4,9 +4,9 @@ import it.unimi.dsi.fastutil.chars.*;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
 
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.doll.data.SkinTotemData;
-import com.darkz.skintotem.pack.SkinTotemModModelFinder;
+import com.darkz.skintotem.pack.SkinTotemModelFinder;
 import com.darkz.skintotem.tag.*;
 
 import java.util.*;
@@ -63,7 +63,7 @@ public class TagsManager {
 	}
 
 	public static void reloadCustomModelIdsTags() {
-		Collection<Set<Identifier>> values = SkinTotemModModelFinder.getFoundedTotemModels().values();
+		Collection<Set<Identifier>> values = SkinTotemModelFinder.getFoundedTotemModels().values();
 		Set<Character> characters = getRegisteredTags().keySet();
 		TagsGenerator generator = new TagsGenerator();
 
@@ -110,12 +110,12 @@ public class TagsManager {
 	}
 
 	private static void registerBuiltinCustomModel(char ch, String modelName) {
-		Identifier modelId = SkinTotemMod.getDollModelId(modelName);
+		Identifier modelId = SkinTotem.getDollModelId(modelName);
 		CustomModelTag tag = CustomModelTag.startBuilder(ch, modelId)
 				.setAction((data) -> data.setFrameMModel(modelId))
 				.build();
 		CUSTOM_MODEL_IDS_TAGS.put(ch, tag);
-		SkinTotemModModelFinder.getBuiltinTotemModels().add(modelId); // todo make it work in proper way
+		SkinTotemModelFinder.getBuiltinTotemModels().add(modelId); // todo make it work in proper way
 	}
 
 	public static void registerPostprocessorTag(Tag tag) {
@@ -224,17 +224,17 @@ public class TagsManager {
 
 	public static Identifier getTagIcon(char c) {
 		if (hasRegisteredTag(CUSTOM_MODEL_IDS_TAGS, c)) {
-			return SkinTotemMod.id("textures/gui/tags/unknown.png");
+			return SkinTotem.id("textures/gui/tags/unknown.png");
 		}
-		return SkinTotemMod.id("textures/gui/tags/%s.png".formatted(c));
+		return SkinTotem.id("textures/gui/tags/%s.png".formatted(c));
 	}
 
 	public static Text getTagDescription(Character character) {
-		return SkinTotemMod.text("tags.%s".formatted(character));
+		return SkinTotem.text("tags.%s".formatted(character));
 	}
 
 	public static Text getAppliedTagDescription(char c) {
-		return SkinTotemMod.text("tags.%s.applied".formatted(c));
+		return SkinTotem.text("tags.%s.applied".formatted(c));
 	}
 
 	@SuppressWarnings("all")

@@ -8,7 +8,7 @@ import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.extension.ItemStackExtension;
 
 @Mixin(AnvilScreenHandler.class)
@@ -20,7 +20,7 @@ public class AnvilScreenHandlerMixin {
 			method = "updateResult"
 	)
 	private Text swapItemName(ItemStack stack, Operation<Text> original) {
-		if (!SkinTotemModClient.canProcess(stack)) {
+		if (!SkinTotemClient.canProcess(stack)) {
 			return original.call(stack);
 		}
 		Text customName = stack.getRealCustomName();

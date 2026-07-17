@@ -9,9 +9,9 @@ import net.minecraft.client.font.*;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ClickableWidget;
 
-import com.darkz.skintotem.SkinTotemMod;
-import com.darkz.skintotem.client.SkinTotemModClient;
-import com.darkz.skintotem.config.SkinTotemModConfig;
+import com.darkz.skintotem.SkinTotem;
+import com.darkz.skintotem.client.SkinTotemClient;
+import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.config.totem.SkinTotemSkinType;
 import com.darkz.skintotem.doll.data.SkinTotemData;
 import com.darkz.skintotem.doll.renderer.SkinTotemRenderer;
@@ -64,7 +64,7 @@ public class SkinTotemPreviewRenderer implements ImageRenderer {
 
 	private void updateSuggestion(int width, boolean resized) {
 		TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
-		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
+		SkinTotemConfig config = SkinTotemConfig.getInstance();
 		SkinTotemSkinType skinType = config.getStandardSkinTotemSkinType();
 		String skinValue = config.getStandardSkinTotemSkinValue();
 
@@ -116,11 +116,11 @@ public class SkinTotemPreviewRenderer implements ImageRenderer {
 	private void renderDollStatus(DrawContext context, int x, int y, int width) {
 		BackgroundRenderer.drawTransparencyWidgetBackground(context, x, y, width, 30, true, true);
 
-		DrawUtils.drawCenteredText(context, SkinTotemMod.text("text.status").append(this.data.getStandardSprites().getState().getText()), x + 2, y + 15, width - 2);
+		DrawUtils.drawCenteredText(context, SkinTotem.text("text.status").append(this.data.getStandardSprites().getState().getText()), x + 2, y + 15, width - 2);
 	}
 
 	private int renderDoll(DrawContext context, int x, int y, int size) {
-		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
+		SkinTotemConfig config = SkinTotemConfig.getInstance();
 
 		BackgroundRenderer.drawTransparencyWidgetBackground(context, x, y, size, size, true, true);
 

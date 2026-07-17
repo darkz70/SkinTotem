@@ -56,7 +56,7 @@ public class SkinTotemManager {
 		}
 
 		return CompletableFuture.allOf(list.toArray(new CompletableFuture[0])).thenApply((__) -> {
-			SkinTotemModAtlasManager.stitchAndUpdate(SkinTotemModAtlasSpriteManager.getSprites(), null);
+			SkinTotemAtlasManager.stitchAndUpdate(SkinTotemAtlasSpriteManager.getSprites(), null);
 			action.accept((System.currentTimeMillis() - startMs) / 1000F);
 			return null;
 		});
@@ -80,7 +80,7 @@ public class SkinTotemManager {
 		}
 
 		return completableFuture.thenApply((__) -> {
-			SkinTotemModAtlasManager.stitchAndUpdate(SkinTotemModAtlasSpriteManager.getSprites(), null);
+			SkinTotemAtlasManager.stitchAndUpdate(SkinTotemAtlasSpriteManager.getSprites(), null);
 			action.accept((System.currentTimeMillis() - startMs) / 1000F);
 			return null;
 		});

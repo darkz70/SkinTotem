@@ -64,8 +64,8 @@ public class ItemRenderStateMixin implements ItemRenderStateWithStack {
 		}
 
 		if (this.shouldClear) {
-			if (this.stack != null && this.stack.hasdedModel()) {
-				this.stack.setdedModel(false);
+			if (this.stack != null && this.stack.hasModdedModel()) {
+				this.stack.setModdedModel(false);
 			}
 			this.stack = null;
 		}

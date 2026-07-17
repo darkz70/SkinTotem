@@ -10,7 +10,7 @@ import net.minecraft.client.gui.*;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.*;
 
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.yacl.custom.screen.SkinTotemModelSelectionScreen;
 
 public class SkinTotemModelControllerElement extends ControllerWidget<SkinTotemModelController> {
@@ -21,7 +21,7 @@ public class SkinTotemModelControllerElement extends ControllerWidget<SkinTotemM
 	public SkinTotemModelControllerElement(SkinTotemModelController controller, YACLScreen screen, Dimension<Integer> dim) {
 		super(controller, screen, dim);
 		this.controller = controller;
-		this.selectText = SkinTotemMod.text("text.select_text");
+		this.selectText = SkinTotem.text("text.select_text");
 	}
 
 	@Override

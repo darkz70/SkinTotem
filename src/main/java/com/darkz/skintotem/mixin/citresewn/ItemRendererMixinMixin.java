@@ -29,7 +29,7 @@ public abstract class ItemRendererMixinMixin {
 	)
 	@Inject(method = "@MixinSquared:Handler", at = @At(value = "INVOKE", target = "Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable;setReturnValue(Ljava/lang/Object;)V", remap = false))
 	private void flagCITResewnModel(ItemStack stack, World world, LivingEntity entity, int seed, CallbackInfoReturnable<BakedModel> cir, CallbackInfo ci) {
-		stack.setdedModel(true);
+		stack.setModdedModel(true);
 	}
 	*///?}
 }

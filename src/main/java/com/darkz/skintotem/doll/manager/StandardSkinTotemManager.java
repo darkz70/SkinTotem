@@ -1,13 +1,13 @@
 package com.darkz.skintotem.doll.manager;
 
-import com.darkz.skintotem.atlas.manager.SkinTotemModAtlasSpriteManager;
+import com.darkz.skintotem.atlas.manager.SkinTotemAtlasSpriteManager;
 import net.minecraft.client.texture.*;
 import net.minecraft.util.Identifier;
-import com.darkz.skintotem.SkinTotemMod;
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.SkinTotem;
+import com.darkz.skintotem.client.SkinTotemClient;
 
 
-import com.darkz.skintotem.config.SkinTotemModConfig;
+import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.config.totem.*;
 import com.darkz.skintotem.doll.data.*;
 import com.darkz.skintotem.skin.provider.extended.MojangSkinProvider;
@@ -49,14 +49,14 @@ public class StandardSkinTotemManager {
 	}
 
 	public static SkinTotemData overrideWithConfigValues(SkinTotemData data) {
-		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
+		SkinTotemConfig config = SkinTotemConfig.getInstance();
 		data.getStandardSprites().setStandardArmsType(config.getStandardSkinTotemArmsType());
 		return data;
 	}
 
 	@NotNull
 	public static SkinTotemData loadStandardDoll() {
-		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
+		SkinTotemConfig config = SkinTotemConfig.getInstance();
 		SkinTotemSkinType skinTotemSkin = config.getStandardSkinTotemSkinType();
 		String data = config.getStandardSkinTotemSkinValue();
 
@@ -86,12 +86,12 @@ public class StandardSkinTotemManager {
 		textures.setState(LoadingState.DOWNLOADING);
 
 		CompletableFuture.runAsync(() -> {
-			Identifier id = SkinTotemMod.getDollTextureId("file/%s".formatted(sha1(data)));
+			Identifier id = SkinTotem.getDollTextureId("file/%s".formatted(sha1(data)));
 
 			try (InputStream inputStream = Files.newInputStream(Path.of(data))) {
 				NativeImage nativeImage = NativeImage.read(inputStream);
 
-				SkinTotemModAtlasSpriteManager.registerSpecialSkinSprite(id, nativeImage, true, (sprite) -> {
+				SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(id, nativeImage, true, (sprite) -> {
 					textures.setSkinSprite(sprite);
 					textures.setState(LoadingState.DOWNLOADED);
 				});
@@ -99,7 +99,7 @@ public class StandardSkinTotemManager {
 			} catch (NoSuchFileException e) {
 				textures.setState(LoadingState.CRITICAL_ERROR);
 			} catch (Exception e) {
-				SkinTotemModClient.LOGGER.error("Failed to load skin from file at \"{}\":", data, e);
+				SkinTotemClient.LOGGER.error("Failed to load skin from file at \"{}\":", data, e);
 				textures.setState(LoadingState.CRITICAL_ERROR);
 			}
 		});
@@ -113,11 +113,11 @@ public class StandardSkinTotemManager {
 		textures.setState(LoadingState.DOWNLOADING);
 
 		CompletableFuture.runAsync(() -> {
-			Identifier id = SkinTotemMod.getDollTextureId("url/%s".formatted(sha1(data)));
+			Identifier id = SkinTotem.getDollTextureId("url/%s".formatted(sha1(data)));
 
 			FailedAction onFailed = (throwable) -> {
 				textures.setState(LoadingState.CRITICAL_ERROR);
-				SkinTotemModClient.LOGGER.warn("Failed to download standard doll url skin:", throwable);
+				SkinTotemClient.LOGGER.warn("Failed to download standard doll url skin:", throwable);
 			};
 
 			SuccessAction onSuccess = (sprite) -> {

@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.*;
 import net.minecraft.util.*;
 
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.extension.ItemStackExtension;
 import com.darkz.skintotem.gui.widget.tag.TagMenuWidget.TagRow;
 import com.darkz.skintotem.tag.*;
@@ -27,7 +27,7 @@ import org.jetbrains.annotations.*;
 @ExtensionMethod(ItemStackExtension.class)
 public class TagMenuWidget extends AbstractVersionedEntryListWidget<TagRow> {
 
-	public static final Identifier BACKGROUND = SkinTotemMod.id("textures/gui/tag_menu/background_new.png");
+	public static final Identifier BACKGROUND = SkinTotem.id("textures/gui/tag_menu/background_new.png");
 
 	public TagMenuWidget(int x, int y, Renamer renamer) {
 		super(x, y, 30, 125, 16);
@@ -49,7 +49,7 @@ public class TagMenuWidget extends AbstractVersionedEntryListWidget<TagRow> {
 
 		List<CustomModelTag> customModelIds = TagsManager.getCustomModelIdsTags().values().stream().toList();
 		if (!customModelIds.isEmpty()) {
-			this.addEntry(new SeparatorRow(SkinTotemMod.text("tag_menu.custom_models.title")));
+			this.addEntry(new SeparatorRow(SkinTotem.text("tag_menu.custom_models.title")));
 		}
 
 		List<TagButtonWidget> allCustomModelWidgets = new ArrayList<>();
@@ -266,7 +266,7 @@ public class TagMenuWidget extends AbstractVersionedEntryListWidget<TagRow> {
 
 	public static class SeparatorRow extends TagRow {
 
-		public static final Identifier SEPARATOR = SkinTotemMod.id("textures/gui/tag_menu/separator.png");
+		public static final Identifier SEPARATOR = SkinTotem.id("textures/gui/tag_menu/separator.png");
 
 		private final Text text;
 

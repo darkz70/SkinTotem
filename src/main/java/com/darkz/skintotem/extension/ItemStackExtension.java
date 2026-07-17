@@ -65,12 +65,12 @@ public class ItemStackExtension {
 		return applyRenderProperties ? data.applyRenderProperties() : data;
 	}
 
-	public static void setdedModel(ItemStack itemStack, boolean modded) {
-		((ItemStackWithdedBakedModel) itemStack).skinTotem$setdedModel(modded);
+	public static void setModdedModel(ItemStack itemStack, boolean modded) {
+		((ItemStackWithModdedBakedModel) itemStack).skinTotem$setModdedModel(modded);
 	}
 
-	public static boolean hasdedModel(ItemStack itemStack) {
-		return ((ItemStackWithdedBakedModel) itemStack).skinTotem$isdedModel();
+	public static boolean hasModdedModel(ItemStack itemStack) {
+		return ((ItemStackWithModdedBakedModel) itemStack).skinTotem$isModdedModel();
 	}
 
 	public static void setPlayerEntity(ItemStack itemStack, AbstractClientPlayerEntity playerEntity) {

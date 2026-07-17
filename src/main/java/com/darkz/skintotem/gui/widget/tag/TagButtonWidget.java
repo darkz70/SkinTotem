@@ -8,7 +8,7 @@ import net.minecraft.client.gui.tooltip.*;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.util.Identifier;
 
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.tag.Tag;
 import com.darkz.skintotem.tag.manager.TagsManager;
 import com.darkz.skintotem.utils.DrawUtils;
@@ -31,13 +31,13 @@ import net.minecraft.client.input.AbstractInput;
 @Setter
 public class TagButtonWidget extends ButtonWidget {
 
-	public static final Identifier INACTIVE_TEXTURE = SkinTotemMod.id("textures/gui/tag_menu/button_inactive.png");
+	public static final Identifier INACTIVE_TEXTURE = SkinTotem.id("textures/gui/tag_menu/button_inactive.png");
 
 	public static final ButtonTextures TEXTURES = new ButtonTextures(
-			SkinTotemMod.id("textures/gui/tag_menu/button_pressed.png"),
-			SkinTotemMod.id("textures/gui/tag_menu/button_unpressed.png"),
-			SkinTotemMod.id("textures/gui/tag_menu/button_pressed_hovered.png"),
-			SkinTotemMod.id("textures/gui/tag_menu/button_unpressed_hovered.png")
+			SkinTotem.id("textures/gui/tag_menu/button_pressed.png"),
+			SkinTotem.id("textures/gui/tag_menu/button_unpressed.png"),
+			SkinTotem.id("textures/gui/tag_menu/button_pressed_hovered.png"),
+			SkinTotem.id("textures/gui/tag_menu/button_unpressed_hovered.png")
 	);
 
 	private Tag tag;

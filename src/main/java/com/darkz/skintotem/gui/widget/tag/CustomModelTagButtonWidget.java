@@ -13,8 +13,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
-import com.darkz.skintotem.client.SkinTotemModClient;
-import com.darkz.skintotem.config.SkinTotemModConfig;
+import com.darkz.skintotem.client.SkinTotemClient;
+import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.doll.manager.StandardSkinTotemManager;
 import com.darkz.skintotem.doll.renderer.SkinTotemRenderer;
 import com.darkz.skintotem.gui.tooltip.preview.SkinTotemPreviewTooltipData;
@@ -86,7 +86,7 @@ public class CustomModelTagButtonWidget extends TagButtonWidget {
 			return false;
 		}
 		int amount = ((int) verticalAmount) > 0 ? 1 : -1;
-		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
+		SkinTotemConfig config = SkinTotemConfig.getInstance();
 		if (ScreenUtils.hasShiftDown()) {
 			config.setBetterTagMenuTooltipSize(MathHelper.clamp(config.getBetterTagMenuTooltipSize() + (amount * 2), 60, 500));
 			return true;

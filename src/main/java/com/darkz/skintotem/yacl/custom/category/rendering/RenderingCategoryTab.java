@@ -16,7 +16,7 @@ import net.minecraft.text.*;
 
 import com.darkz.skintotem.utils.*;
 import com.darkz.skintotem.yacl.custom.TransparencySprites;
-import com.darkz.skintotem.yacl.custom.screen.SkinTotemModYACLScreen;
+import com.darkz.skintotem.yacl.custom.screen.SkinTotemYACLScreen;
 
 import java.util.function.Consumer;
 import org.jetbrains.annotations.Nullable;
@@ -38,7 +38,7 @@ public class RenderingCategoryTab implements TabExt {
 	*///?}
 
 	public RenderingCategoryTab(YACLScreen screen, ConfigCategory category, ScreenRect tabArea) {
-		if (!(screen instanceof SkinTotemModYACLScreen yaclScreen)) {
+		if (!(screen instanceof SkinTotemYACLScreen yaclScreen)) {
 			throw new IllegalArgumentException("This category is only for me! [My Totem Doll]");
 		}
 

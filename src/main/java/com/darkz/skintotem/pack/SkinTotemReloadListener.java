@@ -5,7 +5,7 @@ import com.darkz.skintotem.atlas.manager.*;
 import net.minecraft.resource.*;
 import net.minecraft.util.*;
 import net.fabricmc.fabric.api.resource.*;
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.model.bb.manager.BlockBenchModelManager;
 import com.darkz.skintotem.tag.manager.TagsManager;
 import net.minecraft.util.profiler.*;
@@ -14,19 +14,19 @@ import net.minecraft.util.profiler.*;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 //?}
 
-public class SkinTotemModReloadListener implements /*? if >=1.21.9 {*/ ResourceReloader /*?} else {*/ /*IdentifiableResourceReloadListener *//*?}*/ {
+public class SkinTotemReloadListener implements /*? if >=1.21.9 {*/ ResourceReloader /*?} else {*/ /*IdentifiableResourceReloadListener *//*?}*/ {
 
 	public static void register() {
 		//? if >=1.21.9 {
-		ResourceLoader.get(ResourceType.CLIENT_RESOURCES).registerReloader(getFabricId(), new SkinTotemModReloadListener());
+		ResourceLoader.get(ResourceType.CLIENT_RESOURCES).registerReloader(getFabricId(), new SkinTotemReloadListener());
 		//?} else {
-		/*ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new SkinTotemModReloadListener());
+		/*ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new SkinTotemReloadListener());
 		 *///?}
 	}
 
 	/*? if <=1.21.8 {*//*@Override*//*?}*/
 	public /*? if >=1.21.9 {*/ static /*?}*/ Identifier getFabricId() {
-		return SkinTotemMod.id("%s-reload-listener".formatted(SkinTotemMod.MOD_ID));
+		return SkinTotem.id("%s-reload-listener".formatted(SkinTotem.MOD_ID));
 	}
 
 	//? if >=1.21.9 {
@@ -66,12 +66,12 @@ public class SkinTotemModReloadListener implements /*? if >=1.21.9 {*/ ResourceR
 	private void reloadStuff(Synchronizer synchronizer, ResourceManager resourceManager, Executor prepareExecutor, Executor applyExecutor) {
 		this.reloadAtlas(synchronizer, prepareExecutor, applyExecutor);
 		BlockBenchModelManager.reload(resourceManager);
-		SkinTotemModModelFinder.reload(resourceManager);
+		SkinTotemModelFinder.reload(resourceManager);
 		TagsManager.reloadCustomModelIdsTags();
 	}
 
 	private void reloadAtlas(Synchronizer synchronizer, Executor prepareExecutor, Executor applyExecutor) {
-		SkinTotemModAtlasSpriteManager.reload();
-		SkinTotemModAtlasManager.stitchAndUpdate(SkinTotemModAtlasSpriteManager.getSprites(), synchronizer, prepareExecutor, applyExecutor, null);
+		SkinTotemAtlasSpriteManager.reload();
+		SkinTotemAtlasManager.stitchAndUpdate(SkinTotemAtlasSpriteManager.getSprites(), synchronizer, prepareExecutor, applyExecutor, null);
 	}
 }

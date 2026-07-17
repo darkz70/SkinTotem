@@ -7,16 +7,16 @@ import net.minecraft.client.gui.tooltip.*;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.gui.tooltip.combined.*;
 import com.darkz.skintotem.gui.tooltip.info.*;
 import com.darkz.skintotem.gui.tooltip.preview.*;
 import com.darkz.skintotem.gui.tooltip.state.LoadingStateTooltipData;
 import com.darkz.skintotem.gui.tooltip.tags.*;
 import com.darkz.skintotem.gui.tooltip.wrapped.*;
-import com.darkz.skintotem.thread.SkinTotemModTaskExecutor;
+import com.darkz.skintotem.thread.SkinTotemTaskExecutor;
 
-public class SkinTotemModEvents {
+public class SkinTotemEvents {
 
 	public static void register() {
 		registerTooltipCallbacks();
@@ -32,7 +32,7 @@ public class SkinTotemModEvents {
 				return new InfoTooltipComponent(tooltipData.key(), tooltipData.color());
 			}
 			if (data instanceof LoadingStateTooltipData tooltipData) {
-				return TooltipComponent.of(SkinTotemMod.text("text.status").append(tooltipData.state().getText()).asOrderedText());
+				return TooltipComponent.of(SkinTotem.text("text.status").append(tooltipData.state().getText()).asOrderedText());
 			}
 			if (data instanceof CombinedTooltipData tooltipData) {
 				return new CombinedTooltipComponent(tooltipData.list());
@@ -49,9 +49,9 @@ public class SkinTotemModEvents {
 
 	private static void registerLifecycleEvents() {
 		ClientLifecycleEvents.CLIENT_STOPPING.register((client) -> {
-			SkinTotemModTaskExecutor.stop();
-			SkinTotemModAtlasManager.close();
-			SkinTotemModAtlasSpriteManager.close();
+			SkinTotemTaskExecutor.stop();
+			SkinTotemAtlasManager.close();
+			SkinTotemAtlasSpriteManager.close();
 		});
 	}
 }

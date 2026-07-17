@@ -2,7 +2,7 @@ package com.darkz.skintotem.atlas;
 
 import java.util.Objects;
 import lombok.*;
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import net.minecraft.client.texture.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -31,7 +31,7 @@ public class RemappedAtlasSprite extends AtlasSprite {
 	}
 
 	public static RemappedAtlasSprite ofResource(@NotNull Identifier resourceId) {
-		Identifier spriteId = SkinTotemMod.id("remapped_sprites/%s.png".formatted(MathHelper.abs(resourceId.toString().hashCode())));
+		Identifier spriteId = SkinTotem.id("remapped_sprites/%s.png".formatted(MathHelper.abs(resourceId.toString().hashCode())));
 		return new RemappedAtlasSprite(resourceId, spriteId);
 	}
 

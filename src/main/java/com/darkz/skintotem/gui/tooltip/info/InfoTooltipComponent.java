@@ -8,7 +8,7 @@ import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.text.*;
 import net.minecraft.util.Identifier;
 
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.utils.*;
 
 //? if >=1.21.11 {
@@ -23,15 +23,15 @@ import net.minecraft.client.font.MultilineText.Alignment;
 
 public class InfoTooltipComponent implements TooltipComponent {
 
-	public static final Identifier SEPARATOR = SkinTotemMod.id("textures/gui/info/separator.png");
+	public static final Identifier SEPARATOR = SkinTotem.id("textures/gui/info/separator.png");
 
 	private final MutableText title;
 	private final MultilineText text;
 
 	public InfoTooltipComponent(String key, int color) {
-		this.title = SkinTotemMod.text("%s.title".formatted(key));
+		this.title = SkinTotem.text("%s.title".formatted(key));
 		this.title.setStyle(this.title.getStyle().withColor(color));
-		this.text  = MultilineText.create(MinecraftClient.getInstance().textRenderer, SkinTotemMod.text("%s.text".formatted(key)), 140);
+		this.text  = MultilineText.create(MinecraftClient.getInstance().textRenderer, SkinTotem.text("%s.text".formatted(key)), 140);
 	}
 
 	@Override

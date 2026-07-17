@@ -8,12 +8,12 @@ import lombok.experimental.ExtensionMethod;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 
 @Getter
-public class SkinTotemModYACLScreen extends YACLScreen {
+public class SkinTotemYACLScreen extends YACLScreen {
 
-	public SkinTotemModYACLScreen(YetAnotherConfigLib config, Screen parent) {
+	public SkinTotemYACLScreen(YetAnotherConfigLib config, Screen parent) {
 		super(config, parent);
 	}
 

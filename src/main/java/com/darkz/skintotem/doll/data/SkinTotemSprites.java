@@ -8,8 +8,8 @@ import net.minecraft.util.Identifier;
 import com.darkz.skintotem.config.totem.SkinTotemArmsType;
 
 import org.jetbrains.annotations.*;
-import static com.darkz.skintotem.atlas.manager.SkinTotemModAtlasSpriteManager.ELYTRA_SPRITE;
-import static com.darkz.skintotem.atlas.manager.SkinTotemModAtlasSpriteManager.STEVE_SKIN_SPRITE;
+import static com.darkz.skintotem.atlas.manager.SkinTotemAtlasSpriteManager.ELYTRA_SPRITE;
+import static com.darkz.skintotem.atlas.manager.SkinTotemAtlasSpriteManager.STEVE_SKIN_SPRITE;
 
 //? if >=1.21.9 {
 
@@ -70,24 +70,24 @@ public class SkinTotemSprites {
 		SkinTotemSprites skinTotemSprites = new SkinTotemSprites(null, null, null, SkinTotemArmsType.of(slim));
 
 		if (skinTexture != null) {
-			SkinTotemModAtlasSpriteManager.registerSpecialSkinSprite(skinTexture, false, skinTotemSprites::setSkinSprite);
+			SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(skinTexture, false, skinTotemSprites::setSkinSprite);
 		}
 
 		if (capeTexture != null) {
 			if (remapCape) {
 				RemappedAtlasSprite capeSprite = RemappedAtlasSprite.ofResource(capeTexture);
-				SkinTotemModAtlasSpriteManager.registerSpecialRemappedSprite(capeSprite);
+				SkinTotemAtlasSpriteManager.registerSpecialRemappedSprite(capeSprite);
 				skinTotemSprites.setCapeSprite(capeSprite);
 			} else {
-				SkinTotemModAtlasSpriteManager.registerSpecialSkinSprite(capeTexture, false, skinTotemSprites::setCapeSprite);
+				SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(capeTexture, false, skinTotemSprites::setCapeSprite);
 			}
 		}
 
 		if (elytraTexture != null) {
-			SkinTotemModAtlasSpriteManager.registerSpecialSkinSprite(elytraTexture, false, skinTotemSprites::setElytraSprite);
+			SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(elytraTexture, false, skinTotemSprites::setElytraSprite);
 		}
 
-		SkinTotemModAtlasManager.stitchAndUpdate(SkinTotemModAtlasSpriteManager.getSprites(), () -> {
+		SkinTotemAtlasManager.stitchAndUpdate(SkinTotemAtlasSpriteManager.getSprites(), () -> {
 			skinTotemSprites.setState(LoadingState.DOWNLOADED);
 		});
 

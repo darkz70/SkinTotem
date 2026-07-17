@@ -46,7 +46,7 @@ public class SelectItemModelMixin {
 		*///?}
 
 		if (standardModel != itemModel) {
-			stack.setdedModel(true);
+			stack.setModdedModel(true);
 		}
 	}
 

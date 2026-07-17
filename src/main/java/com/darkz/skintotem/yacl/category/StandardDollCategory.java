@@ -4,7 +4,7 @@ import dev.isxander.yacl3.api.*;
 import lombok.experimental.ExtensionMethod;
 import net.minecraft.util.Identifier;
 
-import com.darkz.skintotem.config.SkinTotemModConfig;
+import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.config.totem.*;
 import com.darkz.skintotem.doll.data.SkinTotemData;
 import com.darkz.skintotem.doll.manager.SkinTotemManager;
@@ -18,7 +18,7 @@ import java.util.*;
 @ExtensionMethod(SimpleOptionExtension.class)
 public class StandardDollCategory {
 
-	public static ConfigCategory get(SkinTotemModConfig defConfig, SkinTotemModConfig config) {
+	public static ConfigCategory get(SkinTotemConfig defConfig, SkinTotemConfig config) {
 		SkinTotemPreviewRenderer renderer = new SkinTotemPreviewRenderer();
 
 		List<Option<?>> options = new ArrayList<>();
@@ -53,7 +53,7 @@ public class StandardDollCategory {
 		return standardDollCategory;
 	}
 
-	private static OptionGroup getStandardDollSkinGroup(SkinTotemModConfig defConfig, SkinTotemModConfig config, SkinTotemPreviewRenderer renderer) {
+	private static OptionGroup getStandardDollSkinGroup(SkinTotemConfig defConfig, SkinTotemConfig config, SkinTotemPreviewRenderer renderer) {
 		Option<String> standardDollSkinDataOption = SimpleOption.<String>startBuilder("standard_doll_skin_data")
 				.withCustomDescription(renderer)
 				.withBinding(defConfig.getStandardSkinTotemSkinValue(), config::getStandardSkinTotemSkinValue, (value) -> {
@@ -83,7 +83,7 @@ public class StandardDollCategory {
 				).build();
 	}
 
-	private static OptionGroup getStandardDollModelGroup(SkinTotemModConfig defConfig, SkinTotemModConfig config, SkinTotemPreviewRenderer renderer) {
+	private static OptionGroup getStandardDollModelGroup(SkinTotemConfig defConfig, SkinTotemConfig config, SkinTotemPreviewRenderer renderer) {
 		Option<Identifier> standardDollModelPathOption = SimpleOption.<Identifier>startBuilder("standard_doll_model_path")
 				.withCustomDescription(renderer)
 				.withBinding(defConfig.getStandardSkinTotemModelValue(), config::getStandardSkinTotemModelValue, (value) -> {

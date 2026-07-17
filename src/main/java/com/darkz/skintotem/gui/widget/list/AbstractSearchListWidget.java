@@ -2,7 +2,7 @@ package com.darkz.skintotem.gui.widget.list;
 
 import java.util.*;
 import lombok.*;
-import com.darkz.skintotem.SkinTotemMod;
+import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.utils.DrawUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.*;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.*;
 @Setter
 public abstract class AbstractSearchListWidget<E extends Entry<E>> extends AbstractVersionedEntryListWidget<E> {
 
-	public static final MutableText NOTHING_FOUND_TEXT = SkinTotemMod.text("text.nothing_found");
+	public static final MutableText NOTHING_FOUND_TEXT = SkinTotem.text("text.nothing_found");
 
 	private final List<E> savedWidgets = new ArrayList<>();
 	private boolean searching = false;

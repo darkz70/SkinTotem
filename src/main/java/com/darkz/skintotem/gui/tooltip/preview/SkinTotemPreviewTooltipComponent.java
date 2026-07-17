@@ -10,8 +10,8 @@ import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.*;
 import net.minecraft.util.Identifier;
 
-import com.darkz.skintotem.client.SkinTotemModClient;
-import com.darkz.skintotem.config.SkinTotemModConfig;
+import com.darkz.skintotem.client.SkinTotemClient;
+import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.doll.data.SkinTotemData;
 import com.darkz.skintotem.extension.IdentifierExtension;
 
@@ -29,18 +29,18 @@ public class SkinTotemPreviewTooltipComponent implements TooltipComponent {
 
 	@Override
 	public int getHeight(/*? >=1.21.2 {*/TextRenderer textRenderer/*?}*/) {
-		return SkinTotemModConfig.getInstance().getBetterTagMenuTooltipSize() + 10;
+		return SkinTotemConfig.getInstance().getBetterTagMenuTooltipSize() + 10;
 	}
 
 	@Override
 	public int getWidth(TextRenderer textRenderer) {
-		return SkinTotemModConfig.getInstance().getBetterTagMenuTooltipSize();
+		return SkinTotemConfig.getInstance().getBetterTagMenuTooltipSize();
 	}
 
 	@Override
 	public void drawItems(TextRenderer textRenderer, int x, int y,/*? >=1.21.2 {*/int w, int h,/*?}*/ DrawContext context) {
 		int width = this.getWidth(textRenderer);
-		SkinTotemModConfig config = SkinTotemModConfig.getInstance();
+		SkinTotemConfig config = SkinTotemConfig.getInstance();
 		float sizeOriginal = config.getBetterTagMenuTooltipSize();
 		float size = (sizeOriginal / 1.25F) * config.getTagMenuTooltipModelScale();
 		Text text = Text.of(this.modelId.getFileName());
