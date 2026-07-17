@@ -2,7 +2,7 @@ package com.darkz.skintotem.extension;
 
 import net.minecraft.util.Identifier;
 
-public class IdentifierExtension {
+public class IdExtension {
 
 	public static String getFileName(Identifier identifier) {
 		String path = identifier.getPath();
