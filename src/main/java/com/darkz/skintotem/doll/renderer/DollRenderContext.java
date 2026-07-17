@@ -1,7 +1,6 @@
 package com.darkz.skintotem.doll.renderer;
 
 import lombok.Getter;
-import lombok.experimental.ExtensionMethod;
 import net.minecraft.client.render.model.json.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.MatrixStack.Entry;
@@ -11,7 +10,6 @@ import com.darkz.skintotem.extension.ModModelTransformationExtension;
 import com.darkz.skintotem.model.base.MModel;
 
 @Getter
-@ExtensionMethod(ModModelTransformationExtension.class)
 public enum DollRenderContext {
 
 	D_NONE("none"),
@@ -83,16 +81,16 @@ public enum DollRenderContext {
 
 	public Transformation get(ModModelTransformation transformation) {
 		return switch (this) {
-			case D_THIRD_PERSON_LEFT_HAND -> transformation.getTl();
-			case D_THIRD_PERSON_RIGHT_HAND -> transformation.getTr();
-			case D_FIRST_PERSON_LEFT_HAND -> transformation.getFl();
-			case D_FIRST_PERSON_RIGHT_HAND -> transformation.getFr();
-			case D_HEAD -> transformation.getHead();
-			case D_GUI -> transformation.getGui();
-			case D_GROUND -> transformation.getGround();
-			case D_FIXED -> transformation.getFixed();
+			case D_THIRD_PERSON_LEFT_HAND -> ModModelTransformationExtension.getTl(transformation);
+			case D_THIRD_PERSON_RIGHT_HAND -> ModModelTransformationExtension.getTr(transformation);
+			case D_FIRST_PERSON_LEFT_HAND -> ModModelTransformationExtension.getFl(transformation);
+			case D_FIRST_PERSON_RIGHT_HAND -> ModModelTransformationExtension.getFr(transformation);
+			case D_HEAD -> ModModelTransformationExtension.getHead(transformation);
+			case D_GUI -> ModModelTransformationExtension.getGui(transformation);
+			case D_GROUND -> ModModelTransformationExtension.getGround(transformation);
+			case D_FIXED -> ModModelTransformationExtension.getFixed(transformation);
 			//? if >=1.21.9 {
-			case D_ON_SHELF -> transformation.getOnShelf();
+			case D_ON_SHELF -> ModModelTransformationExtension.getOnShelf(transformation);
 			//?}
 			default -> Transformation.IDENTITY;
 		};
