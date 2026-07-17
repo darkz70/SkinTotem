@@ -1,15 +1,17 @@
 package com.darkz.skintotem.doll.renderer;
 
 import lombok.Getter;
+import lombok.experimental.ExtensionMethod;
 import net.minecraft.client.render.model.json.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.MatrixStack.Entry;
 
-import com.darkz.skintotem.client.SkinTotemClient;
-import com.darkz.skintotem.extension.ModModelTransformationExtension;
+import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.extension.ModelTransformationExtension;
 import com.darkz.skintotem.model.base.MModel;
 
 @Getter
+@ExtensionMethod(ModelTransformationExtension.class)
 public enum DollRenderContext {
 
 	D_NONE("none"),
@@ -40,9 +42,9 @@ public enum DollRenderContext {
 		//? if <=1.21.4 {
 		/*if (object instanceof
 				//? if >=1.21.2 {
-				net.minecraft.item.ModModelTransformatione
+				net.minecraft.item.ModelTransformationMode
 				//?} else {
-				/^net.minecraft.client.render.model.json.ModModelTransformatione
+				/^net.minecraft.client.render.model.json.ModelTransformationMode
 				^///?}
 						mode) {
 			return switch (mode) {
@@ -75,22 +77,22 @@ public enum DollRenderContext {
 			};
 		}
 		//?}
-		SkinTotemClient.LOGGER.error("Failed to get DollRenderContext from object: {}", object.getClass().getName());
+		SkinTotemModClient.LOGGER.error("Failed to get DollRenderContext from object: {}", object.getClass().getName());
 		return D_NONE;
 	}
 
-	public Transformation get(ModModelTransformation transformation) {
+	public Transformation get(ModelTransformation transformation) {
 		return switch (this) {
-			case D_THIRD_PERSON_LEFT_HAND -> ModModelTransformationExtension.getTl(transformation);
-			case D_THIRD_PERSON_RIGHT_HAND -> ModModelTransformationExtension.getTr(transformation);
-			case D_FIRST_PERSON_LEFT_HAND -> ModModelTransformationExtension.getFl(transformation);
-			case D_FIRST_PERSON_RIGHT_HAND -> ModModelTransformationExtension.getFr(transformation);
-			case D_HEAD -> ModModelTransformationExtension.getHead(transformation);
-			case D_GUI -> ModModelTransformationExtension.getGui(transformation);
-			case D_GROUND -> ModModelTransformationExtension.getGround(transformation);
-			case D_FIXED -> ModModelTransformationExtension.getFixed(transformation);
+			case D_THIRD_PERSON_LEFT_HAND -> ModelTransformationExtension.getTl(transformation);
+			case D_THIRD_PERSON_RIGHT_HAND -> ModelTransformationExtension.getTr(transformation);
+			case D_FIRST_PERSON_LEFT_HAND -> ModelTransformationExtension.getFl(transformation);
+			case D_FIRST_PERSON_RIGHT_HAND -> ModelTransformationExtension.getFr(transformation);
+			case D_HEAD -> ModelTransformationExtension.getHead(transformation);
+			case D_GUI -> ModelTransformationExtension.getGui(transformation);
+			case D_GROUND -> ModelTransformationExtension.getGround(transformation);
+			case D_FIXED -> ModelTransformationExtension.getFixed(transformation);
 			//? if >=1.21.9 {
-			case D_ON_SHELF -> ModModelTransformationExtension.getOnShelf(transformation);
+			case D_ON_SHELF -> ModelTransformationExtension.getOnShelf(transformation);
 			//?}
 			default -> Transformation.IDENTITY;
 		};
