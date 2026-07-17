@@ -23,10 +23,6 @@ jobs:
         env:
           GITHUB_ACTOR: darkz70
           GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
-       - name: Debug - dump generated extension file
-        run: |
-          find . -path "*/build/generated/stonecutter/*/extension/*Extension.java" -print -exec cat {} \;
-        continue-on-error: true
       - name: List all files (Debug)
         run: |
           echo "Listing all .jar files in the project:"
