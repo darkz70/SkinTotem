@@ -4,6 +4,7 @@ plugins {
 
 figurestoneDependencies {
 	minecraft = stonecutter.current.version.toString()
+	yarn = prop("build.yarn")
 	lombok = prop("base.lombok_version")
 	fabricApi = prop("build.fabric_api")
 	fabricLoader = prop("build.fabric_loader")
