@@ -7,11 +7,11 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.MatrixStack.Entry;
 
 import com.darkz.skintotem.client.SkinTotemClient;
-import com.darkz.skintotem.extension.ModelTransformationExtension;
+import com.darkz.skintotem.extension.ModModelTransformationExtension;
 import com.darkz.skintotem.model.base.MModel;
 
 @Getter
-@ExtensionMethod(ModelTransformationExtension.class)
+@ExtensionMethod(ModModelTransformationExtension.class)
 public enum DollRenderContext {
 
 	D_NONE("none"),
