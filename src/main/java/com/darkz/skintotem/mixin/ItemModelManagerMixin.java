@@ -7,6 +7,7 @@ import net.minecraft.client.item.ItemModelManager;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.item.ItemRenderState;
 import net.minecraft.client.render.item.model.*;
+import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.component.ComponentType;
 import net.minecraft.entity.LivingEntity;
