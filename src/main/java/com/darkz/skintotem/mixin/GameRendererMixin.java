@@ -40,7 +40,7 @@ public class GameRendererMixin {
 	)
 	private void renderFloatingDoll(DrawContext drawContext, Consumer<?> drawCallback, Operation<Void> original, @Local MatrixStack matrices) {
 		drawContext.draw((sus) -> {
-			if (!TotemDollRenderer.sentRenderRequest(matrices, this.floatingItem, DollRenderContext.D_FLOATING, 15728880, OverlayTexture.DEFAULT_UV, 0, drawContext.vertexConsumers)) {
+			if (!SkinTotemRenderer.sentRenderRequest(matrices, this.floatingItem, DollRenderContext.D_FLOATING, 15728880, OverlayTexture.DEFAULT_UV, 0, drawContext.vertexConsumers)) {
 				original.call(drawContext, drawCallback);
 			}
 		});
@@ -55,7 +55,7 @@ public class GameRendererMixin {
 	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;draw(Ljava/lang/Runnable;)V"), method = "renderFloatingItem")
 	private void renderFloatingDoll(DrawContext drawContext, Runnable drawCallback, Operation<Void> original, @Local MatrixStack matrices) {
 		drawContext.draw(() -> {
-			if (!TotemDollRenderer.sentRenderRequest(matrices, this.floatingItem, DollRenderContext.D_FLOATING, 15728880, OverlayTexture.DEFAULT_UV, 0, drawContext.vertexConsumers)) {
+			if (!SkinTotemRenderer.sentRenderRequest(matrices, this.floatingItem, DollRenderContext.D_FLOATING, 15728880, OverlayTexture.DEFAULT_UV, 0, drawContext.vertexConsumers)) {
 				original.call(drawContext, drawCallback);
 			}
 		});
@@ -65,7 +65,7 @@ public class GameRendererMixin {
 
 	/^@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformationMode;IILnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;I)V"), method = "renderFloatingItem")
 	private void renderFloatingDoll(ItemRenderer itemRenderer, ItemStack stack, ModelTransformationMode transformationType, int light, int overlay, MatrixStack matrices, VertexConsumerProvider vertexConsumers, World world, int seed, Operation<Void> original) {
-		if (!TotemDollRenderer.sentRenderRequest(matrices, stack, DollRenderContext.D_FLOATING, light, overlay, 0, vertexConsumers)) {
+		if (!SkinTotemRenderer.sentRenderRequest(matrices, stack, DollRenderContext.D_FLOATING, light, overlay, 0, vertexConsumers)) {
 			original.call(itemRenderer, stack, transformationType, light, overlay, matrices, vertexConsumers, world, seed);
 		}
 	}
