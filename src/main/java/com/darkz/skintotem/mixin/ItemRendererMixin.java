@@ -44,7 +44,7 @@ public class ItemRendererMixin {
 		if (!SkinTotemClient.canProcess(stack)) {
 			return;
 		}
-		if (TotemDollPlugin.work(stack)) {
+		if (SkinTotemPlugin.work(stack)) {
 			BakedModel model = this.models/^? <=1.21.1 {^/ /^.getModelManager() ^//^?}^/.getModel(SkinTotemPlugin.ID);
 			stack.setModdedModel(true);
 			cir.setReturnValue(model);
