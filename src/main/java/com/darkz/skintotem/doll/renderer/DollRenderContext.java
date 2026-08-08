@@ -7,11 +7,11 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.MatrixStack.Entry;
 
 import com.darkz.skintotem.client.SkinTotemClient;
-import com.darkz.skintotem.extension.ModModelTransformationExtension;
+import com.darkz.skintotem.extension.ModelTransformationExtension;
 import com.darkz.skintotem.model.base.MModel;
 
 @Getter
-@ExtensionMethod(ModModelTransformationExtension.class)
+@ExtensionMethod(ModelTransformationExtension.class)
 public enum DollRenderContext {
 
 	D_NONE("none"),
@@ -91,16 +91,16 @@ public enum DollRenderContext {
 
 	public Transformation get(ModelTransformation transformation) {
 		return switch (this) {
-			case D_THIRD_PERSON_LEFT_HAND -> ModModelTransformationExtension.getTl(transformation);
-			case D_THIRD_PERSON_RIGHT_HAND -> ModModelTransformationExtension.getTr(transformation);
-			case D_FIRST_PERSON_LEFT_HAND -> ModModelTransformationExtension.getFl(transformation);
-			case D_FIRST_PERSON_RIGHT_HAND -> ModModelTransformationExtension.getFr(transformation);
-			case D_HEAD -> ModModelTransformationExtension.getHead(transformation);
-			case D_GUI -> ModModelTransformationExtension.getGui(transformation);
-			case D_GROUND -> ModModelTransformationExtension.getGround(transformation);
-			case D_FIXED -> ModModelTransformationExtension.getFixed(transformation);
+			case D_THIRD_PERSON_LEFT_HAND -> ModelTransformationExtension.getTl(transformation);
+			case D_THIRD_PERSON_RIGHT_HAND -> ModelTransformationExtension.getTr(transformation);
+			case D_FIRST_PERSON_LEFT_HAND -> ModelTransformationExtension.getFl(transformation);
+			case D_FIRST_PERSON_RIGHT_HAND -> ModelTransformationExtension.getFr(transformation);
+			case D_HEAD -> ModelTransformationExtension.getHead(transformation);
+			case D_GUI -> ModelTransformationExtension.getGui(transformation);
+			case D_GROUND -> ModelTransformationExtension.getGround(transformation);
+			case D_FIXED -> ModelTransformationExtension.getFixed(transformation);
 			//? if >=1.21.9 {
-			case D_ON_SHELF -> ModModelTransformationExtension.getOnShelf(transformation);
+			case D_ON_SHELF -> ModelTransformationExtension.getOnShelf(transformation);
 			//?}
 			default -> Transformation.IDENTITY;
 		};
@@ -118,4 +118,4 @@ public enum DollRenderContext {
 	public boolean isLeftHanded() {
 		return this == D_FIRST_PERSON_LEFT_HAND || this == D_THIRD_PERSON_LEFT_HAND;
 	}
-					}
+		}
