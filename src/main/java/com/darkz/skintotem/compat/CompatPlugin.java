@@ -9,7 +9,7 @@ import java.util.*;
 
 public abstract class CompatPlugin implements IMixinConfigPlugin {
 
-	protected abstract String getCompatId();
+	protected abstract String getCompatModId();
 
 	@Override
 	public void onLoad(String mixinPackage) {
@@ -23,7 +23,7 @@ public abstract class CompatPlugin implements IMixinConfigPlugin {
 
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-		return FabricLoader.getInstance().isLoaded(this.getCompatId());
+		return FabricLoader.getInstance().isModLoaded(this.getCompatModId());
 	}
 
 	@Override
