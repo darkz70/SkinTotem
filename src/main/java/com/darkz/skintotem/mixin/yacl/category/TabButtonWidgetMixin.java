@@ -1,3 +1,5 @@
+package com.darkz.skintotem.mixin.yacl.category;
+
 //? if <=1.20.4 {
 /*import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import net.minecraft.client.MinecraftClient;
@@ -11,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.lopymine.mtd.yacl.YACLConfigurationScreen;
-import net.lopymine.mtd.yacl.custom.TransparencySprites;
+import com.darkz.skintotem.yacl.YACLConfigurationScreen;
+import com.darkz.skintotem.yacl.custom.TransparencySprites;
 
 @Mixin(TabButtonWidget.class)
 public abstract class TabButtonWidgetMixin extends ClickableWidget {
