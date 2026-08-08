@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 //? if >=1.21 {
 import net.minecraft.client.gui.screen.ButtonTextures;
 //?} else {
-/*import net.lopymine.mtd.utils.ButtonTextures;
+/*import com.darkz.skintotem.utils.ButtonTextures;
 *///?}
 
 //? if >=1.21.9 {
