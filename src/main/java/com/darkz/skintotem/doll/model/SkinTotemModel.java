@@ -50,7 +50,7 @@ public class SkinTotemModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 		//? if >=1.21.11 {
 		super(root, RenderLayers::entityTranslucent);
 		//?} else {
-		/*super(/*? >=1.21.2 {*/ root, /*?}*/RenderLayer::getEntityTranslucent);
+		/*super(/^? >=1.21.2 {^/ root, /^?}^/RenderLayer::getEntityTranslucent);
 		*///?}
 
 		this.head         = root.findModels("head");
@@ -98,11 +98,10 @@ public class SkinTotemModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 			return;
 		}
 		this.collections.put(collection.getId(), collection);
-
 	}
 
 	public static MModel createDollModel() {
-		MModel model = BlockBenchModelManager.getModel(SkinTotemConfig.getInstance().getStandardSkinTotemModelValue());
+		MModel model = BlockBenchModelManager.getModel(SkinTotemConfig.getInstance().getStandardTotemDollModelValue());
 		MModel mmodel = model == null ? BlockBenchModelManager.getModel(THREE_D_MODEL_id) : model;
 		if (mmodel == null) {
 			throw new IllegalArgumentException("Failed to find standard doll model! [SkinTotemModel.class]");
@@ -140,7 +139,7 @@ public class SkinTotemModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 	//? <=1.21.1 {
 
 	/*@Override
-	public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, /*? if >=1.21 {*/ int color /*?} else {*/ /*float r, float g, float b, float a*//*?}*/) {
+	public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, /^? if >=1.21 {^/ int color /^?} else {^/ /^float r, float g, float b, float a^//^?}^/) {
 		// NO-OP
 	}
 
@@ -220,4 +219,4 @@ public class SkinTotemModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 			this.sprites.clear();
 		}
 	}
-}
+		}
