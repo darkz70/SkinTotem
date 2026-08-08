@@ -101,7 +101,7 @@ public class SkinTotemModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 	}
 
 	public static MModel createDollModel() {
-		MModel model = BlockBenchModelManager.getModel(SkinTotemConfig.getInstance().getStandardTotemDollModelValue());
+		MModel model = BlockBenchModelManager.getModel(SkinTotemConfig.getInstance().getStandardSkinTotemModelValue());
 		MModel mmodel = model == null ? BlockBenchModelManager.getModel(THREE_D_MODEL_id) : model;
 		if (mmodel == null) {
 			throw new IllegalArgumentException("Failed to find standard doll model! [SkinTotemModel.class]");
