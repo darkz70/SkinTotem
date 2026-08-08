@@ -4,9 +4,9 @@ import net.minecraft.text.*;
 import net.minecraft.util.Identifier;
 import org.slf4j.*;
 
-import net.fabricmc.api.Initializer;
+import net.fabricmc.api.ModInitializer;
 
-public class SkinTotem implements Initializer {
+public class SkinTotem implements ModInitializer {
 
 	public static final String MOD_NAME = /*$ mod_name*/ "Skin Totem";
 	public static final String MOD_ID = /*$ mod_id*/ "skintotem";
