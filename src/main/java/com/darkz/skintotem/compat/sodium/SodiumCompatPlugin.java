@@ -34,7 +34,7 @@ public class SodiumCompatPlugin extends CompatPlugin {
 
 	private boolean isCurrentVersionOlderThanHot(String mixinName) {
 		FabricLoader fabricLoader = FabricLoader.getInstance();
-		Container modContainer = fabricLoader.getModContainer(this.getCompatId()).orElseThrow();
+		Container modContainer = fabricLoader.getModContainer(this.getModCompatId()).orElseThrow();
 
 		Version currentVersion = modContainer.getMetadata().getVersion();
 		Version hotVersion = this.getHotSodiumVersion();
