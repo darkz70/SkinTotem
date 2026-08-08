@@ -4,7 +4,7 @@ package com.darkz.skintotem.mixin;
 
 /*import com.llamalad7.mixinextras.sugar.Local;
 import lombok.experimental.ExtensionMethod;
-import net.lopymine.mtd.thing.ThingMarks;
+import com.darkz.skintotem.thing.ThingMarks;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.*;
 import net.minecraft.client.util.math.MatrixStack;
