@@ -122,7 +122,7 @@ public class DraggingTagButtonWidget extends TagButtonWidget {
 	}
 
 	private void setDraggingPosition(int draggingX, int draggingY) {
-		MyTotemDollConfig config = MyTotemDollConfig.getInstance();
+		SkinTotemConfig config = SkinTotemConfig.getInstance();
 		Vec2i pos = config.getTagButtonPos();
 
 		pos.setX((draggingX - (this.getWidth() / 2)) - this.originX);
