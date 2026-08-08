@@ -103,7 +103,7 @@ public class DraggingTagButtonWidget extends TagButtonWidget {
 	}
 	//?} else {
 	/*@Override
-	public void /*? if >=1.21 {*/ renderWidget /*?} else {*//*renderButton *//*?}*/(DrawContext context, int mouseX, int mouseY, float delta) {
+	public void /^? if >=1.21 {^/ renderWidget /^?} else {^//^renderButton ^//^?}^/(DrawContext context, int mouseX, int mouseY, float delta) {
 		this.renderPlease(context, mouseX, mouseY);
 	}
 	*///?}
@@ -122,7 +122,7 @@ public class DraggingTagButtonWidget extends TagButtonWidget {
 	}
 
 	private void setDraggingPosition(int draggingX, int draggingY) {
-		SkinTotemConfig config = SkinTotemConfig.getInstance();
+		MyTotemDollConfig config = MyTotemDollConfig.getInstance();
 		Vec2i pos = config.getTagButtonPos();
 
 		pos.setX((draggingX - (this.getWidth() / 2)) - this.originX);
