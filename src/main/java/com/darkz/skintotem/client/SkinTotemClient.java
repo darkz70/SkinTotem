@@ -6,7 +6,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.util.Util;
 import net.minecraft.util.Util.OperatingSystem;
 import org.slf4j.*;
-import net.fabricmc.api.ClientInitializer;
+import net.fabricmc.api.ClientModInitializer;
 
 import com.darkz.skintotem.*;
 import com.darkz.skintotem.client.command.SkinTotemCommandManager;
