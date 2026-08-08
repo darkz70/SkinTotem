@@ -6,7 +6,7 @@ import net.minecraft.client.render.model.json.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.MatrixStack.Entry;
 
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.extension.ModelTransformationExtension;
 import com.darkz.skintotem.model.base.MModel;
 
@@ -44,8 +44,8 @@ public enum DollRenderContext {
 				//? if >=1.21.2 {
 				net.minecraft.item.ModelTransformationMode
 				//?} else {
-				/^net.minecraft.client.render.model.json.ModelTransformationMode
-				^///?}
+				/*net.minecraft.client.render.model.json.ModelTransformationMode
+				*///?}
 						mode) {
 			return switch (mode) {
 				case THIRD_PERSON_LEFT_HAND -> D_THIRD_PERSON_LEFT_HAND;
@@ -77,7 +77,7 @@ public enum DollRenderContext {
 			};
 		}
 		//?}
-		SkinTotemModClient.LOGGER.error("Failed to get DollRenderContext from object: {}", object.getClass().getName());
+		SkinTotemClient.LOGGER.error("Failed to get DollRenderContext from object: {}", object.getClass().getName());
 		return D_NONE;
 	}
 
@@ -110,4 +110,4 @@ public enum DollRenderContext {
 	public boolean isLeftHanded() {
 		return this == D_FIRST_PERSON_LEFT_HAND || this == D_THIRD_PERSON_LEFT_HAND;
 	}
-}
+		}
