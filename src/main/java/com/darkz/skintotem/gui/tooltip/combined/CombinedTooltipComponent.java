@@ -51,7 +51,7 @@ public class CombinedTooltipComponent implements TooltipComponent {
 		int componentY = 0;
 		for (TooltipComponent component : this.components) {
 			component.drawText(textRenderer, x, y + componentY, matrix, vertexConsumers);
-			componentY += component.getHeight(/*? >=1.21.2 {*/textRenderer/*?}*/) + 1;
+			componentY += component.getHeight(/^? >=1.21.2 {^/textRenderer/^?}^/) + 1;
 		}
 	}
 	*///?}
@@ -64,4 +64,4 @@ public class CombinedTooltipComponent implements TooltipComponent {
             componentY += component.getHeight(/*? >=1.21.2 {*/textRenderer/*?}*/) + 1;
         }
     }
-}
+				}
