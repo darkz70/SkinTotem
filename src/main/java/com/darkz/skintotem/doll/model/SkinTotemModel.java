@@ -50,7 +50,7 @@ public class SkinTotemModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 		//? if >=1.21.11 {
 		super(root, RenderLayers::entityTranslucent);
 		//?} else {
-		/*super(/^? >=1.21.2 {^/ root, /^?}^/RenderLayer::getEntityTranslucent);
+		/*super(/*? >=1.21.2 {*/ root, /*?}*/RenderLayer::getEntityTranslucent);
 		*///?}
 
 		this.head         = root.findModels("head");
@@ -140,7 +140,7 @@ public class SkinTotemModel extends /*? if >=1.21.9 {*/ Model<Object> /*?} else 
 	//? <=1.21.1 {
 
 	/*@Override
-	public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, /^? if >=1.21 {^/ int color /^?} else {^/ /^float r, float g, float b, float a^//^?}^/) {
+	public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, /*? if >=1.21 {*/ int color /*?} else {*/ /*float r, float g, float b, float a*//*?}*/) {
 		// NO-OP
 	}
 
