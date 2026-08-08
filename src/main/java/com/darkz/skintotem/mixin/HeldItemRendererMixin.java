@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
 
-import net.lopymine.mtd.extension.ItemStackExtension;
+import com.darkz.skintotem.extension.ItemStackExtension;
 
 //? <=1.21.1
 /^import net.minecraft.client.render.model.json.ModelTransformationMode;^/
