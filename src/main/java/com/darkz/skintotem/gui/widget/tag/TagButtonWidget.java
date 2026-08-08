@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 //? if >=1.21 {
 import net.minecraft.client.gui.screen.ButtonTextures;
 //?} else {
-/*import com.darkz.skintotem.utils.ButtonTextures;
+/*import net.lopymine.mtd.utils.ButtonTextures;
 *///?}
 
 //? if >=1.21.9 {
@@ -84,7 +84,7 @@ public class TagButtonWidget extends ButtonWidget {
 	}
 	//?} else {
 	/*@Override
-	public void /*? if >=1.21 {*/renderWidget/*?} else {*//*renderButton*//*?}*/(DrawContext context, int mouseX, int mouseY, float delta) {
+	public void /^? if >=1.21 {^/renderWidget/^?} else {^//^renderButton^//^?}^/(DrawContext context, int mouseX, int mouseY, float delta) {
 		this.renderPlease(context);
 	}
 	*///?}
@@ -125,7 +125,7 @@ public class TagButtonWidget extends ButtonWidget {
 			return;
 		}
 
-		tooltipScreen.skinTotem$requestTooltip(((c, x, y, d) -> {
+		tooltipScreen.SkinTotem$requestTooltip(((c, x, y, d) -> {
 			DrawUtils.drawTooltip(c, List.of(component), x, y);
 		}));
 	}
