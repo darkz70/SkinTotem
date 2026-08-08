@@ -45,7 +45,7 @@ public class GameRendererMixin {
 			}
 		});
 	}
-	*///?} elif >=1.21 {
+	*///?} else if >=1.21 {
 
 	@Shadow
 	@Nullable

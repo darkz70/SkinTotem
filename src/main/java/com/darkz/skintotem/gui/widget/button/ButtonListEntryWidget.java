@@ -57,18 +57,21 @@ public class ButtonListEntryWidget extends Entry<ButtonListEntryWidget> {
 		super.setY(y);
 		this.widget.setY(y);
 	}
-	//?} else {
+	//?} else if >=1.21 {
 	/*@Override
 	public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
 		this.widget.setWidth(entryWidth);
 		this.widget.setX(x);
-
-		//? if >=1.21 {
 		this.widget.setHeight(entryHeight);
 		this.widget.setY(y);
-		//?} else {
-		/*this.widget.setY(y + ((entryHeight - 20) / 2));
-		 *///?}
+		this.widget.render(context, mouseX, mouseY, tickDelta);
+	}
+	*///?} else {
+	/*@Override
+	public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+		this.widget.setWidth(entryWidth);
+		this.widget.setX(x);
+		this.widget.setY(y + ((entryHeight - 20) / 2));
 		this.widget.render(context, mouseX, mouseY, tickDelta);
 	}
 	*///?}

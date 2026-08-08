@@ -39,14 +39,8 @@ public enum DollRenderContext {
 	}
 
 	public static DollRenderContext of(Object object) {
-		//? if <=1.21.4 {
-		/*if (object instanceof
-				//? if >=1.21.2 {
-				net.minecraft.item.ModelTransformationMode
-				//?} else {
-				/*net.minecraft.client.render.model.json.ModelTransformationMode
-				*///?}
-						mode) {
+		//? if <=1.21.1 {
+		/*if (object instanceof net.minecraft.client.render.model.json.ModelTransformationMode mode) {
 			return switch (mode) {
 				case THIRD_PERSON_LEFT_HAND -> D_THIRD_PERSON_LEFT_HAND;
 				case THIRD_PERSON_RIGHT_HAND -> D_THIRD_PERSON_RIGHT_HAND;
@@ -59,7 +53,21 @@ public enum DollRenderContext {
 				default -> D_NONE;
 			};
 		}
-		*///?} else {
+		*///?} else if <=1.21.4 {
+		if (object instanceof net.minecraft.item.ModelTransformationMode mode) {
+			return switch (mode) {
+				case THIRD_PERSON_LEFT_HAND -> D_THIRD_PERSON_LEFT_HAND;
+				case THIRD_PERSON_RIGHT_HAND -> D_THIRD_PERSON_RIGHT_HAND;
+				case FIRST_PERSON_LEFT_HAND -> D_FIRST_PERSON_LEFT_HAND;
+				case FIRST_PERSON_RIGHT_HAND -> D_FIRST_PERSON_RIGHT_HAND;
+				case HEAD -> D_HEAD;
+				case GUI -> D_GUI;
+				case GROUND -> D_GROUND;
+				case FIXED -> D_FIXED;
+				default -> D_NONE;
+			};
+		}
+		//?} else {
 		if (object instanceof net.minecraft.item.ItemDisplayContext context) {
 			return switch (context) {
 				case THIRD_PERSON_LEFT_HAND -> D_THIRD_PERSON_LEFT_HAND;

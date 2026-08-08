@@ -17,8 +17,9 @@ import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.doll.renderer.*;
 import com.darkz.skintotem.extension.ItemStackExtension;
 
-//? <=1.21.1
+//? if <=1.21.1 {
 /*import net.minecraft.client.render.model.json.ModelTransformation;*/
+//?}
 
 import net.minecraft.client.render.model.BakedModel;
 import org.spongepowered.asm.mixin.injection.*;
@@ -45,7 +46,7 @@ public class ItemRendererMixin {
 			return;
 		}
 		if (SkinTotemPlugin.work(stack)) {
-			BakedModel model = this.models/*? <=1.21.1 {*/ /*.getModelManager() *//*?}*/.getModel(SkinTotemPlugin.ID);
+			BakedModel model = this.models/*? if <=1.21.1 {*/ /*.getModelManager() *//*?}*/.getModel(SkinTotemPlugin.ID);
 			stack.setModdedModel(true);
 			cir.setReturnValue(model);
 		}
