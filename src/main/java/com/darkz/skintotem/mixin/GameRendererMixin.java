@@ -2,7 +2,7 @@ package com.darkz.skintotem.mixin;
 
 //? if <=1.21.5 {
 
-/*import net.lopymine.mtd.doll.renderer.*;
+/*import com.darkz.skintotem.doll.renderer.*;
 import net.minecraft.client.render.*;
 import org.spongepowered.asm.mixin.*;
 
