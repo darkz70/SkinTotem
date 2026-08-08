@@ -29,7 +29,7 @@ public class BBModel {
 	private List<BBCube> cubes;
 	private List<BBGroup> groups;
 	private boolean frontGuiLight;
-	private ModModelTransformation transformation;
+	private ModelTransformation transformation;
 
 	@Nullable
 	public BBCube getCube(UUID uuid) {
@@ -89,7 +89,7 @@ public class BBModel {
 			return new Transformation(rotation, translation, scale);
 		}
 
-		public static final Codec<ModModelTransformation> MODEL_TRANSFORMATION_CODEC = RecordCodecBuilder.create((instance) -> instance.group(
+		public static final Codec<ModelTransformation> MODEL_TRANSFORMATION_CODEC = RecordCodecBuilder.create((instance) -> instance.group(
 				option(DollRenderContext.D_THIRD_PERSON_LEFT_HAND.getId(), Transformation.IDENTITY, TRANSFORMATION_CODEC, (o) -> o.getTl()),
 				option(DollRenderContext.D_THIRD_PERSON_RIGHT_HAND.getId(), Transformation.IDENTITY, TRANSFORMATION_CODEC, (o) -> o.getTr()),
 				option(DollRenderContext.D_FIRST_PERSON_LEFT_HAND.getId(), Transformation.IDENTITY, TRANSFORMATION_CODEC, (o) -> o.getFl()),
@@ -101,7 +101,7 @@ public class BBModel {
 				//? if >=1.21.9 {
 				, option(DollRenderContext.D_ON_SHELF.getId(), Transformation.IDENTITY, TRANSFORMATION_CODEC, (o) -> o.getOnShelf())
 				//?}
-		).apply(instance, ModModelTransformation::new));
+		).apply(instance, ModelTransformation::new));
 
 	}
 }

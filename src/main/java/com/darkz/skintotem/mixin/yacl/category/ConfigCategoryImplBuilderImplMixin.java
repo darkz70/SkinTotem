@@ -1,6 +1,6 @@
 package com.darkz.skintotem.mixin.yacl.category;
 
-import com.llamalad7.mixinextras.injector.ifyReturnValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.ConfigCategory.Builder;
 import dev.isxander.yacl3.impl.ConfigCategoryImpl;
@@ -18,7 +18,7 @@ public class ConfigCategoryImplBuilderImplMixin implements BetterYACLCategoryBui
 	private int custom = -1;
 
 	@Dynamic
-	@ifyReturnValue(at = @At("RETURN"), method = "build", remap = false)
+	@ModifyReturnValue(at = @At("RETURN"), method = "build", remap = false)
 	private ConfigCategory swapCategory(ConfigCategory original) {
 		if (this.custom == -1) {
 			return original;

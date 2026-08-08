@@ -52,7 +52,7 @@ public abstract class ScreenMixin {
 	}
 
 	@Unique
-	private static final String INJECT_METHOD = /^? >=1.20.2 {^/ "renderInGameBackground" /^?} else {^/ /^"renderBackground" ^//^?}^/;
+	private static final String INJECT_METHOD = /*? >=1.20.2 {*/ "renderInGameBackground" /*?} else {*/ /*"renderBackground" *//*?}*/;
 
 	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;fillGradient(IIIIII)V"), method = INJECT_METHOD)
 	private void swapBackgroundGradientColor(DrawContext context, int startX, int startY, int endX, int endY, int colorStart, int colorEnd, Operation<Void> original) {
@@ -65,7 +65,7 @@ public abstract class ScreenMixin {
 
 	//? if <=1.20.1 {
 
-	/^@Shadow public abstract void renderBackground(DrawContext context);
+	/*@Shadow public abstract void renderBackground(DrawContext context);
 
 	@Inject(at = @At("HEAD"), method = "render")
 	private void renderWithBackground(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
@@ -74,7 +74,7 @@ public abstract class ScreenMixin {
 		}
 	}
 
-	^///?}
+	*///?}
 
 	*///?}
 }

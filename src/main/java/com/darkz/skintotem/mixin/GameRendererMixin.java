@@ -19,14 +19,14 @@ import java.util.function.Consumer;
 import org.jetbrains.annotations.Nullable;
 
 //? if <=1.21.1 {
-/^import net.minecraft.client.render.model.json.ModModelTransformatione;
- ^///?}
+/*import net.minecraft.client.render.model.json.ModelTransformation;
+ *///?}
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
 
 	//? if >=1.21.2 && <=1.21.5 {
-	/^@Shadow
+	/*@Shadow
 	@Nullable
 	private ItemStack floatingItem;
 
@@ -45,7 +45,7 @@ public class GameRendererMixin {
 			}
 		});
 	}
-	^///?} elif >=1.21 {
+	*///?} elif >=1.21 {
 
 	@Shadow
 	@Nullable
@@ -63,14 +63,14 @@ public class GameRendererMixin {
 
 	//?} else {
 
-	/^@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModModelTransformatione;IILnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;I)V"), method = "renderFloatingItem")
-	private void renderFloatingDoll(ItemRenderer itemRenderer, ItemStack stack, ModModelTransformatione transformationType, int light, int overlay, MatrixStack matrices, VertexConsumerProvider vertexConsumers, World world, int seed, Operation<Void> original) {
+	/*@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation;IILnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;I)V"), method = "renderFloatingItem")
+	private void renderFloatingDoll(ItemRenderer itemRenderer, ItemStack stack, ModelTransformation transformationType, int light, int overlay, MatrixStack matrices, VertexConsumerProvider vertexConsumers, World world, int seed, Operation<Void> original) {
 		if (!SkinTotemRenderer.sentRenderRequest(matrices, stack, DollRenderContext.D_FLOATING, light, overlay, 0, vertexConsumers)) {
 			original.call(itemRenderer, stack, transformationType, light, overlay, matrices, vertexConsumers, world, seed);
 		}
 	}
 
-	^///?}
+	*///?}
 }
 
 *///?}

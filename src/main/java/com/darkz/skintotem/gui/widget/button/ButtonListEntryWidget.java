@@ -67,8 +67,8 @@ public class ButtonListEntryWidget extends Entry<ButtonListEntryWidget> {
 		this.widget.setHeight(entryHeight);
 		this.widget.setY(y);
 		//?} else {
-		/^this.widget.setY(y + ((entryHeight - 20) / 2));
-		 ^///?}
+		/*this.widget.setY(y + ((entryHeight - 20) / 2));
+		 *///?}
 		this.widget.render(context, mouseX, mouseY, tickDelta);
 	}
 	*///?}

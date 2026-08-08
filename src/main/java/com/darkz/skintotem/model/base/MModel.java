@@ -23,14 +23,14 @@ import org.slf4j.Logger;
 @Getter
 @Setter
 @ExtensionMethod({ModModelTransformExtension.class, DilationExtension.class, IdExtension.class})
-public class MModel extends ModModelPart {
+public class MModel extends ModelPart {
 
 	@Setter(AccessLevel.PRIVATE)
-	private ModModelTransformation transformation = ModModelTransformation.NONE;
+	private ModelTransformation transformation = ModelTransformation.NONE;
 	private final Map<String, MModel> mChildren;
 	private final List<MModel> mChildrenModels;
 	private final List<MCuboid> mCuboids;
-	private final ModModelState state;
+	private final ModelState state;
 	private final String name;
 
 	private boolean skipRendering = false;
@@ -42,7 +42,7 @@ public class MModel extends ModModelPart {
 	@Nullable
 	private AtlasSprite builtinTexture;
 
-	public MModel(List<MCuboid> mCuboids, Map<String, MModel> mChildren, ModModelState state, String name, @Nullable AtlasSprite builtinTexture) {
+	public MModel(List<MCuboid> mCuboids, Map<String, MModel> mChildren, ModelState state, String name, @Nullable AtlasSprite builtinTexture) {
 		super(mCuboids.stream().map(MCuboid::asCuboid).toList(), mChildren.entrySet().stream().collect(Collectors.toMap(Entry::getKey, e -> e.getValue().asModModelPart())));
 		this.state     = state;
 		this.name      = name;
@@ -75,7 +75,7 @@ public class MModel extends ModModelPart {
 		for (Entry<String, MModel> entry : this.mChildren.entrySet()) {
 			String key = entry.getKey();
 			MModel model = entry.getValue();
-			if (!key.endsWith(suffix) || model == null || model.getState() != ModModelState.GROUP) {
+			if (!key.endsWith(suffix) || model == null || model.getState() != ModelState.GROUP) {
 				continue;
 			}
 			list.add(model);
@@ -88,7 +88,7 @@ public class MModel extends ModModelPart {
 		return new MModelCollection(list, suffix);
 	}
 
-	public ModModelPart asModModelPart() {
+	public ModelPart asModModelPart() {
 		return this;
 	}
 

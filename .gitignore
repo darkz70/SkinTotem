@@ -1,0 +1,13 @@
+.gradle/
+build/
+bin/
+*.log
+*.swp
+.DS_Store
+out/
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath

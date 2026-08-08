@@ -84,7 +84,7 @@ public class TagButtonWidget extends ButtonWidget {
 	}
 	//?} else {
 	/*@Override
-	public void /^? if >=1.21 {^/renderWidget/^?} else {^//^renderButton^//^?}^/(DrawContext context, int mouseX, int mouseY, float delta) {
+	public void /*? if >=1.21 {*/renderWidget/*?} else {*//*renderButton*//*?}*/(DrawContext context, int mouseX, int mouseY, float delta) {
 		this.renderPlease(context);
 	}
 	*///?}

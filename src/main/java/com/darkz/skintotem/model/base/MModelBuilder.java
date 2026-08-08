@@ -4,11 +4,11 @@ import java.util.function.*;
 import lombok.*;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.atlas.AtlasSprite;
-import net.minecraft.client.model.ModModelTransform;
+import net.minecraft.client.model.ModelTransform;
 
 
 import com.darkz.skintotem.extension.*;
-import com.darkz.skintotem.model.bb.ModModelState;
+import com.darkz.skintotem.model.bb.ModelState;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -21,9 +21,9 @@ public class MModelBuilder {
 
 	private final List<MCubeBuilder> cuboidBuilders = new ArrayList<>();
 	private final Map<String, MModelBuilder> childrenBuilders = new HashMap<>();
-	private final ModModelState state;
+	private final ModelState state;
 	@Getter
-	private ModModelTransform transform = ModModelTransform.NONE;
+	private ModelTransform transform = ModelTransform.NONE;
 	@Setter(AccessLevel.PRIVATE)
 	@Getter(AccessLevel.PRIVATE)
 	@Nullable
@@ -36,11 +36,11 @@ public class MModelBuilder {
 	private float yScale = 1.0F;
 	private float zScale = 1.0F;
 
-	private MModelBuilder(ModModelState state) {
+	private MModelBuilder(ModelState state) {
 		this.state = state;
 	}
 
-	public static MModelBuilder builder(ModModelState state) {
+	public static MModelBuilder builder(ModelState state) {
 		return new MModelBuilder(state);
 	}
 
@@ -56,8 +56,8 @@ public class MModelBuilder {
 		return this;
 	}
 
-	public MModelBuilder withTransform(ModModelTransform transform) {
-		this.transform = ModModelTransform.of(transform.getPivotX(), transform.getPivotY(), transform.getPivotZ(), transform.getPitch(), transform.getYaw(), transform.getRoll());
+	public MModelBuilder withTransform(ModelTransform transform) {
+		this.transform = ModelTransform.of(transform.getPivotX(), transform.getPivotY(), transform.getPivotZ(), transform.getPitch(), transform.getYaw(), transform.getRoll());
 		return this;
 	}
 
@@ -73,7 +73,7 @@ public class MModelBuilder {
 	}
 
 	private MModel build(int textureWidth, int textureHeight, boolean isParentRoot, boolean isRoot) {
-		ModModelTransform cuboidTransform = this.transform.getBlockBenchedModModelTransform();
+		ModelTransform cuboidTransform = this.transform.getBlockBenchedModModelTransform();
 
 		Map<String, MModel> children = this.childrenBuilders.entrySet().stream().collect(Collectors.toMap(Entry::getKey, e -> e.getValue().build(textureWidth, textureHeight, isRoot, false)));
 		List<MCuboid> cuboids = this.cuboidBuilders.stream().map(builder -> builder.build(textureWidth, textureHeight, cuboidTransform)).toList();
@@ -82,9 +82,9 @@ public class MModelBuilder {
 
 		MModel part = new MModel(cuboids, children, this.state, name, this.builtinSprite);
 
-		ModModelTransform transform = this.parent == null || isParentRoot ? this.transform : this.transform.subtract(this.parent.getTransform());
+		ModelTransform transform = this.parent == null || isParentRoot ? this.transform : this.transform.subtract(this.parent.getTransform());
 
-		ModModelTransform blockBenchedModModelTransform = transform.getBlockBenchedModModelTransform();
+		ModelTransform blockBenchedModModelTransform = transform.getBlockBenchedModModelTransform();
 
 		part.setTransform(blockBenchedModModelTransform);
 		part.setDefaultTransform(blockBenchedModModelTransform);

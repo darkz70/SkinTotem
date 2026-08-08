@@ -3,7 +3,7 @@ package com.darkz.skintotem.model.base;
 import lombok.Getter;
 import lombok.experimental.ExtensionMethod;
 import net.minecraft.client.model.*;
-import net.minecraft.client.model.ModModelPart.Quad;
+import net.minecraft.client.model.ModelPart.Quad;
 import net.minecraft.util.math.Direction;
 import org.joml.Vector3f;
 
@@ -90,7 +90,7 @@ public class MCubeBuilder {
 		return this;
 	}
 
-	public MCuboid build(int textureWidth, int textureHeight, ModModelTransform rootTransform) {
+	public MCuboid build(int textureWidth, int textureHeight, ModelTransform rootTransform) {
 		Vector3f pos = new Vector3f(this.x - rootTransform.getPivotX(), this.y - rootTransform.getPivotY(), this.z - rootTransform.getPivotZ());
 		Vector3f size = new Vector3f(this.xSize, this.ySize, this.zSize);
 		Dilation dilation = this.dilation;

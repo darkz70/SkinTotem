@@ -27,7 +27,7 @@ public class ItemRenderStateMixin implements ItemRenderStateWithStack {
 
 	//? if <=1.21.4 {
 	/*@Shadow
-	ModModelTransformatione modModelTransformatione;
+	ModelTransformation modModelTransformatione;
 	@Shadow
 	boolean leftHand;
 	*///?} else {

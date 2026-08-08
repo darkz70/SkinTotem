@@ -1,7 +1,7 @@
 package com.darkz.skintotem.model.bb;
 
 import lombok.*;
-import net.minecraft.client.model.ModModelTransform;
+import net.minecraft.client.model.ModelTransform;
 import net.minecraft.util.Uuids;
 
 import com.mojang.datafixers.util.Either;
@@ -41,8 +41,8 @@ public class BBGroup {
 	private UUID uuid;
 	private List<Either<BBGroup, UUID>> children;
 
-	public ModModelTransform getTransformation() {
-		return ModModelTransform.of(this.origin.x(), this.origin.y(), this.origin.z(), (float) -Math.toRadians(this.rotation.x()), (float) -Math.toRadians(this.rotation.y()), (float) Math.toRadians(this.rotation.z()));
+	public ModelTransform getTransformation() {
+		return ModelTransform.of(this.origin.x(), this.origin.y(), this.origin.z(), (float) -Math.toRadians(this.rotation.x()), (float) -Math.toRadians(this.rotation.y()), (float) Math.toRadians(this.rotation.z()));
 	}
 
 

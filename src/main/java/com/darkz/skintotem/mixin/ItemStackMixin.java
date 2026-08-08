@@ -1,6 +1,6 @@
 package com.darkz.skintotem.mixin;
 
-import com.llamalad7.mixinextras.injector.ifyReturnValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.utils.ScreenUtils;
@@ -41,7 +41,7 @@ public abstract class ItemStackMixin {
 	@Shadow
 	public abstract boolean isOf(Item item);
 
-	@ifyReturnValue(at = @At("RETURN"), method = "getName")
+	@ModifyReturnValue(at = @At("RETURN"), method = "getName")
 	private Text getName(Text original) {
 		if (!SkinTotemConfig.getInstance().isEnabled() || !this.isOf(Items.TOTEM_OF_UNDYING)) {
 			return original;
@@ -59,7 +59,7 @@ public abstract class ItemStackMixin {
 		return Text.literal(name).setStyle(original.getStyle());
 	}
 
-	@ifyReturnValue(at = @At("RETURN"), method = "getTooltipData")
+	@ModifyReturnValue(at = @At("RETURN"), method = "getTooltipData")
 	private Optional<TooltipData> getTooltipData(Optional<TooltipData> original) {
 		ItemStack itemStack = (ItemStack) (Object) this;
 

@@ -1,7 +1,7 @@
 package com.darkz.skintotem.mixin.sodium;
 
 import com.bawnorton.mixinsquared.TargetHandler;
-import net.minecraft.client.model.ModModelPart;
+import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.*;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.darkz.skintotem.model.base.*;
 
 @Pseudo
-@Mixin(ModModelPart.class)
+@Mixin(ModelPart.class)
 public class ModModelPartMixinMixin {
 
 	@Dynamic
@@ -22,7 +22,7 @@ public class ModModelPartMixinMixin {
 	)
 	@Inject(at = @At("HEAD"), method = "@MixinSquared:Handler", cancellable = true, remap = false, require = 0)
 	private void helloSodium(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, /*? if =1.20.1 {*/ /*float red, float green, float blue, float alpha, *//*?} else {*/ int color, /*?}*/ CallbackInfo a, CallbackInfo b) {
-		ModModelPart modModelPart = (ModModelPart) (Object) this;
+		ModelPart modModelPart = (ModelPart) (Object) this;
 		if (!(modModelPart instanceof MModel)) {
 			return;
 		}

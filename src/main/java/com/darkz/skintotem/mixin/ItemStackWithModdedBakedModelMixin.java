@@ -24,7 +24,7 @@ public class ItemStackWithModdedBakedModelMixin implements ItemStackWithModdedBa
 	}
 
 	//? if <=1.21.5 {
-	/*@Inject(at = @At("RETURN"), method = /^? if <=1.21.4 {^/ /^"copy" ^//^?} else {^/ "copy()Lnet/minecraft/item/ItemStack;" /^?}^/)
+	/*@Inject(at = @At("RETURN"), method = /*? if <=1.21.4 {*/ /*"copy" *//*?} else {*/ "copy()Lnet/minecraft/item/ItemStack;" /*?}*/)
 	private void markItemStack(CallbackInfoReturnable<ItemStack> cir) {
 		((ItemStackWithModdedBakedModel) cir.getReturnValue()).skinTotem$setModdedModel(this.skinTotem$isModdedModel());
 		this.modded = false;

@@ -3,7 +3,7 @@ package com.darkz.skintotem.model.base;
 import lombok.*;
 import lombok.experimental.ExtensionMethod;
 import net.minecraft.client.model.Dilation;
-import net.minecraft.client.model.ModModelPart.*;
+import net.minecraft.client.model.ModelPart.*;
 import net.minecraft.util.math.Direction;
 import org.joml.Vector3f;
 

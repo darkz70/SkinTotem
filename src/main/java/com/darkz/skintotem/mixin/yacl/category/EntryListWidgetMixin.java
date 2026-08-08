@@ -1,6 +1,6 @@
 package com.darkz.skintotem.mixin.yacl.category;
 
-import com.llamalad7.mixinextras.injector.ifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.client.gui.widget.*;
 import net.minecraft.text.Text;
@@ -86,7 +86,7 @@ public abstract class EntryListWidgetMixin /*? >=1.20.3 {*/ extends ClickableWid
 	/*@Shadow
 	protected abstract int getScrollbarPositionX();
 
-	@ifyExpressionValue(at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/widget/EntryListWidget;renderBackground:Z"), method = RENDER_METHOD)
+	@ModifyExpressionValue(at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/widget/EntryListWidget;renderBackground:Z"), method = RENDER_METHOD)
 	private boolean disableBackgroundRendering(boolean original) {
 		if (YACLConfigurationScreen.notOpen(MinecraftClient.getInstance().currentScreen)) {
 			return original;
@@ -130,7 +130,7 @@ public abstract class EntryListWidgetMixin /*? >=1.20.3 {*/ extends ClickableWid
 
 	//? <=1.20.1 {
 
-	/*@ifyExpressionValue(at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/widget/EntryListWidget;renderHorizontalShadows:Z"), method = "render")
+	/*@ModifyExpressionValue(at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/widget/EntryListWidget;renderHorizontalShadows:Z"), method = "render")
 	private boolean disableShadows(boolean original) {
 		if (YACLConfigurationScreen.notOpen(MinecraftClient.getInstance().currentScreen)) {
 			return original;
