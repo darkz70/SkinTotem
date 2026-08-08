@@ -6,7 +6,7 @@ import net.minecraft.client.render.model.json.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.MatrixStack.Entry;
 
-import com.darkz.skintotem.client.SkinTotemModClient;
+import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.extension.ModelTransformationExtension;
 import com.darkz.skintotem.model.base.MModel;
 
@@ -77,7 +77,7 @@ public enum DollRenderContext {
 			};
 		}
 		//?}
-		SkinTotemModClient.LOGGER.error("Failed to get DollRenderContext from object: {}", object.getClass().getName());
+		SkinTotemClient.LOGGER.error("Failed to get DollRenderContext from object: {}", object.getClass().getName());
 		return D_NONE;
 	}
 
