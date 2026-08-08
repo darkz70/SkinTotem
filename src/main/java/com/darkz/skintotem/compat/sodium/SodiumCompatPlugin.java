@@ -8,7 +8,7 @@ import org.spongepowered.asm.service.MixinService;
 public class SodiumCompatPlugin extends CompatPlugin {
 
 	@Override
-	protected String getCompatId() {
+	protected String getCompatModId() {
 		return "sodium";
 	}
 
