@@ -21,7 +21,7 @@ import com.darkz.skintotem.refresh.SkinAutoRefresher;
 
 import org.jetbrains.annotations.Nullable;
 
-public class SkinTotemClient implements ClientInitializer {
+public class SkinTotemClient implements ClientModInitializer {
 
 	public static Logger LOGGER = LoggerFactory.getLogger(SkinTotem.MOD_NAME + "/Client");
 
