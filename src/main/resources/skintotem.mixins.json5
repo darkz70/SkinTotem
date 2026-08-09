@@ -1,4 +1,4 @@
-{
+2{
     "required": true,
     "package": "com.darkz.skintotem.mixin",
     "refmap": "${mod_id}.refmap.json",
@@ -44,7 +44,7 @@
 	    "ScreenMixin",
 	    "EntryListWidgetMixin",
 	    "ForgingScreenMixin",
-	    "ItemStackWithModedBakedModelMixin",
+	    "ItemStackWithModdedBakedModelMixin",
 	    "ItemStackWithPlayerEntityMixin",
 	    "ItemStackMixin",
 	    "HandledScreenMixin",
