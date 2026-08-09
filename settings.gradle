@@ -1,5 +1,7 @@
 pluginManagement {
 	repositories {
+		mavenCentral()
+		mavenLocal()
 		maven {
 			name "Fabric"
 			url "https://maven.fabricmc.net/"
@@ -13,16 +15,22 @@ pluginManagement {
 			url "https://maven.kikugie.dev/releases"
 		}
 		maven {
-			name "Mossy Projects"
-			url "https://maven.lopymine.net/releases"
+			name "GitHubPackages"
+			url "https://maven.pkg.github.com/darkz70/FigureStonePlugin"
+			def ghUser = System.getenv("GITHUB_ACTOR") ?: providers.gradleProperty("gpr.user").getOrNull()
+			def ghToken = System.getenv("GITHUB_TOKEN") ?: providers.gradleProperty("gpr.key").getOrNull()
+			credentials {
+				username = ghUser
+				password = ghToken
+			}
 		}
-		mavenLocal()
-		mavenCentral()
 		gradlePluginPortal()
+		mavenCentral()
+		mavenLocal()
 	}
 }
 
 plugins {
-	id "dev.kikugie.stonecutter" version "0.9"
-	id "net.lopymine.mossy-plugin-settings" version "3.2.0"
+	id "dev.kikugie.stonecutter" version "0.7.1"
+	id "net.darkz70.figurestone-plugin-settings" version "$figurestone_plugin_version"
 }
