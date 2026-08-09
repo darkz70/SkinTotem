@@ -22,7 +22,7 @@
             "com.darkz.skintotem.client.SkinTotemClient"
         ],
         "modmenu": [
-            "com.darkz.skintotem.modmenu.MenuIntegration"
+            "com.darkz.skintotem.modmenu.ModMenuIntegration"
         ]
     },
     "depends": {
