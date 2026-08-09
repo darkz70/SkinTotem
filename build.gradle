@@ -2,7 +2,7 @@ plugins {
 	id "net.lopymine.mossy-plugin-core" version "$mossy_plugin_version"
 }
 
-mossyDependencies {
+figureDependencies {
 	minecraft = stonecutter.current.project.substring(stonecutter.current.project.indexOf("-") + 1)
 	lombok = prop("base.lombok_version")
 
@@ -18,6 +18,10 @@ mossyDependencies {
 		//override("modCompileOnly", "yacl")
 		disable("cit-resewn")
 	}
+}
+
+figurestoneResources {
+	//expandFiles = ["custom", "file", "patterns", "here"]
 }
 
 repositories {
