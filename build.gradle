@@ -20,9 +20,6 @@ figurestoneDependencies {
 	}
 }
 
-figurestoneResources {
-	//expandFiles = ["custom", "file", "patterns", "here"]
-}
 
 repositories {
 	// Mixin^2
