@@ -1,7 +1,5 @@
 pluginManagement {
 	repositories {
-		mavenCentral()
-		mavenLocal()
 		maven {
 			name "Fabric"
 			url "https://maven.fabricmc.net/"
@@ -24,9 +22,9 @@ pluginManagement {
 				password = ghToken
 			}
 		}
-		gradlePluginPortal()
 		mavenCentral()
 		mavenLocal()
+		gradlePluginPortal()
 	}
 }
 
