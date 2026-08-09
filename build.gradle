@@ -1,5 +1,5 @@
 plugins {
-	id "net.lopymine.mossy-plugin-core" version "$mossy_plugin_version"
+	id  "net.darkz70.figurestone-plugin-core" version "$figurestone_plugin_version"
 }
 
 figurestoneDependencies {
