@@ -18,7 +18,7 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
       - name: Build with Gradle
-        run: ./gradlew buildAndCollect+All --stacktrace || ./gradlew buildAndCollect --stacktrace || ./gradlew build --stacktrace
+        run: ./gradlew buildAndCollect+All || ./gradlew buildAndCollect || ./gradlew build
         env:
           GITHUB_ACTOR: darkz70
           GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
