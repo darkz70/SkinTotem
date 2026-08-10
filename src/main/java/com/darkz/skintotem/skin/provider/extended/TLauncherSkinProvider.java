@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * Используется когда ник содержит префикс "#":
  *   "#nickname" — загружает скин с auth.tlauncher.org
  *
- * Автор: Darkz | K-TEAM | KlashRaick 
+ * Автор: Darkz | FigureStoneTeam
  */
 public class TLauncherSkinProvider extends StandardSkinProvider {
 
