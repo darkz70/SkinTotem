@@ -110,14 +110,13 @@ Place a Totem of Undying into an anvil and rename it using one of the formats be
 
 | Role | Contributor |
 |------|-------------|
-| 👨‍💻  Author | Darkz, KlashRaick |
-| 🏆 Team | K-TEAM |
-| 💛 Special Thanks | KlashRaick |
+| 👨‍💻  Author | Darkz |
+| 🏆 Team | FigureStoneTeam |
 
 ---
 
 <div align="center">
 
-Made with ❤️ by Darkz | K-TEAM | KlashRaick
+Made with ❤️ by Darkz | FigureStoneTeam
 
 </div>
