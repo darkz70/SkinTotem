@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * Используется когда ник содержит символ "@" перед ником:
  *   "@nickname" — загружает скин с skinsystem.ely.by
  *
- * Автор: Darkz | K-TEAM | KlashRaick 
+ * Автор: Darkz | FigureStoneTeam
  */
 public class ElyBySkinProvider extends StandardSkinProvider {
 
