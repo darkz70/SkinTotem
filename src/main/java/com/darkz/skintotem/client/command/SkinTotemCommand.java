@@ -20,7 +20,7 @@ public class SkinTotemCommand {
     public static LiteralArgumentBuilder<FabricClientCommandSource> getInfoCommand() {
         return literal("info").executes(ctx -> {
             ctx.getSource().sendFeedback(Component.literal(
-                P + "§bv1.0.0 §8| §bAuthor: §fDarkz §8| §fFigureStoneTeam"
+                P + "§bv2.0.0 §8| §bAuthor: §fDarkz §8| §fFigureStoneTeam"
             ));
             return 1;
         });
@@ -30,7 +30,7 @@ public class SkinTotemCommand {
         return literal("credits").executes(ctx -> {
             ctx.getSource().sendFeedback(Component.literal(
                 "\n§6╔══════════════════════════════════════╗\n" +
-                "§6║  §bSkinTotem §fv1.0.0                       §6║\n" +
+                "§6║  §bSkinTotem §fv2.0.0                       §6║\n" +
                 "§6║  §7Author:       §fDarkz                    §6║\n" +
                 "§6║  §7Team:         §fFigureStoneTeam          §6║\n" +
                 "§6╚════════════════════════════════════════╝\n"
