@@ -62,7 +62,7 @@ public class SkinTotemGuiElementRenderer extends SpecialGuiElementRenderer<SkinT
 		});
 		int cleared = all - PROPERTIES_RENDERERS.size();
 		if (SkinTotemConfig.getInstance().isDebugLogEnabled() && cleared != 0) {
-			SkinTotemClient.LOGGER.info("Removed Inactive Totem Doll Renderers: {}", cleared);
+			SkinTotemClient.LOGGER.info("Removed Inactive Skin Totem Renderers: {}", cleared);
 		}
 	}
 

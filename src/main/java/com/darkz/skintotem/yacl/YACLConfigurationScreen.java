@@ -1,11 +1,11 @@
 package com.darkz.skintotem.yacl;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 
 import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.config.SkinTotemConfig;
-import com.darkz.skintotem.utils.MenuUtils;
+import com.darkz.skintotem.utils.ModMenuUtils;
 import com.darkz.skintotem.yacl.category.*;
 import com.darkz.skintotem.yacl.custom.screen.*;
 import com.darkz.skintotem.yacl.custom.simple.SimpleYACLScreen;
@@ -27,8 +27,8 @@ public class YACLConfigurationScreen {
 		return !(currentScreen instanceof SkinTotemYACLScreen || currentScreen instanceof SkinTotemModelSelectionScreen);
 	}
 
-	public static Text getRenderingCategoryTitle() {
-		return MenuUtils.getName(MenuUtils.getCategoryKey("rendering"));
+	public static Component getRenderingCategoryTitle() {
+		return ModMenuUtils.getName(ModMenuUtils.getCategoryKey("rendering"));
 	}
 }
 

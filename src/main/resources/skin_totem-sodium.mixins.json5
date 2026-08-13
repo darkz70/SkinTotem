@@ -1,0 +1,15 @@
+{
+    "required": true,
+    "package": "com.darkz.skintotem.mixin.sodium",
+    "refmap": "${mod_id}.refmap.json",
+    "compatibilityLevel": "JAVA_${java}",
+	"plugin": "com.darkz.skintotem.compat.sodium.SodiumCompatPlugin",
+    "mixins": [],
+    "client": [
+	    "ModelPartMixinMixin",
+	    "CubeMixinMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

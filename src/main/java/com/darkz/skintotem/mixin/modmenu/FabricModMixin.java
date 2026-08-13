@@ -1,5 +1,7 @@
 package com.darkz.skintotem.mixin.modmenu;
 
+//? if fabric {
+
 import com.terraformersmc.modmenu.util.mod.fabric.FabricMod;
 import java.util.*;
 import net.fabricmc.loader.api.metadata.ModMetadata;
@@ -18,25 +20,7 @@ public class FabricModMixin {
 			"Kreo_gen", List.of("gnom", "mini_3d", "parrot", "player_bucket", "pots", "rat", "stairs", "wheelchair")
 	);
 
-	//? if >=1.21 {
-	@Dynamic
 	@Inject(at = @At("RETURN"), method = "getContributors", remap = false)
-	private void addMoreContributors(CallbackInfoReturnable<Map<String, Collection<String>>> cir) {
-		if (!SkinTotem.MOD_ID.equals(this.metadata.getId())) {
-			return;
-		}
-		Map<String, Collection<String>> map = cir.getReturnValue();
-		MODEL_AUTHORS.forEach((nickname, models) -> {
-			this.addBuiltinCustomModelAuthor(map, nickname, models);
-		});
-	}
-
-	@Unique
-	private void addBuiltinCustomModelAuthor(Map<String, Collection<String>> map, @SuppressWarnings("all") String nickname, List<String> models) {
-		map.put(nickname + " " + Arrays.toString(models.toArray()), List.of("Community Model Author"));
-	}
-	//?} else {
-	/*@Inject(at = @At("RETURN"), method = "getContributors", remap = false)
 	private void addMoreContributors(CallbackInfoReturnable<List<String>> cir) {
 		if (!SkinTotem.MOD_ID.equals(this.metadata.getId())) {
 			return;
@@ -48,7 +32,7 @@ public class FabricModMixin {
 			list.add(nickname + " " + Arrays.toString(models.toArray()));
 		});
 	}
-	*///?}
-
 
 }
+
+//?}

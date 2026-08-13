@@ -2,15 +2,17 @@ package com.darkz.skintotem.model.bb;
 
 import lombok.*;
 import lombok.experimental.ExtensionMethod;
-import net.minecraft.client.render.model.json.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.client.renderer.block.model.ItemTransform;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.resources.ResourceLocation;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import com.darkz.skintotem.config.other.vector.Vec3f;
 import com.darkz.skintotem.doll.renderer.DollRenderContext;
-import com.darkz.skintotem.extension.ModModelTransformationExtension;
+import com.darkz.skintotem.extension.ModelTransformationExtension;
 
 import java.util.*;
 import org.jetbrains.annotations.Nullable;
@@ -22,14 +24,14 @@ import static com.darkz.skintotem.utils.CodecUtils.option;
 @AllArgsConstructor
 public class BBModel {
 
-	private Identifier location;
+	private ResourceLocation location;
 	private String name;
 	private BBModelMeta meta;
 	private BBModelResolution resolution;
 	private List<BBCube> cubes;
 	private List<BBGroup> groups;
 	private boolean frontGuiLight;
-	private ModelTransformation transformation;
+	private ItemTransforms transformation;
 
 	@Nullable
 	public BBCube getCube(UUID uuid) {
@@ -71,37 +73,34 @@ public class BBModel {
 
 	}
 
-	@ExtensionMethod(ModModelTransformationExtension.class)
+	@ExtensionMethod(ModelTransformationExtension.class)
 	public static final class Transformations {
 
 		private static final Vec3f DEFAULT_ROTATION = new Vec3f(0.0F, 0.0F, 0.0F);
 		private static final Vec3f DEFAULT_TRANSLATION = new Vec3f(0.0F, 0.0F, 0.0F);
 		private static final Vec3f DEFAULT_SCALE = new Vec3f(1.0F, 1.0F, 1.0F);
 
-		public static final Codec<Transformation> TRANSFORMATION_CODEC = RecordCodecBuilder.create((instance) -> instance.group(
-				option("rotation", DEFAULT_ROTATION, Vec3f.CODEC, (o) -> new Vec3f(o.rotation/*? if >=1.21.5 {*/()/*?}*/)),
-				option("translation", DEFAULT_TRANSLATION, Vec3f.CODEC, (o) -> new Vec3f(o.translation/*? if >=1.21.5 {*/()/*?}*/)),
-				option("scale", DEFAULT_SCALE, Vec3f.CODEC, (o) -> new Vec3f(o.scale/*? if >=1.21.5 {*/()/*?}*/))
+		public static final Codec<ItemTransform> TRANSFORMATION_CODEC = RecordCodecBuilder.create((instance) -> instance.group(
+				option("rotation", DEFAULT_ROTATION, Vec3f.CODEC, (o) -> new Vec3f(o.rotation)),
+				option("translation", DEFAULT_TRANSLATION, Vec3f.CODEC, (o) -> new Vec3f(o.translation)),
+				option("scale", DEFAULT_SCALE, Vec3f.CODEC, (o) -> new Vec3f(o.scale))
 		).apply(instance, Transformations::prepareTransformation));
 
-		private static Transformation prepareTransformation(Vec3f rotation, Vec3f translation, Vec3f scale) {
+		private static ItemTransform prepareTransformation(Vec3f rotation, Vec3f translation, Vec3f scale) {
 			translation.mul(0.0625F);
-			return new Transformation(rotation, translation, scale);
+			return new ItemTransform(rotation, translation, scale);
 		}
 
-		public static final Codec<ModelTransformation> MODEL_TRANSFORMATION_CODEC = RecordCodecBuilder.create((instance) -> instance.group(
-				option(DollRenderContext.D_THIRD_PERSON_LEFT_HAND.getId(), Transformation.IDENTITY, TRANSFORMATION_CODEC, (o) -> o.getTl()),
-				option(DollRenderContext.D_THIRD_PERSON_RIGHT_HAND.getId(), Transformation.IDENTITY, TRANSFORMATION_CODEC, (o) -> o.getTr()),
-				option(DollRenderContext.D_FIRST_PERSON_LEFT_HAND.getId(), Transformation.IDENTITY, TRANSFORMATION_CODEC, (o) -> o.getFl()),
-				option(DollRenderContext.D_FIRST_PERSON_RIGHT_HAND.getId(), Transformation.IDENTITY, TRANSFORMATION_CODEC, (o) -> o.getFr()),
-				option(DollRenderContext.D_HEAD.getId(), Transformation.IDENTITY, TRANSFORMATION_CODEC, (o) -> o.getHead()),
-				option(DollRenderContext.D_GUI.getId(), Transformation.IDENTITY, TRANSFORMATION_CODEC, (o) -> o.getGui()),
-				option(DollRenderContext.D_GROUND.getId(), Transformation.IDENTITY, TRANSFORMATION_CODEC, (o) -> o.getGround()),
-				option(DollRenderContext.D_FIXED.getId(), Transformation.IDENTITY, TRANSFORMATION_CODEC, (o) -> o.getFixed())
-				//? if >=1.21.9 {
-				, option(DollRenderContext.D_ON_SHELF.getId(), Transformation.IDENTITY, TRANSFORMATION_CODEC, (o) -> o.getOnShelf())
-				//?}
-		).apply(instance, ModelTransformation::new));
+		public static final Codec<ItemTransforms> MODEL_TRANSFORMATION_CODEC = RecordCodecBuilder.create((instance) -> instance.group(
+				option(DollRenderContext.D_THIRD_PERSON_LEFT_HAND.getId(), ItemTransform.NO_TRANSFORM, TRANSFORMATION_CODEC, (o) -> o.getTl()),
+				option(DollRenderContext.D_THIRD_PERSON_RIGHT_HAND.getId(), ItemTransform.NO_TRANSFORM, TRANSFORMATION_CODEC, (o) -> o.getTr()),
+				option(DollRenderContext.D_FIRST_PERSON_LEFT_HAND.getId(), ItemTransform.NO_TRANSFORM, TRANSFORMATION_CODEC, (o) -> o.getFl()),
+				option(DollRenderContext.D_FIRST_PERSON_RIGHT_HAND.getId(), ItemTransform.NO_TRANSFORM, TRANSFORMATION_CODEC, (o) -> o.getFr()),
+				option(DollRenderContext.D_HEAD.getId(), ItemTransform.NO_TRANSFORM, TRANSFORMATION_CODEC, (o) -> o.getHead()),
+				option(DollRenderContext.D_GUI.getId(), ItemTransform.NO_TRANSFORM, TRANSFORMATION_CODEC, (o) -> o.getGui()),
+				option(DollRenderContext.D_GROUND.getId(), ItemTransform.NO_TRANSFORM, TRANSFORMATION_CODEC, (o) -> o.getGround()),
+				option(DollRenderContext.D_FIXED.getId(), ItemTransform.NO_TRANSFORM, TRANSFORMATION_CODEC, (o) -> o.getFixed())
+		).apply(instance, ItemTransforms::new));
 
 	}
 }

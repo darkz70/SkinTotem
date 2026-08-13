@@ -1,15 +1,24 @@
 package com.darkz.skintotem.model.base;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import lombok.*;
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.atlas.*;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.*;
-import net.minecraft.client.render.model.json.*;
-import net.minecraft.client.texture.*;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.*;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.ModelPart.Cube;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.*;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.*;
 
 import com.darkz.skintotem.extension.*;
 import com.darkz.skintotem.model.bb.*;
@@ -17,16 +26,17 @@ import com.darkz.skintotem.model.bb.*;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.*;
 import org.slf4j.Logger;
 
 @Getter
 @Setter
-@ExtensionMethod({ModModelTransformExtension.class, DilationExtension.class, IdExtension.class})
+@ExtensionMethod({ModelTransformExtension.class, DilationExtension.class, ResourceLocationExtension.class})
 public class MModel extends ModelPart {
 
 	@Setter(AccessLevel.PRIVATE)
-	private ModelTransformation transformation = ModelTransformation.NONE;
+	private ItemTransforms transformation = ItemTransforms.NO_TRANSFORMS;
 	private final Map<String, MModel> mChildren;
 	private final List<MModel> mChildrenModels;
 	private final List<MCuboid> mCuboids;
@@ -38,12 +48,12 @@ public class MModel extends ModelPart {
 	@Nullable
 	private MModel parent;
 	@Nullable
-	private Identifier location;
+	private ResourceLocation location;
 	@Nullable
 	private AtlasSprite builtinTexture;
 
 	public MModel(List<MCuboid> mCuboids, Map<String, MModel> mChildren, ModelState state, String name, @Nullable AtlasSprite builtinTexture) {
-		super(mCuboids.stream().map(MCuboid::asCuboid).toList(), mChildren.entrySet().stream().collect(Collectors.toMap(Entry::getKey, e -> e.getValue().asModModelPart())));
+		super(mCuboids.stream().map(MCuboid::asCuboid).toList(), mChildren.entrySet().stream().collect(Collectors.toMap(Entry::getKey, e -> e.getValue().asModelPart())));
 		this.state     = state;
 		this.name      = name;
 		this.mChildren = mChildren;
@@ -59,13 +69,13 @@ public class MModel extends ModelPart {
 		return this;
 	}
 
-	public void setLocation(@NotNull Identifier location) {
+	public void setLocation(@NotNull ResourceLocation location) {
 		this.location = location;
 		this.mChildren.forEach((modelName, model) -> model.setLocation(location));
 	}
 
 	@Override
-	public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, /*? if >=1.21 {*/int color/*?} else {*//*float red, float green, float blue, float alpha *//*?}*/) {
+	public void render(PoseStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha ) {
 		// NO-OP
 	}
 
@@ -88,11 +98,11 @@ public class MModel extends ModelPart {
 		return new MModelCollection(list, suffix);
 	}
 
-	public ModelPart asModModelPart() {
+	public ModelPart asModelPart() {
 		return this;
 	}
 
-	public void draw(MatrixStack matrices, VertexConsumerProvider provider, SpriteAtlasTexture atlas, RenderLayer atlasRenderLayer, AtlasSprite mainSprite, Map<String, AtlasSprite> requestedParts, int light, int overlay, /*? if >=1.21 {*/int color/*?} else {*//*float red, float green, float blue, float alpha *//*?}*/) {
+	public void draw(PoseStack matrices, MultiBufferSource provider, TextureAtlas atlas, RenderType atlasRenderLayer, AtlasSprite mainSprite, Map<String, AtlasSprite> requestedParts, int light, int overlay, float red, float green, float blue, float alpha ) {
 		AtlasSprite providedSprite = requestedParts.get(this.getName());
 
 		if ((this.skipRendering && providedSprite == null) || (!this.visible) || (this.mCuboids.isEmpty() && this.mChildren.isEmpty())) {
@@ -104,19 +114,19 @@ public class MModel extends ModelPart {
 			return;
 		}
 
-		matrices.push();
-		this./*? if <=1.21.4 {*//*rotate*//*?} else {*/ applyTransform /*?}*/(matrices);
-		if (!this.hidden && !this.mCuboids.isEmpty()) {
-			Sprite currentSprite = atlas.getSprite(currentSpriteId.getSpriteId());
-			VertexConsumer consumer = currentSprite.getTextureSpecificVertexConsumer(provider.getBuffer(atlasRenderLayer));
-			this.renderCuboids(matrices.peek(), consumer, light, overlay, /*? if >=1.21 {*/ color /*?} else {*/ /*red, green, blue, alpha *//*?}*/);
+		matrices.pushPose();
+		this.translateAndRotate(matrices);
+		if (!this.skipDraw && !this.mCuboids.isEmpty()) {
+			TextureAtlasSprite currentSprite = atlas.getSprite(currentSpriteId.getSpriteId());
+			VertexConsumer consumer = currentSprite.wrap(provider.getBuffer(atlasRenderLayer));
+			this.compile(matrices.last(), consumer, light, overlay,  red, green, blue, alpha );
 		}
 
 		for (MModel model : this.mChildrenModels) {
-			model.draw(matrices, provider, atlas, atlasRenderLayer, currentSpriteId, requestedParts, light, overlay, /*? if >=1.21 {*/ color /*?} else {*/ /*red, green, blue, alpha *//*?}*/);
+			model.draw(matrices, provider, atlas, atlasRenderLayer, currentSpriteId, requestedParts, light, overlay,  red, green, blue, alpha );
 		}
 
-		matrices.pop();
+		matrices.popPose();
 	}
 
 	private int getCountOfParents() {
@@ -138,7 +148,7 @@ public class MModel extends ModelPart {
 		String dataHierarchyLine = this.getHierarchyLine(countOfParents + 1);
 
 		String main = "%s %s".formatted(hierarchyLine, this.toString());
-		String transform = "%s Transform: [%s]".formatted(dataHierarchyLine, this.getTransform().asString());
+		String transform = "%s Transform: [%s]".formatted(dataHierarchyLine, this.storePose().asString());
 		String scale = "%s Scale: [%s %s %s]".formatted(dataHierarchyLine, this.xScale, this.yScale, this.zScale);
 
 		logger.info(main);
@@ -149,7 +159,7 @@ public class MModel extends ModelPart {
 		String cuboidDataHierarchyLine = this.getHierarchyLine(countOfParents + 1 + 1);
 
 		for (MCuboid value : this.mCuboids) {
-			Dilation dilation = value.getDilation();
+			CubeDeformation dilation = value.getDilation();
 
 			String cuboidMain = "%s %s".formatted(cuboidHierarchyLine, this.toString());
 			String cuboidFrom = "%s From: [%s %s %s]".formatted(cuboidDataHierarchyLine, value.minX, value.minY, value.minZ);
@@ -168,7 +178,7 @@ public class MModel extends ModelPart {
 	}
 
 	public void logSize(Logger logger) {
-		Box box = this.getBox();
+		AABB box = this.getBox();
 		logger.info("Union Model Size:");
 		logger.info("Size: [{}, {}, {}]", Math.abs(box.minX - box.maxX), Math.abs(box.minY - box.maxY), Math.abs(box.minZ - box.maxZ));
 		logger.info("From: [{}, {}, {}]", box.minX, box.minY, box.minZ);
@@ -186,7 +196,7 @@ public class MModel extends ModelPart {
 		return hierarchy;
 	}
 
-	public Box getBox() {
+	public AABB getBox() {
 		float minX = 0F;
 		float minY = 0F;
 		float minZ = 0F;
@@ -194,7 +204,7 @@ public class MModel extends ModelPart {
 		float maxY = 0F;
 		float maxZ = 0F;
 
-		for (Cuboid cuboid : this.mCuboids) {
+		for (Cube cuboid : this.mCuboids) {
 			minX = Math.min(minX, cuboid.minX);
 			minY = Math.min(minY, cuboid.minY);
 			minZ = Math.min(minZ, cuboid.minZ);
@@ -204,11 +214,11 @@ public class MModel extends ModelPart {
 			maxZ = Math.max(maxZ, cuboid.maxZ);
 		}
 
-		Box box = new Box(minX, minY, minZ, maxX, maxY, maxZ);
+		AABB box = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
 
 		for (MModel value : this.mChildren.values()) {
-			Box size = value.getBox();
-			box = box.union(size);
+			AABB size = value.getBox();
+			box = box.minmax(size);
 		}
 
 		return box;

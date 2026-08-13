@@ -1,7 +1,7 @@
 package com.darkz.skintotem.skin.provider;
 
 import lombok.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 
 import com.darkz.skintotem.api.Response;
@@ -41,17 +41,17 @@ public abstract class StandardSkinProvider implements SkinProvider {
 			return StandardSkinTotemManager.getStandardDoll();
 		}
 
-		SkinTotemData skinTotemData = this.getDataOrCreate(value);
+		SkinTotemData totemDollData = this.getDataOrCreate(value);
 
-		if (skinTotemData.getStandardSprites().canStartDownloading()) {
-			this.loadDoll(value, this.maxRequestsCheckEnabled, skinTotemData);
+		if (totemDollData.getStandardSprites().canStartDownloading()) {
+			this.loadDoll(value, this.maxRequestsCheckEnabled, totemDollData);
 		}
 
-		return skinTotemData;
+		return totemDollData;
 	}
 
 
-	public CompletableFuture<Void> loadDoll(String value, boolean checkMaxRequests, SkinTotemData skinTotemData) {
+	public CompletableFuture<Void> loadDoll(String value, boolean checkMaxRequests, SkinTotemData totemDollData) {
 		if (checkMaxRequests) {
 			// Max 10 requests per second
 			long now = System.currentTimeMillis();
@@ -65,13 +65,13 @@ public abstract class StandardSkinProvider implements SkinProvider {
 			this.requestsCount++;
 		}
 
-		skinTotemData.getStandardSprites().setState(LoadingState.WAITING_DOWNLOADING);
+		totemDollData.getStandardSprites().setState(LoadingState.WAITING_DOWNLOADING);
 
 		return SkinTotemTaskExecutor.execute(() -> {
 			int waitTime = 0;
 
 			while (true) {
-				SkinTotemSprites textures = skinTotemData.getStandardSprites();
+				SkinTotemSprites textures = totemDollData.getStandardSprites();
 				textures.setState(LoadingState.DOWNLOADING);
 
 				Response<ParsedSkinData> response = this.loadDollFromAPI(value);
@@ -108,7 +108,7 @@ public abstract class StandardSkinProvider implements SkinProvider {
 				SkinTotemArmsType armsType = SkinTotemArmsType.of(parsedSkinData.isSlim());
 				textures.setStandardArmsType(armsType);
 
-				Identifier skinId = this.getSkinId(value);
+				ResourceLocation skinId = this.getSkinId(value);
 
 				FailedAction onFailed = (throwable) -> {
 					textures.setState(LoadingState.CRITICAL_ERROR);
@@ -123,12 +123,12 @@ public abstract class StandardSkinProvider implements SkinProvider {
 				PlayerSkinUtils.downloadSkin(parsedSkinData.getSkinUrl(), skinId, onSuccess, onFailed, true);
 
 				if (parsedSkinData.getCapeUrl() != null) {
-					Identifier capeId = this.getCapeId(value);
+					ResourceLocation capeId = this.getCapeId(value);
 					PlayerSkinUtils.downloadSkin(parsedSkinData.getCapeUrl(), capeId, textures::setCapeSprite, null, false);
 				}
 
 				if (parsedSkinData.getElytraUrl() != null) {
-					Identifier elytraId = this.getElytraId(value);
+					ResourceLocation elytraId = this.getElytraId(value);
 					PlayerSkinUtils.downloadSkin(parsedSkinData.getElytraUrl(), elytraId, textures::setElytraSprite, null, false);
 				}
 
@@ -183,19 +183,19 @@ public abstract class StandardSkinProvider implements SkinProvider {
 			return future;
 		}
 
-		SkinTotemData skinTotemData = this.getFromCache(value);
-		if (skinTotemData == null) {
+		SkinTotemData totemDollData = this.getFromCache(value);
+		if (totemDollData == null) {
 			return CompletableFuture.completedFuture(null);
 		}
 
-		return this.reloadDataAndRegisterFuture(value, skinTotemData);
+		return this.reloadDataAndRegisterFuture(value, totemDollData);
 	}
 
-	private CompletableFuture<Void> reloadDataAndRegisterFuture(String value, SkinTotemData skinTotemData) {
-		SkinTotemSprites textures = skinTotemData.getStandardSprites();
+	private CompletableFuture<Void> reloadDataAndRegisterFuture(String value, SkinTotemData totemDollData) {
+		SkinTotemSprites textures = totemDollData.getStandardSprites();
 		textures.destroy();
 
-		CompletableFuture<Void> future = this.loadDoll(value, false, skinTotemData)
+		CompletableFuture<Void> future = this.loadDoll(value, false, totemDollData)
 				.whenComplete((r, e) -> {
 					this.reloadingFutures.remove(value);
 					if (e != null) {
@@ -219,17 +219,17 @@ public abstract class StandardSkinProvider implements SkinProvider {
 		this.cache.put(value, data);
 	}
 
-	protected Identifier getSkinId(String value) {
+	protected ResourceLocation getSkinId(String value) {
 		return this.getId(value, "skin");
 	}
 
-	protected Identifier getCapeId(String value) {
+	protected ResourceLocation getCapeId(String value) {
 		return this.getId(value, "cape");
 	}
 
-	protected Identifier getElytraId(String value) {
+	protected ResourceLocation getElytraId(String value) {
 		return this.getId(value, "elytra");
 	}
 
-	protected abstract Identifier getId(String value, String type);
+	protected abstract ResourceLocation getId(String value, String type);
 }

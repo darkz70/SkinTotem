@@ -2,8 +2,8 @@ package com.darkz.skintotem.yacl.custom.simple.main;
 
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.ConfigCategory.Builder;
-import net.minecraft.text.Text;
-import com.darkz.skintotem.utils.MenuUtils;
+import net.minecraft.network.chat.Component;
+import com.darkz.skintotem.utils.ModMenuUtils;
 import com.darkz.skintotem.yacl.custom.category.better.BetterConfigCategory;
 
 public class SimpleCategory {
@@ -11,8 +11,8 @@ public class SimpleCategory {
 	private final Builder builder;
 
 	private SimpleCategory(String categoryId) {
-		String categoryKey = MenuUtils.getCategoryKey(categoryId);
-		Text categoryName = MenuUtils.getName(categoryKey);
+		String categoryKey = ModMenuUtils.getCategoryKey(categoryId);
+		Component categoryName = ModMenuUtils.getName(categoryKey);
 		this.builder = BetterConfigCategory.createBuilder().name(categoryName);
 	}
 

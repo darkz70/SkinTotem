@@ -1,7 +1,7 @@
 package com.darkz.skintotem.skin.provider.extended;
 
 import java.util.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.api.*;
@@ -51,7 +51,7 @@ public class MojangSkinProvider extends StandardSkinProvider {
 	}
 
 	@Override
-	protected Identifier getId(String value, String type) {
+	protected ResourceLocation getId(String value, String type) {
 		return SkinTotem.getDollTextureId("mojang_api/%s/%s".formatted(type, value.toLowerCase()));
 	}
 

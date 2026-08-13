@@ -16,7 +16,6 @@ public class GeneralCategory {
 		return SimpleCategory.startBuilder("general")
 				.groups(getMainGroup(defConfig, config))
 				.groups(getThreadGroup(defConfig, config))
-				.groups(getAutoRefreshGroup(defConfig, config))
 				.build();
 	}
 
@@ -24,12 +23,12 @@ public class GeneralCategory {
 		return SimpleGroup.startBuilder("main")
 				.options(
 						SimpleOption.<Boolean>startBuilder("mod_enabled")
-								.withBinding(defConfig.isEnabled(), config::isEnabled, config::setEnabled, true)
+								.withBinding(defConfig.isModEnabled(), config::isModEnabled, config::setModEnabled, true)
 								.withDescription(SimpleContent.NONE)
 								.withController()
 								.build(),
 						SimpleOption.<Boolean>startBuilder("support_other_mods_totems")
-								.withBinding(defConfig.isSupportOthersTotems(), config::isSupportOthersTotems, config::setSupportOthersTotems, true)
+								.withBinding(defConfig.isSupportOtherModsTotems(), config::isSupportOtherModsTotems, config::setSupportOtherModsTotems, true)
 								.withDescription(SimpleContent.NONE)
 								.withController()
 								.build(),
@@ -37,30 +36,6 @@ public class GeneralCategory {
 								.withBinding(defConfig.isDebugLogEnabled(), config::isDebugLogEnabled, config::setDebugLogEnabled, true)
 								.withDescription(SimpleContent.NONE)
 								.withController()
-								.build()
-				)
-				.build();
-	}
-
-
-	private static OptionGroup getAutoRefreshGroup(SkinTotemConfig defConfig, SkinTotemConfig config) {
-		return SimpleGroup.startBuilder("auto_refresh")
-				.options(
-						SimpleOption.<Boolean>startBuilder("auto_refresh_enabled")
-								.withBinding(defConfig.isAutoRefreshEnabled(), config::isAutoRefreshEnabled, (v) -> {
-									config.setAutoRefreshEnabled(v);
-									com.darkz.skintotem.refresh.SkinAutoRefresher.restart();
-								}, true)
-								.withDescription(SimpleContent.NONE)
-								.withController()
-								.build(),
-						SimpleOption.<Integer>startBuilder("auto_refresh_interval_minutes")
-								.withBinding(defConfig.getAutoRefreshIntervalMinutes(), config::getAutoRefreshIntervalMinutes, (v) -> {
-									config.setAutoRefreshIntervalMinutes(v);
-									com.darkz.skintotem.refresh.SkinAutoRefresher.restart();
-								}, false)
-								.withDescription(SimpleContent.NONE)
-								.withController(1, 60, 1)
 								.build()
 				)
 				.build();

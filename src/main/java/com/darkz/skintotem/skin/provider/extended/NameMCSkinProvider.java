@@ -1,6 +1,6 @@
 package com.darkz.skintotem.skin.provider.extended;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.api.*;
@@ -31,7 +31,7 @@ public class NameMCSkinProvider extends StandardSkinProvider {
 	}
 
 	@Override
-	protected Identifier getId(String value, String type) {
+	protected ResourceLocation getId(String value, String type) {
 		return SkinTotem.getDollTextureId("name_mc/%s/%s".formatted(type, value.toLowerCase()));
 	}
 

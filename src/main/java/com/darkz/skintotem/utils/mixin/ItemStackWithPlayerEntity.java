@@ -1,10 +1,10 @@
 package com.darkz.skintotem.utils.mixin;
 
-import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.player.AbstractClientPlayer;
 
 public interface ItemStackWithPlayerEntity {
 
-	void skinTotem$setPlayerEntity(AbstractClientPlayerEntity player);
+	void skinTotem$setPlayerEntity(AbstractClientPlayer player);
 
-	AbstractClientPlayerEntity skinTotem$getPlayerEntity();
+	AbstractClientPlayer skinTotem$getPlayerEntity();
 }

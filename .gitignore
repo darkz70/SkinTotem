@@ -1,13 +1,43 @@
+# gradle
+
 .gradle/
 build/
-bin/
-*.log
-*.swp
-.DS_Store
 out/
+classes/
+
+# eclipse
+
+*.launch
+
+# idea
+
 .idea/
 *.iml
-.vscode/
+*.ipr
+*.iws
+
+# vscode
+
 .settings/
-.project
+.vscode/
+bin/
 .classpath
+.project
+
+# macos
+
+*.DS_Store
+
+# fabric
+
+runs/
+personal/
+libs/
+img/skins/
+
+# java
+
+hs_err_*.log
+replay_*.log
+*.hprof
+*.jfr

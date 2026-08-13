@@ -1,7 +1,7 @@
 package com.darkz.skintotem.utils;
 
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.yacl.custom.simple.utils.SimpleContent;
@@ -26,31 +26,31 @@ public final class ModMenuUtils {
 		return String.format("modmenu.group.%s", groupId);
 	}
 
-	public static Text getName(String key) {
+	public static Component getName(String key) {
 		return SkinTotem.text(key + ".name");
 	}
 
-	public static Text getDescription(String key) {
+	public static Component getDescription(String key) {
 		return SkinTotem.text(key + ".description");
 	}
 
-	public static Identifier getContentId(SimpleContent content, String contentId) {
+	public static ResourceLocation getContentId(SimpleContent content, String contentId) {
 		return SkinTotem.id(String.format("textures/config/%s.%s", contentId, content.getFileExtension()));
 	}
 
-	public static Text getModTitle() {
+	public static Component getModTitle() {
 		return SkinTotem.text("modmenu.title");
 	}
 
-	public static Function<Boolean, Text> getEnabledOrDisabledFormatter() {
+	public static Function<Boolean, Component> getEnabledOrDisabledFormatter() {
 		return state -> SkinTotem.text("modmenu.formatter.enabled_or_disabled." + state);
 	}
 
-	public static Text getNoConfigScreenMessage() {
+	public static Component getNoConfigScreenMessage() {
 		return SkinTotem.text("modmenu.no_config_library_screen.message");
 	}
 
-	public static Text getOldConfigScreenMessage(String version) {
+	public static Component getOldConfigScreenMessage(String version) {
 		return SkinTotem.text("modmenu.old_config_library_screen.message", version, SkinTotem.YACL_DEPEND_VERSION);
 	}
 }

@@ -5,7 +5,7 @@ import com.darkz.skintotem.cache.KnownPlayerUUIDsConfigManager;
 import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.config.cache.KnownPlayerUUIDsConfig;
 import com.darkz.skintotem.exception.HttpResponseException;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.skin.data.ParsedSkinData;
 import java.net.URI;
@@ -15,11 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import org.jetbrains.annotations.*;
 
-//? if >=1.20.2 {
-import com.mojang.util.UndashedUuid;
-//?} else {
-/*import com.mojang.util.UUIDTypeAdapter;
- *///?}
+import com.mojang.util.UUIDTypeAdapter;
 
 public class MojangAPI {
 
@@ -76,11 +72,7 @@ public class MojangAPI {
 				throw new HttpResponseException(statusCode, "Response doesn't contains 'id'");
 			}
 			String uuidAsString = jsonObject.get("id").getAsString();
-			//? if >=1.20.2 {
-			UUID uuid = UndashedUuid.fromStringLenient(uuidAsString);
-			//?} else {
-			/*UUID uuid = UUIDTypeAdapter.fromString(uuidAsString);
-			 *///?}
+			UUID uuid = UUIDTypeAdapter.fromString(uuidAsString);
 			return new Response<>(statusCode, uuid);
 		} catch (InterruptedException ignored) {
 		} catch (Exception e) {

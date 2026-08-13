@@ -8,33 +8,34 @@ import com.darkz.skintotem.atlas.*;
 import com.darkz.skintotem.atlas.stitch.*;
 import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.thread.SkinTotemTaskExecutor;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.*;
-import net.minecraft.client.texture.*;
-import net.minecraft.client.texture.SpriteLoader.StitchResult;
-import net.minecraft.resource.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.SpriteContents;
+import net.minecraft.client.renderer.texture.SpriteLoader;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.*;
+import net.minecraft.client.renderer.texture.SpriteLoader.Preparations;
+import net.minecraft.server.packs.resources.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import org.jetbrains.annotations.*;
 
 public class SkinTotemAtlasManager {
 
 	private static final StitchHooksManager STITCH_HOOKS_MANAGER = new StitchHooksManager();
 	private static final AtomicInteger LATEST_ATLAS_VERSION = new AtomicInteger();
-	public static final Identifier ATLAS_ID = SkinTotem.id("main_atlas.png");
-	//? if >=1.21.11 {
-	public static final RenderLayer ATLAS_RENDER_LAYER = RenderLayers.entityTranslucent(ATLAS_ID);
-	//?} else {
-	/*public static final RenderLayer ATLAS_RENDER_LAYER = RenderLayer.getEntityTranslucent(ATLAS_ID);
-	*///?}
+	public static final ResourceLocation ATLAS_ID = SkinTotem.id("main_atlas.png");
+	public static final RenderType ATLAS_RENDER_LAYER = RenderType.entityTranslucent(ATLAS_ID);
 	@Nullable
 	private static LockableAtlasTexture ATLAS_TEXTURE;
 
 	@NotNull
-	public static SpriteAtlasTexture createNotRegisteredInstance() {
-		return new SpriteAtlasTexture(ATLAS_ID);
+	public static TextureAtlas createNotRegisteredInstance() {
+		return new TextureAtlas(ATLAS_ID);
 	}
 
-	public static RenderLayer getRenderLayer() {
+	public static RenderType getRenderLayer() {
 		return ATLAS_RENDER_LAYER;
 	}
 
@@ -42,7 +43,7 @@ public class SkinTotemAtlasManager {
 		return ATLAS_TEXTURE;
 	}
 
-	public static void setAtlas(@NotNull SpriteAtlasTexture texture) {
+	public static void setAtlas(@NotNull TextureAtlas texture) {
 		if (ATLAS_TEXTURE != null && ATLAS_TEXTURE.isLocked()) {
 			LockableAtlasTexture atlasTexture = new LockableAtlasTexture(texture);
 			ATLAS_TEXTURE.setUnlockHook(() -> set(atlasTexture));
@@ -53,9 +54,9 @@ public class SkinTotemAtlasManager {
 
 	@NotNull
 	private static LockableAtlasTexture set(@NotNull LockableAtlasTexture texture) {
-		SpriteAtlasTexture atlas = texture.getAtlas();
+		TextureAtlas atlas = texture.getAtlas();
 		ATLAS_TEXTURE = texture;
-		MinecraftClient.getInstance().getTextureManager().registerTexture(atlas.getId(), atlas);
+		Minecraft.getInstance().getTextureManager().register(atlas.location(), atlas);
 		return ATLAS_TEXTURE;
 	}
 
@@ -64,28 +65,22 @@ public class SkinTotemAtlasManager {
 	}
 
 	public static void stitchAndUpdate(Set<AtlasSprite> sprites, Executor executor, @Nullable OnAtlasStitched onAtlasStitched) {
-		stitchAndUpdate(sprites, null, executor, MinecraftClient.getInstance(), onAtlasStitched);
+		stitchAndUpdate(sprites, null, executor, Minecraft.getInstance(), onAtlasStitched);
 	}
 
-	public static void stitchAndUpdate(Set<AtlasSprite> sprites, @Nullable ResourceReloader.Synchronizer synchronizer, Executor prepareExecutor, Executor applyExecutor, @Nullable OnAtlasStitched onAtlasStitched) {
+	public static void stitchAndUpdate(Set<AtlasSprite> sprites, @Nullable PreparableReloadListener.PreparationBarrier synchronizer, Executor prepareExecutor, Executor applyExecutor, @Nullable OnAtlasStitched onAtlasStitched) {
 		int currentId = LATEST_ATLAS_VERSION.incrementAndGet();
 		STITCH_HOOKS_MANAGER.addHook(onAtlasStitched);
 
-		SpriteAtlasTexture atlasTexture = SkinTotemAtlasManager.createNotRegisteredInstance();
+		TextureAtlas atlasTexture = SkinTotemAtlasManager.createNotRegisteredInstance();
 
 		List<SpriteContents> contents = sprites.stream().map(AtlasSprite::getContents).filter(Objects::nonNull).toList();
-		//? if >=1.21.9 {
-		CompletableFuture<StitchResult> future = CompletableFuture.supplyAsync(
-				() -> SpriteLoader.fromAtlas(atlasTexture).stitch(contents, 0, prepareExecutor)
-		);
-		//?} else {
-		/*CompletableFuture<StitchResult> future = SpriteLoader.fromAtlas(atlasTexture)
+		CompletableFuture<Preparations> future = SpriteLoader.create(atlasTexture)
 				.stitch(contents, 0, prepareExecutor)
-				.whenComplete();
-		*///?}
+				.waitForUpload();
 
 		if (synchronizer != null) {
-			future = future.thenCompose(synchronizer::whenPrepared);
+			future = future.thenCompose(synchronizer::wait);
 		}
 
 		AtlasStitchingContext stitchingContext = new AtlasStitchingContext(currentId, atlasTexture, sprites);
@@ -99,19 +94,15 @@ public class SkinTotemAtlasManager {
 		ATLAS_TEXTURE.getAtlas().close();
 	}
 
-	private record AtlasStitchingContext(int version, SpriteAtlasTexture atlas, Set<AtlasSprite> atlasSprites) {
+	private record AtlasStitchingContext(int version, TextureAtlas atlas, Set<AtlasSprite> atlasSprites) {
 
-		public void upload(StitchResult result) {
+		public void upload(Preparations result) {
 			int latestAtlasVersion = LATEST_ATLAS_VERSION.get();
 			if (this.version != latestAtlasVersion) {
 				SkinTotemClient.LOGGER.warn("Skipped atlas stitching, waiting \"{}\"", latestAtlasVersion);
 				return;
 			}
-			//? if >=1.21.11 {
-			this.atlas.create(result);
-			//?} else {
-			/*this.atlas.upload(result);
-			*///?}
+			this.atlas.upload(result);
 			this.atlasSprites.forEach(AtlasSprite::markUploaded);
 			SkinTotemAtlasManager.setAtlas(this.atlas);
 			STITCH_HOOKS_MANAGER.runAllHooks();

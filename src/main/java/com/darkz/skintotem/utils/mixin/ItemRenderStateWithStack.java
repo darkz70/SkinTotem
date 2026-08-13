@@ -1,6 +1,6 @@
 package com.darkz.skintotem.utils.mixin;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 public interface ItemRenderStateWithStack {
 

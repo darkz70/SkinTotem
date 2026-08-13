@@ -2,15 +2,17 @@ package com.darkz.skintotem.model.bb.manager;
 
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
-import net.fabricmc.loader.api.*;
+import com.darkz.skintotem.loader.SkinTotemLoader;
 import com.darkz.skintotem.atlas.manager.*;
 import com.darkz.skintotem.model.bb.BBOutliner;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.model.ModelTransform;
-import net.minecraft.client.render.model.json.*;
-import net.minecraft.resource.ResourceManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.*;
-import net.minecraft.util.math.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.core.UUIDUtil;
 import org.slf4j.*;
 
 import com.mojang.datafixers.util.Either;
@@ -42,19 +44,16 @@ public class BlockBenchModelManager {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("%s/BlockBenchModelManager".formatted(SkinTotem.MOD_NAME));
 
-	private static final Map<Identifier, CompletableFuture<Response<MModelFactory>>> LOADED_MODELS = new ConcurrentHashMap<>();
+	private static final Map<ResourceLocation, CompletableFuture<Response<MModelFactory>>> LOADED_MODELS = new ConcurrentHashMap<>();
 
 	private static final Set<String> SUPPORTED_MODEL_FORMATS = Set.of("java_block", "free_rotation");
 
 	@Nullable
-	private static ResourceManager currentResourceManager = null;
-
-	@Nullable
-	public static MModel getModel(Identifier id) {
+	public static MModel getModel(ResourceLocation id) {
 		return createMModel(getMModelFactoryAsResponse(id)).value();
 	}
 
-	public static @NotNull Response<MModelFactory> getMModelFactoryAsResponse(Identifier id) {
+	public static @NotNull Response<MModelFactory> getMModelFactoryAsResponse(ResourceLocation id) {
 		CompletableFuture<Response<MModelFactory>> future = LOADED_MODELS.computeIfAbsent(id,
 				(key) -> CompletableFuture.completedFuture(createMModelFactory(id))
 		);
@@ -72,7 +71,7 @@ public class BlockBenchModelManager {
 		return Response.empty(-1);
 	}
 
-	public static void consumeModelById(Identifier id, Consumer<MModel> consumer) {
+	public static void consumeModelById(ResourceLocation id, Consumer<MModel> consumer) {
 		BlockBenchModelManager.getModelAsyncAsResponse(id, (response) -> {
 			MModel value = response.value();
 			if (value != null) {
@@ -81,7 +80,7 @@ public class BlockBenchModelManager {
 		});
 	}
 
-	public static void getModelAsyncAsResponse(Identifier id, Consumer<Response<MModel>> consumer) {
+	public static void getModelAsyncAsResponse(ResourceLocation id, Consumer<Response<MModel>> consumer) {
 		LOADED_MODELS.computeIfAbsent(
 				id,
 				(key) -> CompletableFuture.supplyAsync(() -> createMModelFactory(id))
@@ -107,7 +106,7 @@ public class BlockBenchModelManager {
 		return Response.empty(-10);
 	}
 
-	private static @NotNull Response<MModelFactory> createMModelFactory(Identifier id) {
+	private static @NotNull Response<MModelFactory> createMModelFactory(ResourceLocation id) {
 		Response<BBModel> response = parseModel(id);
 		int statusCode = response.statusCode();
 		BBModel value = response.value();
@@ -120,7 +119,7 @@ public class BlockBenchModelManager {
 	}
 
 	@NotNull
-	private static Response<BBModel> parseModel(Identifier id) {
+	private static Response<BBModel> parseModel(ResourceLocation id) {
 		try {
 			JsonObject jsonObject = readAsJsonObject(id);
 
@@ -135,11 +134,11 @@ public class BlockBenchModelManager {
 				return Response.empty(102);
 			}
 
-			SemanticVersion modelVersion = SemanticVersion.parse(meta.getVersion());
+			String modelVersion = meta.getVersion();
 
-			if (modelVersion.compareTo((Version) SemanticVersion.parse("5.0")) >= 0) {
+			if (SkinTotemLoader.compareVersions(modelVersion, "5.0") >= 0) {
 				return processBBModel50(id, jsonObject, name, meta);
-			} else if (modelVersion.compareTo((Version) SemanticVersion.parse("4.10")) >= 0) {
+			} else if (SkinTotemLoader.compareVersions(modelVersion, "4.10") >= 0) {
 				return processBBModel410(id, jsonObject, name, meta);
 			}
 		} catch (NoSuchFileException | FileNotFoundException e) {
@@ -151,7 +150,7 @@ public class BlockBenchModelManager {
 	}
 
 	@NotNull
-	private static Response<BBModel> processBBModel410(Identifier id, JsonObject jsonObject, String name, BBModelMeta meta) {
+	private static Response<BBModel> processBBModel410(ResourceLocation id, JsonObject jsonObject, String name, BBModelMeta meta) {
 		BBModelResolution resolution = CodecUtils.decode("resolution", BBModelResolution.CODEC, jsonObject);
 		if (resolution == null) {
 			LOGGER.warn("Failed to parse resolution from 4.10 format for model \"{}\"! Skipping.", name);
@@ -165,7 +164,7 @@ public class BlockBenchModelManager {
 	}
 
 	@NotNull
-	private static Response<BBModel> processBBModel50(Identifier id, JsonObject jsonObject, String name, BBModelMeta meta) {
+	private static Response<BBModel> processBBModel50(ResourceLocation id, JsonObject jsonObject, String name, BBModelMeta meta) {
 		BBModelResolution resolution = CodecUtils.decode("resolution", BBModelResolution.CODEC, jsonObject);
 		if (resolution == null) {
 			LOGGER.warn("Failed to parse resolution from 5.0 format for model \"{}\"! Skipping.", name);
@@ -197,11 +196,7 @@ public class BlockBenchModelManager {
 		BBCubeFaces cubeFaces = new BBCubeFaces(new HashMap<>());
 
 		for (Direction direction : Direction.values()) {
-			//? if >=1.21.5 {
-			String id = direction.getId();
-			//?} else {
-			/*String id = direction.getName();
-			*///?}
+			String id = direction.getName();
 			JsonObject face = faces.get(id).getAsJsonObject();
 			if (face.has("texture") && face.get("texture").isJsonNull()) {
 				continue;
@@ -220,7 +215,7 @@ public class BlockBenchModelManager {
 		List<UUID> rootCubes = new ArrayList<>();
 		List<BBOutliner> outliners = new ArrayList<>();
 		for (JsonElement jsonElement : jsonObject.get("outliner").getAsJsonArray()) {
-			CodecUtils.decode(Codec.either(BBOutliner.CODEC, Uuids.CODEC), jsonElement, (either) -> {
+			CodecUtils.decode(Codec.either(BBOutliner.CODEC, UUIDUtil.CODEC), jsonElement, (either) -> {
 				Optional<BBOutliner> left = either.left();
 				left.ifPresent(outliners::add);
 				Optional<UUID> right = either.right();
@@ -264,7 +259,7 @@ public class BlockBenchModelManager {
 		List<UUID> rootCubes = new ArrayList<>();
 		List<BBGroup> groups = new ArrayList<>();
 		for (JsonElement jsonElement : jsonObject.get("outliner").getAsJsonArray()) {
-			CodecUtils.decode(Codec.either(BBGroup.CODEC, Uuids.CODEC), jsonElement, (either) -> {
+			CodecUtils.decode(Codec.either(BBGroup.CODEC, UUIDUtil.CODEC), jsonElement, (either) -> {
 				Optional<BBGroup> left = either.left();
 				left.ifPresent((group) -> {
 					if (group.getName().equals("root")) {
@@ -284,7 +279,7 @@ public class BlockBenchModelManager {
 
 	}
 
-	private static @NotNull BBModel createFinalBBModel(Identifier id, JsonObject jsonObject, String name, BBModelMeta meta, List<UUID> rootCubes, List<BBGroup> groups, BBModelResolution resolution, List<BBCube> cubes) {
+	private static @NotNull BBModel createFinalBBModel(ResourceLocation id, JsonObject jsonObject, String name, BBModelMeta meta, List<UUID> rootCubes, List<BBGroup> groups, BBModelResolution resolution, List<BBCube> cubes) {
 		BBGroup rootGroup = new BBGroup(
 				"root",
 				new Vec3f(),
@@ -298,15 +293,13 @@ public class BlockBenchModelManager {
 		);
 		groups.add(0, rootGroup);
 
-		ModelTransformation display = CodecUtils.decode("display", ModelTransformation.NONE, Transformations.MODEL_TRANSFORMATION_CODEC, jsonObject);
+		ItemTransforms display = CodecUtils.decode("display", ItemTransforms.NO_TRANSFORMS, Transformations.MODEL_TRANSFORMATION_CODEC, jsonObject);
 		Boolean frontGuiLight = CodecUtils.decode("front_gui_light", false, Codec.BOOL, jsonObject);
 		return new BBModel(id, name, meta, resolution, cubes, groups, frontGuiLight, display);
 	}
 
-	private static JsonObject readAsJsonObject(Identifier id) throws IOException {
-		ResourceManager resourceManager = currentResourceManager != null
-				? currentResourceManager
-				: MinecraftClient.getInstance().getResourceManager();
+	private static JsonObject readAsJsonObject(ResourceLocation id) throws IOException {
+		ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
 		InputStream open = resourceManager.open(id);
 		return new Gson().fromJson(new JsonReader(new InputStreamReader(open)), JsonObject.class);
 	}
@@ -327,7 +320,7 @@ public class BlockBenchModelManager {
 		SkinTotemAtlasManager.stitchAndUpdate(SkinTotemAtlasSpriteManager.getSprites(), null);
 
 		return () -> builder
-				.withTransform(ModelTransform./*? if <=1.21.4 {*/ /*pivot *//*?} else {*/ origin /*?}*/(-16.0F, -8.0F, 0.0F))
+				.withTransform(PartPose.offset(-16.0F, -8.0F, 0.0F))
 				.build(resolution.getWidth(), resolution.getHeight())
 				.initAfterBuild(model);
 	}
@@ -391,8 +384,7 @@ public class BlockBenchModelManager {
 				.withTransform(cube.getTransformation());
 	}
 
-	public static void reload(ResourceManager resourceManager) {
-		currentResourceManager = resourceManager;
+	public static void reload() {
 		LOADED_MODELS.clear();
 		for (SkinTotemData data : SkinTotemManager.getAllLoadedDolls()) {
 			data.clearAllFrameModelsCompletely();

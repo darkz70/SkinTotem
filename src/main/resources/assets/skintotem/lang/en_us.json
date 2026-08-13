@@ -40,7 +40,7 @@
   "skintotem.modmenu.option.copy_right_hand_settings.description": "Copies the current Right Hand rendering settings (scale, rotation, offset) to this hand.",
   "skintotem.modmenu.option.copy_left_hand_settings.name": "&eCopy Left Hand Settings",
   "skintotem.modmenu.option.copy_left_hand_settings.description": "Copies the current Left Hand rendering settings (scale, rotation, offset) to this hand.",
-  "skintotem.modmenu.category.standard_doll.name": "&lStandard Totem Doll",
+  "skintotem.modmenu.category.standard_doll.name": "&lStandard Skin Totem",
   "skintotem.modmenu.group.standard_doll_model.name": "&lStandard Model",
   "skintotem.modmenu.group.standard_doll_skin.name": "&lStandard Skin",
   "skintotem.modmenu.group.standard_doll_model.description": "",

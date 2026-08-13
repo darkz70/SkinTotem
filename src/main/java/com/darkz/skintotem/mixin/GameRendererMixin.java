@@ -1,76 +1,50 @@
 package com.darkz.skintotem.mixin;
 
-//? if <=1.21.5 {
 
-/*import com.darkz.skintotem.doll.renderer.*;
-import net.minecraft.client.render.*;
+import lombok.experimental.ExtensionMethod;
+import com.darkz.skintotem.config.SkinTotemConfig;
+import com.darkz.skintotem.config.totem.SkinTotemSkinType;
+import com.darkz.skintotem.doll.renderer.*;
+import com.darkz.skintotem.extension.ItemStackExtension;
+import com.darkz.skintotem.utils.LightningUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.*;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.*;
-import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.*;
-import net.minecraft.world.World;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.injection.At;
 
-import java.util.function.Consumer;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.item.ItemDisplayContext;
 
-//? if <=1.21.1 {
-/^import net.minecraft.client.render.model.json.ModelTransformationMode;
- ^///?}
-
+@ExtensionMethod(ItemStackExtension.class)
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
 
-	//? if >=1.21.2 && <=1.21.5 {
-	/^@Shadow
-	@Nullable
-	private ItemStack floatingItem;
-
-
-	@WrapOperation(
-			at = @At(
-					value = "INVOKE",
-					target = "Lnet/minecraft/client/gui/DrawContext;draw(Ljava/util/function/Consumer;)V"
-			),
-			method = "renderFloatingItem"
-	)
-	private void renderFloatingDoll(DrawContext drawContext, Consumer<?> drawCallback, Operation<Void> original, @Local MatrixStack matrices) {
-		drawContext.draw((sus) -> {
-			if (!SkinTotemRenderer.sentRenderRequest(matrices, this.floatingItem, DollRenderContext.D_FLOATING, 15728880, OverlayTexture.DEFAULT_UV, 0, drawContext.vertexConsumers)) {
-				original.call(drawContext, drawCallback);
-			}
-		});
-	}
-	^///?} elif >=1.21 {
-
-	@Shadow
-	@Nullable
-	private ItemStack floatingItem;
-
-	@SuppressWarnings("deprecation")
-	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;draw(Ljava/lang/Runnable;)V"), method = "renderFloatingItem")
-	private void renderFloatingDoll(DrawContext drawContext, Runnable drawCallback, Operation<Void> original, @Local MatrixStack matrices) {
-		drawContext.draw(() -> {
-			if (!SkinTotemRenderer.sentRenderRequest(matrices, this.floatingItem, DollRenderContext.D_FLOATING, 15728880, OverlayTexture.DEFAULT_UV, 0, drawContext.vertexConsumers)) {
-				original.call(drawContext, drawCallback);
-			}
-		});
-	}
-
-	//?} else {
-
-	/^@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/item/ItemRenderer;renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformationMode;IILnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;I)V"), method = "renderFloatingItem")
-	private void renderFloatingDoll(ItemRenderer itemRenderer, ItemStack stack, ModelTransformationMode transformationType, int light, int overlay, MatrixStack matrices, VertexConsumerProvider vertexConsumers, World world, int seed, Operation<Void> original) {
-		if (!SkinTotemRenderer.sentRenderRequest(matrices, stack, DollRenderContext.D_FLOATING, light, overlay, 0, vertexConsumers)) {
+	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/ItemRenderer;renderStatic(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;IILcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/world/level/Level;I)V"), method = "renderItemActivationAnimation")
+	private void renderFloatingDoll(ItemRenderer itemRenderer, ItemStack stack, ItemDisplayContext transformationType, int light, int overlay, PoseStack matrices, MultiBufferSource vertexConsumers, Level world, int seed, Operation<Void> original) {
+		if (!SkinTotemRenderer.canRender(stack)) {
 			original.call(itemRenderer, stack, transformationType, light, overlay, matrices, vertexConsumers, world, seed);
+			return;
+		}
+		LightningUtils.disable3dLighting();
+		LocalPlayer player = Minecraft.getInstance().player;
+		boolean bl = SkinTotemConfig.getInstance().getStandardSkinTotemSkinType() == SkinTotemSkinType.HOLDING_PLAYER && player != null;
+		if (bl) {
+			stack.setPlayerEntity(player);
+		}
+		SkinTotemRenderer.renderAnyway(matrices, stack, DollRenderContext.D_FLOATING, light, overlay, 0, vertexConsumers);
+		if (bl) {
+			stack.setPlayerEntity(null);
 		}
 	}
 
-	^///?}
 }
 
-*///?}

@@ -1,11 +1,12 @@
 package com.darkz.skintotem.compat.sodium;
 
-import net.fabricmc.loader.api.*;
-
 import com.darkz.skintotem.compat.CompatPlugin;
+import com.darkz.skintotem.loader.SkinTotemLoader;
 import org.spongepowered.asm.service.MixinService;
 
 public class SodiumCompatPlugin extends CompatPlugin {
+
+	private static final String HOT_SODIUM_VERSION = "0.6.0+mc1.21.1";
 
 	@Override
 	protected String getCompatModId() {
@@ -18,7 +19,7 @@ public class SodiumCompatPlugin extends CompatPlugin {
 			return false;
 		}
 
-		boolean oldMixin = mixinClassName.equals("com.darkz.skintotem.mixin.sodium.ModModelPartMixinMixin");
+		boolean oldMixin = mixinClassName.equals("com.darkz.skintotem.mixin.sodium.ModelPartMixinMixin");
 		boolean hotMixin = mixinClassName.equals("com.darkz.skintotem.mixin.sodium.CubeMixinMixin");
 
 		if (hotMixin) {
@@ -33,27 +34,9 @@ public class SodiumCompatPlugin extends CompatPlugin {
 	}
 
 	private boolean isCurrentVersionOlderThanHot(String mixinName) {
-		FabricLoader fabricLoader = FabricLoader.getInstance();
-		ModContainer modContainer = fabricLoader.getModContainer(this.getCompatModId()).orElseThrow();
-		Version currentVersion = modContainer.getMetadata().getVersion();
-		Version hotVersion = this.getHotSodiumVersion();
-
-		// <6.0.0 (currentOlder == true)
-		// ModModelPartMixinMixin
-
-		// >=6.0.0 (currentOlder == false)
-		// CubeMixin
-
-		boolean bl = currentVersion.compareTo(hotVersion) < 0;
+		String currentVersion = SkinTotemLoader.getModVersion(this.getCompatModId(), true);
+		boolean bl = SkinTotemLoader.compareVersions(currentVersion, HOT_SODIUM_VERSION) < 0;
 		MixinService.getService().getLogger("[SkinTotem: SodiumCompatPlugin]").info("[{}] Detected Sodium, current version older than hot: {}", mixinName, bl);
 		return bl;
-	}
-
-	private Version getHotSodiumVersion() {
-		try {
-			return Version.parse("0.6.0+mc1.21.1");
-		} catch (VersionParsingException e) {
-			throw new RuntimeException(e);
-		}
 	}
 }

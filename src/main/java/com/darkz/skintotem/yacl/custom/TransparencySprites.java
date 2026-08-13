@@ -1,7 +1,7 @@
 package com.darkz.skintotem.yacl.custom;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotem;
 
@@ -15,34 +15,34 @@ public class TransparencySprites {
 			SkinTotem.spriteId("transparency/tab/tab_highlighted") // disabled and hovered
 	);
 
-	public static final Identifier SCROLLER_SPRITE = SkinTotem.spriteId("transparency/scroller/scroller");
-	public static final Identifier SCROLLER_BACKGROUND_SPRITE = SkinTotem.spriteId("transparency/scroller/scroller_background");
+	public static final ResourceLocation SCROLLER_SPRITE = SkinTotem.spriteId("transparency/scroller/scroller");
+	public static final ResourceLocation SCROLLER_BACKGROUND_SPRITE = SkinTotem.spriteId("transparency/scroller/scroller_background");
 
-	public static final Identifier DARKER_MENU_BACKGROUND_TEXTURE = SkinTotem.id("textures/gui/transparency/darker_menu_background.png");
-	private static final Identifier MENU_BACKGROUND_TEXTURE = SkinTotem.id("textures/gui/transparency/menu_background.png");
-	private static final Identifier MENU_LIST_BACKGROUND_TEXTURE = SkinTotem.id("textures/gui/transparency/menu_background.png");
-	private static final Identifier IN_WORLD_MENU_BACKGROUND_TEXTURE = SkinTotem.id("textures/gui/transparency/inworld_menu_background.png");
-	private static final Identifier IN_WORLD_MENU_LIST_BACKGROUND_TEXTURE = SkinTotem.id("textures/gui/transparency/inworld_menu_list_background.png");
+	public static final ResourceLocation DARKER_MENU_BACKGROUND_TEXTURE = SkinTotem.id("textures/gui/transparency/darker_menu_background.png");
+	private static final ResourceLocation MENU_BACKGROUND_TEXTURE = SkinTotem.id("textures/gui/transparency/menu_background.png");
+	private static final ResourceLocation MENU_LIST_BACKGROUND_TEXTURE = SkinTotem.id("textures/gui/transparency/menu_background.png");
+	private static final ResourceLocation IN_WORLD_MENU_BACKGROUND_TEXTURE = SkinTotem.id("textures/gui/transparency/inworld_menu_background.png");
+	private static final ResourceLocation IN_WORLD_MENU_LIST_BACKGROUND_TEXTURE = SkinTotem.id("textures/gui/transparency/inworld_menu_list_background.png");
 
-	private static final Identifier MENU_SEPARATOR_TEXTURE = SkinTotem.id("textures/gui/transparency/menu_separator.png");
-	private static final Identifier IN_WORLD_MENU_SEPARATOR_TEXTURE = SkinTotem.id("textures/gui/transparency/inworld_menu_separator.png");
+	private static final ResourceLocation MENU_SEPARATOR_TEXTURE = SkinTotem.id("textures/gui/transparency/menu_separator.png");
+	private static final ResourceLocation IN_WORLD_MENU_SEPARATOR_TEXTURE = SkinTotem.id("textures/gui/transparency/inworld_menu_separator.png");
 
-	public static Identifier getMenuBackgroundTexture() {
-		return MinecraftClient.getInstance().world == null ? MENU_BACKGROUND_TEXTURE : IN_WORLD_MENU_BACKGROUND_TEXTURE;
+	public static ResourceLocation getMenuBackgroundTexture() {
+		return Minecraft.getInstance().level == null ? MENU_BACKGROUND_TEXTURE : IN_WORLD_MENU_BACKGROUND_TEXTURE;
 	}
 
-	public static Identifier getMenuListBackgroundTexture() {
-		return MinecraftClient.getInstance().world == null ? MENU_LIST_BACKGROUND_TEXTURE : IN_WORLD_MENU_LIST_BACKGROUND_TEXTURE;
+	public static ResourceLocation getMenuListBackgroundTexture() {
+		return Minecraft.getInstance().level == null ? MENU_LIST_BACKGROUND_TEXTURE : IN_WORLD_MENU_LIST_BACKGROUND_TEXTURE;
 	}
 
-	public static Identifier getMenuSeparatorTexture() {
-		return MinecraftClient.getInstance().world == null ? MENU_SEPARATOR_TEXTURE : IN_WORLD_MENU_SEPARATOR_TEXTURE;
+	public static ResourceLocation getMenuSeparatorTexture() {
+		return Minecraft.getInstance().level == null ? MENU_SEPARATOR_TEXTURE : IN_WORLD_MENU_SEPARATOR_TEXTURE;
 	}
 
-	public record SpriteTextures(Identifier enabled, Identifier disabled, Identifier enabledFocused,
-	                             Identifier disabledFocused) {
+	public record SpriteTextures(ResourceLocation enabled, ResourceLocation disabled, ResourceLocation enabledFocused,
+	                             ResourceLocation disabledFocused) {
 
-		public Identifier get(boolean enabled, boolean hovered) {
+		public ResourceLocation get(boolean enabled, boolean hovered) {
 			return enabled ?
 					(!hovered ? this.enabled : this.enabledFocused)
 					:

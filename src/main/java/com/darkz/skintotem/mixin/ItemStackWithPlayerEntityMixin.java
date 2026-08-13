@@ -1,7 +1,7 @@
 package com.darkz.skintotem.mixin;
 
-import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.*;
 
 import com.darkz.skintotem.utils.mixin.ItemStackWithPlayerEntity;
@@ -11,15 +11,15 @@ import com.darkz.skintotem.utils.mixin.ItemStackWithPlayerEntity;
 public class ItemStackWithPlayerEntityMixin implements ItemStackWithPlayerEntity {
 
 	@Unique
-	private AbstractClientPlayerEntity player;
+	private AbstractClientPlayer skinTotem$player;
 
 	@Override
-	public void skinTotem$setPlayerEntity(AbstractClientPlayerEntity player) {
-		this.player = player;
+	public void skinTotem$setPlayerEntity(AbstractClientPlayer player) {
+		this.skinTotem$player = player;
 	}
 
 	@Override
-	public AbstractClientPlayerEntity skinTotem$getPlayerEntity() {
-		return this.player;
+	public AbstractClientPlayer skinTotem$getPlayerEntity() {
+		return this.skinTotem$player;
 	}
 }

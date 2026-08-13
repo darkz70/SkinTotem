@@ -1,20 +1,21 @@
 package com.darkz.skintotem.atlas;
 
+import com.mojang.blaze3d.platform.NativeImage;
 import java.util.Objects;
 import lombok.*;
 import com.darkz.skintotem.SkinTotem;
-import net.minecraft.client.texture.*;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.renderer.texture.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import org.jetbrains.annotations.*;
 
 @Getter
 @Setter
 public class RemappedAtlasSprite extends AtlasSprite {
 
-	private Identifier resourceId;
+	private ResourceLocation resourceId;
 
-	protected RemappedAtlasSprite(@NotNull Identifier resourceId, @NotNull Identifier spriteId) {
+	protected RemappedAtlasSprite(@NotNull ResourceLocation resourceId, @NotNull ResourceLocation spriteId) {
 		super(spriteId);
 		this.resourceId = resourceId;
 	}
@@ -30,12 +31,12 @@ public class RemappedAtlasSprite extends AtlasSprite {
 		return Objects.hashCode(this.getResourceId());
 	}
 
-	public static RemappedAtlasSprite ofResource(@NotNull Identifier resourceId) {
-		Identifier spriteId = SkinTotem.id("remapped_sprites/%s.png".formatted(MathHelper.abs(resourceId.toString().hashCode())));
+	public static RemappedAtlasSprite ofResource(@NotNull ResourceLocation resourceId) {
+		ResourceLocation spriteId = SkinTotem.id("remapped_sprites/%s.png".formatted(Mth.abs(resourceId.toString().hashCode())));
 		return new RemappedAtlasSprite(resourceId, spriteId);
 	}
 
-	public static RemappedAtlasSprite ofResource(Identifier resourceId, NativeImage image) {
+	public static RemappedAtlasSprite ofResource(ResourceLocation resourceId, NativeImage image) {
 		RemappedAtlasSprite remappedAtlasSprite = ofResource(resourceId);
 		updateContents(remappedAtlasSprite, image);
 		return remappedAtlasSprite;

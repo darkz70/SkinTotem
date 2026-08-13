@@ -5,8 +5,8 @@ import dev.isxander.yacl3.api.utils.OptionUtils;
 import dev.isxander.yacl3.gui.*;
 import lombok.Getter;
 import lombok.experimental.ExtensionMethod;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 
 import com.darkz.skintotem.SkinTotem;
 
@@ -19,7 +19,7 @@ public class SkinTotemYACLScreen extends YACLScreen {
 
 	@Override
 	public void finishOrSave() {
-		this.close();
+		this.onClose();
 	}
 
 	@Override
@@ -28,9 +28,9 @@ public class SkinTotemYACLScreen extends YACLScreen {
 	}
 
 	@Override
-	public void close() {
+	public void onClose() {
 		super.finishOrSave();
-		super.close();
+		super.onClose();
 	}
 
 	@Override

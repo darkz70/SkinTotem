@@ -2,7 +2,7 @@ package com.darkz.skintotem.yacl.category;
 
 import dev.isxander.yacl3.api.*;
 import lombok.experimental.ExtensionMethod;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.config.totem.*;
@@ -84,7 +84,7 @@ public class StandardDollCategory {
 	}
 
 	private static OptionGroup getStandardDollModelGroup(SkinTotemConfig defConfig, SkinTotemConfig config, SkinTotemPreviewRenderer renderer) {
-		Option<Identifier> standardDollModelPathOption = SimpleOption.<Identifier>startBuilder("standard_doll_model_path")
+		Option<ResourceLocation> standardDollModelPathOption = SimpleOption.<ResourceLocation>startBuilder("standard_doll_model_path")
 				.withCustomDescription(renderer)
 				.withBinding(defConfig.getStandardSkinTotemModelValue(), config::getStandardSkinTotemModelValue, (value) -> {
 					config.setStandardSkinTotemModelValue(value);

@@ -2,57 +2,44 @@ package com.darkz.skintotem.pack;
 
 import java.util.concurrent.*;
 import com.darkz.skintotem.atlas.manager.*;
-import net.minecraft.resource.*;
+import net.minecraft.server.packs.resources.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.server.packs.resources.PreparableReloadListener.PreparationBarrier;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.*;
-import net.fabricmc.fabric.api.resource.*;
+//? if fabric {
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+//?}
 import com.darkz.skintotem.SkinTotem;
+import com.darkz.skintotem.loader.SkinTotemLoader;
 import com.darkz.skintotem.model.bb.manager.BlockBenchModelManager;
 import com.darkz.skintotem.tag.manager.TagsManager;
-import net.minecraft.util.profiler.*;
+import net.minecraft.util.profiling.*;
+import net.minecraft.util.profiling.ProfilerFiller;
 
-//? if >=1.21.9 {
-import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
-//?}
 
-public class SkinTotemReloadListener implements /*? if >=1.21.9 {*/ ResourceReloader /*?} else {*/ /*IdentifiableResourceReloadListener *//*?}*/ {
+public class SkinTotemReloadListener implements /*? if fabric {*/ IdentifiableResourceReloadListener /*?} else {*/ /*PreparableReloadListener *//*?}*/ {
 
 	public static void register() {
-		//? if >=1.21.9 {
-		ResourceLoader.get(ResourceType.CLIENT_RESOURCES).registerReloader(getFabricId(), new SkinTotemReloadListener());
-		//?} else {
-		/*ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new SkinTotemReloadListener());
-		 *///?}
+		SkinTotemLoader.registerReloadListener(getId(), new SkinTotemReloadListener());
 	}
 
-	/*? if <=1.21.8 {*//*@Override*//*?}*/
-	public /*? if >=1.21.9 {*/ static /*?}*/ Identifier getFabricId() {
+	public static ResourceLocation getId() {
 		return SkinTotem.id("%s-reload-listener".formatted(SkinTotem.MOD_ID));
 	}
 
-	//? if >=1.21.9 {
+	//? if fabric {
 	@Override
-	public CompletableFuture<Void> reload(Store store, Executor prepareExecutor, Synchronizer synchronizer, Executor applyExecutor) {
-		return synchronizer.whenPrepared(Unit.INSTANCE).thenRunAsync(() -> {
-			Profiler profiler = Profilers.get();
-			profiler.push("listener");
-			this.reloadStuff(synchronizer, store.getResourceManager(), prepareExecutor, applyExecutor);
-			profiler.pop();
-		}, applyExecutor);
+	public ResourceLocation getFabricId() {
+		return getId();
 	}
-	//?} elif >=1.21.2 {
-	/*@Override
-	public CompletableFuture<Void> reload(Synchronizer synchronizer, ResourceManager manager, Executor prepareExecutor, Executor applyExecutor) {
-		return synchronizer.whenPrepared(Unit.INSTANCE).thenRunAsync(() -> {
-			Profiler profiler = Profilers.get();
-			profiler.push("listener");
-			this.reloadStuff(synchronizer, manager, prepareExecutor, applyExecutor);
-			profiler.pop();
-		}, applyExecutor);
-	}
-	*///?} else {
-	/*@Override
-	public CompletableFuture<Void> reload(ResourceReloader.Synchronizer synchronizer, ResourceManager manager, Profiler prepareProfiler, Profiler applyProfiler, Executor prepareExecutor, Executor applyExecutor) {
-		return synchronizer.whenPrepared(Unit.INSTANCE).thenRunAsync(() -> {
+	//?}
+
+	@Override
+	public CompletableFuture<Void> reload(PreparableReloadListener.PreparationBarrier synchronizer, ResourceManager manager, ProfilerFiller prepareProfiler, ProfilerFiller applyProfiler, Executor prepareExecutor, Executor applyExecutor) {
+		return synchronizer.wait(Unit.INSTANCE).thenRunAsync(() -> {
 			applyProfiler.startTick();
 			applyProfiler.push("listener");
 			this.reloadStuff(synchronizer, manager, prepareExecutor, applyExecutor);
@@ -61,16 +48,15 @@ public class SkinTotemReloadListener implements /*? if >=1.21.9 {*/ ResourceRelo
 		}, applyExecutor);
 	}
 
-	*///?}
 
-	private void reloadStuff(Synchronizer synchronizer, ResourceManager resourceManager, Executor prepareExecutor, Executor applyExecutor) {
+	private void reloadStuff(PreparationBarrier synchronizer, ResourceManager resourceManager, Executor prepareExecutor, Executor applyExecutor) {
 		this.reloadAtlas(synchronizer, prepareExecutor, applyExecutor);
-		BlockBenchModelManager.reload(resourceManager);
+		BlockBenchModelManager.reload();
 		SkinTotemModelFinder.reload(resourceManager);
 		TagsManager.reloadCustomModelIdsTags();
 	}
 
-	private void reloadAtlas(Synchronizer synchronizer, Executor prepareExecutor, Executor applyExecutor) {
+	private void reloadAtlas(PreparationBarrier synchronizer, Executor prepareExecutor, Executor applyExecutor) {
 		SkinTotemAtlasSpriteManager.reload();
 		SkinTotemAtlasManager.stitchAndUpdate(SkinTotemAtlasSpriteManager.getSprites(), synchronizer, prepareExecutor, applyExecutor, null);
 	}
