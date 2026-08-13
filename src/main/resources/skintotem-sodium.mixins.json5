@@ -6,10 +6,8 @@
 	"plugin": "com.darkz.skintotem.compat.sodium.SodiumCompatPlugin",
     "mixins": [],
     "client": [
-	    //? if >=1.21 {
-	    "CubeMixinMixin",
-	    //?}
-	    "ModModelPartMixinMixin"
+	    "ModelPartMixinMixin",
+	    "CubeMixinMixin"
     ],
     "injectors": {
         "defaultRequire": 1
