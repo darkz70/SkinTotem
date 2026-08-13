@@ -40,3 +40,7 @@ dependencies {
 String prop(String key) {
 	return findProperty(key).toString()
 }
+
+tasks.withType(JavaCompile).configureEach {
+	options.compilerArgs << "-Xmaxerrs" << "10000"
+}
