@@ -8,7 +8,7 @@ Replaces the Totem of Undying with a 3D doll using your Minecraft skin
 
 ![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1-green?style=for-the-badge)
 [![Forge](https://img.shields.io/badge/Loader-Forge-orange?style=for-the-badge)](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.20.1.html)
-![Version](https://img.shields.io/badge/Version-2.0.0-orange?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-2.0.1-orange?style=for-the-badge)
 
 </div>
 
