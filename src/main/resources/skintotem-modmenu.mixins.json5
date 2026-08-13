@@ -7,7 +7,7 @@
     "mixins": [
     ],
 	"client": [
-				//? if fabric {
+		//? if fabric {
 		"FabricModMixin"
 		//?}
 	],
