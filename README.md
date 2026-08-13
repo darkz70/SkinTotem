@@ -7,7 +7,7 @@
 Replaces the Totem of Undying with a 3D doll using your Minecraft skin
 
 ![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1--26.2-green?style=for-the-badge)
-[![Fabric](https://img.shields.io/badge/Loader-Fabric-blue?style=for-the-badge)](https://fabricmc.net)
+[![Forge](https://img.shields.io/badge/Loader-Forge-orange?style=for-the-badge)](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.20.1.html)
 ![Version](https://img.shields.io/badge/Version-2.0.0-orange?style=for-the-badge)
 
 </div>
@@ -45,7 +45,7 @@ Replaces the Totem of Undying with a 3D doll using your Minecraft skin
 
 ## 📦 Installation
 
-1. Install [Fabric Loader](https://fabricmc.net) for Minecraft 1.20.1 — 26..2
+1. Install [Minecraft Forge 1.20.1](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.20.1.html) — the official Forge loader and installer
 2. Install [Fabric API](https://modrinth.com/mod/fabric-api)
 3. Download `skintotem-1.1.1.jar` and place it in your `mods/` folder
 4. **Optional:** Install [Menu](https://modrinth.com/mod/modmenu) and [Cloth Config](https://modrinth.com/mod/cloth-config) for an in-game configuration GUI
@@ -99,7 +99,7 @@ Place a Totem of Undying into an anvil and rename it using one of the formats be
 
 |  | Required | Description |
 |-----|----------|-------------|
-| Fabric API | ✅ | Core Fabric API dependency |
+| Minecraft Forge | ✅ | Official Forge loader for Minecraft 1.20.1 |
 | Menu | ❌ | Adds a settings button to the mod list |
 | Cloth Config | ❌ | Configuration GUI library |
 | YetAnotherConfigLib (YACL) | ❌ | Alternative configuration GUI library |
