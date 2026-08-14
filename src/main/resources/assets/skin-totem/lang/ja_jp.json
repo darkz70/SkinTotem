@@ -1,5 +1,5 @@
 {
-  "modmenu.descriptionTranslation.skintotem": "全てのトーテムをプレイヤー人形に置き換えるシンプルなFabricです。金床でトーテムの名前をプレイヤーのニックネームに変更すると、そのスキンが反映されます！",
+  "modmenu.descriptionTranslation.skin-totem": "全てのトーテムをプレイヤー人形に置き換えるシンプルなFabricです。金床でトーテムの名前をプレイヤーのニックネームに変更すると、そのスキンが反映されます！",
   "skin-totem.modmenu.title": "&lSkinTotem",
   "skin-totem.modmenu.no_config_library_screen.message": "SkinTotemの設定画面を開くには&6&lYetAnotherConfigLib[YACL]&fをインストールする必要があります。\n\n&a&lYACL &6&lrinthページを開きますか？",
   "skin-totem.modmenu.old_config_library_screen.message": "お使いの&6&lYetAnotherConfigLib[YACL]&fバージョン%sはSkinTotemの設定には古すぎます。&6&lYACL&fをバージョン%s以上に更新してください。\n\n&a&lYACL &6&lrinthページを開きますか？",

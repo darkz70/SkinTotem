@@ -33,27 +33,39 @@ public class TagsSkinProviders {
 	}
 
 	public static boolean isProvider(String o) {
-		int b = o.lastIndexOf("|");
-		if (b == -1) {
-			return SKIN_PROVIDERS_IDS.containsKey(o);
-		}
-		String[] split = o.substring(0, b).split("\\|");
-		String id = split[0].trim();
-		return SKIN_PROVIDERS_IDS.containsKey(id);
+		return getProviderFor(o) != null;
 	}
 
 	@Nullable
 	public static SkinProvider getProviderFor(String o) {
-		return SKIN_PROVIDERS_IDS.get(o);
+		if (o == null) {
+			return null;
+		}
+		int b = o.lastIndexOf("|");
+		if (b != -1) {
+			String id = o.substring(0, b).trim();
+			return SKIN_PROVIDERS_IDS.get(id);
+		}
+		for (SkinProvider provider : SKIN_PROVIDERS_IDS.values()) {
+			if (provider.canProcess(o)) {
+				return provider;
+			}
+		}
+		return null;
 	}
 
 	public static SkinTotemData loadDollFromProvider(String o) {
-		if (!o.contains("|")) {
+		if (o == null) {
 			return StandardSkinTotemManager.getStandardDoll();
 		}
-		String[] split = o.split("\\|");
-		String id = split[0].trim();
-		SkinProvider skinProvider = SKIN_PROVIDERS_IDS.get(id);
+		if (!o.contains("|")) {
+			SkinProvider skinProvider = getProviderFor(o);
+			return skinProvider == null
+					? StandardSkinTotemManager.getStandardDoll()
+					: skinProvider.getOrLoadDoll(o);
+		}
+		String[] split = o.split("\\|", 2);
+		SkinProvider skinProvider = getProviderFor(o);
 		if (skinProvider == null || split.length < 2) {
 			return StandardSkinTotemManager.getStandardDoll();
 		}
