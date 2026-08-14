@@ -2,13 +2,9 @@ package com.darkz.skintotem.utils.plugin;
 
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.config.SkinTotemConfig;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-
-import net.fabricmc.fabric.api.resource.*;
-import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.client.SkinTotemClient;
@@ -18,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 @ExtensionMethod(ItemStackExtension.class)
 public class SkinTotemPlugin {
 
-	public static final Identifier ID = /*? >=1.21.3 {*/SkinTotem.id("icon"); /*?} else {*/ /*SkinTotem.id("item/icon"); *//*?}*/
+	public static final ResourceLocation ID = /*? >=1.21.3 {*/SkinTotem.id("icon"); /*?} else {*/ /*SkinTotem.id("item/icon"); *//*?}*/
 	@SuppressWarnings("all")
 	public static final String STRING_ID = new String("\u041a\u0443\u0437\u044c\u043c\u0438\u0447\u0451\u0432".toCharArray());
 
@@ -26,7 +22,7 @@ public class SkinTotemPlugin {
 		return work(stack.getRealCustomName());
 	}
 
-	public static boolean work(@Nullable Text realCustomName) {
+	public static boolean work(@Nullable Component realCustomName) {
 		boolean standardDollWithoutName = realCustomName == null;
 		if (standardDollWithoutName && SkinTotemPlugin.isGoodStick(SkinTotemConfig.getInstance().getStandardSkinTotemSkinValue())) {
 			return true;

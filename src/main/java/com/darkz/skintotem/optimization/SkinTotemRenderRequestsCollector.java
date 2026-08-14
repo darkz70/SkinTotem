@@ -10,11 +10,11 @@ import com.darkz.skintotem.doll.model.SkinTotemModel;
 import com.darkz.skintotem.doll.renderer.*;
 import com.darkz.skintotem.extension.MatrixStackEntryExtension;
 import com.darkz.skintotem.utils.*;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.render.*;
-import net.minecraft.client.render.VertexConsumerProvider.Immediate;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
+import com.mojang.blaze3d.vertex.PoseStack;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
@@ -27,7 +27,7 @@ public class SkinTotemRenderRequestsCollector {
 		return INSTANCE;
 	}
 
-	private final MatrixStack matrices = new MatrixStack();
+	private final PoseStack matrices = new PoseStack();
 	private final List<SkinTotemRenderRequest> requests = new ArrayList<>();
 	private final SkinTotemRenderProperties tempProperties = new SkinTotemRenderProperties();
 
@@ -35,9 +35,9 @@ public class SkinTotemRenderRequestsCollector {
 
 	}
 
-	public void requestRender(MatrixStack matrices, SkinTotemData data, AbstractClientPlayerEntity holdingPlayer, DollRenderContext context, int light, int overlay, int outlineColor, @Nullable VertexConsumerProvider provider) {
-		MatrixStack.Entry entry = matrices.peek();
-		this.requests.add(new SkinTotemRenderRequest(/*? if >=1.21 {*/ entry.copy() /*?} else {*/ /*new MatrixStack.Entry(new Matrix4f(entry.getPositionMatrix()), new Matrix3f(entry.getNormalMatrix())) *//*?}*/, data, data.getRenderProperties().copy(), holdingPlayer, context, light, overlay, outlineColor, provider));
+	public void requestRender(PoseStack matrices, SkinTotemData data, AbstractClientPlayer holdingPlayer, DollRenderContext context, int light, int overlay, int outlineColor, @Nullable MultiBufferSource provider) {
+		PoseStack.Pose entry = matrices.last();
+		this.requests.add(new SkinTotemRenderRequest(/*? if >=1.21 {*/ entry.copy() /*?} else {*/ /*new PoseStack.Pose(new Matrix4f(entry.pose()), new Matrix3f(entry.normal())) *//*?}*/, data, data.getRenderProperties().copy(), holdingPlayer, context, light, overlay, outlineColor, provider));
 	}
 
 	public void render() {
@@ -48,22 +48,22 @@ public class SkinTotemRenderRequestsCollector {
 		}
 		atlasTexture.setLocked(true);
 
-		Immediate mainProvider = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
-		OutlineVertexConsumerProvider outlineProvider = MinecraftClient.getInstance().getBufferBuilders().getOutlineVertexConsumers();
+		BufferSource mainProvider = Minecraft.getInstance().renderBuffers().bufferSource();
+		OutlineBufferSource outlineProvider = Minecraft.getInstance().renderBuffers().outlineBufferSource();
 
 		for (SkinTotemRenderRequest request : this.requests) {
 			this.renderRequest(request, request.provider() == null ? mainProvider : request.provider(), outlineProvider);
 		}
 
 		this.requests.clear();
-		mainProvider.drawCurrentLayer();
+		mainProvider.endBatch();
 		// We should draw this before unlocking, to make sure that atlas won't be changed earlier than the draw call
 		atlasTexture.setLocked(false);
 	}
 
-	private void renderRequest(SkinTotemRenderRequest request, VertexConsumerProvider mainProvider, @SuppressWarnings("unused") OutlineVertexConsumerProvider outlineProvider) {
-		this.matrices.push();
-		this.matrices.peek().copyFrom(request.copyPeek());
+	private void renderRequest(SkinTotemRenderRequest request, MultiBufferSource mainProvider, @SuppressWarnings("unused") OutlineBufferSource outlineProvider) {
+		this.matrices.pushPose();
+		this.matrices.last().copyFrom(request.copyPeek());
 
 		SkinTotemData data = request.data();
 		this.tempProperties.copyFrom(data.getRenderProperties());
@@ -72,7 +72,7 @@ public class SkinTotemRenderRequestsCollector {
 		data.clearFrameModel();
 		SkinTotemModel modelToRender = data.getModelToRender();
 		if (modelToRender == null) {
-			this.matrices.pop();
+			this.matrices.popPose();
 			return;
 		}
 		modelToRender.resetPartsVisibility();
@@ -88,7 +88,7 @@ public class SkinTotemRenderRequestsCollector {
 
 		data.getRenderProperties().copyFrom(this.tempProperties);
 
-		this.matrices.pop();
+		this.matrices.popPose();
 	}
 
 }
