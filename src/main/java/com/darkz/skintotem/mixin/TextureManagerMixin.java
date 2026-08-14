@@ -20,7 +20,7 @@ public class TextureManagerMixin {
 			),
 			method = "loadTexture"
 	)
-	private void suppressSkinTotemWarning(Logger instance, String s, Object a, Object o, Operation<Void> original) {
+	private void suppressSTWarning(Logger instance, String s, Object a, Object o, Operation<Void> original) {
 		if (!(a instanceof ResourceLocation id)) {
 			original.call(instance, s, a, o);
 			return;

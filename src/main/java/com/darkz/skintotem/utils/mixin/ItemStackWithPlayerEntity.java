@@ -4,7 +4,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 
 public interface ItemStackWithPlayerEntity {
 
-	void skinTotem$setPlayerEntity(AbstractClientPlayer player);
+	void st$setPlayerEntity(AbstractClientPlayer player);
 
-	AbstractClientPlayer skinTotem$getPlayerEntity();
+	AbstractClientPlayer st$getPlayerEntity();
 }

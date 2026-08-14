@@ -40,18 +40,18 @@ public abstract class AnvilScreenMixin extends ItemCombinerScreen<AnvilMenu> imp
 	private EditBox name;
 	@Unique
 	@Nullable
-	private DraggingTagButtonWidget skinTotem$tagButtonWidget = null;
+	private DraggingTagButtonWidget st$tagButtonWidget = null;
 	@Unique
 	@Nullable
-	private TagMenuWidget skinTotem$tagMenuWidget = null;
+	private TagMenuWidget st$tagMenuWidget = null;
 	@Unique
 	@Nullable
-	private SmallInfoWidget skinTotem$infoWidget = null;
+	private SmallInfoWidget st$infoWidget = null;
 	@Unique
 	@Nullable
-	private TipsWidget skinTotem$tipsWidget = null;
+	private TipsWidget st$tipsWidget = null;
 	@Unique
-	private boolean skinTotem$currentVisibleState = false;
+	private boolean st$currentVisibleState = false;
 
 	public AnvilScreenMixin(AnvilMenu handler, Inventory playerInventory, Component title, ResourceLocation texture) {
 		super(handler, playerInventory, title, texture);
@@ -75,7 +75,7 @@ public abstract class AnvilScreenMixin extends ItemCombinerScreen<AnvilMenu> imp
 
 		//
 
-		this.skinTotem$tagMenuWidget         = new TagMenuWidget(0, 0, new Renamer() {
+		this.st$tagMenuWidget         = new TagMenuWidget(0, 0, new Renamer() {
 			@Override
 			public String getName() {
 				return AnvilScreenMixin.this.name.getValue();
@@ -86,25 +86,25 @@ public abstract class AnvilScreenMixin extends ItemCombinerScreen<AnvilMenu> imp
 				AnvilScreenMixin.this.name.setValue(name);
 			}
 		});
-		this.skinTotem$tagMenuWidget.visible = this.skinTotem$currentVisibleState;
-		if (this.skinTotem$tagMenuWidget.visible) {
-			this.skinTotem$tagMenuWidget.updateButtons(stackTwo.isEmpty() ? stackOne : stackTwo);
+		this.st$tagMenuWidget.visible = this.st$currentVisibleState;
+		if (this.st$tagMenuWidget.visible) {
+			this.st$tagMenuWidget.updateButtons(stackTwo.isEmpty() ? stackOne : stackTwo);
 		}
 
 		//
 
-		this.skinTotem$infoWidget         = new SmallInfoWidget(0, 0);
-		this.skinTotem$infoWidget.visible = this.skinTotem$tagMenuWidget.visible;
+		this.st$infoWidget         = new SmallInfoWidget(0, 0);
+		this.st$infoWidget.visible = this.st$tagMenuWidget.visible;
 
 		//
 
-		this.skinTotem$tipsWidget         = new TipsWidget(0, 0);
-		this.skinTotem$tipsWidget.visible = this.skinTotem$tagMenuWidget.visible;
+		this.st$tipsWidget         = new TipsWidget(0, 0);
+		this.st$tipsWidget.visible = this.st$tagMenuWidget.visible;
 
 		//
 
 		Vec2i originalPos = SkinTotemConfig.getNewInstance().getTagButtonPos();
-		this.skinTotem$tagButtonWidget         = new DraggingTagButtonWidget(
+		this.st$tagButtonWidget         = new DraggingTagButtonWidget(
 				Tag.simple('4'),
 				this.leftPos,
 				this.topPos,
@@ -113,31 +113,31 @@ public abstract class AnvilScreenMixin extends ItemCombinerScreen<AnvilMenu> imp
 				0,
 				0,
 				(b) -> {
-					this.skinTotem$currentVisibleState = b.isPressed();
+					this.st$currentVisibleState = b.isPressed();
 					this.resize(this.minecraft, this.width, this.height);
 		});
-		this.skinTotem$tagButtonWidget.visible = bl;
-		this.skinTotem$tagButtonWidget.setPressed(this.skinTotem$tagMenuWidget.visible);
+		this.st$tagButtonWidget.visible = bl;
+		this.st$tagButtonWidget.setPressed(this.st$tagMenuWidget.visible);
 		
 		//
 
-		if (this.skinTotem$tagMenuWidget.visible) {
-			this.imageWidth = 176 + this.skinTotem$tagMenuWidget.getWidth() + 5 + this.skinTotem$infoWidget.getWidth();
+		if (this.st$tagMenuWidget.visible) {
+			this.imageWidth = 176 + this.st$tagMenuWidget.getWidth() + 5 + this.st$infoWidget.getWidth();
 		} else {
 			this.imageWidth = 176;
 		}
 		
 		//
 
-		this.addRenderableWidget(this.skinTotem$tagMenuWidget);
-		this.addRenderableOnly(this.skinTotem$infoWidget);
-		this.addRenderableOnly(this.skinTotem$tipsWidget);
-		this.addRenderableWidget(this.skinTotem$tagButtonWidget);
+		this.addRenderableWidget(this.st$tagMenuWidget);
+		this.addRenderableOnly(this.st$infoWidget);
+		this.addRenderableOnly(this.st$tipsWidget);
+		this.addRenderableWidget(this.st$tagButtonWidget);
 		
 		//
 
 		this.leftPos = (this.width - this.imageWidth) / 2;
-		this.skinTotem$updateWidgets();
+		this.st$updateWidgets();
 	}
 
 	@WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/EditBox;setEditable(Z)V"), method = "subInit")
@@ -146,9 +146,9 @@ public abstract class AnvilScreenMixin extends ItemCombinerScreen<AnvilMenu> imp
 	}
 
 	@Unique
-	private void skinTotem$updateWidgets() {
+	private void st$updateWidgets() {
 		SkinTotemConfig config = SkinTotemConfig.getInstance();
-		if (!config.isModEnabled() || this.skinTotem$tagButtonWidget == null || this.skinTotem$tagMenuWidget == null || this.skinTotem$infoWidget == null || this.skinTotem$tipsWidget == null) {
+		if (!config.isModEnabled() || this.st$tagButtonWidget == null || this.st$tagMenuWidget == null || this.st$infoWidget == null || this.st$tipsWidget == null) {
 			return;
 		}
 
@@ -156,29 +156,29 @@ public abstract class AnvilScreenMixin extends ItemCombinerScreen<AnvilMenu> imp
 
 		int tagMenuX = this.leftPos + 176 + 1;
 		int tagMenuY = this.topPos;
-		this.skinTotem$tagMenuWidget.setPosition(tagMenuX + 10, tagMenuY + 33);
+		this.st$tagMenuWidget.setPosition(tagMenuX + 10, tagMenuY + 33);
 
 		ItemStack stackOne = this.menu.getSlot(0).getItem();
 		ItemStack stackTwo = this.menu.getSlot(2).getItem();
 		ItemStack result = stackTwo.isEmpty() ? stackOne : stackTwo;
 		if (result.is(Items.TOTEM_OF_UNDYING)) {
-			this.skinTotem$tagMenuWidget.updateButtons(result);
-			this.skinTotem$tagMenuWidget.updateCustomModelTagButtons(result);
+			this.st$tagMenuWidget.updateButtons(result);
+			this.st$tagMenuWidget.updateCustomModelTagButtons(result);
 		}
 
 		//
 
 		int infoWidgetX = tagMenuX + 50 + 2;
 		int infoWidgetY = tagMenuY + 2;
-		this.skinTotem$infoWidget.setPosition(infoWidgetX, infoWidgetY);
-		this.skinTotem$tipsWidget.setPosition(infoWidgetX, infoWidgetY + this.skinTotem$infoWidget.getHeight() + 4);
+		this.st$infoWidget.setPosition(infoWidgetX, infoWidgetY);
+		this.st$tipsWidget.setPosition(infoWidgetX, infoWidgetY + this.st$infoWidget.getHeight() + 4);
 
 		//
 
 		Vec2i pos = config.getTagButtonPos();
-		this.skinTotem$tagButtonWidget.setPosition(pos.getX() + this.leftPos, pos.getY() + this.topPos);
-		this.skinTotem$tagButtonWidget.setOriginX(this.leftPos);
-		this.skinTotem$tagButtonWidget.setOriginY(this.topPos);
+		this.st$tagButtonWidget.setPosition(pos.getX() + this.leftPos, pos.getY() + this.topPos);
+		this.st$tagButtonWidget.setOriginX(this.leftPos);
+		this.st$tagButtonWidget.setOriginY(this.topPos);
 	}
 
 	@WrapOperation(
@@ -201,8 +201,8 @@ public abstract class AnvilScreenMixin extends ItemCombinerScreen<AnvilMenu> imp
 		if (!SkinTotemConfig.getInstance().isModEnabled()) {
 			return;
 		}
-		this.skinTotem$updateWidgets();
-		if (this.skinTotem$tagMenuWidget != null && this.skinTotem$tagMenuWidget.visible) {
+		this.st$updateWidgets();
+		if (this.st$tagMenuWidget != null && this.st$tagMenuWidget.visible) {
 			int x = this.leftPos + 176 + 1;
 			int y = this.topPos;
 			DrawUtils.drawTexture(context, TagMenuWidget.BACKGROUND, x, y, 0, 0, 50, 166, 50, 166);
@@ -228,13 +228,13 @@ public abstract class AnvilScreenMixin extends ItemCombinerScreen<AnvilMenu> imp
 
 	@Inject(at = @At("HEAD"), method = "slotChanged")
 	private void checkTotem(AbstractContainerMenu handler, int slotId, ItemStack stack, CallbackInfo ci) {
-		if (!SkinTotemConfig.getInstance().isModEnabled() || this.skinTotem$tagButtonWidget == null || this.skinTotem$tagMenuWidget == null) {
+		if (!SkinTotemConfig.getInstance().isModEnabled() || this.st$tagButtonWidget == null || this.st$tagMenuWidget == null) {
 			return;
 		}
 		if (slotId == 0) {
-			this.skinTotem$tagButtonWidget.visible = SkinTotemClient.canProcess(stack);
-			if (!this.skinTotem$tagButtonWidget.visible && this.skinTotem$tagMenuWidget.visible) {
-				this.skinTotem$tagButtonWidget.setPressed(false, true);
+			this.st$tagButtonWidget.visible = SkinTotemClient.canProcess(stack);
+			if (!this.st$tagButtonWidget.visible && this.st$tagMenuWidget.visible) {
+				this.st$tagButtonWidget.setPressed(false, true);
 			}
 		}
 	}
@@ -252,12 +252,12 @@ public abstract class AnvilScreenMixin extends ItemCombinerScreen<AnvilMenu> imp
 	}
 
 	@Override
-	public @Nullable TagButtonWidget skinTotem$getTagButtonWidget() {
-		return this.skinTotem$tagButtonWidget;
+	public @Nullable TagButtonWidget st$getTagButtonWidget() {
+		return this.st$tagButtonWidget;
 	}
 
 	@Override
-	public @Nullable TagMenuWidget skinTotem$getTagMenuWidget() {
-		return this.skinTotem$tagMenuWidget;
+	public @Nullable TagMenuWidget st$getTagMenuWidget() {
+		return this.st$tagMenuWidget;
 	}
 }

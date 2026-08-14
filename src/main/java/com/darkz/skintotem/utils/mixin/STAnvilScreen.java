@@ -6,8 +6,8 @@ import org.jetbrains.annotations.Nullable;
 
 public interface STAnvilScreen {
 	@Nullable
-	TagButtonWidget skinTotem$getTagButtonWidget();
+	TagButtonWidget st$getTagButtonWidget();
 
 	@Nullable
-	TagMenuWidget skinTotem$getTagMenuWidget();
+	TagMenuWidget st$getTagMenuWidget();
 }

@@ -4,8 +4,8 @@ import net.minecraft.world.item.ItemStack;
 
 public interface ItemRenderStateWithStack {
 
-	void skinTotem$setStack(ItemStack stack);
+	void st$setStack(ItemStack stack);
 
-	void skinTotem$shouldClear(boolean bl);
+	void st$shouldClear(boolean bl);
 
 }

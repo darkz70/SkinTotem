@@ -113,7 +113,7 @@ public class TagButtonWidget extends Button {
 			return;
 		}
 
-		tooltipScreen.skinTotem$requestTooltip(((c, x, y, d) -> {
+		tooltipScreen.st$requestTooltip(((c, x, y, d) -> {
 			DrawUtils.drawTooltip(c, List.of(component), x, y);
 		}));
 	}

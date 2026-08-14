@@ -14,19 +14,19 @@ import com.darkz.skintotem.utils.mixin.yacl.*;
 public class YetAnotherConfigLibImplBuilderMixin implements BetterYACLScreenBuilder {
 
 	@Unique
-	private boolean skinTotem$enabled;
+	private boolean st$enabled;
 
 	@ModifyReturnValue(at = @At("RETURN"), method = "build", remap = false)
 	private YetAnotherConfigLib swapScreen(YetAnotherConfigLib original) {
-		if (!this.skinTotem$enabled) {
+		if (!this.st$enabled) {
 			return original;
 		}
-		return ((BetterYACLScreenConfig) original).skinTotem$enable();
+		return ((BetterYACLScreenConfig) original).st$enable();
 	}
 
 	@Override
-	public Builder skinTotem$enable() {
-		this.skinTotem$enabled = true;
+	public Builder st$enable() {
+		this.st$enabled = true;
 		return ((Builder) this);
 	}
 }

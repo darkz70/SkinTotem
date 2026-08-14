@@ -34,7 +34,7 @@ public class ItemInHandRendererMixin {
 			at = @At("HEAD"),
 			method = "renderHandsWithItems(FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;Lnet/minecraft/client/player/LocalPlayer;I)V"
 	)
-	private void createBoolean(CallbackInfo ci, @Share("skinTotem_bl") LocalBooleanRef ref) {
+	private void createBoolean(CallbackInfo ci, @Share("st_bl") LocalBooleanRef ref) {
 		createBoolean(ref);
 	}
 
@@ -45,7 +45,7 @@ public class ItemInHandRendererMixin {
 			),
 			method = "renderHandsWithItems(FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;Lnet/minecraft/client/player/LocalPlayer;I)V"
 	)
-	private boolean swapRenderValue1(HandRenderSelection instance, Operation<Boolean> original, @Share("skinTotem_bl") LocalBooleanRef ref) {
+	private boolean swapRenderValue1(HandRenderSelection instance, Operation<Boolean> original, @Share("st_bl") LocalBooleanRef ref) {
 		if (ref.get()) {
 			return true;
 		}
@@ -59,7 +59,7 @@ public class ItemInHandRendererMixin {
 			),
 			method = "renderHandsWithItems(FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;Lnet/minecraft/client/player/LocalPlayer;I)V"
 	)
-	private boolean swapRenderValue2(HandRenderSelection instance, Operation<Boolean> original, @Share("skinTotem_bl") LocalBooleanRef ref) {
+	private boolean swapRenderValue2(HandRenderSelection instance, Operation<Boolean> original, @Share("st_bl") LocalBooleanRef ref) {
 		if (ref.get()) {
 			return true;
 		}
@@ -73,7 +73,7 @@ public class ItemInHandRendererMixin {
 			),
 			method = "renderHandsWithItems(FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;Lnet/minecraft/client/player/LocalPlayer;I)V"
 	)
-	private void swapRenderingStack(ItemInHandRenderer instance, AbstractClientPlayer player, float tickProgress, float pitch, InteractionHand hand, float swingProgress, ItemStack stack, float equipProgress, PoseStack matrices, MultiBufferSource vertexConsumers, int light, Operation<Void> original, @Share("skinTotem_bl") LocalBooleanRef ref) {
+	private void swapRenderingStack(ItemInHandRenderer instance, AbstractClientPlayer player, float tickProgress, float pitch, InteractionHand hand, float swingProgress, ItemStack stack, float equipProgress, PoseStack matrices, MultiBufferSource vertexConsumers, int light, Operation<Void> original, @Share("st_bl") LocalBooleanRef ref) {
 		Consumer<ItemStack> consumer = (itemStack) -> original.call(instance, player, tickProgress, pitch, hand, swingProgress, itemStack, equipProgress, matrices, vertexConsumers, light);
 		if (ref.get()) {
 			renderDoll(stack, consumer);

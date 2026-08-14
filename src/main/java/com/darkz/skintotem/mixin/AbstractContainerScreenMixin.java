@@ -14,7 +14,7 @@ public class AbstractContainerScreenMixin {
 
 	@Inject(at = @At("HEAD"), method = "mouseDragged", cancellable = true)
 	private void mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY, CallbackInfoReturnable<Boolean> cir) {
-		TagButtonWidget tagButtonWidget = this.skinTotem$getTagButtonWidget();
+		TagButtonWidget tagButtonWidget = this.st$getTagButtonWidget();
 		if (tagButtonWidget == null){
 			return;
 		}
@@ -25,7 +25,7 @@ public class AbstractContainerScreenMixin {
 
 	@Inject(at = @At("HEAD"), method = "mouseReleased", cancellable = true)
 	private void mouseReleased(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
-		TagButtonWidget tagButtonWidget = this.skinTotem$getTagButtonWidget();
+		TagButtonWidget tagButtonWidget = this.st$getTagButtonWidget();
 		if (tagButtonWidget == null){
 			return;
 		}
@@ -35,10 +35,10 @@ public class AbstractContainerScreenMixin {
 	}
 
 	@Unique
-	private @Nullable TagButtonWidget skinTotem$getTagButtonWidget() {
+	private @Nullable TagButtonWidget st$getTagButtonWidget() {
 		if (!(this instanceof STAnvilScreen anvilScreen)) {
 			return null;
 		}
-		return anvilScreen.skinTotem$getTagButtonWidget();
+		return anvilScreen.st$getTagButtonWidget();
 	}
 }

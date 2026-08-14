@@ -24,11 +24,11 @@ public class ItemCombinerScreenMixin {
 	)
 	private void drawBackground(GuiGraphics instance, ResourceLocation texture, int x, int y, int u, int v, int width, int height, Operation<Void> original) {
 		Consumer<Integer> draw = (w) -> original.call(instance, texture, x, y, u, v, w, height);
-		this.skinTotem$drawBackground(width, draw);
+		this.st$drawBackground(width, draw);
 	}
 
 	@Unique
-	private void skinTotem$drawBackground(int width, Consumer<Integer> draw) {
+	private void st$drawBackground(int width, Consumer<Integer> draw) {
 		if (this instanceof STAnvilScreen && SkinTotemConfig.getInstance().isModEnabled()) {
 			draw.accept(176);
 			return;
