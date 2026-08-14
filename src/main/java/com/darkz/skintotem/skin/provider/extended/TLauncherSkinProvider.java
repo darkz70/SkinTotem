@@ -1,6 +1,6 @@
 package com.darkz.skintotem.skin.provider.extended;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.api.Response;
 import com.darkz.skintotem.api.TLauncherAPI;
@@ -65,7 +65,7 @@ public class TLauncherSkinProvider extends StandardSkinProvider {
     }
 
     @Override
-    protected Identifier getId(String value, String type) {
+    protected ResourceLocation getId(String value, String type) {
         return SkinTotem.getDollTextureId("tlauncher/%s/%s".formatted(type, normalise(value)));
     }
 

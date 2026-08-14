@@ -1,6 +1,6 @@
 package com.darkz.skintotem.skin.provider.extended;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.api.ElyByAPI;
 import com.darkz.skintotem.api.Response;
@@ -65,7 +65,7 @@ public class ElyBySkinProvider extends StandardSkinProvider {
     }
 
     @Override
-    protected Identifier getId(String value, String type) {
+    protected ResourceLocation getId(String value, String type) {
         return SkinTotem.getDollTextureId("elyby/%s/%s".formatted(type, normalise(value)));
     }
 
