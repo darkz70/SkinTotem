@@ -15,7 +15,7 @@ import java.net.http.HttpResponse.BodyHandlers;
  * Endpoint: https://skinsystem.ely.by/textures/{nickname}
  * Возвращает JSON с полями SKIN, CAPE и моделью (slim/default)
  *
- * Автор: Darkz | K-TEAM |KlashRaick | darkz70
+ * Автор: Darkz | darkz70
  */
 public class ElyByAPI {
 

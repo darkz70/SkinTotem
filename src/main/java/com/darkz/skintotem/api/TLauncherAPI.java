@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
  *
  * Ответ в формате base64-encoded JSON (как у Mojang sessionserver)
  *
- * Автор: Darkz | K-TEAM
+ * Автор: Darkz
  */
 public class TLauncherAPI {
 

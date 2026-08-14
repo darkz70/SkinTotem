@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * Используется когда ник содержит префикс "url:":
  *   "url:https://example.com/skin.png" — загружает скин напрямую по ссылке
  *
- * Автор: Darkz | K-TEAM | KlashRaick
+ * Автор: Darkz
  */
 public class UrlSkinProvider extends StandardSkinProvider {
 
