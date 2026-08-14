@@ -3,7 +3,7 @@ package com.darkz.skintotem.doll.data;
 import lombok.*;
 import com.darkz.skintotem.atlas.*;
 import com.darkz.skintotem.atlas.manager.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.config.totem.SkinTotemArmsType;
 
@@ -66,7 +66,7 @@ public class SkinTotemSprites {
 	}
 	*///?}
 
-	public static SkinTotemSprites of(Identifier skinTexture, Identifier capeTexture, Identifier elytraTexture, boolean slim, boolean remapCape) {
+	public static SkinTotemSprites of(ResourceLocation skinTexture, ResourceLocation capeTexture, ResourceLocation elytraTexture, boolean slim, boolean remapCape) {
 		SkinTotemSprites skinTotemSprites = new SkinTotemSprites(null, null, null, SkinTotemArmsType.of(slim));
 
 		if (skinTexture != null) {

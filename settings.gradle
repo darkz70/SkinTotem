@@ -29,6 +29,6 @@ pluginManagement {
 }
 
 plugins {
-	id "dev.kikugie.stonecutter" version "0.9"
+	id "dev.kikugie.stonecutter" version "0.9.7"
 	id "net.darkz70.figurestone-plugin-settings" version "$figurestone_plugin_version"
 }

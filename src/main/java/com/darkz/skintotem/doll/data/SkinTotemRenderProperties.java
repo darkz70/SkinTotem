@@ -8,7 +8,7 @@ import com.darkz.skintotem.doll.model.SkinTotemModel;
 import com.darkz.skintotem.doll.renderer.DollRenderContext;
 import com.darkz.skintotem.model.base.*;
 import com.darkz.skintotem.model.bb.manager.BlockBenchModelManager;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.*;
 
 public class SkinTotemRenderProperties {
@@ -50,7 +50,7 @@ public class SkinTotemRenderProperties {
 	@Nullable
 	private SkinTotemSprites frameSprites;
 	@NotNull
-	private final Map<Identifier, MModel> cachedFrameMModels = new HashMap<>();
+	private final Map<ResourceLocation, MModel> cachedFrameMModels = new HashMap<>();
 	@NotNull
 	private final Int2ObjectMap<SkinTotemSprites> cachedFrameTextures = new Int2ObjectArrayMap<>();
 
@@ -73,7 +73,7 @@ public class SkinTotemRenderProperties {
 		return new SkinTotemModel(this.frameMModel, this.isSlim());
 	}
 
-	public void consumeFrameMModel(@NotNull Identifier id, Consumer<MModel> set) {
+	public void consumeFrameMModel(@NotNull ResourceLocation id, Consumer<MModel> set) {
 		MModel model = this.cachedFrameMModels.get(id);
 		if (model == null) {
 			BlockBenchModelManager.getModelAsyncAsResponse(id, (response) -> {
@@ -89,7 +89,7 @@ public class SkinTotemRenderProperties {
 	}
 
 	//? if >=1.21 {
-	public void setFrameSprites(Identifier skinTexture, Identifier capeTexture, Identifier elytraTexture, boolean slim, boolean remapCape) {
+	public void setFrameSprites(ResourceLocation skinTexture, ResourceLocation capeTexture, ResourceLocation elytraTexture, boolean slim, boolean remapCape) {
 		int hash = Objects.hash(skinTexture, capeTexture, elytraTexture, slim);
 		SkinTotemSprites cachedSprites = this.cachedFrameTextures.get(hash);
 		if (cachedSprites == null) {
