@@ -4,7 +4,7 @@ modLoader="javafml"
 loaderVersion="[1,)"
 
 [[mods]]
-modId = "${mod_id}"
+modId = "skin_totem"
 version = "${mod_version}"
 displayName = "${mod_name}"
 side="${neoforge_trick_side}"
@@ -13,14 +13,14 @@ logoFile = "icon/icon.png"
 authors = "${mod_authors}"
 description = '''${mod_description}'''
 
-[[dependencies.${mod_id}]]
+[[dependencies.skin_totem]]
 modId = "forge"
 mandatory = true
 versionRange = "${forge}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.${ mod_id }]]
+[[dependencies.skin_totem]]
 modId = "minecraft"
 mandatory = true
 versionRange = "${minecraft}"
