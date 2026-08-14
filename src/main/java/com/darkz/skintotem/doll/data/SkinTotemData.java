@@ -2,7 +2,7 @@ package com.darkz.skintotem.doll.data;
 
 import lombok.*;
 import com.darkz.skintotem.model.bb.manager.BlockBenchModelManager;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.player.AbstractClientPlayer;
 
 //? if >=1.21.9 {
 import net.minecraft.entity.player.SkinTextures;
@@ -13,7 +13,7 @@ import java.util.Optional;
 /*import net.minecraft.client.util.SkinTextures;
 import net.minecraft.client.util.SkinTextures.*;
 *///?}
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.doll.model.SkinTotemModel;
 import com.darkz.skintotem.model.base.MModel;
@@ -57,7 +57,7 @@ public class SkinTotemData {
 		return this.renderProperties.getNickname();
 	}
 
-	public void setStandardMModel(@NotNull Identifier modelId) {
+	public void setStandardMModel(@NotNull ResourceLocation modelId) {
 		BlockBenchModelManager.consumeModelById(modelId, this::setStandardMModel);
 	}
 
@@ -69,7 +69,7 @@ public class SkinTotemData {
 		this.standardModel = this.renderProperties.createStandardModel();
 	}
 
-	public void setFrameMModel(@NotNull Identifier id) {
+	public void setFrameMModel(@NotNull ResourceLocation id) {
 		this.renderProperties.consumeFrameMModel(id, this::setFrameMModel);
 	}
 
@@ -144,28 +144,28 @@ public class SkinTotemData {
 		this.renderProperties.setFrameSprites(frameSprites);
 	}
 
-	public void setFrameSprites(@Nullable AbstractClientPlayerEntity playerEntity) {
+	public void setFrameSprites(@Nullable AbstractClientPlayer playerEntity) {
 		if (playerEntity == null) {
 			return;
 		}
 
 		//? if >=1.21.9 {
 		SkinTextures skinTextures = playerEntity.getSkin();
-		Identifier skinTexture = skinTextures.body().texturePath();
-		Identifier capeTexture = Optional.of(skinTextures).map(SkinTextures::cape).map(TextureAsset::texturePath).orElse(null);
-		Identifier elytraTexture = Optional.of(skinTextures).map(SkinTextures::cape).map(TextureAsset::texturePath).orElse(null);
+		ResourceLocation skinTexture = skinTextures.body().texturePath();
+		ResourceLocation capeTexture = Optional.of(skinTextures).map(SkinTextures::cape).map(TextureAsset::texturePath).orElse(null);
+		ResourceLocation elytraTexture = Optional.of(skinTextures).map(SkinTextures::cape).map(TextureAsset::texturePath).orElse(null);
 		boolean slim = skinTextures.model() == PlayerSkinType.SLIM;
 		//?} elif >=1.21 {
 		/*SkinTextures skinTextures = playerEntity.getSkinTextures();
-		Identifier skinTexture = skinTextures.texture();
-		Identifier capeTexture = skinTextures.capeTexture();
-		Identifier elytraTexture = skinTextures.elytraTexture();
+		ResourceLocation skinTexture = skinTextures.texture();
+		ResourceLocation capeTexture = skinTextures.capeTexture();
+		ResourceLocation elytraTexture = skinTextures.elytraTexture();
 		boolean slim = skinTextures.model() == SkinTextures.Model.SLIM;
 		*///?} else {
-		/*Identifier skinTexture = playerEntity.getSkinTexture();
-		Identifier capeTexture = playerEntity.getCapeTexture();
-		Identifier elytraTexture = playerEntity.getElytraTexture();
-		boolean slim = playerEntity.getModel().equalsIgnoreCase("slim");
+		/*ResourceLocation skinTexture = playerEntity.getSkinTextureLocation();
+		ResourceLocation capeTexture = playerEntity.getCloakTextureLocation();
+		ResourceLocation elytraTexture = playerEntity.getElytraTextureLocation();
+		boolean slim = playerEntity.getModelName().equalsIgnoreCase("slim");
 		*///?}
 
 		//? if >=1.21 {

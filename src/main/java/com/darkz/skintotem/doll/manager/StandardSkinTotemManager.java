@@ -1,8 +1,9 @@
 package com.darkz.skintotem.doll.manager;
 
 import com.darkz.skintotem.atlas.manager.SkinTotemAtlasSpriteManager;
-import net.minecraft.client.texture.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.texture.*;
+import com.mojang.blaze3d.platform.NativeImage;
+import net.minecraft.resources.ResourceLocation;
 import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.client.SkinTotemClient;
 
@@ -86,7 +87,7 @@ public class StandardSkinTotemManager {
 		textures.setState(LoadingState.DOWNLOADING);
 
 		CompletableFuture.runAsync(() -> {
-			Identifier id = SkinTotem.getDollTextureId("file/%s".formatted(sha1(data)));
+			ResourceLocation id = SkinTotem.getDollTextureId("file/%s".formatted(sha1(data)));
 
 			try (InputStream inputStream = Files.newInputStream(Path.of(data))) {
 				NativeImage nativeImage = NativeImage.read(inputStream);
@@ -113,7 +114,7 @@ public class StandardSkinTotemManager {
 		textures.setState(LoadingState.DOWNLOADING);
 
 		CompletableFuture.runAsync(() -> {
-			Identifier id = SkinTotem.getDollTextureId("url/%s".formatted(sha1(data)));
+			ResourceLocation id = SkinTotem.getDollTextureId("url/%s".formatted(sha1(data)));
 
 			FailedAction onFailed = (throwable) -> {
 				textures.setState(LoadingState.CRITICAL_ERROR);
@@ -140,7 +141,7 @@ public class StandardSkinTotemManager {
 		return getSteveDoll();
 	}
 
-	/** Возвращает первые 16 символов SHA-1 хэша строки для использования в Identifier. */
+	/** Возвращает первые 16 символов SHA-1 хэша строки для использования в ResourceLocation. */
 	private static String sha1(@NotNull String input) {
 		try {
 			MessageDigest digest = MessageDigest.getInstance("SHA-1");
