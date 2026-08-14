@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.client.SkinTotemClient;
@@ -43,7 +44,7 @@ public class SkinTotemPreviewTooltipComponent implements ClientTooltipComponent 
 		SkinTotemConfig config = SkinTotemConfig.getInstance();
 		float sizeOriginal = config.getBetterTagMenuTooltipSize();
 		float size = (sizeOriginal / 1.25F) * config.getTagMenuTooltipModelScale();
-		Component text = Component.literal(this.modelId.getFileName());
+		Component text = Component.nullToEmpty(this.modelId.getFileName());
 		int textWidth = textRenderer.width(text);
 
 		int height = this.getHeight();

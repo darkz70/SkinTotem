@@ -2,12 +2,14 @@ package com.darkz.skintotem.config.totem;
 
 import lombok.Getter;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.StringRepresentable;
+import net.minecraft.util.*;
 
 import com.mojang.serialization.Codec;
 
 import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.config.other.EnumWithText;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.util.StringRepresentable.EnumCodec;
 import org.jetbrains.annotations.Nullable;
 
 @Getter
@@ -16,7 +18,7 @@ public enum SkinTotemArmsType implements StringRepresentable, EnumWithText {
 	WIDE,
 	SLIM;
 
-	public static final Codec<SkinTotemArmsType> CODEC = StringRepresentable.fromEnum(SkinTotemArmsType::values);
+	public static final EnumCodec<SkinTotemArmsType> CODEC = StringRepresentable.fromEnum(SkinTotemArmsType::values);
 
 	public Component getText() {
 		return SkinTotem.text("modmenu.option.standard_doll_model_arms_type.%s".formatted(this.getSerializedName()));

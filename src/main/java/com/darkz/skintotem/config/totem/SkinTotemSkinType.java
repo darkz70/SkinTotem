@@ -8,6 +8,7 @@ import net.minecraft.util.StringRepresentable;
 import com.mojang.serialization.Codec;
 import com.darkz.skintotem.SkinTotem;
 import com.darkz.skintotem.config.other.EnumWithText;
+import net.minecraft.util.StringRepresentable.EnumCodec;
 
 @Getter
 public enum SkinTotemSkinType implements StringRepresentable, EnumWithText {
@@ -16,11 +17,9 @@ public enum SkinTotemSkinType implements StringRepresentable, EnumWithText {
 	PLAYER(true),
 	HOLDING_PLAYER(false),
 	URL_SKIN(true),
-	FILE_SKIN(true),
-	TLAUNCHER(true),
-	ELY_BY(true);
+	FILE_SKIN(true);
 
-	public static final Codec<SkinTotemSkinType> CODEC = StringRepresentable.fromEnum(SkinTotemSkinType::values);
+	public static final EnumCodec<SkinTotemSkinType> CODEC = StringRepresentable.fromEnum(SkinTotemSkinType::values);
 
 	private final boolean needData;
 

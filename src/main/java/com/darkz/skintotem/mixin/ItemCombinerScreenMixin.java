@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 
-import com.darkz.skintotem.utils.mixin.SkinTotemAnvilScreen;
+import com.darkz.skintotem.utils.mixin.MTDAnvilScreen;
 
 
 @Mixin(ItemCombinerScreen.class)
@@ -24,12 +24,12 @@ public class ItemCombinerScreenMixin {
 	)
 	private void drawBackground(GuiGraphics instance, ResourceLocation texture, int x, int y, int u, int v, int width, int height, Operation<Void> original) {
 		Consumer<Integer> draw = (w) -> original.call(instance, texture, x, y, u, v, w, height);
-		this.skinTotem$drawBackground(width, draw);
+		this.mySkinTotem$drawBackground(width, draw);
 	}
 
 	@Unique
-	private void skinTotem$drawBackground(int width, Consumer<Integer> draw) {
-		if (this instanceof SkinTotemAnvilScreen && SkinTotemConfig.getInstance().isModEnabled()) {
+	private void mySkinTotem$drawBackground(int width, Consumer<Integer> draw) {
+		if (this instanceof MTDAnvilScreen && SkinTotemConfig.getInstance().isModEnabled()) {
 			draw.accept(176);
 			return;
 		}

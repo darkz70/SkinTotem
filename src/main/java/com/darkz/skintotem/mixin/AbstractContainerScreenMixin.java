@@ -7,14 +7,14 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.darkz.skintotem.gui.widget.tag.*;
-import com.darkz.skintotem.utils.mixin.SkinTotemAnvilScreen;
+import com.darkz.skintotem.utils.mixin.MTDAnvilScreen;
 
 @Mixin(AbstractContainerScreen.class)
 public class AbstractContainerScreenMixin {
 
 	@Inject(at = @At("HEAD"), method = "mouseDragged", cancellable = true)
 	private void mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY, CallbackInfoReturnable<Boolean> cir) {
-		TagButtonWidget tagButtonWidget = this.skinTotem$getTagButtonWidget();
+		TagButtonWidget tagButtonWidget = this.mySkinTotem$getTagButtonWidget();
 		if (tagButtonWidget == null){
 			return;
 		}
@@ -25,7 +25,7 @@ public class AbstractContainerScreenMixin {
 
 	@Inject(at = @At("HEAD"), method = "mouseReleased", cancellable = true)
 	private void mouseReleased(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
-		TagButtonWidget tagButtonWidget = this.skinTotem$getTagButtonWidget();
+		TagButtonWidget tagButtonWidget = this.mySkinTotem$getTagButtonWidget();
 		if (tagButtonWidget == null){
 			return;
 		}
@@ -35,10 +35,10 @@ public class AbstractContainerScreenMixin {
 	}
 
 	@Unique
-	private @Nullable TagButtonWidget skinTotem$getTagButtonWidget() {
-		if (!(this instanceof SkinTotemAnvilScreen anvilScreen)) {
+	private @Nullable TagButtonWidget mySkinTotem$getTagButtonWidget() {
+		if (!(this instanceof MTDAnvilScreen anvilScreen)) {
 			return null;
 		}
-		return anvilScreen.skinTotem$getTagButtonWidget();
+		return anvilScreen.mySkinTotem$getTagButtonWidget();
 	}
 }

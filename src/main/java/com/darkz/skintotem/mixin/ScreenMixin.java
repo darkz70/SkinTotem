@@ -18,23 +18,23 @@ public abstract class ScreenMixin extends AbstractContainerEventHandler implemen
 
 	@Shadow public Font font;
 	@Unique
-	private TooltipRequest skinTotem$tooltipRequest;
+	private TooltipRequest mySkinTotem$tooltipRequest;
 
 	@Inject(at = @At("TAIL"), method = "renderWithTooltip")
 	private void renderWithTooltip(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-		if (this.skinTotem$tooltipRequest != null) {
-			this.skinTotem$tooltipRequest.render(context, mouseX, mouseY, delta);
-			this.skinTotem$tooltipRequest = null;
+		if (this.mySkinTotem$tooltipRequest != null) {
+			this.mySkinTotem$tooltipRequest.render(context, mouseX, mouseY, delta);
+			this.mySkinTotem$tooltipRequest = null;
 		}
 	}
 
 	@Override
-	public void skinTotem$requestTooltip(TooltipRequest tooltipRequest) {
-		this.skinTotem$tooltipRequest = tooltipRequest;
+	public void mySkinTotem$requestTooltip(TooltipRequest tooltipRequest) {
+		this.mySkinTotem$tooltipRequest = tooltipRequest;
 	}
 
 	@Override
-	public TooltipRequest skinTotem$getCurrentRequest() {
-		return this.skinTotem$tooltipRequest;
+	public TooltipRequest mySkinTotem$getCurrentRequest() {
+		return this.mySkinTotem$tooltipRequest;
 	}
 }

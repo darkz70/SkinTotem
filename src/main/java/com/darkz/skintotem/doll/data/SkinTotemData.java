@@ -4,15 +4,6 @@ import lombok.*;
 import com.darkz.skintotem.model.bb.manager.BlockBenchModelManager;
 import net.minecraft.client.player.AbstractClientPlayer;
 
-//? if >=1.21.9 {
-import net.minecraft.entity.player.SkinTextures;
-import net.minecraft.entity.player.PlayerSkinType;
-import net.minecraft.util.AssetInfo.TextureAsset;
-import java.util.Optional;
-//?} elif >=1.21 {
-/*import net.minecraft.client.util.SkinTextures;
-import net.minecraft.client.util.SkinTextures.*;
-*///?}
 import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.doll.model.SkinTotemModel;
@@ -35,7 +26,6 @@ public class SkinTotemData {
 	private SkinTotemRenderProperties renderProperties = new SkinTotemRenderProperties();
 
 	public SkinTotemData(@Nullable String nickname, @NotNull SkinTotemSprites sprites) {
-		this.renderProperties = new SkinTotemRenderProperties();
 		this.renderProperties.refresh(sprites);
 		this.renderProperties.setNickname(nickname);
 	}
@@ -79,14 +69,12 @@ public class SkinTotemData {
 
 	@Nullable
 	private SkinTotemModel getFrameModelBasedOnFrameMModel() {
-		//? if >=1.21 {
 		if (this.renderProperties.getFrameMModel() != null) {
 			if (this.frameModel == null || !this.frameModel.getMain().equals(this.renderProperties.getFrameMModel())) {
 				return this.frameModel = this.renderProperties.createFrameModel();
 			}
 			return this.frameModel;
 		}
-		//?}
 		return null;
 	}
 
@@ -117,11 +105,7 @@ public class SkinTotemData {
 			return this.standardModel;
 		}
 
-		//? if >=1.21 {
 		this.setStandardMModel(SkinTotemModel.createDollModel());
-		//?} else {
-		/*this.setStandardMModel(SkinTotemModel.createDollModel());
-		*///?}
 
 		if (this.shouldRecreateStandardModel) {
 			this.shouldRecreateStandardModel = false;
@@ -149,28 +133,12 @@ public class SkinTotemData {
 			return;
 		}
 
-		//? if >=1.21.9 {
-		SkinTextures skinTextures = playerEntity.getSkin();
-		ResourceLocation skinTexture = skinTextures.body().texturePath();
-		ResourceLocation capeTexture = Optional.of(skinTextures).map(SkinTextures::cape).map(TextureAsset::texturePath).orElse(null);
-		ResourceLocation elytraTexture = Optional.of(skinTextures).map(SkinTextures::cape).map(TextureAsset::texturePath).orElse(null);
-		boolean slim = skinTextures.model() == PlayerSkinType.SLIM;
-		//?} elif >=1.21 {
-		/*SkinTextures skinTextures = playerEntity.getSkinTextures();
-		ResourceLocation skinTexture = skinTextures.texture();
-		ResourceLocation capeTexture = skinTextures.capeTexture();
-		ResourceLocation elytraTexture = skinTextures.elytraTexture();
-		boolean slim = skinTextures.model() == SkinTextures.Model.SLIM;
-		*///?} else {
-		/*ResourceLocation skinTexture = playerEntity.getSkinTextureLocation();
+		ResourceLocation skinTexture = playerEntity.getSkinTextureLocation();
 		ResourceLocation capeTexture = playerEntity.getCloakTextureLocation();
 		ResourceLocation elytraTexture = playerEntity.getElytraTextureLocation();
 		boolean slim = playerEntity.getModelName().equalsIgnoreCase("slim");
-		*///?}
 
-		//? if >=1.21 {
 		this.renderProperties.setFrameSprites(skinTexture, capeTexture, elytraTexture, slim, true);
-		//?}
 	}
 
 	@NotNull
@@ -188,27 +156,15 @@ public class SkinTotemData {
 		// Make sure it's cleared
 		this.clearFrameModel();
 		this.clearFrameSprites();
-		SkinTotemModel model = this.getModelToRender();
-		if (model != null) {
-			model.resetPartsVisibility();
-		}
+		this.getModelToRender().resetPartsVisibility();
 		this.renderProperties.refresh();
 		return this;
 	}
 
 	@NotNull
 	public SkinTotemData applyRenderProperties() {
-		SkinTotemModel modelToApply = this.getModelToRender();
-		if (modelToApply != null) {
-			this.renderProperties.applyToModel(modelToApply);
-		}
+		this.renderProperties.applyToModel(this.getModelToRender());
 		return this;
 	}
 
-	//? if >=1.21.6 {
-	@NotNull
-	public com.darkz.skintotem.doll.renderer.special.SkinTotemGuiElementRenderer getGuiRenderer(net.minecraft.client.render.VertexConsumerProvider.Immediate immediate) {
-		return com.darkz.skintotem.doll.renderer.special.SkinTotemGuiElementRenderer.getRenderer(this.renderProperties, immediate);
-	}
-	//?}
 }

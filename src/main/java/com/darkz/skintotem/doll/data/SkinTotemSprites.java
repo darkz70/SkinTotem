@@ -11,11 +11,6 @@ import org.jetbrains.annotations.*;
 import static com.darkz.skintotem.atlas.manager.SkinTotemAtlasSpriteManager.ELYTRA_SPRITE;
 import static com.darkz.skintotem.atlas.manager.SkinTotemAtlasSpriteManager.STEVE_SKIN_SPRITE;
 
-//? if >=1.21.9 {
-
-import net.minecraft.util.AssetInfo.TextureAsset;
-
-//?}
 
 @Getter
 @Setter
@@ -46,52 +41,33 @@ public class SkinTotemSprites {
 		return new SkinTotemSprites(null, null, null, SkinTotemArmsType.WIDE);
 	}
 
-	//? if >=1.21.9 {
-	public static SkinTotemSprites of(net.minecraft.client.network.AbstractClientPlayerEntity player) {
-		return of(player.getSkin());
-	}
-
-	public static SkinTotemSprites of(net.minecraft.entity.player.SkinTextures skinTextures) {
-		TextureAsset cape = skinTextures.cape();
-		TextureAsset elytra = skinTextures.elytra();
-		return of(skinTextures.body().texturePath(), cape == null ? null : cape.texturePath(), elytra == null ? null : elytra.texturePath(), skinTextures.model() == net.minecraft.entity.player.PlayerSkinType.SLIM, true);
-	}
-	//?} elif >=1.21 {
-	/*public static SkinTotemSprites of(net.minecraft.client.network.AbstractClientPlayerEntity player) {
-		return of(player.getSkinTextures());
-	}
-
-	public static SkinTotemSprites of(net.minecraft.client.util.SkinTextures skinTextures) {
-		return of(skinTextures.texture(), skinTextures.capeTexture(), skinTextures.elytraTexture(), skinTextures.model() == net.minecraft.client.util.SkinTextures.Model.SLIM, true);
-	}
-	*///?}
 
 	public static SkinTotemSprites of(ResourceLocation skinTexture, ResourceLocation capeTexture, ResourceLocation elytraTexture, boolean slim, boolean remapCape) {
-		SkinTotemSprites skinTotemSprites = new SkinTotemSprites(null, null, null, SkinTotemArmsType.of(slim));
+		SkinTotemSprites totemDollSprites = new SkinTotemSprites(null, null, null, SkinTotemArmsType.of(slim));
 
 		if (skinTexture != null) {
-			SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(skinTexture, false, skinTotemSprites::setSkinSprite);
+			SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(skinTexture, false, totemDollSprites::setSkinSprite);
 		}
 
 		if (capeTexture != null) {
 			if (remapCape) {
 				RemappedAtlasSprite capeSprite = RemappedAtlasSprite.ofResource(capeTexture);
 				SkinTotemAtlasSpriteManager.registerSpecialRemappedSprite(capeSprite);
-				skinTotemSprites.setCapeSprite(capeSprite);
+				totemDollSprites.setCapeSprite(capeSprite);
 			} else {
-				SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(capeTexture, false, skinTotemSprites::setCapeSprite);
+				SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(capeTexture, false, totemDollSprites::setCapeSprite);
 			}
 		}
 
 		if (elytraTexture != null) {
-			SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(elytraTexture, false, skinTotemSprites::setElytraSprite);
+			SkinTotemAtlasSpriteManager.registerSpecialSkinSprite(elytraTexture, false, totemDollSprites::setElytraSprite);
 		}
 
 		SkinTotemAtlasManager.stitchAndUpdate(SkinTotemAtlasSpriteManager.getSprites(), () -> {
-			skinTotemSprites.setState(LoadingState.DOWNLOADED);
+			totemDollSprites.setState(LoadingState.DOWNLOADED);
 		});
 
-		return skinTotemSprites;
+		return totemDollSprites;
 	}
 
 	public void setStandardArmsType(SkinTotemArmsType standardArmsType) {
@@ -154,8 +130,8 @@ public class SkinTotemSprites {
 	}
 
 	public SkinTotemSprites copy() {
-		SkinTotemSprites skinTotemSprites = new SkinTotemSprites(this.skinSprite, this.capeSprite, this.elytraSprite, this.armsType);
-		skinTotemSprites.setState(this.state);
-		return skinTotemSprites;
+		SkinTotemSprites totemDollSprites = new SkinTotemSprites(this.skinSprite, this.capeSprite, this.elytraSprite, this.armsType);
+		totemDollSprites.setState(this.state);
+		return totemDollSprites;
 	}
 }

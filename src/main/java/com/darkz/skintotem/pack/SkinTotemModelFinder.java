@@ -1,13 +1,15 @@
 package com.darkz.skintotem.pack;
 
-import net.minecraft.server.packs.PackResources;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.*;
 import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotem;
+import com.darkz.skintotem.loader.SkinTotemLoader;
 
 import java.util.*;
+import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.ResourceManager;
 
 public class SkinTotemModelFinder {
 
@@ -27,8 +29,8 @@ public class SkinTotemModelFinder {
 
 		FOUNDED_TOTEM_MODELS.clear();
 		for (PackResources pack : list) {
-			String packId = pack./*? if >=1.21 {*/getId()/*?} else {*//*packId()*//*?}*/.replace("file/", "");
-	 if (packId.equals(SkinTotem.MOD_ID) /*? if =1.20.1 {*/ /*|| pack instanceof net.fabricmc.fabric.impl.resource.loader.FabricModResourcePack */ /*?}*/) {
+			String packId = pack.packId().replace("file/", "").replace("mod/", "");
+			if (packId.equals(SkinTotem.MOD_ID) || SkinTotemLoader.isModResourcePack(pack)) {
 				continue;
 			}
 			pack.listResources(PackType.CLIENT_RESOURCES, SkinTotem.MOD_ID, "dolls", (id, input) -> {

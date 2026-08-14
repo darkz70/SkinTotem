@@ -13,8 +13,10 @@ import com.darkz.skintotem.utils.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.OutlineBufferSource;
 import org.jetbrains.annotations.Nullable;
 import org.joml.*;
 
@@ -37,7 +39,7 @@ public class SkinTotemRenderRequestsCollector {
 
 	public void requestRender(PoseStack matrices, SkinTotemData data, AbstractClientPlayer holdingPlayer, DollRenderContext context, int light, int overlay, int outlineColor, @Nullable MultiBufferSource provider) {
 		PoseStack.Pose entry = matrices.last();
-		this.requests.add(new SkinTotemRenderRequest(/*? if >=1.21 {*/ entry.copy() /*?} else {*/ /*new PoseStack.Pose(new Matrix4f(entry.pose()), new Matrix3f(entry.normal())) *//*?}*/, data, data.getRenderProperties().copy(), holdingPlayer, context, light, overlay, outlineColor, provider));
+		this.requests.add(new SkinTotemRenderRequest( new PoseStack.Pose(new Matrix4f(entry.pose()), new Matrix3f(entry.normal())) , data, data.getRenderProperties().copy(), holdingPlayer, context, light, overlay, outlineColor, provider));
 	}
 
 	public void render() {
@@ -56,7 +58,7 @@ public class SkinTotemRenderRequestsCollector {
 		}
 
 		this.requests.clear();
-		mainProvider.endBatch();
+		mainProvider.endLastBatch();
 		// We should draw this before unlocking, to make sure that atlas won't be changed earlier than the draw call
 		atlasTexture.setLocked(false);
 	}
@@ -71,20 +73,10 @@ public class SkinTotemRenderRequestsCollector {
 		data.getRenderProperties().copyFrom(request.renderProperties());
 		data.clearFrameModel();
 		SkinTotemModel modelToRender = data.getModelToRender();
-		if (modelToRender == null) {
-			this.matrices.popPose();
-			return;
-		}
 		modelToRender.resetPartsVisibility();
 		data.getRenderProperties().applyToModel(modelToRender);
 
 		SkinTotemRenderer.renderDoll(this.matrices, data, request.holdingPlayer(), request.context(), mainProvider, request.light(), request.overlay());
-		//? if >=1.21.9 {
-		int argb = request.outlineColor();
-		if (argb != 0) {
-			outlineProvider.setColor(argb);
-			SkinTotemRenderer.renderDoll(this.matrices, data, request.holdingPlayer(), request.context(), outlineProvider, request.light(), request.overlay());
-		}//?}
 
 		data.getRenderProperties().copyFrom(this.tempProperties);
 

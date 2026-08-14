@@ -4,9 +4,9 @@ import org.jetbrains.annotations.Nullable;
 
 public interface IRequestableTooltipScreen {
 
-	void skinTotem$requestTooltip(@Nullable TooltipRequest tooltipRequest);
+	void mySkinTotem$requestTooltip(@Nullable TooltipRequest tooltipRequest);
 
 	@Nullable
-	TooltipRequest skinTotem$getCurrentRequest();
+	TooltipRequest mySkinTotem$getCurrentRequest();
 
 }

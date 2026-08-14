@@ -8,8 +8,8 @@ import org.slf4j.*;
 
 public class SkinTotem {
 
-	public static final String MOD_NAME = /*$ mod_name*/ "Skin Totem";
-	public static final String MOD_ID = /*$ mod_id*/ "skin_totem";
+	public static final String MOD_NAME = /*$ mod_name*/ "My Totem Doll";
+	public static final String MOD_ID = /*$ mod_id*/ "skintotem";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_NAME);
 	public static final String YACL_DEPEND_VERSION = /*$ yacl*/ "3.6.6+1.20.1-fabric";
 

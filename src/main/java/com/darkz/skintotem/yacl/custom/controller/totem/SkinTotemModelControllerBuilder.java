@@ -4,11 +4,11 @@ import dev.isxander.yacl3.api.Option;
 
 
 import dev.isxander.yacl3.api.controller.ControllerBuilder;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
-public interface SkinTotemModelControllerBuilder extends ControllerBuilder<Identifier> {
+public interface SkinTotemModelControllerBuilder extends ControllerBuilder<ResourceLocation> {
 
-	static SkinTotemModelControllerBuilder create(Option<Identifier> option) {
+	static SkinTotemModelControllerBuilder create(Option<ResourceLocation> option) {
 		return new SkinTotemModelControllerBuilderImpl(option);
 	}
 }

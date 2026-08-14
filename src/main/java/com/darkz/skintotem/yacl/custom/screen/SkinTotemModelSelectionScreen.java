@@ -5,13 +5,19 @@ import dev.isxander.yacl3.api.utils.*;
 import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.doll.model.SkinTotemModel;
 import com.darkz.skintotem.utils.DrawUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.*;
-import net.minecraft.client.gui.widget.ButtonWidget.PressAction;
-import net.minecraft.text.*;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.components.*;
+import net.minecraft.client.gui.components.Button.OnPress;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.*;
 import net.minecraft.util.*;
 
 import com.darkz.skintotem.SkinTotem;
@@ -27,7 +33,7 @@ import org.jetbrains.annotations.*;
 
 public class SkinTotemModelSelectionScreen extends Screen {
 
-	private final Option<Identifier> option;
+	private final Option<ResourceLocation> option;
 	private final Screen parent;
 
 	@SuppressWarnings("all")
@@ -35,17 +41,17 @@ public class SkinTotemModelSelectionScreen extends Screen {
 
 	private final List<Dimension<Integer>> dimensions = new ArrayList<>();
 
-	private SkinTotemModelPreviewWidget skinTotemModelPreviewWidget;
+	private SkinTotemModelPreviewWidget totemDollModelPreviewWidget;
 	private ButtonListWidget listWidget;
 
 	@Nullable
-	private Identifier selectedModelId;
+	private ResourceLocation selectedModelId;
 	@Nullable
-	private Text selectedModelName;
+	private Component selectedModelName;
 	@Nullable
-	private Text selectedModel;
+	private Component selectedModel;
 
-	public SkinTotemModelSelectionScreen( Screen parent, Option<Identifier> option) {
+	public SkinTotemModelSelectionScreen(Screen parent, Option<ResourceLocation> option) {
 		super(SkinTotem.text("standard_model_selection_screen.title"));
 		this.option = option;
 		this.parent = parent;
@@ -64,44 +70,44 @@ public class SkinTotemModelSelectionScreen extends Screen {
 		MutableDimension<Integer> textFieldDimension = this.getTextFieldDimension(h, o);
 		MutableDimension<Integer> buttonPanelDimension = this.getButtonPanelDimension(o, h, this.modelPathDimension, textFieldDimension);
 
-		this.listWidget = this.addDrawableChild(new ButtonListWidget(this.listPanelDimension.x(), this.listPanelDimension.y() + 2, this.listPanelDimension.width(), this.listPanelDimension.height(), 20));
+		this.listWidget = this.addRenderableWidget(new ButtonListWidget(this.listPanelDimension.x(), this.listPanelDimension.y() + 2, this.listPanelDimension.width(), this.listPanelDimension.height(), 20));
 
-		TextFieldWidget textFieldWidget = this.addDrawableChild(new TextFieldWidget(MinecraftClient.getInstance().textRenderer, textFieldDimension.x(), textFieldDimension.y(), textFieldDimension.width(), textFieldDimension.height(), Text.of("")));
-		textFieldWidget.setChangedListener(this.listWidget::search);
-		textFieldWidget.setPlaceholder(SkinTotem.text("placeholder.search"));
+		EditBox textFieldWidget = this.addRenderableWidget(new EditBox(Minecraft.getInstance().font, textFieldDimension.x(), textFieldDimension.y(), textFieldDimension.width(), textFieldDimension.height(), Component.nullToEmpty("")));
+		textFieldWidget.setResponder(this.listWidget::search);
+		textFieldWidget.setHint(SkinTotem.text("placeholder.search"));
 
-		this.addDrawableChild(
-				ButtonWidget.builder(SkinTotem.text("button.close"), (b) -> this.close(false))
-						.dimensions(buttonPanelDimension.x(), buttonPanelDimension.y(), buttonPanelDimension.width(), buttonPanelDimension.height())
+		this.addRenderableWidget(
+				Button.builder(SkinTotem.text("button.close"), (b) -> this.close(false))
+						.bounds(buttonPanelDimension.x(), buttonPanelDimension.y(), buttonPanelDimension.width(), buttonPanelDimension.height())
 						.build()
 		);
 		buttonPanelDimension.move(0, h + o);
-		this.addDrawableChild(
-				ButtonWidget.builder(SkinTotem.text("button.select_current"), (b) -> this.close(true))
-						.dimensions(buttonPanelDimension.x(), buttonPanelDimension.y(), buttonPanelDimension.width(), buttonPanelDimension.height())
+		this.addRenderableWidget(
+				Button.builder(SkinTotem.text("button.select_current"), (b) -> this.close(true))
+						.bounds(buttonPanelDimension.x(), buttonPanelDimension.y(), buttonPanelDimension.width(), buttonPanelDimension.height())
 						.build()
 		);
 
 		Dimension<Integer> modelPreviewDimension = this.getModelPreviewDimension(this.modelPanelDimension);
 
-		this.skinTotemModelPreviewWidget = new SkinTotemModelPreviewWidget(
+		this.totemDollModelPreviewWidget = new SkinTotemModelPreviewWidget(
 				modelPreviewDimension.x(), modelPreviewDimension.y(),
 				Math.min(modelPreviewDimension.width(), modelPreviewDimension.height())
 		);
 
-		Identifier standardModelId = SkinTotemConfig.getInstance().getStandardSkinTotemModelValue();
+		ResourceLocation standardModelId = SkinTotemConfig.getInstance().getStandardSkinTotemModelValue();
 
-		Set<Entry<String, Set<Identifier>>> entries = new HashSet<>(SkinTotemModelFinder.getFoundedTotemModels().entrySet());
+		Set<Entry<String, Set<ResourceLocation>>> entries = new HashSet<>(SkinTotemModelFinder.getFoundedTotemModels().entrySet());
 		entries.add(Map.entry(SkinTotem.MOD_ID, SkinTotemModelFinder.getBuiltinTotemModels()));
 
-		for (Entry<String, Set<Identifier>> entry : entries) {
-			for (Identifier id : entry.getValue()) {
+		for (Entry<String, Set<ResourceLocation>> entry : entries) {
+			for (ResourceLocation id : entry.getValue()) {
 				String pack = entry.getKey();
 				String modelName = getModelName(id.getPath());
 
-				PressAction pressAction = (widget) -> this.setSelectedModel(id, pack, modelName);
+				OnPress pressAction = (widget) -> this.setSelectedModel(id, pack, modelName);
 
-				ButtonListEntryWidget button = new ButtonListEntryWidget(Text.of(modelName), pressAction);
+				ButtonListEntryWidget button = new ButtonListEntryWidget(Component.nullToEmpty(modelName), pressAction);
 
 				if (id.equals(standardModelId)) {
 					pressAction.onPress(button.getWidget());
@@ -133,14 +139,14 @@ public class SkinTotemModelSelectionScreen extends Screen {
 
 	private void close(boolean applyCurrent) {
 		if (applyCurrent && this.selectedModelId != null) {
-			if (this.skinTotemModelPreviewWidget.getFailedLoadingStatusCode() != 0) {
+			if (this.totemDollModelPreviewWidget.getFailedLoadingStatusCode() != 0) {
 				this.option.requestSet(SkinTotemModel.THREE_D_MODEL_id);
 			} else {
 				this.option.requestSet(this.selectedModelId);
 			}
 		}
 
-		this.close();
+		this.onClose();
 	}
 
 	private MutableDimension<Integer> getButtonPanelDimension(int o, int h, MutableDimension<Integer> modelPathDimension, MutableDimension<Integer> textFieldDimension) {
@@ -148,8 +154,8 @@ public class SkinTotemModelSelectionScreen extends Screen {
 	}
 
 	@Override
-	public void renderBackground(DrawContext context /*? if >=1.21 {*/ ,int mouseX, int mouseY, float delta/*?}*/) {
-		super.renderBackground(context/*? if >=1.21 {*/ , mouseX, mouseY, delta /*?}*/);
+	public void renderBackground(GuiGraphics context ) {
+		super.renderBackground(context);
 
 		for (Dimension<Integer> dimension : this.dimensions) {
 			BackgroundRenderer.drawTransparencyBackground(context, dimension.x(), dimension.y(), dimension.width(), dimension.height(), true);
@@ -157,36 +163,36 @@ public class SkinTotemModelSelectionScreen extends Screen {
 	}
 
 	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+	public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
-		TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+		Font textRenderer = Minecraft.getInstance().font;
 
 		// Title
 		DrawUtils.drawCenteredText(context, this.getTitle(), this.titleDimension.x() + 2, this.titleDimension.y(), this.titleDimension.width() - 2, this.titleDimension.height());
 
 		// List Title
-		DrawUtils.drawCenteredText(context, SkinTotem.text("text.found_models", this.listWidget.getEntryCount()), this.listTitleDimension.x() + 2, this.listTitleDimension.y(), this.listTitleDimension.width() - 2, this.listTitleDimension.height());
+		DrawUtils.drawCenteredText(context, SkinTotem.text("text.found_models", this.listWidget.getItemCount()), this.listTitleDimension.x() + 2, this.listTitleDimension.y(), this.listTitleDimension.width() - 2, this.listTitleDimension.height());
 
 		// "Full Model Path" text
-		MutableText fullModelPathText = SkinTotem.text("text.full_model_path");
-		int a = textRenderer.getWidth(fullModelPathText);
+		MutableComponent fullModelPathText = SkinTotem.text("text.full_model_path");
+		int a = textRenderer.width(fullModelPathText);
 		int offset = 10;
 
 		if (this.modelPathDimension.x() + a + offset > this.modelPathDimension.xLimit() - offset) {
-			DrawUtils.drawText(context, fullModelPathText, this.modelPathDimension.x() + offset, this.modelPathDimension.y() + offset, this.modelPathDimension.width() - offset, textRenderer.fontHeight + offset);
+			DrawUtils.drawText(context, fullModelPathText, this.modelPathDimension.x() + offset, this.modelPathDimension.y() + offset, this.modelPathDimension.width() - offset, textRenderer.lineHeight + offset);
 		} else {
-			context.drawText(textRenderer, fullModelPathText, this.modelPathDimension.x() + offset, this.modelPathDimension.y() + offset, -1, true);
+			context.drawString(textRenderer, fullModelPathText, this.modelPathDimension.x() + offset, this.modelPathDimension.y() + offset, -1, true);
 		}
 
 		// Model Path Text
 		context.enableScissor(this.modelPathDimension.x(), this.modelPathDimension.y(), this.modelPathDimension.xLimit() - offset, this.modelPathDimension.yLimit());
 
-		Text text = this.selectedModel == null ? Text.literal("...").formatted(Formatting.GRAY) : this.selectedModel;
-		int width = textRenderer.getWidth(text);
+		Component text = this.selectedModel == null ? Component.literal("...").withStyle(ChatFormatting.GRAY) : this.selectedModel;
+		int width = textRenderer.width(text);
 		if (this.modelPathDimension.x() + width + offset > this.modelPathDimension.xLimit() - offset) {
-			DrawUtils.drawText(context, text, this.modelPathDimension.x() + offset, this.modelPathDimension.yLimit() - textRenderer.fontHeight - offset, this.modelPathDimension.width() - offset, textRenderer.fontHeight);
+			DrawUtils.drawText(context, text, this.modelPathDimension.x() + offset, this.modelPathDimension.yLimit() - textRenderer.lineHeight - offset, this.modelPathDimension.width() - offset, textRenderer.lineHeight);
 		} else {
-			context.drawText(textRenderer, text, this.modelPathDimension.x() + offset, this.modelPathDimension.yLimit() - textRenderer.fontHeight - offset, -1, true);
+			context.drawString(textRenderer, text, this.modelPathDimension.x() + offset, this.modelPathDimension.yLimit() - textRenderer.lineHeight - offset, -1, true);
 		}
 
 		context.disableScissor();
@@ -194,23 +200,23 @@ public class SkinTotemModelSelectionScreen extends Screen {
 		// Model Name Text
 		context.enableScissor(this.modelPanelDimension.x(), this.modelPanelDimension.y(), this.modelPanelDimension.xLimit(), this.modelPanelDimension.yLimit());
 
-		Text selectedModelNameText = this.selectedModelName == null ? SkinTotem.text("text.standard_doll") : this.selectedModelName;
-		context.drawText(textRenderer, selectedModelNameText, this.modelPanelDimension.x() + offset, this.modelPanelDimension.y() + offset, -1, true);
+		Component selectedModelNameText = this.selectedModelName == null ? SkinTotem.text("text.standard_doll") : this.selectedModelName;
+		context.drawString(textRenderer, selectedModelNameText, this.modelPanelDimension.x() + offset, this.modelPanelDimension.y() + offset, -1, true);
 
 		// Underline for this text
-		context.fill(this.modelPanelDimension.x() + offset, this.modelPanelDimension.y() + offset + textRenderer.fontHeight + 3, this.modelPanelDimension.x() + offset + Math.min((textRenderer.getWidth(selectedModelNameText) + 5), this.modelPanelDimension.width() - (offset * 2)), this.modelPanelDimension.y() + offset + textRenderer.fontHeight + 4, -1);
+		context.fill(this.modelPanelDimension.x() + offset, this.modelPanelDimension.y() + offset + textRenderer.lineHeight + 3, this.modelPanelDimension.x() + offset + Math.min((textRenderer.width(selectedModelNameText) + 5), this.modelPanelDimension.width() - (offset * 2)), this.modelPanelDimension.y() + offset + textRenderer.lineHeight + 4, -1);
 		context.disableScissor();
 
 		// Model Preview
-		this.skinTotemModelPreviewWidget.render(context, mouseX, mouseY, delta);
+		this.totemDollModelPreviewWidget.render(context, mouseX, mouseY, delta);
 	}
 
-	private void setSelectedModel(Identifier modelId, String pack, String modelName) {
+	private void setSelectedModel(ResourceLocation modelId, String pack, String modelName) {
 		String packName = SkinTotem.MOD_ID.equals(pack) ? SkinTotem.MOD_NAME.replace(" ", "") : pack;
 		this.selectedModel     = SkinTotem.text("text.nice_id", packName, modelId.getPath());
 		this.selectedModelId   = modelId;
-		this.selectedModelName = Text.of(modelName);
-		this.skinTotemModelPreviewWidget.updateModel(modelId);
+		this.selectedModelName = Component.nullToEmpty(modelName);
+		this.totemDollModelPreviewWidget.updateModel(modelId);
 	}
 
 	private MutableDimension<Integer> getListTitleDimension(int o, int h) {
@@ -246,7 +252,7 @@ public class SkinTotemModelSelectionScreen extends Screen {
 	}
 
 	@Override
-	public void close() {
-		MinecraftClient.getInstance().setScreen(this.parent);
+	public void onClose() {
+		Minecraft.getInstance().setScreen(this.parent);
 	}
 }

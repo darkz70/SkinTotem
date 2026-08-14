@@ -71,8 +71,8 @@ public abstract class ItemStackMixin {
 
 		String[] data = TagsManager.getDataFromString(customName.getString());
 
-		Optional<TooltipComponent> loadingStateTooltipData = this.skinTotem$getLoadingStateTooltipData(data);
-		Optional<TooltipComponent> tagsTooltipData = this.skinTotem$getTagsTooltipData(data);
+		Optional<TooltipComponent> loadingStateTooltipData = this.mySkinTotem$getLoadingStateTooltipData(data);
+		Optional<TooltipComponent> tagsTooltipData = this.mySkinTotem$getTagsTooltipData(data);
 
 		List<ClientTooltipComponent> list = Stream.of(loadingStateTooltipData, tagsTooltipData)
 				.flatMap(Optional::stream)
@@ -83,7 +83,7 @@ public abstract class ItemStackMixin {
 	}
 
 	@Unique
-	private Optional<TooltipComponent> skinTotem$getLoadingStateTooltipData(String[] data) {
+	private Optional<TooltipComponent> mySkinTotem$getLoadingStateTooltipData(String[] data) {
 		Screen currentScreen = Minecraft.getInstance().screen;
 		if (!(currentScreen instanceof AnvilScreen || ScreenUtils.hasShiftDown())) {
 			return Optional.empty();
@@ -97,7 +97,7 @@ public abstract class ItemStackMixin {
 	}
 
 	@Unique
-	private Optional<TooltipComponent> skinTotem$getTagsTooltipData(String[] data) {
+	private Optional<TooltipComponent> mySkinTotem$getTagsTooltipData(String[] data) {
 		if (data.length < 2) {
 			return Optional.empty();
 		}

@@ -260,7 +260,7 @@ public class TagMenuWidget extends AbstractVersionedEntryListWidget<TagRow> {
 					return;
 				}
 
-				tooltipScreen.skinTotem$requestTooltip(((c, mx, my, d) -> {
+				tooltipScreen.mySkinTotem$requestTooltip(((c, mx, my, d) -> {
 					DrawUtils.drawTooltip(context, textRenderer.split(this.text, 10000).stream().map(ClientTooltipComponent::create).collect(Collectors.toList()), mx, my);
 				}));
 			}

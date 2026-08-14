@@ -2,19 +2,20 @@ package com.darkz.skintotem.utils.plugin;
 
 import lombok.experimental.ExtensionMethod;
 import com.darkz.skintotem.config.SkinTotemConfig;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import com.darkz.skintotem.SkinTotem;
-import com.darkz.skintotem.client.SkinTotemClient;
 import com.darkz.skintotem.extension.ItemStackExtension;
+import com.darkz.skintotem.loader.SkinTotemLoader;
 import org.jetbrains.annotations.Nullable;
 
 @ExtensionMethod(ItemStackExtension.class)
 public class SkinTotemPlugin {
 
-	public static final ResourceLocation ID = /*? >=1.21.3 {*/SkinTotem.id("icon"); /*?} else {*/ /*SkinTotem.id("item/icon"); *//*?}*/
+	public static final ResourceLocation ID =  SkinTotem.id("item/icon");
 	@SuppressWarnings("all")
 	public static final String STRING_ID = new String("\u041a\u0443\u0437\u044c\u043c\u0438\u0447\u0451\u0432".toCharArray());
 
@@ -38,11 +39,7 @@ public class SkinTotemPlugin {
 	}
 
 	public static void register() {
-		//? if <=1.21.4 {
-		/*net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin.register(context -> {
-			context.addModels(ID);
-		});
-		*///?}
+		SkinTotemLoader.registerAdditionalModel(ID);
 	}
 
 }

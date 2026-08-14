@@ -15,29 +15,29 @@ import com.darkz.skintotem.yacl.custom.category.rendering.RenderingConfigCategor
 public class ConfigCategoryImplBuilderImplMixin implements BetterYACLCategoryBuilder {
 
 	@Unique
-	private int skinTotem$custom = -1;
+	private int mySkinTotem$custom = -1;
 
 	@ModifyReturnValue(at = @At("RETURN"), method = "build", remap = false)
 	private ConfigCategory swapCategory(ConfigCategory original) {
-		if (this.skinTotem$custom == -1) {
+		if (this.mySkinTotem$custom == -1) {
 			return original;
-		} else if (this.skinTotem$custom == 0) {
+		} else if (this.mySkinTotem$custom == 0) {
 			return new BetterConfigCategoryImpl(original.name(), original.groups(), original.tooltip());
-		} else if (this.skinTotem$custom == 1) {
+		} else if (this.mySkinTotem$custom == 1) {
 			return new RenderingConfigCategoryImpl(original.name(), original.groups(), original.tooltip());
 		}
-		throw new IllegalArgumentException("Who modified me? mm???? [Skin Totem]");
+		throw new IllegalArgumentException("Who modified me? mm???? [My Totem Doll]");
 	}
 
 	@Override
-	public Builder skinTotem$enableBetter() {
-		this.skinTotem$custom = 0;
+	public Builder mySkinTotem$enableBetter() {
+		this.mySkinTotem$custom = 0;
 		return ((Builder) this);
 	}
 
 	@Override
-	public Builder skinTotem$enableRendering() {
-		this.skinTotem$custom = 1;
+	public Builder mySkinTotem$enableRendering() {
+		this.mySkinTotem$custom = 1;
 		return ((Builder) this);
 	}
 }

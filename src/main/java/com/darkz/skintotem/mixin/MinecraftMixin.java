@@ -31,7 +31,7 @@ public class MinecraftMixin {
 			/*method = {"lambda$new$3", "lambda$new$4"}
 			*///?}
 	)
-	private void addSkinTotemHelloScreen(Minecraft client, RealmsClient realmsClient, ReloadInstance resourceReload, QuickPlayData quickPlay, Operation<Void> original) {
+	private void addMTDHelloScreen(Minecraft client, RealmsClient realmsClient, ReloadInstance resourceReload, QuickPlayData quickPlay, Operation<Void> original) {
 		Runnable runnable = () -> original.call(client, realmsClient, resourceReload, quickPlay);
 
 		SkinTotemConfig config = SkinTotemConfig.getInstance();

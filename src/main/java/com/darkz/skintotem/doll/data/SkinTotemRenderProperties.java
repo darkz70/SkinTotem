@@ -11,26 +11,9 @@ import com.darkz.skintotem.model.bb.manager.BlockBenchModelManager;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.*;
 
+@Getter
+@Setter
 public class SkinTotemRenderProperties {
-
-	public boolean isSlim() { return slim; }
-	public void setSlim(boolean slim) { this.slim = slim; }
-	public String getNickname() { return nickname; }
-	public void setNickname(String nickname) { this.nickname = nickname; }
-	public DollRenderContext getRenderContext() { return renderContext; }
-	public void setRenderContext(DollRenderContext renderContext) { this.renderContext = renderContext; }
-	public String[] getDisabledParts() { return disabledParts; }
-	public void setDisabledParts(String[] disabledParts) { this.disabledParts = disabledParts; }
-	public String[] getEnabledParts() { return enabledParts; }
-	public void setEnabledParts(String[] enabledParts) { this.enabledParts = enabledParts; }
-	public MModel getStandardMModel() { return standardMModel; }
-	public void setStandardMModel(MModel standardMModel) { this.standardMModel = standardMModel; }
-	public MModel getFrameMModel() { return frameMModel; }
-	public void setFrameMModel(MModel frameMModel) { this.frameMModel = frameMModel; }
-	public SkinTotemSprites getStandardSprites() { return standardSprites; }
-	public void setStandardSprites(SkinTotemSprites standardSprites) { this.standardSprites = standardSprites; }
-	public SkinTotemSprites getFrameSprites() { return frameSprites; }
-	public void setFrameSprites(SkinTotemSprites frameSprites) { this.frameSprites = frameSprites; }
 
 	private boolean slim;
 	@Nullable
@@ -88,7 +71,6 @@ public class SkinTotemRenderProperties {
 		set.accept(model);
 	}
 
-	//? if >=1.21 {
 	public void setFrameSprites(ResourceLocation skinTexture, ResourceLocation capeTexture, ResourceLocation elytraTexture, boolean slim, boolean remapCape) {
 		int hash = Objects.hash(skinTexture, capeTexture, elytraTexture, slim);
 		SkinTotemSprites cachedSprites = this.cachedFrameTextures.get(hash);
@@ -99,7 +81,6 @@ public class SkinTotemRenderProperties {
 		}
 		this.setFrameSprites(cachedSprites);
 	}
-	//?}
 
 	public void disable(MModelCollection collection) {
 		if (!collection.setVisible(false)) {

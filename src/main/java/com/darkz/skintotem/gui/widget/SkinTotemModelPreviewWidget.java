@@ -2,12 +2,15 @@ package com.darkz.skintotem.gui.widget;
 
 import lombok.*;
 import com.darkz.skintotem.utils.DrawUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
+import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.*;
 
 import com.darkz.skintotem.SkinTotem;
@@ -19,7 +22,7 @@ import com.darkz.skintotem.model.bb.manager.BlockBenchModelManager;
 
 @Getter
 @Setter
-public class SkinTotemModelPreviewWidget extends ClickableWidget {
+public class SkinTotemModelPreviewWidget extends AbstractWidget {
 
 	private final float size;
 
@@ -29,13 +32,13 @@ public class SkinTotemModelPreviewWidget extends ClickableWidget {
 	private int failedLoadingStatusCode = 0;
 
 	public SkinTotemModelPreviewWidget(int x, int y, float size) {
-		super(x, y, (int) size, (int) size, Text.of(""));
+		super(x, y, (int) size, (int) size, Component.nullToEmpty(""));
 		this.size = size;
 		this.data = StandardSkinTotemManager.getStandardDoll().copy();
 	}
 
 	@Override
-	protected void /*? if >=1.21 {*/renderWidget/*?} else {*//*renderButton*//*?}*/(DrawContext context, int mouseX, int mouseY, float delta) {
+	protected void renderWidget(GuiGraphics context, int mouseX, int mouseY, float delta) {
 		context.enableScissor(this.getX(), this.getY(), (this.getX() + this.getWidth()), (int) (this.getY() + this.getHeight()));
 		if (this.loading) {
 			this.renderLoadingText(context);
@@ -45,18 +48,18 @@ public class SkinTotemModelPreviewWidget extends ClickableWidget {
 		context.disableScissor();
 	}
 
-	protected void renderLoadingText(DrawContext context) {
+	protected void renderLoadingText(GuiGraphics context) {
 		int halfOfSize = (int) this.size / 2;
-		TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+		Font textRenderer = Minecraft.getInstance().font;
 		//context.fill(this.getX(), this.getY(), this.getX() + 1, this.getY() + 1, -1);
-		DrawUtils.drawCenteredText(context, this.getLoadingText(Util.getMeasuringTimeMs()), this.getX(), this.getY() + halfOfSize - (textRenderer.fontHeight / 2), (int) this.size);
+		DrawUtils.drawCenteredText(context, this.getLoadingText(Util.getMillis()), this.getX(), this.getY() + halfOfSize - (textRenderer.lineHeight / 2), (int) this.size);
 	}
 
-	protected void renderPreview(DrawContext context) {
+	protected void renderPreview(GuiGraphics context) {
 		SkinTotemRenderer.renderPreview(context, this.getX(), this.getY(), (int) this.getSize(), (int) this.getSize(), this.getSize() / 1.5F, this.getData().refreshAndApplyRenderProperties());
 	}
 
-	public void updateModel(Identifier id) {
+	public void updateModel(ResourceLocation id) {
 		this.loading = true;
 		this.failedLoadingStatusCode = 0;
 		BlockBenchModelManager.getModelAsyncAsResponse(id, (response) -> {
@@ -74,7 +77,7 @@ public class SkinTotemModelPreviewWidget extends ClickableWidget {
 		this.data.setStandardMModel(model);
 	}
 
-	private Text getLoadingText(long tick) {
+	private Component getLoadingText(long tick) {
 		if (this.failedLoadingStatusCode == 100) {
 			return SkinTotem.text("text.loading.failed.to_load");
 		} else if (this.failedLoadingStatusCode == 102){
@@ -88,7 +91,7 @@ public class SkinTotemModelPreviewWidget extends ClickableWidget {
 	}
 
 	@Override
-	protected void appendClickableNarrations(NarrationMessageBuilder builder) {
+	protected void updateWidgetNarration(NarrationElementOutput builder) {
 
 	}
 }
