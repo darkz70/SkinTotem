@@ -40,7 +40,7 @@ public class RenderingCategoryTab implements TabExt {
 
 	public RenderingCategoryTab(YACLScreen screen, ConfigCategory category, ScreenRectangle tabArea) {
 		if (!(screen instanceof SkinTotemYACLScreen yaclScreen)) {
-			throw new IllegalArgumentException("This category is only for me! [My Totem Doll]");
+			throw new IllegalArgumentException("This category is only for me! [SkinTotem]");
 		}
 
 		this.category = category;

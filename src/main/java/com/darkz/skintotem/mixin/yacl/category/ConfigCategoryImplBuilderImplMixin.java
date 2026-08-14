@@ -26,7 +26,7 @@ public class ConfigCategoryImplBuilderImplMixin implements BetterYACLCategoryBui
 		} else if (this.mySkinTotem$custom == 1) {
 			return new RenderingConfigCategoryImpl(original.name(), original.groups(), original.tooltip());
 		}
-		throw new IllegalArgumentException("Who modified me? mm???? [My Totem Doll]");
+		throw new IllegalArgumentException("Who modified me? mm???? [SkinTotem]");
 	}
 
 	@Override

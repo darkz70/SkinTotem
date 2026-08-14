@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public class SpriteContentsMixin {
 
 	@Unique
-	private static final String mySkinTotem$TEXT = "Wait! This crash was caused by the \"skin-totem\" mod SPECIFICALLY to prevent a crash via drivers. This crash was made to make debugging this unexpected error easier. Someone (maybe \"skin-totem\") just pushed closed sprite to upload and this shouldn't happen! Please report this crash-report to \"skin-totem\" issue tracker: https://github.com/LopyMine/My-Totem-Doll/issues";
+	private static final String mySkinTotem$TEXT = "Wait! This crash was caused by the \"skin-totem\" mod SPECIFICALLY to prevent a crash via drivers. This crash was made to make debugging this unexpected error easier. Someone (maybe \"skin-totem\") just pushed closed sprite to upload and this shouldn't happen! Please report this crash-report to \"skin-totem\" issue tracker: https://github.com/LopyMine/SkinTotem/issues";
 
 	@WrapOperation(
 			at = @At(
