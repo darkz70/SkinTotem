@@ -6,6 +6,9 @@ import com.darkz.skintotem.doll.data.SkinTotemData;
 import com.darkz.skintotem.doll.manager.StandardSkinTotemManager;
 import com.darkz.skintotem.skin.provider.SkinProvider;
 import com.darkz.skintotem.skin.provider.extended.NameMCSkinProvider;
+import com.darkz.skintotem.skin.provider.extended.ElyBySkinProvider;
+import com.darkz.skintotem.skin.provider.extended.TLauncherSkinProvider;
+import com.darkz.skintotem.skin.provider.extended.UrlSkinProvider;
 import java.util.*;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,6 +23,9 @@ public class TagsSkinProviders {
 
 	public static void register() {
 		registerProvider("NameMC", NameMCSkinProvider.getInstance());
+		registerProvider("ElyBy", ElyBySkinProvider.getInstance());
+		registerProvider("TLauncher", TLauncherSkinProvider.getInstance());
+		registerProvider("URL", UrlSkinProvider.getInstance());
 	}
 
 	public static void registerProvider(String id, SkinProvider provider) {
