@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public class SpriteContentsMixin {
 
 	@Unique
-	private static final String mySkinTotem$TEXT = "Wait! This crash was caused by the \"skin-totem\" mod SPECIFICALLY to prevent a crash via drivers. This crash was made to make debugging this unexpected error easier. Someone (maybe \"skin-totem\") just pushed closed sprite to upload and this shouldn't happen! Please report this crash-report to \"skin-totem\" issue tracker: https://github.com/darkz70/SkinTotem/issues";
+	private static final String skinTotem$TEXT = "Wait! This crash was caused by the \"skin-totem\" mod SPECIFICALLY to prevent a crash via drivers. This crash was made to make debugging this unexpected error easier. Someone (maybe \"skin-totem\") just pushed closed sprite to upload and this shouldn't happen! Please report this crash-report to \"skin-totem\" issue tracker: https://github.com/darkz70/SkinTotem/issues";
 
 	@WrapOperation(
 			at = @At(
@@ -21,7 +21,7 @@ public class SpriteContentsMixin {
 	)
 	private void validateImageBeforeUpload(NativeImage instance, int level, int offsetX, int offsetY, int unpackSkipPixels, int unpackSkipRows, int width, int height, boolean mipmap, boolean close, Operation<Void> original) {
 		if (instance.pixels == 0L) {
-			throw new IllegalArgumentException(mySkinTotem$TEXT);
+			throw new IllegalArgumentException(skinTotem$TEXT);
 		}
 		original.call(instance, level, offsetX, offsetY, unpackSkipPixels, unpackSkipRows, width, height, mipmap, close);
 	}

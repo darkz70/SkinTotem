@@ -11,21 +11,21 @@ import com.darkz.skintotem.utils.mixin.ItemStackWithModdedBakedModel;
 public class ItemStackWithModdedBakedModelMixin implements ItemStackWithModdedBakedModel {
 
 	@Unique
-	private boolean mySkinTotem$modded = false;
+	private boolean skinTotem$modded = false;
 
 	@Override
-	public void mySkinTotem$setModdedModel(boolean modded) {
-		this.mySkinTotem$modded = modded;
+	public void skinTotem$setModdedModel(boolean modded) {
+		this.skinTotem$modded = modded;
 	}
 
 	@Override
-	public boolean mySkinTotem$isModdedModel() {
-		return mySkinTotem$modded;
+	public boolean skinTotem$isModdedModel() {
+		return skinTotem$modded;
 	}
 
 	@Inject(at = @At("RETURN"), method = "copy")
 	private void markItemStack(CallbackInfoReturnable<ItemStack> cir) {
-		((ItemStackWithModdedBakedModel) cir.getReturnValue()).mySkinTotem$setModdedModel(this.mySkinTotem$isModdedModel());
-		this.mySkinTotem$modded = false;
+		((ItemStackWithModdedBakedModel) cir.getReturnValue()).skinTotem$setModdedModel(this.skinTotem$isModdedModel());
+		this.skinTotem$modded = false;
 	}
 }

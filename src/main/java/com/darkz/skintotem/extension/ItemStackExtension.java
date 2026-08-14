@@ -59,19 +59,19 @@ public class ItemStackExtension {
 	}
 
 	public static void setModdedModel(ItemStack itemStack, boolean modded) {
-		((ItemStackWithModdedBakedModel) itemStack).mySkinTotem$setModdedModel(modded);
+		((ItemStackWithModdedBakedModel) itemStack).skinTotem$setModdedModel(modded);
 	}
 
 	public static boolean hasModdedModel(ItemStack itemStack) {
-		return ((ItemStackWithModdedBakedModel) itemStack).mySkinTotem$isModdedModel();
+		return ((ItemStackWithModdedBakedModel) itemStack).skinTotem$isModdedModel();
 	}
 
 	public static void setPlayerEntity(ItemStack itemStack, AbstractClientPlayer playerEntity) {
-		((ItemStackWithPlayerEntity) itemStack).mySkinTotem$setPlayerEntity(playerEntity);
+		((ItemStackWithPlayerEntity) itemStack).skinTotem$setPlayerEntity(playerEntity);
 	}
 
 	public static AbstractClientPlayer getPlayerEntity(ItemStack itemStack) {
-		return ((ItemStackWithPlayerEntity) itemStack).mySkinTotem$getPlayerEntity();
+		return ((ItemStackWithPlayerEntity) itemStack).skinTotem$getPlayerEntity();
 	}
 
 }

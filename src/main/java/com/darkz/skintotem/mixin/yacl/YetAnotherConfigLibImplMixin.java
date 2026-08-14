@@ -16,12 +16,12 @@ import com.darkz.skintotem.yacl.custom.screen.*;
 public class YetAnotherConfigLibImplMixin implements BetterYACLScreenConfig {
 
 	@Unique
-	private boolean mySkinTotem$enabled;
+	private boolean skinTotem$enabled;
 
 	@Dynamic
 	@ModifyReturnValue(at = @At("RETURN"), method = "generateScreen", remap = false)
 	private Screen swapScreen(Screen original, @Local(argsOnly = true) Screen parent) {
-		if (!this.mySkinTotem$enabled) {
+		if (!this.skinTotem$enabled) {
 			return original;
 		}
 		return new SkinTotemYACLScreen(((YetAnotherConfigLib) this), parent);
@@ -29,8 +29,8 @@ public class YetAnotherConfigLibImplMixin implements BetterYACLScreenConfig {
 
 
 	@Override
-	public YetAnotherConfigLib mySkinTotem$enable() {
-		this.mySkinTotem$enabled = true;
+	public YetAnotherConfigLib skinTotem$enable() {
+		this.skinTotem$enabled = true;
 		return ((YetAnotherConfigLib) this);
 	}
 }

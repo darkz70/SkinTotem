@@ -19,18 +19,18 @@ public class OptionDescriptionWidgetMixin {
 	private int maxScrollAmount;
 
 	@Unique
-	private float mySkinTotem$currentScroll, mySkinTotem$targetScroll;
+	private float skinTotem$currentScroll, skinTotem$targetScroll;
 
 	@Inject(at = @At("HEAD"), method = "setOptionDescription", remap = false)
 	private void saveScroll(DescriptionWithName description, CallbackInfo ci) {
-		this.mySkinTotem$currentScroll = this.currentScrollAmount;
-		this.mySkinTotem$targetScroll  = this.targetScrollAmount;
+		this.skinTotem$currentScroll = this.currentScrollAmount;
+		this.skinTotem$targetScroll  = this.targetScrollAmount;
 	}
 
 	@Inject(at = @At("TAIL"), method = "setOptionDescription", remap = false)
 	private void loadScroll(DescriptionWithName description, CallbackInfo ci) {
-		this.currentScrollAmount = this.mySkinTotem$currentScroll;
-		this.targetScrollAmount  = this.mySkinTotem$targetScroll;
+		this.currentScrollAmount = this.skinTotem$currentScroll;
+		this.targetScrollAmount  = this.skinTotem$targetScroll;
 	}
 
 	@Inject(at = @At("TAIL"), method = "renderWidget")

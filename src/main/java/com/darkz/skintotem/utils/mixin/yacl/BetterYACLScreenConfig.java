@@ -4,6 +4,6 @@ import dev.isxander.yacl3.api.YetAnotherConfigLib;
 
 public interface BetterYACLScreenConfig {
 
-	YetAnotherConfigLib mySkinTotem$enable();
+	YetAnotherConfigLib skinTotem$enable();
 
 }

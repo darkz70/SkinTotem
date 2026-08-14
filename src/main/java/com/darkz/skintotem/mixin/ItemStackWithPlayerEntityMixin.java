@@ -11,15 +11,15 @@ import com.darkz.skintotem.utils.mixin.ItemStackWithPlayerEntity;
 public class ItemStackWithPlayerEntityMixin implements ItemStackWithPlayerEntity {
 
 	@Unique
-	private AbstractClientPlayer mySkinTotem$player;
+	private AbstractClientPlayer skinTotem$player;
 
 	@Override
-	public void mySkinTotem$setPlayerEntity(AbstractClientPlayer player) {
-		this.mySkinTotem$player = player;
+	public void skinTotem$setPlayerEntity(AbstractClientPlayer player) {
+		this.skinTotem$player = player;
 	}
 
 	@Override
-	public AbstractClientPlayer mySkinTotem$getPlayerEntity() {
-		return this.mySkinTotem$player;
+	public AbstractClientPlayer skinTotem$getPlayerEntity() {
+		return this.skinTotem$player;
 	}
 }

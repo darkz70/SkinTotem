@@ -6,8 +6,8 @@ import dev.isxander.yacl3.api.YetAnotherConfigLib.Builder;
 public interface BetterYACLScreenBuilder {
 
 	static Builder startBuilder() {
-		return ((BetterYACLScreenBuilder) YetAnotherConfigLib.createBuilder()).mySkinTotem$enable();
+		return ((BetterYACLScreenBuilder) YetAnotherConfigLib.createBuilder()).skinTotem$enable();
 	}
 
-	Builder mySkinTotem$enable();
+	Builder skinTotem$enable();
 }

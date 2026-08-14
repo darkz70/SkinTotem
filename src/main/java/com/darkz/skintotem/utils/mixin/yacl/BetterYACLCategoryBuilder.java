@@ -4,7 +4,7 @@ import dev.isxander.yacl3.api.ConfigCategory.Builder;
 
 public interface BetterYACLCategoryBuilder {
 
-	Builder mySkinTotem$enableBetter();
+	Builder skinTotem$enableBetter();
 
-	Builder mySkinTotem$enableRendering();
+	Builder skinTotem$enableRendering();
 }
