@@ -65,6 +65,8 @@ public class StandardSkinTotemManager {
 			case PLAYER -> loadPlayerSkin(data);
 			case URL_SKIN -> loadUrlSkin(data);
 			case FILE_SKIN -> loadFileSkin(data);
+			case TLAUNCHER -> loadTLauncherSkin(data);
+			case ELY_BY -> loadElyBySkin(data);
 			default -> getSteveDoll();
 		};
 	}
@@ -131,6 +133,38 @@ public class StandardSkinTotemManager {
 		if (MojangSkinProvider.getInstance().canProcess(data)) {
 			SkinTotemData totemDollData = MojangSkinProvider.getInstance().createNewDoll(data);
 			MojangSkinProvider.getInstance().loadDoll(data, true, totemDollData);
+			return totemDollData;
+		}
+		return getSteveDoll();
+	}
+
+	public static SkinTotemData loadTLauncherSkin(@NotNull String data) {
+		String value = data.startsWith(com.darkz.skintotem.skin.provider.extended.TLauncherSkinProvider.PREFIX)
+				? data
+				: com.darkz.skintotem.skin.provider.extended.TLauncherSkinProvider.PREFIX + data;
+
+		com.darkz.skintotem.skin.provider.extended.TLauncherSkinProvider provider =
+				com.darkz.skintotem.skin.provider.extended.TLauncherSkinProvider.getInstance();
+
+		if (provider.canProcess(value)) {
+			SkinTotemData totemDollData = provider.createNewDoll(value);
+			provider.loadDoll(value, true, totemDollData);
+			return totemDollData;
+		}
+		return getSteveDoll();
+	}
+
+	public static SkinTotemData loadElyBySkin(@NotNull String data) {
+		String value = data.startsWith(com.darkz.skintotem.skin.provider.extended.ElyBySkinProvider.PREFIX)
+				? data
+				: com.darkz.skintotem.skin.provider.extended.ElyBySkinProvider.PREFIX + data;
+
+		com.darkz.skintotem.skin.provider.extended.ElyBySkinProvider provider =
+				com.darkz.skintotem.skin.provider.extended.ElyBySkinProvider.getInstance();
+
+		if (provider.canProcess(value)) {
+			SkinTotemData totemDollData = provider.createNewDoll(value);
+			provider.loadDoll(value, true, totemDollData);
 			return totemDollData;
 		}
 		return getSteveDoll();

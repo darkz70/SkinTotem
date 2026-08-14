@@ -9,6 +9,7 @@ import com.darkz.skintotem.gui.tooltip.state.LoadingStateTooltipData;
 import com.darkz.skintotem.gui.tooltip.tags.*;
 import com.darkz.skintotem.gui.tooltip.wrapped.*;
 import com.darkz.skintotem.loader.SkinTotemLoader;
+import com.darkz.skintotem.thread.AutoRefreshTask;
 import com.darkz.skintotem.thread.SkinTotemTaskExecutor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 
@@ -30,6 +31,7 @@ public class SkinTotemEvents {
 
 	private static void registerLifecycleEvents() {
 		SkinTotemLoader.registerClientStopping(() -> {
+			AutoRefreshTask.stop();
 			SkinTotemTaskExecutor.stop();
 			SkinTotemAtlasManager.close();
 			SkinTotemAtlasSpriteManager.close();

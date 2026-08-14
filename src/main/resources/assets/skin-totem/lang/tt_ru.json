@@ -46,5 +46,7 @@
   "skin-totem.modmenu.option.standard_doll_skin_type.ely_by": "Ely.by",
   "skin-totem.modmenu.option.standard_doll_skin_type.ely_by.suggestion": "Ely.by никнамын «Скин кыйммәте» кырына кертегез.",
   "skin-totem.modmenu.option.standard_doll_skin_type.tlauncher": "TLauncher",
-  "skin-totem.modmenu.option.standard_doll_skin_type.tlauncher.suggestion": "TLauncher никнамын «Скин кыйммәте» кырына кертегез."
+  "skin-totem.modmenu.option.standard_doll_skin_type.tlauncher.suggestion": "TLauncher никнамын «Скин кыйммәте» кырына кертегез.",
+  "skin-totem.command.auto_refresh.start": "&6Auto-refresh: started refreshing all skin textures",
+  "skin-totem.command.auto_refresh.end": "&aAuto-refresh: refreshed all skin textures in &f%s&a seconds"
 }

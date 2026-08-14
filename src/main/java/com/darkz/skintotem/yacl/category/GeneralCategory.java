@@ -5,6 +5,7 @@ import lombok.experimental.ExtensionMethod;
 
 import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.extension.SimpleOptionExtension;
+import com.darkz.skintotem.thread.AutoRefreshTask;
 import com.darkz.skintotem.thread.SkinTotemTaskExecutor;
 import com.darkz.skintotem.yacl.custom.simple.main.*;
 import com.darkz.skintotem.yacl.custom.simple.utils.SimpleContent;
@@ -15,6 +16,7 @@ public class GeneralCategory {
 	public static ConfigCategory get(SkinTotemConfig defConfig, SkinTotemConfig config) {
 		return SimpleCategory.startBuilder("general")
 				.groups(getMainGroup(defConfig, config))
+				.groups(getAutoRefreshGroup(defConfig, config))
 				.groups(getThreadGroup(defConfig, config))
 				.build();
 	}
@@ -36,6 +38,29 @@ public class GeneralCategory {
 								.withBinding(defConfig.isDebugLogEnabled(), config::isDebugLogEnabled, config::setDebugLogEnabled, true)
 								.withDescription(SimpleContent.NONE)
 								.withController()
+								.build()
+				)
+				.build();
+	}
+
+	private static OptionGroup getAutoRefreshGroup(SkinTotemConfig defConfig, SkinTotemConfig config) {
+		return SimpleGroup.startBuilder("auto_refresh")
+				.options(
+						SimpleOption.<Boolean>startBuilder("auto_refresh_enabled")
+								.withBinding(defConfig.isAutoRefreshEnabled(), config::isAutoRefreshEnabled, (b) -> {
+									config.setAutoRefreshEnabled(b);
+									AutoRefreshTask.reschedule();
+								}, true)
+								.withDescription(SimpleContent.NONE)
+								.withController()
+								.build(),
+						SimpleOption.<Integer>startBuilder("auto_refresh_interval_minutes")
+								.withBinding(defConfig.getAutoRefreshIntervalMinutes(), config::getAutoRefreshIntervalMinutes, (i) -> {
+									config.setAutoRefreshIntervalMinutes(i);
+									AutoRefreshTask.reschedule();
+								}, false)
+								.withDescription(SimpleContent.NONE)
+								.withController(1, 180, 1)
 								.build()
 				)
 				.build();

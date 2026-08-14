@@ -18,6 +18,7 @@ import com.darkz.skintotem.config.SkinTotemConfig;
 import com.darkz.skintotem.loader.SkinTotemLoader;
 import com.darkz.skintotem.pack.*;
 import com.darkz.skintotem.tag.manager.*;
+import com.darkz.skintotem.thread.AutoRefreshTask;
 import com.darkz.skintotem.utils.plugin.SkinTotemPlugin;
 
 import org.jetbrains.annotations.Nullable;
@@ -35,6 +36,7 @@ public class SkinTotemClient {
 		SkinTotemReloadListener.register();
 		SkinTotemPlugin.register();
 		KnownPlayerUUIDsConfigManager.start();
+		AutoRefreshTask.start();
 	}
 
 	public static boolean canProcess(@Nullable ItemStack stack) {

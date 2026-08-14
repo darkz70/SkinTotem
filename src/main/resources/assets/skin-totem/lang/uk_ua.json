@@ -126,5 +126,7 @@
   "modmenu.option.standard_doll_skin_type.tlauncher": "TLauncher",
   "modmenu.option.standard_doll_skin_type.tlauncher.suggestion": "Введіть нік TLauncher",
   "modmenu.option.standard_doll_skin_type.ely_by": "Ely.by",
-  "modmenu.option.standard_doll_skin_type.ely_by.suggestion": "Введіть нік Ely.by"
+  "modmenu.option.standard_doll_skin_type.ely_by.suggestion": "Введіть нік Ely.by",
+  "skin-totem.command.auto_refresh.start": "&6Auto-refresh: started refreshing all skin textures",
+  "skin-totem.command.auto_refresh.end": "&aAuto-refresh: refreshed all skin textures in &f%s&a seconds"
 }
